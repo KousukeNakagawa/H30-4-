@@ -9,6 +9,7 @@ TagManager:
   - Beacon
   - Xline
   - Building
+  - XlineEnd
   layers:
   - Default
   - TransparentFX
