@@ -21,9 +21,9 @@ public class MainCamera : MonoBehaviour
 
     void Update()
     {
-        //プレイヤーの位置からカメラにレイを飛ばし、指定したレイヤーに当たったら
-        if (Physics.Linecast(root.position + Vector3.up, transform.position, out hit, LayerMask.GetMask("Default")))
-            //レイの当たった場所がカメラの位置
+        //プレイヤーの位置からカメラにレイを飛ばし、ビルと床に衝突したら
+        if (Physics.Linecast(root.position + Vector3.up, transform.position, out hit, LayerMask.GetMask("Building")))
+            //レイの当たった場所がカメラの位置へ
             transform.position =
                 Vector3.Lerp(transform.position, hit.point, moveSpeed * Time.deltaTime);
 
