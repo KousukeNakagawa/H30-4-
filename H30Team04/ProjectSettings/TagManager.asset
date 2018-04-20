@@ -10,6 +10,8 @@ TagManager:
   - Xline
   - Building
   - XlineEnd
+  - BeaconBullet
+  - SnipeBullet
   layers:
   - Default
   - TransparentFX
