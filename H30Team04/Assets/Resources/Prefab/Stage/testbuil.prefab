@@ -55,7 +55,7 @@ GameObject:
   - component: {fileID: 4162542206752010}
   - component: {fileID: 65124443322314910}
   - component: {fileID: 114685461528402884}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: testbuil
   m_TagString: Building
   m_Icon: {fileID: 0}

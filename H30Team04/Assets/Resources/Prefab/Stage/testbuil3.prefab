@@ -38,7 +38,7 @@ GameObject:
   - component: {fileID: 4012843427511348}
   - component: {fileID: 65341754316074806}
   - component: {fileID: 114679422095844682}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: testbuil3
   m_TagString: Building
   m_Icon: {fileID: 0}

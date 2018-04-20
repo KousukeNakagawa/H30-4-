@@ -42,8 +42,10 @@ public class MapCreate : MonoBehaviour {
                 if(minidata[0] == "X") //射影機
                 {
                     GameObject createObject = Instantiate(XrayMachinePrefab);
-                    createObject.transform.position = ObjectPosition(minidata[0], minidata[1], i);
-                    createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(minidata[1]), new Vector3(0, 1, 0));
+                    createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
+                    createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(minidata[2]), new Vector3(0, 1, 0));
+                    createObject.GetComponent<XrayMachine>().SetTexNumber(minidata[1]);
+                    createObject.transform.parent = transform;
                 }
                 else { 
                     Arrangement(minidata[0], minidata[1], minidata[2], i);
@@ -84,6 +86,9 @@ public class MapCreate : MonoBehaviour {
 
         //ビルの回転
         createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(direction), new Vector3(0, 1, 0));
+
+        //自分の子にする
+        createObject.transform.parent = transform;
 
     }
 
