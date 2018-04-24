@@ -5,8 +5,8 @@ using UnityEngine;
 public class SniperBullet : MonoBehaviour
 {
     [SerializeField] GameObject snipeBullet;
-    [SerializeField] [Range(1, 300)] float speed = 100;
-    [SerializeField] [Range(5, 300)] float rangeDistance = 100;
+    [SerializeField] [Range(1, 300)] float speed = 100; //弾速
+    [SerializeField] [Range(5, 300)] float rangeDistance = 100; //射程距離
 
     Rigidbody rb;
     Vector3 startPos;
@@ -19,28 +19,30 @@ public class SniperBullet : MonoBehaviour
 
     void Update()
     {
-        OverRangeDistance();
+        OverRangeDistance(); //射程距離外消滅
     }
 
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.CompareTag("SmallEnemy"))
+        //ドローンかミサイルにヒットしたら、それを消滅させる
+        if (collider.CompareTag("SmallEnemy") || collider.CompareTag("Missile"))
         {
-            Destroy(collider.gameObject);
+            GameObject Dead = collider.gameObject;
+            Destroy(Dead);
+            Dead = null;
         }
     }
 
     /// <summary>
-    /// ＊射程距離外消滅
+    /// ＊射程外消滅
     /// </summary>
     void OverRangeDistance()
     {
+        //飛距離
         Vector3 FlyDistance = rb.position - startPos;
 
-        if (FlyDistance.x > rangeDistance ||
-            FlyDistance.y > rangeDistance ||
-            FlyDistance.z > rangeDistance)
-            Destroy(snipeBullet);
+        //飛距離が射程距離を超えたら消滅
+        if (FlyDistance.magnitude > rangeDistance) Destroy(snipeBullet);
     }
 
     /// <summary>
@@ -50,5 +52,13 @@ public class SniperBullet : MonoBehaviour
     {
         Start();
         rb.velocity = direction * speed;
+    }
+
+    /// <summary>
+    /// ＊射程距離のゲッター
+    /// </summary>
+    public float GetRangeDistance()
+    {
+        return rangeDistance;
     }
 }

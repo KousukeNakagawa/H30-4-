@@ -8,27 +8,30 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject FPSCamera;
-    [SerializeField] GameObject bigEnemy;
-    [SerializeField] GameObject beacon;
-    [SerializeField] GameObject bullet;
+    [SerializeField] GameObject aimRange;
+    [SerializeField] GameObject beaconBullet;
+    [SerializeField] GameObject snipeBullet;
+    [SerializeField] GameObject blueRippel;
+    [SerializeField] GameObject redRippel;
 
-    //移動・旋回の速度
-    [SerializeField] [Range(0.1f, 10f)] float homingSpeed = 2;
-    [SerializeField] [Range(50, 500)] float angleRotateSpeed = 100;
-    [SerializeField] [Range(1, 500)] float FpsRotateSpeed = 50;
-    [SerializeField] [Range(0.1f, 10f)] float autoLookSpeed = 1;
-    [SerializeField] [Range(0.1f, 10f)] float lockonRotateSpeed = 10;
+    [SerializeField, Range(0.1f, 1f)] float homingSpeed = 1; //追従速度
+    [SerializeField, Range(50, 500)] float angleRotateSpeed = 100; //手動アングル速度
+    [SerializeField, Range(1, 500)] float fpsRotateSpeed = 50; //FPS時アングル速度
+    [SerializeField, Range(0.1f, 10f)] float autoLookSpeed = 1; //自動修正アングル速度
+    [SerializeField, Range(0.1f, 10f)] float lockonRotateSpeed = 10; //振り向き速度
 
     //上下アングルの制限範囲
-    [SerializeField] [Range(-90, 0)] float lowAngleLimit = -30;
-    [SerializeField] [Range(0, 90)] float highAngleLimit = 80;
+    [SerializeField, Range(-90, 0)] float lowAngleLimit = -30;
+    [SerializeField, Range(0, 90)] float highAngleLimit = 80;
 
-    Transform car; //プレイヤーのトランスフォーム仲介役
+    Transform car; //プレイヤーのトランスフォーム
 
     bool isLockAt_Big; //ビッグエネミーLook用
     bool isBackAngle; //カメラの前後切替フラグ
-    bool isSnipe;
-    bool isWeaponBeacon;
+    bool isSnipe; //射撃モードのオンオフ
+    bool isWeaponBeacon; //武器の切替用
+
+    int targetNum;
 
     void Start()
     {
@@ -37,21 +40,29 @@ public class CameraController : MonoBehaviour
         isBackAngle = false;
         isSnipe = false;
         isWeaponBeacon = true;
+
+        targetNum = 0;
     }
 
     void Update()
     {
+        if (player == null) return;
+
         HomingPlayer(isSnipe); //移動
 
         CameraAngleControl(isSnipe); //カメラアングル
 
-        CameraModeChange(); //カメラモード切替
+        SetChanger(); //カメラモード切替
 
         ShootingMode();
+
+        //LockonTarget();
+
+        LockonTargets();
     }
 
     /// <summary>
-    /// ＊プレイヤーの追尾
+    /// ＊プレイヤーの追尾移動
     /// </summary>
     void HomingPlayer(bool fps)
     {
@@ -68,7 +79,7 @@ public class CameraController : MonoBehaviour
         CameraReturn();
         RotateCameraAngle(fps);
 
-        if (fps) return; //FPS視点の時は自動旋回しない
+        //if (fps) return; //FPS視点の時は自動旋回しない
 
         if (isBackAngle) return; //後ろを向いている間は後ろに固定
 
@@ -84,23 +95,26 @@ public class CameraController : MonoBehaviour
     /// </summary>
     void AutoCameraAngle()
     {
-        //ビッグエネミーとの間の障害物の有無
-        bool isLookOK =
-            (Physics.Linecast(transform.position + Vector3.up, bigEnemy.transform.position, LayerMask.GetMask("Default"))) ?
-            false : true;
+        ////ビッグエネミーの取得
+        //var bigEnemy = GameObject.FindGameObjectWithTag("BigEnemy").transform;
 
-        //プレイヤー目線
-        Vector3 fromPlayerAngle = bigEnemy.transform.position - transform.position;
+        ////ビッグエネミーとの間の障害物の有無
+        //bool isLookOK =
+        //    (Physics.Linecast(transform.position + Vector3.up, bigEnemy.position, LayerMask.GetMask("Building"))) ?
+        //    false : true;
 
-        if (isLockAt_Big && isLookOK) //ビッグエネミーを向く
-            transform.rotation =
-                Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(fromPlayerAngle), lockonRotateSpeed);
+        ////プレイヤー目線
+        //Vector3 fromPlayerAngle = bigEnemy.position - transform.position;
 
-        else if (Input.GetAxis("Axel") >= 0) //ルック状態じゃなければ徐々に前方へカメラを向ける
-            transform.rotation =
-                Quaternion.RotateTowards(transform.rotation, car.rotation, autoLookSpeed);
+        //if (isLockAt_Big && isLookOK) //ビッグエネミーを向く
+        //    transform.rotation =
+        //        Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(fromPlayerAngle), lockonRotateSpeed);
 
-        else transform.LookAt(car.position); //バック時は後ろを見る
+        ////else if (Input.GetAxis("Axel") >= 0) //ルック状態じゃなければ徐々に前方へカメラを向ける
+        ////    transform.rotation =
+        ////        Quaternion.RotateTowards(transform.rotation, car.rotation, autoLookSpeed);
+
+        //else transform.LookAt(car.position); //バック時は後ろを見る
     }
 
     /// <summary>
@@ -132,7 +146,7 @@ public class CameraController : MonoBehaviour
         if (fps)
         {
             //changer = 1;
-            rotateSpeed = FpsRotateSpeed;
+            rotateSpeed = fpsRotateSpeed;
             //downLimit = -highAngleLimit;
             //upLimit = -lowAngleLimit;
         }
@@ -154,15 +168,17 @@ public class CameraController : MonoBehaviour
     }
 
     /// <summary>
-    /// ＊視点の切替
+    /// ＊視点や武器の切替
     /// </summary>
-    void CameraModeChange()
+    void SetChanger()
     {
         //カメラの正面・背後の切替
-        if (Input.GetButtonDown("BackAngle")) isBackAngle = !isBackAngle;
+        if (Input.GetButtonDown("BackAngle")) isBackAngle = true;
+        else if (Input.GetButtonUp("BackAngle")) isBackAngle = false;
 
         //ルックアットのON/OFF（RBボタン）
-        if (Input.GetButtonDown("LockAt")) isLockAt_Big = !isLockAt_Big;
+        if (Input.GetButton("LockAt")) isLockAt_Big = true;
+        else if (Input.GetButtonUp("LockAt")) isLockAt_Big = false;
 
         //FPS視点の切替（LB）
         if (Input.GetButtonDown("Shooting"))
@@ -172,39 +188,108 @@ public class CameraController : MonoBehaviour
             isSnipe = true;
         }
         if (Input.GetButtonUp("Shooting")) isSnipe = false;
+        //武器の切替
+        if (Input.GetButtonDown("WeaponChange")) isWeaponBeacon = !isWeaponBeacon;
     }
 
     /// <summary>
-    /// ＊FPS視点時のアクション
+    /// ＊射撃モード
     /// </summary>
     void ShootingMode()
     {
-        RaycastHit hit;
-        Ray ray = new Ray(FPSCamera.transform.position, transform.forward);
-        float rayLength = (isWeaponBeacon) ? 50 : 100;
+        RaycastHit hit; //レイとの衝突場所にエフェクトを後々追加予定
+
+        //自分の位置の少し上から正面へ（微調整）
+        Ray ray = new Ray(transform.position + Vector3.up * 1.5f, transform.forward /*- Vector3.up / 50*/);
+
+        //武器によって長さが変わる
+        float rayLength = (isWeaponBeacon) ?
+            beaconBullet.GetComponent<BeaconBullet>().GetRangeDistance() : snipeBullet.GetComponent<SniperBullet>().GetRangeDistance();
+
+        //武器によって色が変わる
         Color rayColor = (isWeaponBeacon) ? Color.blue : Color.red;
 
-        if (Physics.Raycast(ray))
-        {
+        GameObject effect = (isWeaponBeacon) ? blueRippel : redRippel;
 
+        if (isWeaponBeacon)
+        {
+            blueRippel.SetActive(true);
+            redRippel.SetActive(false);
+        }
+        else
+        {
+            blueRippel.SetActive(false);
+            redRippel.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Fire"))
-        {
-            //発射する武器
-            GameObject weapon = (isWeaponBeacon) ? Instantiate(beacon) : Instantiate(bullet);
-            //初期位置
-            weapon.transform.position = FPSCamera.transform.position;
-            //発射
-            if (isWeaponBeacon)
-                weapon.GetComponent<Beacon>().Fire(transform.forward);
-            else
-                weapon.GetComponent<SniperBullet>().Fire(transform.forward);
-        }
+        if (Input.GetButtonDown("Fire")) Fire(ray); //射撃
 
-        //武器の切替
-        if (Input.GetButtonDown("WeaponChange")) isWeaponBeacon = !isWeaponBeacon;
-
+        //レイの表示（後ほどLineRendererに変更?）
         Debug.DrawRay(ray.origin, ray.direction * rayLength, rayColor, 0, true);
+
+        if (Physics.Raycast(ray, out hit, rayLength))
+        {
+            if (hit.collider.CompareTag("BeaconBullet") ||
+                hit.collider.CompareTag("SnipeBullet") || hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon")) return;
+            effect.SetActive(true);
+            effect.transform.rotation = Quaternion.LookRotation(hit.normal);
+            effect.transform.position = hit.point;
+        }
+        else effect.SetActive(false);
+    }
+
+    /// <summary>
+    /// ＊装備している武器の射撃
+    /// </summary>
+    void Fire(Ray ray)
+    {
+        //発射する武器の指定
+        GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
+
+        weapon.transform.position = ray.origin; //発射位置の指定
+
+        //装備している武器で発砲
+        if (isWeaponBeacon)
+            weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
+        else
+            weapon.GetComponent<SniperBullet>().Fire(ray.direction);
+    }
+
+    /// <summary>
+    /// ＊「ドローン」「ミサイル」をロックオンする
+    /// </summary>
+    void LockonTargets()
+    {
+        //ドローンとミサイルに対する距離をソートしたリスト
+        var targets = aimRange.GetComponent<AimRange>().GetTarget();
+        var targetCount = targets.Count;
+
+        if (Input.GetButtonDown("LockAt")) targetNum++;
+        if (targetNum >= targetCount) targetNum = 0;
+
+        //Debug.Log("数：" + targetCount + "i：" + targetNum);
+
+        if (targets.Count == 0) return;
+
+        for (int i = 0; i < targetCount; i++)
+        {
+            if (targets.Values[i] == null)
+            {
+                targets.Clear();
+                targetNum = 0;
+                return;
+            }
+
+            if (targetNum == i)
+            {
+                Vector3 targetPos = targets.Values[i].transform.position;
+                Vector3 distance = targetPos - transform.position;
+                distance.y /= 1.5f;
+                Debug.Log(distance.sqrMagnitude);
+
+                transform.rotation =
+                    Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(distance), lockonRotateSpeed);
+            }
+        }
     }
 }

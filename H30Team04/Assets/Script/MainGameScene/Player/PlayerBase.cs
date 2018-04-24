@@ -4,36 +4,32 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    [SerializeField] [Range(0.1f, 10f)] float speed = 2f; //移動速度
-    [SerializeField] [Range(1, 500f)] float power = 20; //制動力（移動に影響）
-    [SerializeField] [Range(0.1f, 10f)] float rotate = 2; //回転量
-    [SerializeField] [Range(0.1f, 10f)] float drift = 1.5f; //ドリフト時の回転倍率
-
-    Rigidbody rb;
+    [SerializeField, Range(0.1f, 10f)] float speed = 2f; //移動速度
+    [SerializeField, Range(1, 500f)] float power = 20; //制動力（移動に影響）
+    [SerializeField, Range(0.1f, 10f)] float rotate = 2; //回転量
+    [SerializeField, Range(0.1f, 10f)] float driftRotate = 3f; //ドリフト時の回転量
+    [SerializeField, Range(1, 5)] int residue = 3; //死亡可能回数
 
     //リスポーン用
     Vector3 startPosition;
     Quaternion startRotation;
-    int residue; //残機
 
-    //移動とカーブの入力受け取り用
+    //運転操作用
     float axel;
     float curve;
 
     void Start()
     {
-        rb = gameObject.GetComponent<Rigidbody>();
-        //ドリフト時回転量計算
-        drift *= rotate;
-        //初期情報
+        //リスポーン用初期情報
         startPosition = gameObject.transform.position;
         startRotation = gameObject.transform.rotation;
-        residue = 3;
     }
 
     void Update()
     {
-        GetInputDrive(); //運転入力の取得
+        GetInputDrive(); //運転操作入力の取得
+
+        if (Annihilation()) Death(); //３回やられたら死亡
 
         //START:初期位置へワープ（デバック用）
         if (Input.GetButtonDown("Restart")) Respawn();
@@ -45,24 +41,7 @@ public class PlayerBase : MonoBehaviour
     }
 
     /// <summary>
-    /// ＊運転処理
-    /// </summary>
-    void Drive()
-    {
-        //移動計算変数
-        Vector3 move = rb.transform.forward * axel * speed;
-        Vector3 force = power * move - rb.velocity;
-        float rotation = (axel == 0) ? drift : rotate; //旋回力
-        
-        rb.AddForce(force); //移動
-
-        //動いていればカーブ可能
-        if (Mathf.Abs(force.x) > 0.05f)
-            rb.transform.Rotate(new Vector3(0.0f, curve * rotation, 0.0f));
-    }
-
-    /// <summary>
-    /// ＊運転操作取得（左スティック）
+    /// ＊運転操作入力の取得
     /// </summary>
     void GetInputDrive()
     {
@@ -71,23 +50,50 @@ public class PlayerBase : MonoBehaviour
     }
 
     /// <summary>
-    /// ＊初期位置にリスポーン
+    /// ＊運転操作
     /// </summary>
-    void Respawn()
+    void Drive()
     {
-        if (Annihilation()) return;
+        var rb = gameObject.GetComponent<Rigidbody>();
 
-        transform.position = startPosition;
-        transform.rotation = startRotation;
-        residue--;
-        Debug.Log("残機：" + residue);
+        //移動計算用
+        Vector3 move = rb.transform.forward * axel * speed;
+        Vector3 force = power * move - rb.velocity;
+
+        rb.AddForce(force); //移動
+
+        float rotation = (axel == 0) ? driftRotate : rotate; //旋回力の選択
+
+        //動いていればカーブ可能
+        if (Mathf.Abs(force.x) > 0.05f)
+            rb.transform.Rotate(new Vector3(0.0f, curve * rotation, 0.0f));
     }
 
     /// <summary>
-    /// ＊残機が-1になったら「全滅」＝True
+    /// ＊初期位置にリスポーン
+    /// </summary>
+    public void Respawn()
+    {
+        if (Annihilation()) return;
+        //初期位置へ
+        transform.position = startPosition;
+        transform.rotation = startRotation;
+        residue--; //死亡可能回数の減少
+    }
+
+    /// <summary>
+    /// ＊残機が0になったら「全滅」＝True
     /// </summary>
     public bool Annihilation()
     {
-        return (residue < 0) ? true : false;
+        return (residue <= 0) ? true : false;
+    }
+
+    /// <summary>
+    /// ＊死亡
+    /// </summary>
+    public void Death()
+    {
+        Destroy(GameObject.FindGameObjectWithTag("Player"));
     }
 }
