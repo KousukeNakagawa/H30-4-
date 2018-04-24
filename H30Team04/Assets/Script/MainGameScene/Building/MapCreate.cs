@@ -44,7 +44,7 @@ public class MapCreate : MonoBehaviour {
                     GameObject createObject = Instantiate(XrayMachinePrefab);
                     createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
                     createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(minidata[2]), new Vector3(0, 1, 0));
-                    createObject.GetComponent<XrayMachine>().SetTexNumber(minidata[1]);
+                    createObject.GetComponent<XrayMachine>().SetCSVData(minidata[1]);
                     createObject.transform.parent = transform;
                 }
                 else { 
