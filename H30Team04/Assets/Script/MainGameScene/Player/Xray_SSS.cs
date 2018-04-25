@@ -50,8 +50,6 @@ public class Xray_SSS : MonoBehaviour
                 Shutter(sortXrayDistance, i);
             }
         }
-
-        Debug.Log(target);
     }
 
     /// <summary>

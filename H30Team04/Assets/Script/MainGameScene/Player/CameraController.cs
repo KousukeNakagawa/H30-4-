@@ -14,6 +14,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject blueRippel;
     [SerializeField] GameObject redRippel;
     [SerializeField] GameObject sniper;
+    [SerializeField] GameObject laserSight;
 
     [SerializeField, Range(0.1f, 1f)] float homingSpeed = 1; //追従速度
     [SerializeField, Range(50, 500)] float angleRotateSpeed = 100; //手動アングル速度
@@ -129,7 +130,7 @@ public class CameraController : MonoBehaviour
                 new Vector3(transform.localEulerAngles.x, car.localEulerAngles.y + 180, transform.localEulerAngles.z);
 
         //すぐに正面を向く
-        else if ((Input.GetButtonDown("BackAngle") && isBackAngle) || Input.GetButtonDown("CameraReset"))
+        else if ((Input.GetButtonUp("BackAngle") && isBackAngle) || Input.GetButtonDown("CameraReset"))
             transform.localEulerAngles =
                 new Vector3(transform.localEulerAngles.x, car.localEulerAngles.y, transform.localEulerAngles.z);
     }
@@ -157,15 +158,38 @@ public class CameraController : MonoBehaviour
             new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"), 0);
 
         //上下左右360度回転（更に下のコードで上下の動きを制限）
-        transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
+        laserSight.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
 
         //-180＜上下の動き＜180に変更
-        float angleX = 180 <= transform.eulerAngles.x ?
-            transform.eulerAngles.x - 360 : transform.eulerAngles.x;
+        float angleX = 180 <= laserSight.transform.eulerAngles.x ?
+            laserSight.transform.eulerAngles.x - 360 : laserSight.transform.eulerAngles.x;
 
         //更に上下の動きの制限
-        transform.eulerAngles =
-            new Vector3(Mathf.Clamp(angleX, downLimit, upLimit), transform.eulerAngles.y, transform.eulerAngles.z);
+        laserSight.transform.eulerAngles =
+            new Vector3(Mathf.Clamp(angleX, downLimit, upLimit), laserSight.transform.eulerAngles.y, laserSight.transform.eulerAngles.z);
+
+        SniperRotate(fps);
+    }
+
+    void SniperRotate(bool fps)
+    {
+        //メインカメラとFPSの時の変換処理
+        float rotateSpeed = angleRotateSpeed;
+        float downLimit = lowAngleLimit;
+        float upLimit = highAngleLimit;
+        if (fps)
+        {
+            rotateSpeed = fpsRotateSpeed;
+            //downLimit = -highAngleLimit;
+            //upLimit = -lowAngleLimit;
+        }
+
+        //右パッドの登録
+        Vector3 angle =
+            new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"), 0);
+
+        //上下左右360度回転（更に下のコードで上下の動きを制限）
+        sniper.transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
     }
 
     /// <summary>
@@ -201,7 +225,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit; //レイとの衝突場所にエフェクトを後々追加予定
 
         //自分の位置の少し上から正面へ（微調整）
-        Ray ray = new Ray(transform.position + Vector3.up * 1.8f, transform.forward /*- Vector3.up / 50*/);
+        Ray ray = new Ray(laserSight.transform.position, laserSight.transform.forward /*- Vector3.up / 50*/);
 
         //武器によって長さが変わる
         float rayLength = (isWeaponBeacon) ?
@@ -211,8 +235,6 @@ public class CameraController : MonoBehaviour
         Color rayColor = (isWeaponBeacon) ? Color.blue : Color.red;
 
         GameObject effect = (isWeaponBeacon) ? blueRippel : redRippel;
-
-
 
         if (isWeaponBeacon)
         {
@@ -249,7 +271,7 @@ public class CameraController : MonoBehaviour
         //発射する武器の指定
         GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
-        weapon.transform.position = ray.origin + transform.forward * 2; //発射位置の指定
+        weapon.transform.position = ray.origin + laserSight.transform.forward * 2; //発射位置の指定
 
         //装備している武器で発砲
         if (isWeaponBeacon)
@@ -286,14 +308,21 @@ public class CameraController : MonoBehaviour
             if (targetNum == i)
             {
                 Vector3 targetPos = targets.Values[i].transform.position;
-                Vector3 distance = targetPos - transform.position;
+                Vector3 distance = targetPos - laserSight.transform.position;
                 distance.y /= 1.5f;
-                //Debug.Log(distance.sqrMagnitude);
 
-                transform.rotation =
-                    Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(distance), lockonRotateSpeed);
+                laserSight.transform.rotation =
+                    Quaternion.RotateTowards(laserSight.transform.rotation, Quaternion.LookRotation(distance), lockonRotateSpeed);
+            }
 
-                //sniper.GetComponent<Sniper>().HorizonAngle(distance, lockonRotateSpeed);
+            if (targetNum == i)
+            {
+                Vector3 targetPos = targets.Values[i].transform.position;
+                Vector3 distance = targetPos - sniper.transform.position;
+                distance.y = 0;
+
+                sniper.transform.rotation =
+                    Quaternion.RotateTowards(sniper.transform.rotation, Quaternion.LookRotation(distance), lockonRotateSpeed);
             }
         }
     }
