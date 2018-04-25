@@ -74,15 +74,15 @@ public class Missile_zk : MonoBehaviour
 
         transform.rotation = Quaternion.Lerp(rb.rotation, Quaternion.LookRotation(direction), homingAbility * Time.deltaTime);
 
-        //rb.position += transform.forward * speed * Time.deltaTime;
+        rb.position += transform.forward * speed * Time.deltaTime;
         //speed += 0.1f;
 
-        if (aimingTime >= 0)
-        {
-            rb.AddForce(transform.forward * 10 * Time.deltaTime, ForceMode.Acceleration);
-            aimingTime -= Time.deltaTime;
-        }
-        else
-            rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
+        //if (aimingTime >= 0)
+        //{
+        //    rb.AddForce(transform.forward * 10 * Time.deltaTime, ForceMode.Acceleration);
+        //    aimingTime -= Time.deltaTime;
+        //}
+        //else
+        //    rb.AddForce(transform.forward * speed * Time.deltaTime, ForceMode.VelocityChange);
     }
 }

@@ -21,7 +21,9 @@ public class Test_zk : MonoBehaviour
     void MissileFire()
     {
         missile.transform.position = transform.position;
-        missile.transform.LookAt(GameObject.FindGameObjectWithTag("Player").transform);
+        missile.transform.localEulerAngles = new Vector3(270, 0, 180);
+
+        //missile.GetComponent<Missile_zk>().SetRotation(transform.localEulerAngles + new Vector3(1, 1, 1));
 
         if (fireTime >= 0) fireTime -= Time.deltaTime;
         else

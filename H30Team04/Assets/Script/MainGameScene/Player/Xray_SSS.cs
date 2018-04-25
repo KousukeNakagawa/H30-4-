@@ -10,8 +10,11 @@ public class Xray_SSS : MonoBehaviour
     //同時に捕捉できる射影機の数・捕捉線の始点位置・色・透明度
     [SerializeField, Range(1, 6)] int XrayCaptureNum = 2;
     [SerializeField, Range(0, 10)] int startPoint = 4;
-    [SerializeField] Color lineColor;
+    [SerializeField] Color startColor;
+    [SerializeField] Color endColor;
     [SerializeField, Range(1, 2)] float colorDepth = 1;
+
+    GameObject target;
 
     int XrayNum; //選択している射影機のナンバー（数字で管理）
 
@@ -47,6 +50,8 @@ public class Xray_SSS : MonoBehaviour
                 Shutter(sortXrayDistance, i);
             }
         }
+
+        Debug.Log(target);
     }
 
     /// <summary>
@@ -92,7 +97,9 @@ public class Xray_SSS : MonoBehaviour
 
         //選択している射影機と自信を結ぶ線
         //Debug.DrawRay(start, end, lineColor * depth);
-        DrawLine(start, start + end, Color.yellow, lineColor, 2);
+        DrawLine(start, start + end, startColor, endColor*depth, 2);
+
+        target = sortXrayDistance.Values[i];
     }
 
     /// <summary>
@@ -117,5 +124,10 @@ public class Xray_SSS : MonoBehaviour
         line.endColor = c2;
         line.startWidth = width;
         line.endWidth = (isSharp) ? 0 : width;
+    }
+
+    public GameObject GetTargetXray()
+    {
+        return target;
     }
 }

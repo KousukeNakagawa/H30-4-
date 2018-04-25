@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject snipeBullet;
     [SerializeField] GameObject blueRippel;
     [SerializeField] GameObject redRippel;
+    [SerializeField] GameObject sniper;
 
     [SerializeField, Range(0.1f, 1f)] float homingSpeed = 1; //追従速度
     [SerializeField, Range(50, 500)] float angleRotateSpeed = 100; //手動アングル速度
@@ -200,7 +201,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit; //レイとの衝突場所にエフェクトを後々追加予定
 
         //自分の位置の少し上から正面へ（微調整）
-        Ray ray = new Ray(transform.position + Vector3.up * 1.5f, transform.forward /*- Vector3.up / 50*/);
+        Ray ray = new Ray(transform.position + Vector3.up * 1.8f, transform.forward /*- Vector3.up / 50*/);
 
         //武器によって長さが変わる
         float rayLength = (isWeaponBeacon) ?
@@ -210,6 +211,8 @@ public class CameraController : MonoBehaviour
         Color rayColor = (isWeaponBeacon) ? Color.blue : Color.red;
 
         GameObject effect = (isWeaponBeacon) ? blueRippel : redRippel;
+
+
 
         if (isWeaponBeacon)
         {
@@ -246,7 +249,7 @@ public class CameraController : MonoBehaviour
         //発射する武器の指定
         GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
-        weapon.transform.position = ray.origin; //発射位置の指定
+        weapon.transform.position = ray.origin + transform.forward * 2; //発射位置の指定
 
         //装備している武器で発砲
         if (isWeaponBeacon)
@@ -285,10 +288,12 @@ public class CameraController : MonoBehaviour
                 Vector3 targetPos = targets.Values[i].transform.position;
                 Vector3 distance = targetPos - transform.position;
                 distance.y /= 1.5f;
-                Debug.Log(distance.sqrMagnitude);
+                //Debug.Log(distance.sqrMagnitude);
 
                 transform.rotation =
                     Quaternion.RotateTowards(transform.rotation, Quaternion.LookRotation(distance), lockonRotateSpeed);
+
+                //sniper.GetComponent<Sniper>().HorizonAngle(distance, lockonRotateSpeed);
             }
         }
     }
