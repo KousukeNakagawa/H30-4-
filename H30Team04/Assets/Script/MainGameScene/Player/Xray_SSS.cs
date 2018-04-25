@@ -40,6 +40,8 @@ public class Xray_SSS : MonoBehaviour
         //射影機の「探索」
         Search(sortXrayDistance);
 
+        if (sortXrayDistance.Count == 0) Destroy(line);
+
         for (int i = 0; i < XrayCaptureNum; i++)
         {
             if (XrayNum == i)
@@ -83,8 +85,6 @@ public class Xray_SSS : MonoBehaviour
     /// </summary>
     void Select(SortedList<float, GameObject> sortXrayDistance, int i)
     {
-        if (sortXrayDistance.Count <= 0) return;
-
         //方向・始点・終点
         Vector3 direction = sortXrayDistance.Values[i].transform.Find("model").position - transform.position;
         Vector3 start = transform.position + direction * startPoint / 100 + Vector3.up * 3;
@@ -93,11 +93,10 @@ public class Xray_SSS : MonoBehaviour
         float depthCalculation = colorDepth - direction.sqrMagnitude / 10000;
         float depth = (depthCalculation <= 0.5f) ? 0.5f : depthCalculation;
 
-        //選択している射影機と自信を結ぶ線
-        //Debug.DrawRay(start, end, lineColor * depth);
-        DrawLine(start, start + end, startColor, endColor*depth, 2);
-
         target = sortXrayDistance.Values[i];
+
+        //選択している射影機と自信を結ぶ線
+        DrawLine(start, start + end, startColor, endColor * depth, 2);
     }
 
     /// <summary>
