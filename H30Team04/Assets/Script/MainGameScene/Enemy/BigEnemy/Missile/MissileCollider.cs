@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MissileCollider : MonoBehaviour {
 
-    public static List<MissileCollider> isHits = new List<MissileCollider>();
+    private static List<MissileCollider> isHits = new List<MissileCollider>();
     private bool isHit = false;
 
 	// Use this for initialization
@@ -31,7 +31,7 @@ public class MissileCollider : MonoBehaviour {
             isHit = true;
         }
 
-        if (isHits.FindAll(f => !f.isHit).Count == 0)
+        if (isHits.Count > 0 && isHits.FindAll(f => !f.isHit).Count == 0)
         {
             BigEnemyScripts.missileLaunch.isMissile = false;
             BigEnemyScripts.searchObject.ResetTarget();

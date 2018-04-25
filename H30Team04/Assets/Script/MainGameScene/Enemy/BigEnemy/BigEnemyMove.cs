@@ -30,13 +30,16 @@ public class BigEnemyMove : MonoBehaviour
 
         if (isTurn)
         {
-            turnDir.y += BigEnemyScripts.searchObject.turnVel * turnSpeed * Time.deltaTime;
-            turnDir = turnDir.GetUnityVector3();
-            BigEnemyScripts.mTransform.rotation = Quaternion.Euler(turnDir);
             if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
             {
                 isTurn = false;
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
+            }
+            else
+            {
+                turnDir.y += BigEnemyScripts.searchObject.turnVel * turnSpeed * Time.deltaTime;
+                turnDir = turnDir.GetUnityVector3();
+                BigEnemyScripts.mTransform.rotation = Quaternion.Euler(turnDir);
             }
         }
         else

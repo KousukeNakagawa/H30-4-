@@ -30,14 +30,12 @@ public class MissileMove : MonoBehaviour
         primaryRotation = transform.rotation;
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         Vector3 target = BigEnemyScripts.searchObject.targetPos;
         switch (stateType)
         {
             case MissileStateType.Rise:
-                rigid.AddForce(transform.TransformDirection(Vector3.forward) * speed);
                 if (Time.time > timeCount)
                 {
                     stateType++;
@@ -45,8 +43,23 @@ public class MissileMove : MonoBehaviour
                 }
                 break;
             case MissileStateType.LookRotation:
-                rotationCount += Mathf.Clamp01(Time.fixedDeltaTime * (1f / rotationTime));
+                rotationCount += Mathf.Clamp01(Time.deltaTime * (1f / rotationTime));
                 transform.rotation = Quaternion.Slerp(primaryRotation, Quaternion.LookRotation(target - transform.position), rotationCount);
+                break;
+            case MissileStateType.Fall:
+                break;
+        }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        switch (stateType)
+        {
+            case MissileStateType.Rise:
+                rigid.AddForce(transform.TransformDirection(Vector3.forward) * speed);
+                break;
+            case MissileStateType.LookRotation:
                 if (rotationCount >= 1)
                 {
                     stateType = MissileStateType.Fall;
