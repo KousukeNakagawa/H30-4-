@@ -120,6 +120,7 @@ public class TestDoron : MonoBehaviour
             if (moveTime < flyDeleteTime)
             {
                 transform.Translate(new Vector3(0, -flySpeed) * Time.deltaTime);
+                transform.parent = BigEnemyScripts.mTransform;
             }
             else
             {
