@@ -101,10 +101,9 @@ MonoBehaviour:
   flySpeed: 5
   flyDeleteTime: 5
   direction: 2
-  range: 65
+  range: 35
   rotMax: 1
   backSpeed: 1
-  otherDoron: {fileID: 0}
 --- !u!136 &136581762278120888
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -112,7 +111,7 @@ CapsuleCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366388990044496}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   m_Radius: 0.5
   m_Height: 2

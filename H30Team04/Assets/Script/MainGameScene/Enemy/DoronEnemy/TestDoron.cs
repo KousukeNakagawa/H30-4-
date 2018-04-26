@@ -15,7 +15,7 @@ public class TestDoron : MonoBehaviour
     public float range = 65.0f;       //otherEnemyとのX座標の幅の限界
     public float rotMax = 1;　　　　　//回転　　　　
     public float backSpeed = 1;　　　 //BigEnemyに戻る速度
-    public GameObject otherDoron;
+    //public GameObject otherDoron;
     public enum Direction
     {
         Recession,  //後退
@@ -28,6 +28,7 @@ public class TestDoron : MonoBehaviour
     private bool isH = false;
     private bool isFirstLeft = false;
     private Transform EnemyTransform;
+    private Vector3 primaryPos;
 
 
 
@@ -47,8 +48,9 @@ public class TestDoron : MonoBehaviour
     void Start()
     {
         moveTime = 0;
-        EnemyTransform = GameObject.FindWithTag("BigEnemy").transform;　//BigEnemyの位置
+        EnemyTransform = BigEnemyScripts.mTransform;　//BigEnemyの位置
         transform.parent = null;
+        primaryPos = transform.position;
     }
 
     // Update is called once per frame
@@ -56,7 +58,7 @@ public class TestDoron : MonoBehaviour
     {
         Vector3 distance2 = EnemyTransform.position - transform.position;　//BigEnemyとの距離
         var distance3 = (EnemyTransform.position.x - transform.position.x);　//BigEnemyとのx座標のみの距離
-        var distance4 = (otherDoron.transform.position.x-transform.position.x);  //otherEnemyとの距離
+        var distance4 = (primaryPos.x - transform.position.x);  //otherEnemyとの距離
 
         if (m_yPlus)
         {
@@ -107,7 +109,7 @@ public class TestDoron : MonoBehaviour
             //ターゲットの方向を向く
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(new Vector3(distance2.x, 0, distance2.z)), rotMax);
             //正面方向に移動
-            transform.Translate(Vector3.forward *backSpeed);
+            transform.Translate(Vector3.forward * backSpeed);
             if (Mathf.Abs(distance3) <= 1)
             {
                 m_yPlus2 = true;
@@ -124,5 +126,10 @@ public class TestDoron : MonoBehaviour
                 Destroy(gameObject);
             }
         }
+    }
+
+    void OnDestroy()
+    {
+        BigEnemyScripts.droneCreate.RemoveDrone(gameObject);
     }
 }

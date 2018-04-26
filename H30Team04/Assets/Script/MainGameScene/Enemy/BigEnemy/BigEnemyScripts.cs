@@ -10,6 +10,7 @@ public class BigEnemyScripts : MonoBehaviour
     public static SearchObject searchObject;
     public static DestinationArrive destinationArrive;
     public static MissileLaunch missileLaunch;
+    public static DroneCreate droneCreate;
     public static Transform mTransform;
 
     [SerializeField] private Transform[] transforms;
@@ -21,6 +22,7 @@ public class BigEnemyScripts : MonoBehaviour
         searchObject = GetComponentInChildren<SearchObject>();
         destinationArrive = GetComponentInChildren<DestinationArrive>();
         missileLaunch = GetComponentInChildren<MissileLaunch>();
+        droneCreate = GetComponentInChildren<DroneCreate>();
         mTransform = transform;
     }
 

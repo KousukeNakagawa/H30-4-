@@ -25,6 +25,7 @@ public class BigEnemyMove : MonoBehaviour
             Vector3 endDir = BigEnemyScripts.mTransform.eulerAngles;
             endDir.y = Mathf.Rad2Deg * dir;
             SetTurn(endDir);
+            BigEnemyScripts.droneCreate.DroneSet();
             BigEnemyScripts.searchObject.isSearch = false;
         }
 
