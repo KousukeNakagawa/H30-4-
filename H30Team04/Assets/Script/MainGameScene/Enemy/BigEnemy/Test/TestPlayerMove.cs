@@ -5,6 +5,7 @@ using UnityEngine;
 public class TestPlayerMove : MonoBehaviour {
 
     public float speed = 8.0f;
+    public float turnSpeed = 40.0f;
 
 	// Use this for initialization
 	void Start () {
@@ -13,9 +14,10 @@ public class TestPlayerMove : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        float x = Input.GetAxis("Horizontal");
-        float z = Input.GetAxis("Vertical");
+        float rotate = Input.GetAxis("Horizontal");
+        float move = Input.GetAxis("Vertical");
 
-        transform.Translate(z * speed * Time.deltaTime, 0, -x * speed * Time.deltaTime);
+        transform.Translate(move * speed * Time.deltaTime, 0, 0);
+        transform.Rotate(0, rotate * turnSpeed * Time.deltaTime, 0, Space.World);
 	}
 }

@@ -9,7 +9,7 @@ public class MissileCollider : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        isHits.Add(this);
+        isHits.Add(this);  //全て当たったかを判定するために自分自身を代入する
 	}
 	
 	// Update is called once per frame
@@ -31,6 +31,7 @@ public class MissileCollider : MonoBehaviour {
             isHit = true;
         }
 
+        //全てのミサイルのisHitがtrueなら巨大ロボットのターゲットをリセットする
         if (isHits.Count > 0 && isHits.FindAll(f => !f.isHit).Count == 0)
         {
             BigEnemyScripts.missileLaunch.isMissile = false;
