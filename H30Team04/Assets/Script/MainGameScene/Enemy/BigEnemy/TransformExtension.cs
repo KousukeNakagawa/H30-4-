@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class TransformExtension {
 
+    //GameObjectに拡張メソッドを追加
+
+    //全ての子供を取得出来るメソッド
     public static GameObject[] GetAllChildren(this GameObject obj)
     {
         List<GameObject> allChildren = new List<GameObject>();
@@ -27,6 +30,7 @@ public static class TransformExtension {
         }
     }
 
+    //そのオブジェクトからの全ての親子を取得する
     public static GameObject[] GetAllGameObject(this GameObject obj)
     {
         List<GameObject> allObjects = new List<GameObject>();

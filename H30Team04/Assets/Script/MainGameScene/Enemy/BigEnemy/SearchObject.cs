@@ -5,12 +5,13 @@ using UnityEngine;
 public class SearchObject : MonoBehaviour
 {
 
-    [HideInInspector] public float turnVel;
-    public GameObject searchTarget;
-    [HideInInspector] public bool isSearch;
-    public Vector3 targetPos;
-    private float dontSearchTime;
+    [HideInInspector] public float turnVel;  //-1で半時計回り、1で時計周り
+    [HideInInspector] public GameObject searchTarget;  //突進、ミサイルの標的
+    [HideInInspector] public bool isSearch;  //探索範囲に入ったか
+    [HideInInspector] public Vector3 targetPos;  //突進、ミサイルの目標座標
+    private float dontSearchTime;  //多重に判定させないため
 
+    //優先順位
     private Dictionary<string, int> priority = new Dictionary<string, int>
     {
         {"Player",1 },
@@ -34,6 +35,7 @@ public class SearchObject : MonoBehaviour
         if (dontSearchTime > 0) return;
         if ((other.CompareTag("Player") || other.CompareTag("Xline") || other.CompareTag("Beacon")))
         {
+            //予備動作中ならミサイルのターゲットを変更するメソッドへ
             if (!BigEnemyScripts.missileLaunch.isMissile) SetTarget(other.gameObject);
             else MissileTargetChange(other.gameObject);
         }
@@ -63,7 +65,7 @@ public class SearchObject : MonoBehaviour
     }
 
     private void SetTurnVel(GameObject target)
-    {
+    {   //Z軸を中心に、右にいる場合は1を、左にいる場合はｰ1をturnVelに代入する
         Vector3 transDot = BigEnemyScripts.mTransform.TransformDirection(Vector3.forward);
         float dot = Vector2.Dot(new Vector2(transDot.x, transDot.z),
             new Vector2(target.transform.position.x - BigEnemyScripts.mTransform.position.x,
@@ -72,7 +74,7 @@ public class SearchObject : MonoBehaviour
     }
 
     public void SetTurnVelGoDefenseLine()
-    {
+    {  //現在のY軸回転の符号を反転させたものをturnVelに代入する
         Vector3 eulerAngle = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         float vel = eulerAngle.y;
         turnVel = vel / Mathf.Abs(vel) * -1;
@@ -90,7 +92,7 @@ public class SearchObject : MonoBehaviour
 
     IEnumerator DontSeacrchCountDown()
     {
-        while(dontSearchTime > 0)
+        while (dontSearchTime > 0)
         {
             dontSearchTime -= Time.deltaTime;
             yield return null;

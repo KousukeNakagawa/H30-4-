@@ -12,6 +12,8 @@ public class BigEnemyScripts : MonoBehaviour
     public static MissileLaunch missileLaunch;
     public static Transform mTransform;
 
+    [SerializeField] private Transform[] transforms;
+
     // Use this for initialization
     void Start()
     {
@@ -24,7 +26,7 @@ public class BigEnemyScripts : MonoBehaviour
 
     void Update()
     {
-        foreach (Transform child in transform)
+        foreach (Transform child in transforms)
         {
             child.position = mTransform.position;
         }

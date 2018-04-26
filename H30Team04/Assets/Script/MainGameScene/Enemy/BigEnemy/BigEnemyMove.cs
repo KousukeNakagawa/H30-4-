@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class BigEnemyMove : MonoBehaviour
 {
-    public float xSpeed = 8.0f;
-    public float turnSpeed = 40.0f;
+    [Tooltip("前進する速度")] public float xSpeed = 8.0f;
+    [Tooltip("回転する速度")] public float turnSpeed = 40.0f;
 
-    private Vector3 turnDir;
-    private Vector3 turnEndDir;
-    private bool isTurn;
+    private Vector3 turnDir;  //回転している間の現在の角度
+    private Vector3 turnEndDir;  //回転し終わった後の角度
+    private bool isTurn;  //回転しているか
 
     // Use this for initialization
     void Start()
@@ -20,9 +20,9 @@ public class BigEnemyMove : MonoBehaviour
     void Update()
     {
         if (BigEnemyScripts.searchObject.isSearch)
-        {
+        {  //探索範囲に標的が入った後、1回だけ行う
             float dir = GetDirction(transform.position, BigEnemyScripts.searchObject.targetPos);
-            Vector3 endDir = BigEnemyScripts.mTransform.localEulerAngles;
+            Vector3 endDir = BigEnemyScripts.mTransform.eulerAngles;
             endDir.y = Mathf.Rad2Deg * dir;
             SetTurn(endDir);
             BigEnemyScripts.searchObject.isSearch = false;
@@ -31,7 +31,7 @@ public class BigEnemyMove : MonoBehaviour
         if (isTurn)
         {
             if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
-            {
+            {  //回転を終了する
                 isTurn = false;
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
             }

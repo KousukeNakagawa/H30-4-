@@ -2,35 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MissileBeaconSearch : MonoBehaviour {
+public class MissileBeaconSearch : MonoBehaviour
+{
+    [Tooltip("ビーコンの検索範囲")] public float searchRange = 30.0f;
 
-    public float searchRange = 30.0f;
+    // Use this for initialization
+    void Start()
+    {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (BigEnemyScripts.missileLaunch.isMissile)
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (BigEnemyScripts.missileLaunch.isMissile)
         {
             if (!BigEnemyScripts.missileLaunch.isLaunch) return;
-            GameObject[] bs = GameObject.FindGameObjectsWithTag("Beacon");
+            //予備動作中なら以下を実行する
             SortedList<float, GameObject> beacons = new SortedList<float, GameObject>();
-            foreach (GameObject m in bs)
+            foreach (GameObject b in GameObject.FindGameObjectsWithTag("Beacon"))
             {
-                beacons.Add((m.transform.position - BigEnemyScripts.mTransform.position).magnitude, m);
+                beacons.Add((b.transform.position - BigEnemyScripts.mTransform.position).magnitude, b);
             }
             foreach (var beacon in beacons)
             {
-                print(beacon.Key);
                 if (beacon.Key <= searchRange)
                 {
                     BigEnemyScripts.searchObject.MissileTargetChange(beacon.Value);
                 }
+                //一番距離が近いビーコンのみを比較する
                 break;
             }
         }
-	}
+    }
 }
