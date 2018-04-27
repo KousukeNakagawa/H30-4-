@@ -23,13 +23,10 @@ public class TestDoron : MonoBehaviour
     }
 
     private bool m_yPlus = true;                // Y軸プラス方向に移動中か？
-    private bool m_xPlus = false;
     private bool m_yPlus2 = false;
     private bool isH = false;
-    private bool isFirstLeft = false;
     private Transform EnemyTransform;
     private Vector3 primaryPos;
-
 
 
     // 移動種類
@@ -51,6 +48,7 @@ public class TestDoron : MonoBehaviour
         EnemyTransform = BigEnemyScripts.mTransform;　//BigEnemyの位置
         transform.parent = null;
         primaryPos = transform.position;
+        BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
 
     // Update is called once per frame
@@ -132,5 +130,6 @@ public class TestDoron : MonoBehaviour
     void OnDestroy()
     {
         BigEnemyScripts.droneCreate.RemoveDrone(gameObject);
+        BigEnemyScripts.shootingPhaseMove.makebyRobot.Remove(gameObject);
     }
 }

@@ -21,9 +21,7 @@ public class BigEnemyMove : MonoBehaviour
     {
         if (BigEnemyScripts.searchObject.isSearch)
         {  //探索範囲に標的が入った後、1回だけ行う
-            float dir = GetDirction(transform.position, BigEnemyScripts.searchObject.targetPos);
-            Vector3 endDir = BigEnemyScripts.mTransform.eulerAngles;
-            endDir.y = Mathf.Rad2Deg * dir;
+            Vector3 endDir = TurnAngleSet(BigEnemyScripts.searchObject.targetPos);
             SetTurn(endDir);
             BigEnemyScripts.droneCreate.DroneSet();
             BigEnemyScripts.searchObject.isSearch = false;
@@ -50,6 +48,14 @@ public class BigEnemyMove : MonoBehaviour
                 BigEnemyScripts.mTransform.Translate(xSpeed * Time.deltaTime, 0, 0, Space.Self);
             }
         }
+    }
+
+    public Vector3 TurnAngleSet(Vector3 targetPos)
+    {
+        float dir = GetDirction(transform.position, targetPos);
+        Vector3 endDir = BigEnemyScripts.mTransform.eulerAngles;
+        endDir.y = Mathf.Rad2Deg * dir;
+        return endDir;
     }
 
     private float GetDirction(Vector3 self, Vector3 target)

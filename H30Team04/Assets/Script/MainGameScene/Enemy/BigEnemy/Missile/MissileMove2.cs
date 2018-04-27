@@ -30,6 +30,7 @@ public class MissileMove2 : MonoBehaviour
         primary = transform.rotation;
         riseTime = Time.time + riseCount;
         targetPos = BigEnemyScripts.searchObject.targetPos;
+        BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
 
     void OnDrawGizmos()
@@ -88,5 +89,10 @@ public class MissileMove2 : MonoBehaviour
                 rigid.AddForce(transform.forward * riseSpeed);
                 break;
         }
+    }
+
+    void OnDestroy()
+    {
+        BigEnemyScripts.shootingPhaseMove.makebyRobot.Remove(gameObject);
     }
 }
