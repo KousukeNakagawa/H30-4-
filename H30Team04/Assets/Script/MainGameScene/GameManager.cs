@@ -27,8 +27,10 @@ public class GameManager : MonoBehaviour {
     }
 
     private List<WeekPointData> weekDatas;
+    public Image m_GameClear;
+    public Image m_GameOver;
     public GameObject m_attackP;
-    public GameObject m_camera;
+    GameObject m_camera;
     GameObject m_player;
     GameObject m_enemy;
     CameraController m_CC;
@@ -55,6 +57,8 @@ public class GameManager : MonoBehaviour {
         m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
         weekDatas = new List<WeekPointData>();
+        m_GameClear.enabled = false;
+        m_GameOver.enabled = false;
     }
 	
 	// Update is called once per frame
@@ -65,7 +69,6 @@ public class GameManager : MonoBehaviour {
             case PhaseState.PhotoCheckState: PhotoCheckState(); break;
             case PhaseState.attackState: AttackState(); break;
         }
-        Debug.Log(phaseState);
     }
     //void FixedUpdate()
     //{
@@ -80,7 +83,7 @@ public class GameManager : MonoBehaviour {
 
         private void PhotoState()
     {
-        GameClear();
+       // GameClear();
         //GameOver();
         PhaseTransition();
     }
@@ -103,15 +106,17 @@ public class GameManager : MonoBehaviour {
 
     void GameClear()
     {
-        //if (m_Enemy == null)
-        //{
-        //    Debug.Log("ゲームクリア");
-        //}
+        m_GameClear.enabled = true;
+        Destroy(m_enemy);
+        Time.timeScale = 0;
+        //Debug.Log("ゲームクリア");
     }
 
     void GameOver()
     {
-        m_PB.Death();
+        m_GameOver.enabled = true;
+        Time.timeScale = 0;
+        // Debug.Log("ゲームオーバー");
     }
 
     void PhaseTransition()
@@ -195,5 +200,14 @@ public class GameManager : MonoBehaviour {
             BigEnemyScripts.shootingPhaseMove.ShootingPhaseSet();
             test = true;
         }
+    }
+
+    public void Damege(int i)
+    {
+        if(weeknumber == i)
+        {
+            GameClear();
+        }
+        else { GameOver(); }
     }
 }

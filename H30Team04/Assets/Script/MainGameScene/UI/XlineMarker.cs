@@ -6,8 +6,6 @@ public class XlineMarker : MonoBehaviour
 {
     GameObject m_player;
     Xray_SSS m_xsss;
-    [SerializeField]
-    GameObject m_Xliner; //射影機
     int XlineCount;
     bool test=false;
     GameObject m_mainCamera;
@@ -16,7 +14,6 @@ public class XlineMarker : MonoBehaviour
     void Start()
     {
         m_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        gameObject.SetActive(false);
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_xsss = m_player.GetComponent<Xray_SSS>();
 
@@ -27,11 +24,6 @@ public class XlineMarker : MonoBehaviour
     {
         transform.LookAt(m_mainCamera.transform.position);
 
-        transform.position = new Vector3( m_xsss.GetTargetXray().transform.position.x, m_xsss.GetTargetXray().transform.position.y + 3, m_xsss.GetTargetXray().transform.position.z);
-    }
-
-    public void Mark()
-    {
-        gameObject.SetActive(true);
+        transform.position = new Vector3(m_xsss.GetTargetXray().transform.position.x, m_xsss.GetTargetXray().transform.position.y + 3, m_xsss.GetTargetXray().transform.position.z);
     }
 }
