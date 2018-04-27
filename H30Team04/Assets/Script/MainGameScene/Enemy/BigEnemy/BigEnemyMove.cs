@@ -23,7 +23,6 @@ public class BigEnemyMove : MonoBehaviour
         {  //探索範囲に標的が入った後、1回だけ行う
             Vector3 endDir = TurnAngleSet(BigEnemyScripts.searchObject.targetPos);
             SetTurn(endDir);
-            BigEnemyScripts.droneCreate.DroneSet();
             BigEnemyScripts.searchObject.isSearch = false;
         }
 
@@ -32,6 +31,7 @@ public class BigEnemyMove : MonoBehaviour
             if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
             {  //回転を終了する
                 isTurn = false;
+                BigEnemyScripts.droneCreate.DroneSet();
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
             }
             else

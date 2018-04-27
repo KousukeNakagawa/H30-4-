@@ -28,7 +28,6 @@ public class MissileLaunch : MonoBehaviour
         if (launchTime < Time.time)
         {
             Launch();
-            BigEnemyScripts.shootingPhaseMove.ShootingPhaseSet();
         }
     }
 
@@ -48,12 +47,12 @@ public class MissileLaunch : MonoBehaviour
     {
         for (int i = 0; i < instantiateYPoss.Length; i++)
         {
+            yield return new WaitForSeconds(launchCount);
             if (!BigEnemyScripts.shootingPhaseMove.isShooting)
             {
                 GameObject m = Instantiate(missilePrefab, 
                     BigEnemyScripts.mTransform.position + instantiateYPoss[i], Quaternion.Euler(instantiateAngles[i]));
             }
-            yield return new WaitForSeconds(launchCount);
         }
     }
 }
