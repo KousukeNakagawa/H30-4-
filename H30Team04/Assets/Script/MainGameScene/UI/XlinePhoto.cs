@@ -56,6 +56,7 @@ public class XlinePhoto : MonoBehaviour {
     {
         if (m_gamemanager.PhotoCheckStateNow())
         {
+            m_Sight.SetActive(false);
             XPhots.SetActive(true);
             weektextparent.SetActive(true);
             if (m_FlyerCount == 0) return;
@@ -83,7 +84,7 @@ public class XlinePhoto : MonoBehaviour {
                 weektexts.SetTexts(xrayDatas[currentSelectStageIndex].datas);
             }
         }
-        else if (m_gamemanager.AttackStateNow())
+        if (m_gamemanager.AttackStateNow())
         {
             XPhots.SetActive(false);
             weektextparent.SetActive(false);

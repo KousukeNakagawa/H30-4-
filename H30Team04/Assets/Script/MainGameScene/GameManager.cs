@@ -27,6 +27,12 @@ public class GameManager : MonoBehaviour {
     }
 
     private List<WeekPointData> weekDatas;
+    public GameObject m_attackP;
+    public GameObject m_camera;
+    GameObject m_player;
+    GameObject m_enemy;
+    CameraController m_CC;
+    PlayerBase m_PB;
     private int weeknumber; //敵の弱点の数字
     [SerializeField]
     private int weekcount = 0; //弱点の数
@@ -35,36 +41,47 @@ public class GameManager : MonoBehaviour {
 
 
     private PhaseState phaseState;
-    [SerializeField]
+    [SerializeField] 
     bool test = false;  //必ず消し去るbool型
     public int testnum = 0;
     // Use this for initialization
     void Start () {
+        m_attackP.SetActive(false);
         phaseState = PhaseState.photoState;
-
+        m_camera =  GameObject.FindGameObjectWithTag("MainCamera");
+        m_player = GameObject.FindGameObjectWithTag("Player");
+        m_enemy = GameObject.FindGameObjectWithTag("BigEnemy");
+        m_CC = m_camera.GetComponent<CameraController>();
+        m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
         weekDatas = new List<WeekPointData>();
     }
 	
 	// Update is called once per frame
 	void Update () {
-        
-    }
-    void FixedUpdate()
-    {
         switch (phaseState)
         {
             case PhaseState.photoState: PhotoState(); break;
             case PhaseState.PhotoCheckState: PhotoCheckState(); break;
             case PhaseState.attackState: AttackState(); break;
         }
+        Debug.Log(phaseState);
     }
+    //void FixedUpdate()
+    //{
+    //    switch (phaseState)
+    //    {
+    //        case PhaseState.photoState: PhotoState(); break;
+    //        case PhaseState.PhotoCheckState: PhotoCheckState(); break;
+    //        case PhaseState.attackState: AttackState(); break;
+    //    }
+    //}
 
 
         private void PhotoState()
     {
         GameClear();
-        GameOver();
+        //GameOver();
         PhaseTransition();
     }
 
@@ -78,7 +95,10 @@ public class GameManager : MonoBehaviour {
 
     public void AttackState()
     {
-
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            phaseState = PhaseState.PhotoCheckState;
+        }
     }
 
     void GameClear()
@@ -91,16 +111,16 @@ public class GameManager : MonoBehaviour {
 
     void GameOver()
     {
-        //if (m_Player == null)
-        //{
-        //    Debug.Log("ゲームオーバー");
-        //}
+        m_PB.Death();
     }
 
     void PhaseTransition()
     {
         if (test||BigEnemyScripts.mTransform.position.x > (mapXsize - 1) * MainStageDate.TroutLengthX)
         {
+            m_CC.Hide();
+            PlDes();
+            m_attackP.SetActive(true);
             phaseState = PhaseState.PhotoCheckState;
         }
     }
@@ -169,6 +189,11 @@ public class GameManager : MonoBehaviour {
 
     public void PlDes()
     {
-
+        bool test = false;
+        if (!test)
+        {
+            BigEnemyScripts.shootingPhaseMove.ShootingPhaseSet();
+            test = true;
+        }
     }
 }
