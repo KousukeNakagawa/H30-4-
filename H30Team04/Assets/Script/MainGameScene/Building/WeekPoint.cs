@@ -38,8 +38,13 @@ public class WeekPoint : MonoBehaviour {
     }
 
     /// <summary>弱点番号(頭なら０とか)を返す関数</summary>
-    public int GetWeekNumber()
+    //public int GetWeekNumber()
+    //{
+    //    return weeknumber;
+    //}
+
+    public int GetWeekNumber
     {
-        return weeknumber;
+        get { return weeknumber; }
     }
 }

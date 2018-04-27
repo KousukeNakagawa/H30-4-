@@ -31,7 +31,7 @@ public class BeaconBullet : MonoBehaviour
         if (collider.CompareTag("Player")) return;
 
         //ドローンかミサイルにヒットしたら、それを消滅させる
-        if (collider.CompareTag("Building")) Cling();
+        if (collider.CompareTag("Building") || collider.CompareTag("Field")) Cling();
         //else Destroy(beacon);
     }
 

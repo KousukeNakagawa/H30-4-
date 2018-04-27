@@ -22,7 +22,9 @@ public class XrayMachine : MonoBehaviour {
         weekLayerMask = LayerMask.GetMask(new string[] { LayerMask.LayerToName(8) });
         builLayerMask = LayerMask.GetMask(new string[] { LayerMask.LayerToName(9) });
 
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameObject gamemanagerObj = GameObject.Find("GameManager");
+
+        if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
     }
 	
 	// Update is called once per frame
@@ -36,7 +38,7 @@ public class XrayMachine : MonoBehaviour {
     //撮影
     private void Shooting()
     {
-        Debug.Log("食らいやがれー");
+        //Debug.Log("食らいやがれー");
 
         //ビルがあるかどうか
         RaycastHit builhit;
@@ -72,7 +74,7 @@ public class XrayMachine : MonoBehaviour {
             {
                 if(weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
-                    weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber());
+                    weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
                     //Debug.Log("いい子だ");
                 }
                 else  //対象の弱点に当たらない場合
@@ -81,7 +83,7 @@ public class XrayMachine : MonoBehaviour {
                 }
             }
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 3.0f);
-            Debug.Log(weekpoints[i].transform.name);
+            //Debug.Log(weekpoints[i].transform.name);
         }
 
         weeknums.Sort();

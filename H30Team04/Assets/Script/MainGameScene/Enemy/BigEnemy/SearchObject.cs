@@ -11,6 +11,9 @@ public class SearchObject : MonoBehaviour
     [HideInInspector] public Vector3 targetPos;  //突進、ミサイルの目標座標
     private float dontSearchTime;  //多重に判定させないため
 
+    //  この範囲内にプレイヤーまたは射影機が入っているかの数値　　1.5マス分離れたらにしたかったけど、高さあったからとりあえず２
+    private float searchsqrMagnitude = (MainStageDate.TroutLengthX * 2.0f) * (MainStageDate.TroutLengthX * 2.0f);
+
     //優先順位
     private Dictionary<string, int> priority = new Dictionary<string, int>
     {
@@ -33,7 +36,9 @@ public class SearchObject : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (dontSearchTime > 0) return;
-        if ((other.CompareTag("Player") || other.CompareTag("Xline") || other.CompareTag("Beacon")))
+        if ((other.CompareTag("Player") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude
+            || other.CompareTag("Xline") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude ||
+            other.CompareTag("Beacon")))
         {
             //予備動作中ならミサイルのターゲットを変更するメソッドへ
             if (!BigEnemyScripts.missileLaunch.isMissile) SetTarget(other.gameObject);

@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour {
     public struct WeekPointProbability
     {
         public int num; //弱点番号
-        public float probability; //弱点の確立
+        public int probability; //弱点の確立
     }
 
     public struct WeekPointData
@@ -29,7 +29,9 @@ public class GameManager : MonoBehaviour {
     private List<WeekPointData> weekDatas;
     private int weeknumber; //敵の弱点の数字
     [SerializeField]
-    private int weekcount; //弱点の数
+    private int weekcount = 0; //弱点の数
+    [SerializeField]
+    private int mapXsize = 0; //マップのx方向のマスの数
 
 
     private PhaseState phaseState;
@@ -97,7 +99,7 @@ public class GameManager : MonoBehaviour {
 
     void PhaseTransition()
     {
-        if (test)
+        if (test||BigEnemyScripts.mTransform.position.x > (mapXsize - 1) * MainStageDate.TroutLengthX)
         {
             phaseState = PhaseState.PhotoCheckState;
         }
@@ -148,6 +150,11 @@ public class GameManager : MonoBehaviour {
         }
 
         return result;
+    }
+
+    public List<WeekPointData> GetWeekPointData
+    {
+        get { return weekDatas; }
     }
 
     public bool PhotoCheckStateNow()

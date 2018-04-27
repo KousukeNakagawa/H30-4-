@@ -42,7 +42,8 @@ public class MapCreate : MonoBehaviour {
                 if(minidata[0] == "X") //射影機
                 {
                     GameObject createObject = Instantiate(XrayMachinePrefab);
-                    createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
+                    //createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
+                    createObject.transform.position = new Vector3(i * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2, 0, -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2);
                     createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(minidata[2]), new Vector3(0, 1, 0));
                     createObject.GetComponent<XrayMachine>().SetCSVData(minidata[1]);
                     createObject.transform.parent = transform;

@@ -43,6 +43,8 @@ public class BuilCreate : MonoBehaviour {
         //あたり判定の設定
         m_Collider.size = new Vector3(m_Collider.size.x, builSize * MainStageDate.BuildingHeight, m_Collider.size.z);
         m_Collider.center = new Vector3(m_Collider.center.x, (builSize * MainStageDate.BuildingHeight)/2, m_Collider.center.z);
+
+        enabled = false;
     }
 	
 	// Update is called once per frame
