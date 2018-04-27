@@ -25430,7 +25430,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1044696645}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -45258,6 +45258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 1891263403}
+  cameraCon: {fileID: 1521121150}
   mainCamera: {fileID: 1781840153}
   FPSCamera: {fileID: 1044696645}
   aimRange: {fileID: 2046945331}
@@ -46675,6 +46676,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missile: {fileID: 1747811878228544, guid: f66811debc8a5ab419c9edf2e67ecbeb, type: 2}
   fireTime: 1000
+  cameraCont: {fileID: 0}
 --- !u!4 &1572823040
 Transform:
   m_ObjectHideFlags: 0

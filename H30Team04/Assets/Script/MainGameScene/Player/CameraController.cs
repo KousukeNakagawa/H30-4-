@@ -6,6 +6,7 @@ public class CameraController : MonoBehaviour
 {
     //必須ゲームオブジェクト
     [SerializeField] GameObject player;
+    [SerializeField] GameObject cameraCon;
     [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject FPSCamera;
     [SerializeField] GameObject aimRange;
@@ -325,5 +326,11 @@ public class CameraController : MonoBehaviour
                     Quaternion.RotateTowards(sniper.transform.rotation, Quaternion.LookRotation(distance), lockonRotateSpeed);
             }
         }
+    }
+
+    public void Hide()
+    {
+        player.SetActive(false);
+        cameraCon.SetActive(false);
     }
 }
