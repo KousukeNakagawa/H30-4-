@@ -10,7 +10,7 @@ public class ShootingPhaseMove : MonoBehaviour {
     [Tooltip("射撃フェーズでの移動スピード")]public float moveSpeed = 1.0f;
     [HideInInspector]public List<GameObject> makebyRobot = new List<GameObject>();
 
-    private bool isShooting;
+    [HideInInspector] public bool isShooting;
 
 	// Use this for initialization
 	void Start () {
@@ -39,7 +39,9 @@ public class ShootingPhaseMove : MonoBehaviour {
             Destroy(make);
         }
         isShooting = true;
-
+        Vector3 pos = transform.position;
+        pos.z = targetPos.z;
+        transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
     }
 }

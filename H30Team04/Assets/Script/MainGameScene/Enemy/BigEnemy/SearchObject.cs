@@ -62,7 +62,7 @@ public class SearchObject : MonoBehaviour
     public void MissileTargetChange(GameObject target)
     {
         if (!BigEnemyScripts.missileLaunch.isLaunch) return;
-        if (priority[target.tag] < priority[searchTarget.tag])
+        if (searchTarget == null || priority[target.tag] < priority[searchTarget.tag])
         {
             searchTarget = target;
             targetPos = target.transform.position;
@@ -92,7 +92,7 @@ public class SearchObject : MonoBehaviour
         turnVel = 0;
         targetPos = Vector3.zero;
         dontSearchTime = 0.2f;
-        StartCoroutine("DontSeacrchCountDown");
+        StartCoroutine(DontSeacrchCountDown());
     }
 
     IEnumerator DontSeacrchCountDown()

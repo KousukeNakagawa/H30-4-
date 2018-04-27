@@ -24,7 +24,7 @@ public class MissileCollider : MonoBehaviour {
             //テスト
             Destroy(other.gameObject);
         }
-        else if (other.CompareTag("Field"))
+        else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet"))
         {
             //ミサイル破壊
             Destroy(transform.root.gameObject);

@@ -9,7 +9,7 @@ public class BigEnemyMove : MonoBehaviour
 
     private Vector3 turnDir;  //回転している間の現在の角度
     private Vector3 turnEndDir;  //回転し終わった後の角度
-    private bool isTurn;  //回転しているか
+    [HideInInspector] public bool isTurn { get; private set; }  //回転しているか
 
     // Use this for initialization
     void Start()

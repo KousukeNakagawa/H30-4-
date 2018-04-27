@@ -21,7 +21,10 @@ public class MissileBeaconSearch : MonoBehaviour
             SortedList<float, GameObject> beacons = new SortedList<float, GameObject>();
             foreach (GameObject b in GameObject.FindGameObjectsWithTag("Beacon"))
             {
-                beacons.Add((b.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude, b);
+                if (!beacons.ContainsKey((b.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude))
+                {
+                    beacons.Add((b.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude, b);
+                }
             }
             foreach (var beacon in beacons)
             {
