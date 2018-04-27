@@ -9,7 +9,6 @@ public class MissileBeaconSearch : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -22,7 +21,7 @@ public class MissileBeaconSearch : MonoBehaviour
             SortedList<float, GameObject> beacons = new SortedList<float, GameObject>();
             foreach (GameObject b in GameObject.FindGameObjectsWithTag("Beacon"))
             {
-                beacons.Add((b.transform.position - BigEnemyScripts.mTransform.position).magnitude, b);
+                beacons.Add((b.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude, b);
             }
             foreach (var beacon in beacons)
             {
