@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 136581762278120888}
   - component: {fileID: 23894390001166356}
   - component: {fileID: 114375861565650458}
+  - component: {fileID: 114393543247144996}
   m_Layer: 0
   m_Name: Doron mae
   m_TagString: SmallEnemy
@@ -37,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366388990044496}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 24, y: 24.8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -104,6 +105,17 @@ MonoBehaviour:
   range: 35
   rotMax: 1
   backSpeed: 1
+--- !u!114 &114393543247144996
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1366388990044496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86281df284f608544a0975f827956da3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!136 &136581762278120888
 CapsuleCollider:
   m_ObjectHideFlags: 1
@@ -113,7 +125,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 2
+  m_Radius: 20
+  m_Height: 50
   m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: -25, z: 0}
