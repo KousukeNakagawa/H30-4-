@@ -73,7 +73,8 @@ public class Xray_SSS : MonoBehaviour
             Vector3 direction = XrayPos - transform.position;
 
             //各々の射影機との距離を登録
-            sortXrayDistance.Add(direction.sqrMagnitude, Xray);
+            if (!sortXrayDistance.ContainsKey(direction.sqrMagnitude))
+                sortXrayDistance.Add(direction.sqrMagnitude, Xray);
         }
 
         //最大捕捉数の調整
