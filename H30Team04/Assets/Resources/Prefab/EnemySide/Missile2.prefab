@@ -233,7 +233,6 @@ MonoBehaviour:
   rotationCount: 3.5
   riseSpeed: 20
   TransSpeed: 10
-  rate: 0
 --- !u!114 &114707329576432890
 MonoBehaviour:
   m_ObjectHideFlags: 1
