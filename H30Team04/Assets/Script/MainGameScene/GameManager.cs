@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
     GameObject m_player;
     GameObject m_enemy;
     CameraController m_CC;
+    public GameObject minimap;
     PlayerBase m_PB;
     private int weeknumber; //敵の弱点の数字
     [SerializeField]
@@ -52,7 +53,7 @@ public class GameManager : MonoBehaviour {
         phaseState = PhaseState.photoState;
         m_camera =  GameObject.FindGameObjectWithTag("MainCamera");
         m_player = GameObject.FindGameObjectWithTag("Player");
-        m_enemy = GameObject.FindGameObjectWithTag("BigEnemy");
+        m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
         m_CC = m_camera.GetComponent<CameraController>();
         m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
@@ -90,7 +91,7 @@ public class GameManager : MonoBehaviour {
 
     private void PhotoCheckState()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) || Input.GetButtonDown("WeaponChange"))
         {
             phaseState = PhaseState.attackState;
         }
@@ -98,7 +99,7 @@ public class GameManager : MonoBehaviour {
 
     public void AttackState()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetKeyDown(KeyCode.B) || Input.GetButtonDown("WeaponChange"))
         {
             phaseState = PhaseState.PhotoCheckState;
         }
@@ -107,7 +108,8 @@ public class GameManager : MonoBehaviour {
     void GameClear()
     {
         m_GameClear.enabled = true;
-        Destroy(m_enemy);
+        //Destroy(m_enemy);
+        m_enemy.SetActive(false);
         Time.timeScale = 0;
         //Debug.Log("ゲームクリア");
     }
@@ -126,6 +128,7 @@ public class GameManager : MonoBehaviour {
             m_CC.Hide();
             PlDes();
             m_attackP.SetActive(true);
+            minimap.SetActive(false);
             phaseState = PhaseState.PhotoCheckState;
         }
     }

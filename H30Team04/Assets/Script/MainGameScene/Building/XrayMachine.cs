@@ -100,6 +100,10 @@ public class XrayMachine : MonoBehaviour {
             m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
             xrayOK = false;
             transform.tag = "XlineEnd";
+            GameObject flash = Instantiate(Resources.Load("Prefab/Stage/Flash") as GameObject);
+            flash.transform.parent = transform;
+            flash.transform.localPosition = new Vector3(0, 5, 0);
+            flash.transform.eulerAngles = transform.eulerAngles;
         }
     }
 

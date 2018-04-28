@@ -33,7 +33,7 @@ public class AttackPlayer : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetButtonDown("Select"))
         {
             selectNum++;
             if (selectNum >= weekPoints.Length) selectNum = 0;
@@ -41,7 +41,7 @@ public class AttackPlayer : MonoBehaviour {
         target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
         transform.LookAt(target);
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetButtonDown("Shutter"))
         {
             m_gm.Damege(selectNum);
         }
