@@ -9,7 +9,7 @@ public class Xray_SSS : MonoBehaviour
     LineRenderer line;
 
     //同時に捕捉できる射影機の数・捕捉線の始点位置・色・透明度
-    [SerializeField, Range(1, 6)] int XrayCaptureNum = 2;
+    [SerializeField, Range(1, 8)] int XrayCaptureNum = 2;
     [SerializeField, Range(0, 10)] int startPoint = 4;
     [SerializeField] Color startColor;
     [SerializeField] Color endColor;
