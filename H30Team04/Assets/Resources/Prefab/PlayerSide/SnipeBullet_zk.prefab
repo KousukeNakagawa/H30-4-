@@ -113,7 +113,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   snipeBullet: {fileID: 1946888988388408}
   speed: 200
-  rangeDistance: 100
+  rangeDistance: 300
 --- !u!135 &135358211180256872
 SphereCollider:
   m_ObjectHideFlags: 1

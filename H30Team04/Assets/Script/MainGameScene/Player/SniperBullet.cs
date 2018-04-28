@@ -25,7 +25,7 @@ public class SniperBullet : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         //ドローンかミサイルにヒットしたら、それを消滅させる
-        if (collider.CompareTag("SmallEnemy") || collider.CompareTag("Missile"))
+        if (collider.CompareTag("SmallEnemy") || collider.CompareTag("Building"))
         {
             GameObject Dead = collider.gameObject;
             Destroy(Dead);

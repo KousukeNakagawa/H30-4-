@@ -12,6 +12,7 @@ public class AimRange : MonoBehaviour
     void OnTriggerStay(Collider collider)
     {
         //プレイヤーのトランスフォーム
+        if (GameObject.FindGameObjectWithTag("Player") == null) return;
         var player = GameObject.FindGameObjectWithTag("Player").transform;
 
         //ドローンの取得

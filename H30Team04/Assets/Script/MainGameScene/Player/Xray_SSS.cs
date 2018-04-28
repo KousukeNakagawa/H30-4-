@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Xray_SSS : MonoBehaviour
 {
@@ -35,21 +36,26 @@ public class Xray_SSS : MonoBehaviour
     void SSS()
     {
         //各々の射影機との距離を近い順に保管するリスト
-        var sortXrayDistance = new SortedList<float, GameObject>();
+        var sortXrayDistance = new Dictionary<float, GameObject>();
 
         //射影機の「探索」
         Search(sortXrayDistance);
 
         if (sortXrayDistance.Count == 0) Destroy(line);
 
+        //var keyArray = sortXrayDistance.Keys.ToArray();
+        var keyList = sortXrayDistance.Keys.ToList();
+        //if (Input.GetButtonDown("Select")) keyList.Sort();
+        //keyList.Reverse();
+        
         for (int i = 0; i < XrayCaptureNum; i++)
         {
             if (XrayNum == i)
             {
                 //射影機の「選択」
-                Select(sortXrayDistance, i);
+                Select(sortXrayDistance, i, keyList);
                 //射影機の「起動」
-                Shutter(sortXrayDistance, i);
+                Shutter(sortXrayDistance, i, keyList);
             }
         }
     }
@@ -57,7 +63,7 @@ public class Xray_SSS : MonoBehaviour
     /// <summary>
     /// ＊射影機の「探索」
     /// </summary>
-    void Search(SortedList<float, GameObject> sortXrayDistance)
+    void Search(Dictionary<float, GameObject> sortXrayDistance)
     {
         //射影機のサーチ
         var XrayMachines = GameObject.FindGameObjectsWithTag("Xline");
@@ -84,17 +90,18 @@ public class Xray_SSS : MonoBehaviour
     /// <summary>
     /// ＊射影機の「選択」
     /// </summary>
-    void Select(SortedList<float, GameObject> sortXrayDistance, int i)
+    void Select(Dictionary<float, GameObject> sortXrayDistance, int i, List<float> keyArray)
     {
+        //Debug.Log(keyArray.IndexOf(keyArray.Min()));
         //方向・始点・終点
-        Vector3 direction = sortXrayDistance.Values[i].transform.Find("model").position - transform.position;
+        Vector3 direction = sortXrayDistance[keyArray[i]].transform.Find("model").position - transform.position;
         Vector3 start = transform.position + direction * startPoint / 100 + Vector3.up * 3;
         Vector3 end = direction / 10;
         //距離に比例する透明度
         float depthCalculation = colorDepth - direction.sqrMagnitude / 10000;
         float depth = (depthCalculation <= 0.5f) ? 0.5f : depthCalculation;
 
-        target = sortXrayDistance.Values[i];
+        target = sortXrayDistance[keyArray[i]];
 
         //選択している射影機と自信を結ぶ線
         DrawLine(start, start + end, startColor, endColor * depth, 2);
@@ -103,13 +110,13 @@ public class Xray_SSS : MonoBehaviour
     /// <summary>
     /// ＊射影機の「撮影」
     /// </summary>
-    void Shutter(SortedList<float, GameObject> sortXrayDistance, int i)
+    void Shutter(Dictionary<float, GameObject> sortXrayDistance, int i, List<float> keyArray)
     {
         if (sortXrayDistance.Count <= 0) return;
 
         if (Input.GetButtonDown("Shutter")) //選択中の射影機の起動
         {
-            sortXrayDistance.Values[i].GetComponent<XrayMachine>().XrayPlay();
+            sortXrayDistance[keyArray[i]].GetComponent<XrayMachine>().XrayPlay();
             XrayNum = 0;
         }
     }

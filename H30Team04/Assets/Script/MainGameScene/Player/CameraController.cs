@@ -16,6 +16,8 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject redRippel;
     [SerializeField] GameObject sniper;
     [SerializeField] GameObject laserSight;
+    [SerializeField] GameObject lineObject;
+    LineRenderer line;
 
     [SerializeField, Range(0.1f, 1f)] float homingSpeed = 1; //追従速度
     [SerializeField, Range(50, 500)] float angleRotateSpeed = 100; //手動アングル速度
@@ -27,6 +29,8 @@ public class CameraController : MonoBehaviour
     [SerializeField, Range(-90, 0)] float lowAngleLimit = -30;
     [SerializeField, Range(0, 90)] float highAngleLimit = 80;
 
+    [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
+
     Transform car; //プレイヤーのトランスフォーム
 
     bool isLockAt_Big; //ビッグエネミーLook用
@@ -34,17 +38,27 @@ public class CameraController : MonoBehaviour
     bool isSnipe; //射撃モードのオンオフ
     bool isWeaponBeacon; //武器の切替用
 
+    bool isLockon;
+    bool isLockonEnd;
     int targetNum;
+
+    bool isLaserHit;
+    float laserLength;
 
     void Start()
     {
+        line = lineObject.GetComponent<LineRenderer>();
+
         car = player.transform;
         isLockAt_Big = false;
         isBackAngle = false;
         isSnipe = false;
         isWeaponBeacon = true;
+        isLockon = false;
+        isLockonEnd = false;
+        isLaserHit = false;
 
-        targetNum = 0;
+        targetNum = -1;
     }
 
     void Update()
@@ -203,8 +217,11 @@ public class CameraController : MonoBehaviour
         else if (Input.GetButtonUp("BackAngle")) isBackAngle = false;
 
         //ルックアットのON/OFF（RBボタン）
-        if (Input.GetButton("LockAt")) isLockAt_Big = true;
-        else if (Input.GetButtonUp("LockAt")) isLockAt_Big = false;
+        if (Input.GetButtonDown("LockAt"))
+        {
+            isLockon = true;
+            isLockonEnd = false;
+        }
 
         //FPS視点の切替（LB）
         if (Input.GetButtonDown("Shooting"))
@@ -250,8 +267,8 @@ public class CameraController : MonoBehaviour
 
         if (Input.GetButtonDown("Fire")) Fire(ray); //射撃
 
-        //レイの表示（後ほどLineRendererに変更?）
-        Debug.DrawRay(ray.origin, ray.direction * rayLength, rayColor, 0, true);
+        if (!isLaserHit) laserLength = rayLength;
+        DrawLine(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
 
         if (Physics.Raycast(ray, out hit, rayLength))
         {
@@ -260,8 +277,15 @@ public class CameraController : MonoBehaviour
             effect.SetActive(true);
             effect.transform.rotation = Quaternion.LookRotation(hit.normal);
             effect.transform.position = hit.point;
+
+            isLaserHit = true;
+            if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
         }
-        else effect.SetActive(false);
+        else
+        {
+            isLaserHit = false;
+            effect.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -290,11 +314,17 @@ public class CameraController : MonoBehaviour
         var targets = aimRange.GetComponent<AimRange>().GetTarget();
         var targetCount = targets.Count;
 
-        if (Input.GetButtonDown("LockAt")) targetNum++;
-        if (targetNum >= targetCount) targetNum = 0;
+        if (Input.GetButtonDown("LockAt") && isLockon) targetNum++;
+        if (targetNum >= targetCount)
+        {
+            isLockonEnd = true;
+            targetNum = -1;
+        }
+        if (isLockonEnd) isLockon = false;
 
         //Debug.Log("数：" + targetCount + "i：" + targetNum);
 
+        if (!isLockon) return;
         if (targets.Count == 0) return;
 
         for (int i = 0; i < targetCount; i++)
@@ -328,6 +358,19 @@ public class CameraController : MonoBehaviour
         }
     }
 
+    void DrawLine(Vector3 p1, Vector3 p2, Color c1, float width)
+    {
+        line.SetPosition(0, p1);
+        line.SetPosition(1, p2);
+        line.startColor = c1;
+        line.endColor = c1;
+        line.startWidth = width;
+        line.endWidth = width * 4;
+    }
+
+    /// <summary>
+    /// ＊プレイヤーとカメラの表示を消す
+    /// </summary>
     public void Hide()
     {
         player.SetActive(false);
