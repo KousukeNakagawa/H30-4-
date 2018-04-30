@@ -39,6 +39,8 @@ public class MainCamera : MonoBehaviour
 
     void Update()
     {
+        if (player == null) return;
+
         AutoCameraControl(); //壁抜けと床抜けの防止
         Clarity();
         PlayerHide();

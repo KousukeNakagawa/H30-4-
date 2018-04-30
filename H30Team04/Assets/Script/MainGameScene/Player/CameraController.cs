@@ -8,7 +8,6 @@ public class CameraController : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject cameraCon;
     [SerializeField] GameObject mainCamera;
-    [SerializeField] GameObject FPSCamera;
     [SerializeField] GameObject aimRange;
     [SerializeField] GameObject beaconBullet;
     [SerializeField] GameObject snipeBullet;
@@ -29,7 +28,11 @@ public class CameraController : MonoBehaviour
     [SerializeField, Range(-90, 0)] float lowAngleLimit = -30;
     [SerializeField, Range(0, 90)] float highAngleLimit = 80;
 
+    //レーザーポインターの幅
     [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
+    //スナイパーライフルのクールタイム
+    [SerializeField, Range(0.1f, 1)] float snipeCoolTime = 1;
+    float backupCoolTime;
 
     Transform car; //プレイヤーのトランスフォーム
 
@@ -45,6 +48,10 @@ public class CameraController : MonoBehaviour
     bool isLaserHit;
     float laserLength;
 
+    Vector3 beaconHitPos;
+
+    bool isSnipeFire;
+
     void Start()
     {
         line = lineObject.GetComponent<LineRenderer>();
@@ -57,8 +64,11 @@ public class CameraController : MonoBehaviour
         isLockon = false;
         isLockonEnd = false;
         isLaserHit = false;
+        isSnipeFire = true;
 
         targetNum = -1;
+
+        backupCoolTime = snipeCoolTime;
     }
 
     void Update()
@@ -76,6 +86,8 @@ public class CameraController : MonoBehaviour
         //LockonTarget();
 
         LockonTargets();
+
+        PlayerLoss();
     }
 
     /// <summary>
@@ -226,8 +238,6 @@ public class CameraController : MonoBehaviour
         //FPS視点の切替（LB）
         if (Input.GetButtonDown("Shooting"))
         {
-            //mainCamera.SetActive(!mainCamera.activeSelf);
-            //FPSCamera.SetActive(!FPSCamera.activeSelf);
             isSnipe = true;
         }
         if (Input.GetButtonUp("Shooting")) isSnipe = false;
@@ -243,7 +253,7 @@ public class CameraController : MonoBehaviour
         RaycastHit hit; //レイとの衝突場所にエフェクトを後々追加予定
 
         //自分の位置の少し上から正面へ（微調整）
-        Ray ray = new Ray(laserSight.transform.position, laserSight.transform.forward /*- Vector3.up / 50*/);
+        Ray ray = new Ray(laserSight.transform.position + laserSight.transform.forward * 2, laserSight.transform.forward);
 
         //武器によって長さが変わる
         float rayLength = (isWeaponBeacon) ?
@@ -265,18 +275,35 @@ public class CameraController : MonoBehaviour
             redRippel.SetActive(true);
         }
 
-        if (Input.GetButtonDown("Fire")) Fire(ray); //射撃
+        bool isFire = (isWeaponBeacon) ?
+            beaconBullet.GetComponent<BeaconBullet>().IsFireOK() : isSnipeFire;
+
+        if (!isSnipeFire)
+        {
+            snipeCoolTime -= Time.deltaTime;
+            if (snipeCoolTime <= 0)
+            {
+                snipeCoolTime = backupCoolTime;
+                isSnipeFire = true;
+            }
+        }
+
+        if (Input.GetButtonDown("Fire") && isFire) Fire(ray); //射撃
 
         if (!isLaserHit) laserLength = rayLength;
         DrawLine(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
 
         if (Physics.Raycast(ray, out hit, rayLength))
         {
-            if (hit.collider.CompareTag("BeaconBullet") ||
-                hit.collider.CompareTag("SnipeBullet") || hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon")) return;
+            //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
+            if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
+                hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
+                hit.collider.CompareTag("Sniper")) return;
+
             effect.SetActive(true);
             effect.transform.rotation = Quaternion.LookRotation(hit.normal);
-            effect.transform.position = hit.point;
+            effect.transform.position = hit.point + hit.normal;
+            beaconHitPos = hit.point;
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -296,13 +323,16 @@ public class CameraController : MonoBehaviour
         //発射する武器の指定
         GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
-        weapon.transform.position = ray.origin + laserSight.transform.forward * 2; //発射位置の指定
+        weapon.transform.position = ray.origin; //発射位置の指定
 
         //装備している武器で発砲
         if (isWeaponBeacon)
             weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
         else
+        {
             weapon.GetComponent<SniperBullet>().Fire(ray.direction);
+            isSnipeFire = false;
+        }
     }
 
     /// <summary>
@@ -375,5 +405,16 @@ public class CameraController : MonoBehaviour
     {
         player.SetActive(false);
         cameraCon.SetActive(false);
+    }
+
+    void PlayerLoss()
+    {
+        //if (player == null) cameraCon.SetActive(false);
+        //Debug.Log("True");
+    }
+
+    public Vector3 GetHitPoint()
+    {
+        return beaconHitPos;
     }
 }

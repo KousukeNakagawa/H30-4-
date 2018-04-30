@@ -9,11 +9,17 @@ public class AimRange : MonoBehaviour
     SortedList<float, GameObject>
         sortTargetDistance = new SortedList<float, GameObject>();
 
+    GameObject player;
+
+    void Start()
+    {
+        player = GameObject.FindGameObjectWithTag("Player");
+    }
+
     void OnTriggerStay(Collider collider)
     {
         //プレイヤーのトランスフォーム
-        if (GameObject.FindGameObjectWithTag("Player") == null) return;
-        var player = GameObject.FindGameObjectWithTag("Player").transform;
+        if (player == null) return;
 
         //ドローンの取得
         if (collider.CompareTag("SmallEnemy"))
@@ -24,7 +30,7 @@ public class AimRange : MonoBehaviour
             {
                 //プレイヤーに対しての方向を取得
                 Vector3 drawnPos = drawn.transform.position;
-                Vector3 direction = drawnPos - player.position;
+                Vector3 direction = drawnPos - player.transform.position;
 
                 //重複していなければ距離をソートし登録
                 if (!sortTargetDistance.ContainsValue(drawn))
@@ -41,7 +47,7 @@ public class AimRange : MonoBehaviour
             {
                 //プレイヤーに対しての方向を取得
                 Vector3 missilePos = missile.transform.position;
-                Vector3 direction = missilePos - player.position;
+                Vector3 direction = missilePos - player.transform.position;
 
                 //重複していなければ距離をソートし登録
                 if (!sortTargetDistance.ContainsValue(missile))

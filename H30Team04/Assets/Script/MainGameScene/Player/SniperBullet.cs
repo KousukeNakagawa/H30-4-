@@ -24,13 +24,10 @@ public class SniperBullet : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        //ドローンかミサイルにヒットしたら、それを消滅させる
-        if (collider.CompareTag("SmallEnemy") || collider.CompareTag("Building"))
-        {
-            GameObject Dead = collider.gameObject;
-            Destroy(Dead);
-            Dead = null;
-        }
+        //ドローンと衝突時、ドローンを消滅
+        if (collider.CompareTag("SmallEnemy")) Destroy(collider.gameObject);
+        //地面・ビルと衝突時、自身を消滅
+        else if (collider.CompareTag("Field") || collider.CompareTag("Building")) Destroy(snipeBullet);
     }
 
     /// <summary>
@@ -61,4 +58,9 @@ public class SniperBullet : MonoBehaviour
     {
         return rangeDistance;
     }
+
+    //public bool IsFireOK()
+    //{
+    //    return (!GameObject.FindGameObjectWithTag("SnipeBullet")) ? true : false;
+    //}
 }
