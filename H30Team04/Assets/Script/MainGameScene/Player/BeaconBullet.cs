@@ -35,7 +35,7 @@ public class BeaconBullet : MonoBehaviour
         if (collider.CompareTag("Player") || collider.CompareTag("Sniper")) return;
 
         //ビル・地面に衝突時、くっつく
-        else if (collider.CompareTag("Building") || collider.CompareTag("Field")) Cling();
+        else if (collider.CompareTag("Building") || collider.CompareTag("Field")) Cling(collider);
     }
 
     /// <summary>
@@ -62,7 +62,7 @@ public class BeaconBullet : MonoBehaviour
     /// <summary>
     /// 張り付き処理
     /// </summary>
-    void Cling()
+    void Cling(Collider collider)
     {
         //必ず狙った位置に命中（位置固定）
         transform.position = hitPos;
@@ -73,6 +73,9 @@ public class BeaconBullet : MonoBehaviour
         //tagを「BeaconBullet」から「Beacon」へ
         transform.tag = "Beacon";
         isChange = true;
+
+        //当たったオブジェクトの子になる
+        transform.parent = collider.transform;
     }
 
     /// <summary>

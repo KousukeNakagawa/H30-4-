@@ -38,7 +38,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1381811831850098}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 9.677941, y: 0, z: -14.609829}
+  m_LocalPosition: {x: 10.773887, y: 2.1366537, z: 101.79177}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.55}
   m_Children: []
   m_Father: {fileID: 0}
@@ -112,7 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   beacon: {fileID: 1381811831850098}
-  speed: 17
+  speed: 100
   rangeDistance: 50
   extinctionTime: 10
 --- !u!135 &135241128125789996

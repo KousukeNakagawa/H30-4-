@@ -277,20 +277,20 @@ public class CameraController : MonoBehaviour
             redRippel.SetActive(true);
         }
 
-        bool isFire = (isWeaponBeacon) ?
-            beaconBullet.GetComponent<BeaconBullet>().IsFireOK() : isSnipeFire;
+        //bool isFire = (isWeaponBeacon) ?
+        //    beaconBullet.GetComponent<BeaconBullet>().IsFireOK() : isSnipeFire;
 
-        if (!isSnipeFire)
-        {
-            snipeCoolTime -= Time.deltaTime;
-            if (snipeCoolTime <= 0)
-            {
-                snipeCoolTime = backupCoolTime;
-                isSnipeFire = true;
-            }
-        }
+        //if (!isSnipeFire)
+        //{
+        //    snipeCoolTime -= Time.deltaTime;
+        //    if (snipeCoolTime <= 0)
+        //    {
+        //        snipeCoolTime = backupCoolTime;
+        //        isSnipeFire = true;
+        //    }
+        //}
 
-        if (Input.GetButtonDown("Fire") && isFire) Fire(ray); //射撃
+        if (Input.GetButtonDown("Fire")/* && isFire*/) Fire(ray); //射撃
 
         if (!isLaserHit) laserLength = rayLength;
         DrawLine(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
@@ -322,6 +322,15 @@ public class CameraController : MonoBehaviour
     /// </summary>
     void Fire(Ray ray)
     {
+        //ビーコン重複防止処理
+        if (isWeaponBeacon)
+        {
+            var beforBeacon = GameObject.FindGameObjectWithTag("Beacon");
+            var beforBullet = GameObject.FindGameObjectWithTag("BeaconBullet");
+            if (beforBeacon != null) Destroy(beforBeacon);
+            if (beforBullet != null) Destroy(beforBullet);
+        }
+
         //発射する武器の指定
         GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
@@ -333,7 +342,7 @@ public class CameraController : MonoBehaviour
         else
         {
             weapon.GetComponent<SniperBullet>().Fire(ray.direction);
-            isSnipeFire = false;
+            //isSnipeFire = false;
         }
     }
 
