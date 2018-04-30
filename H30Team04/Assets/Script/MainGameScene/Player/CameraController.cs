@@ -30,6 +30,8 @@ public class CameraController : MonoBehaviour
 
     //レーザーポインターの幅
     [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
+    //着弾点エフェクトを浮かす値
+    [SerializeField, Range(0.1f, 3)] float effectPos = 1;
     //スナイパーライフルのクールタイム
     [SerializeField, Range(0.1f, 1)] float snipeCoolTime = 1;
     float backupCoolTime;
@@ -302,7 +304,7 @@ public class CameraController : MonoBehaviour
 
             effect.SetActive(true);
             effect.transform.rotation = Quaternion.LookRotation(hit.normal);
-            effect.transform.position = hit.point + hit.normal;
+            effect.transform.position = hit.point + hit.normal * effectPos;
             beaconHitPos = hit.point;
 
             isLaserHit = true;

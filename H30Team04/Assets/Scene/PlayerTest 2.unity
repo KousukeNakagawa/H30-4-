@@ -46048,6 +46048,7 @@ MonoBehaviour:
   lowAngleLimit: -60
   highAngleLimit: 6
   laserWide: 0.1
+  effectPos: 1
   snipeCoolTime: 1
 --- !u!1 &1521358381
 GameObject:
