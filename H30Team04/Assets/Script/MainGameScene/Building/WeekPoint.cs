@@ -19,7 +19,7 @@ public class WeekPoint : MonoBehaviour {
 	void Update () {
 
         //モデルが非表示の場合、指定時間過ぎたらモデル表示
-        if (!m_model.activeSelf)
+        if (!m_model.activeSelf && transform.root.tag == "BigEnemy")
         {
             m_time += Time.deltaTime;
             if(m_time > hideTime)

@@ -8,14 +8,12 @@ public class BuilCreate : MonoBehaviour {
     public GameObject topPrefab;
 
     public int centerCount = 1;
-    private int builHeightCount = 1;  //ビルを作るときの今何階建てか
 
     private BoxCollider m_Collider;
     private Transform underBuil;
 
 	// Use this for initialization
 	void Start () {
-        m_Collider = GetComponent<BoxCollider>();
         underBuil = transform.Find("builunder");
         int builSize = 1;
 
@@ -40,9 +38,15 @@ public class BuilCreate : MonoBehaviour {
         top.transform.localPosition = newPos;
         top.transform.rotation = transform.rotation;
 
-        //あたり判定の設定
-        m_Collider.size = new Vector3(m_Collider.size.x, builSize * MainStageDate.BuildingHeight, m_Collider.size.z);
-        m_Collider.center = new Vector3(m_Collider.center.x, (builSize * MainStageDate.BuildingHeight)/2, m_Collider.center.z);
+        if(GetComponent<BuilSlide>() == null)
+        {
+            m_Collider = GetComponent<BoxCollider>();
+            //あたり判定の設定
+            m_Collider.size = new Vector3(m_Collider.size.x, builSize * MainStageDate.BuildingHeight, m_Collider.size.z);
+            m_Collider.center = new Vector3(m_Collider.center.x, (builSize * MainStageDate.BuildingHeight) / 2, m_Collider.center.z);
+
+            GetComponent<BuilCrush>().Builsize = builSize;
+        }
 
         enabled = false;
     }

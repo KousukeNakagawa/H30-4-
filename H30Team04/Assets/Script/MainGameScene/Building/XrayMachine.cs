@@ -13,6 +13,10 @@ public class XrayMachine : MonoBehaviour {
     private int builLayerMask;
 
     private GameManager gameManager;
+    [SerializeField] private float saveTime = 10.0f;
+    [SerializeField] private float underPos = 100.0f;
+
+    private List<GameObject> weekPoints;
 
     // Use this for initialization
     void Start () {
@@ -22,6 +26,8 @@ public class XrayMachine : MonoBehaviour {
         weekLayerMask = LayerMask.GetMask(new string[] { LayerMask.LayerToName(8) });
         builLayerMask = LayerMask.GetMask(new string[] { LayerMask.LayerToName(9) });
 
+        weekPoints = new List<GameObject>();
+
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
         if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
@@ -29,9 +35,24 @@ public class XrayMachine : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.U))
+        //if (Input.GetKeyDown(KeyCode.U))
+        //{
+        //    Shooting();
+        //}
+        if (!xrayOK && saveTime > 0)
         {
-            Shooting();
+            saveTime -= Time.deltaTime;
+            if(saveTime <= 0) //指定時間守り切ったとき、守れなかったときは下記OnCollisionEnterへ
+            {
+                List<int> weeknums = new List<int>();
+                for(int i = 0; i < weekPoints.Count; i++)
+                {
+                    weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
+                }
+                SendForManager(weeknums);
+                m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
+
+            }
         }
 	}
 
@@ -60,9 +81,25 @@ public class XrayMachine : MonoBehaviour {
         //ビルの奥にあっても終了
         if (builhit.distance < weekpoints[0].distance) return;
 
-        List<int> weeknums = new List<int>();
+        int minusPoint = 0;
+
+        if (builhit.distance < MainStageDate.TroutLengthX * 5) { } //5マス以内だったら何もしない
+        else if (builhit.distance < MainStageDate.TroutLengthX * 6) { minusPoint = 2; }
+        else if (builhit.distance < MainStageDate.TroutLengthX * 7) { minusPoint = 3; }
+        else { minusPoint = 5; }
+
+        //離れすぎの場合、写ってる弱点の数を減らす。0個以下になったら終了
+        if (weekpoints.Length - minusPoint <= 0) return;
+
+        //List<int> weeknums = new List<int>();
         for(int i = 0;i < weekpoints.Length; i++)
         {
+            if(weekpoints.Length - minusPoint <= i)
+            {
+                weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
+                continue;
+            }
+
             RaycastHit weekhit;
             //向いている方向によってレイのスタート位置を決める
             Vector3 raystartpos = (Mathf.Abs(m_XrayCameraObj.transform.forward.x) > Mathf.Abs(m_XrayCameraObj.transform.forward.z)) ?
@@ -74,8 +111,8 @@ public class XrayMachine : MonoBehaviour {
             {
                 if(weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
-                    weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
-                    //Debug.Log("いい子だ");
+                    //weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
+                    weekPoints.Add(weekpoints[i].transform.gameObject);
                 }
                 else  //対象の弱点に当たらない場合
                 {
@@ -83,9 +120,25 @@ public class XrayMachine : MonoBehaviour {
                 }
             }
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 3.0f);
-            //Debug.Log(weekpoints[i].transform.name);
         }
 
+        GameObject boneObj = weekpoints[0].transform.parent.gameObject;
+        GameObject bone = Instantiate(boneObj);
+        bone.transform.parent = transform.parent;
+        bone.transform.position = weekpoints[0].transform.parent.position;
+        bone.transform.position -= Vector3.up * underPos;
+        bone.transform.tag = "Untagged";
+        foreach(Transform child in bone.transform)
+        {
+            child.tag = "Untagged";
+        }
+
+        //weeknums.Sort();
+        //if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
+    }
+
+    private void SendForManager(List<int> weeknums)
+    {
         weeknums.Sort();
         if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
     }
@@ -96,8 +149,8 @@ public class XrayMachine : MonoBehaviour {
     {
         if (xrayOK)
         {
-            Shooting(); 
-            m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
+            Shooting();
+            m_XrayCameraObj.transform.position -= Vector3.up * underPos;
             xrayOK = false;
             transform.tag = "XlineEnd";
             GameObject flash = Instantiate(Resources.Load("Prefab/Stage/Flash") as GameObject);
@@ -112,4 +165,38 @@ public class XrayMachine : MonoBehaviour {
     {
         texnumber = num;
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.transform.tag == "BigEnemy" || collision.transform.tag == "Missile")
+        {
+            if (xrayOK) //撮影してない場合
+            {
+            }
+            else  //撮影している場合
+            {
+                int minus = (int)saveTime / 2;
+                if(weekPoints.Count - minus > 0)
+                {
+                    List<int> weeknums = new List<int>();
+                    for (int i = 0; i < weekPoints.Count; i++)
+                    {
+                        if (weekPoints.Count - minus <= i)
+                        {
+                            weekPoints[i].transform.GetComponent<WeekPoint>().HideObject();
+                            continue;
+                        }
+                        weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
+                    }
+                    SendForManager(weeknums);
+                }
+                m_XrayCameraObj.transform.parent = transform.parent;
+                m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
+            }
+            Destroy(gameObject);
+
+        }
+    }
+
+
 }

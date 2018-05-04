@@ -43,7 +43,7 @@ public class AttackPlayer : MonoBehaviour {
 
         if (Input.GetButtonDown("Shutter"))
         {
-            m_gm.Damege(selectNum);
+            m_gm.Damege(weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekNumber);
         }
     }
 }

@@ -15,6 +15,8 @@ public class MapCreate : MonoBehaviour {
 
     private int row = 0;
 
+    public Vector3 startPos = Vector3.zero;
+
 
     // Use this for initialization
     void Start()
@@ -44,6 +46,7 @@ public class MapCreate : MonoBehaviour {
                     GameObject createObject = Instantiate(XrayMachinePrefab);
                     //createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
                     createObject.transform.position = new Vector3(i * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2, 0, -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2);
+                    createObject.transform.position += startPos;
                     createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(minidata[2]), new Vector3(0, 1, 0));
                     createObject.GetComponent<XrayMachine>().SetCSVData(minidata[1]);
                     createObject.transform.parent = transform;
@@ -83,7 +86,7 @@ public class MapCreate : MonoBehaviour {
         createObject.GetComponent<BuilCreate>().SetCenterCount(centercount);
 
         //ビルのポジション
-        createObject.transform.position = ObjectPosition(name, direction, column);
+        createObject.transform.position = ObjectPosition(name, direction, column) + startPos;
 
         //ビルの回転
         createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(direction), new Vector3(0, 1, 0));
