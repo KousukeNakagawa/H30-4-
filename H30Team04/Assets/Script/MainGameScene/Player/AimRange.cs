@@ -18,7 +18,6 @@ public class AimRange : MonoBehaviour
 
     void OnTriggerStay(Collider collider)
     {
-        //プレイヤーのトランスフォーム
         if (player == null) return;
 
         //ドローンの取得
@@ -66,7 +65,6 @@ public class AimRange : MonoBehaviour
     /// <summary>
     /// ＊「ドローン」と「ミサイル」ロックオンリスト
     /// </summary>
-    /// <returns></returns>
     public SortedList<float, GameObject> GetTarget()
     {
         return sortTargetDistance;

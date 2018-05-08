@@ -14,6 +14,8 @@ public class PlayerBase : MonoBehaviour
     Vector3 startPosition;
     Quaternion startRotation;
 
+    Rigidbody rb;
+
     //運転操作用
     float axel;
     float curve;
@@ -23,6 +25,8 @@ public class PlayerBase : MonoBehaviour
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;
         startRotation = gameObject.transform.rotation;
+
+        rb = gameObject.GetComponent<Rigidbody>();
     }
 
     void Update()
@@ -54,8 +58,6 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     void Drive()
     {
-        var rb = gameObject.GetComponent<Rigidbody>();
-
         //移動計算用
         Vector3 move = rb.transform.forward * axel * speed;
         Vector3 force = power * move - rb.velocity;

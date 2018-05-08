@@ -5,7 +5,7 @@ using UnityEngine;
 public class CameraController : MonoBehaviour
 {
     //必須ゲームオブジェクト
-    [SerializeField] GameObject player;
+    GameObject player;
     [SerializeField] GameObject cameraCon;
     [SerializeField] GameObject mainCamera;
     [SerializeField] GameObject aimRange;
@@ -28,12 +28,14 @@ public class CameraController : MonoBehaviour
     [SerializeField, Range(-90, 0)] float lowAngleLimit = -30;
     [SerializeField, Range(0, 90)] float highAngleLimit = 80;
 
+    [SerializeField, Range(-90, 0)] float hideAngle = -30;
+
     //レーザーポインターの幅
     [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
     //着弾点エフェクトを浮かす値
     [SerializeField, Range(0.1f, 3)] float effectPos = 1;
     //スナイパーライフルのクールタイム
-    [SerializeField, Range(0.1f, 1)] float snipeCoolTime = 1;
+    [SerializeField, Range(0.1f, 2)] float snipeCoolTime = 1;
     float backupCoolTime;
 
     Transform car; //プレイヤーのトランスフォーム
@@ -50,12 +52,12 @@ public class CameraController : MonoBehaviour
     bool isLaserHit;
     float laserLength;
 
-    Vector3 beaconHitPos;
-
     bool isSnipeFire;
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+
         line = lineObject.GetComponent<LineRenderer>();
 
         car = player.transform;
@@ -197,6 +199,11 @@ public class CameraController : MonoBehaviour
         laserSight.transform.eulerAngles =
             new Vector3(Mathf.Clamp(angleX, downLimit, upLimit), laserSight.transform.eulerAngles.y, laserSight.transform.eulerAngles.z);
 
+        //プレイヤーの透過
+        bool isHide = false;
+        if (angleX <= hideAngle) isHide = true;
+        mainCamera.GetComponent<MainCamera>().PlayerHide(isHide);
+
         SniperRotate(fps);
     }
 
@@ -277,22 +284,22 @@ public class CameraController : MonoBehaviour
             redRippel.SetActive(true);
         }
 
-        //bool isFire = (isWeaponBeacon) ?
-        //    beaconBullet.GetComponent<BeaconBullet>().IsFireOK() : isSnipeFire;
+        bool isFire = (isWeaponBeacon) ? true : isSnipeFire;
 
-        //if (!isSnipeFire)
-        //{
-        //    snipeCoolTime -= Time.deltaTime;
-        //    if (snipeCoolTime <= 0)
-        //    {
-        //        snipeCoolTime = backupCoolTime;
-        //        isSnipeFire = true;
-        //    }
-        //}
+        if (!isSnipeFire)
+        {
+            snipeCoolTime -= Time.deltaTime;
+            if (snipeCoolTime <= 0)
+            {
+                isSnipeFire = true;
+                snipeCoolTime = backupCoolTime;
+            }
+        }
 
-        if (Input.GetButtonDown("Fire")/* && isFire*/) Fire(ray); //射撃
+        if (Input.GetButtonDown("Fire") && isFire) Fire(ray); //射撃
 
         if (!isLaserHit) laserLength = rayLength;
+
         DrawLine(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
 
         if (Physics.Raycast(ray, out hit, rayLength))
@@ -305,7 +312,6 @@ public class CameraController : MonoBehaviour
             effect.SetActive(true);
             effect.transform.rotation = Quaternion.LookRotation(hit.normal);
             effect.transform.position = hit.point + hit.normal * effectPos;
-            beaconHitPos = hit.point;
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -334,7 +340,7 @@ public class CameraController : MonoBehaviour
         //発射する武器の指定
         GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
-        weapon.transform.position = ray.origin; //発射位置の指定
+        weapon.transform.position = ray.origin + laserSight.transform.forward; //発射位置の指定
 
         //装備している武器で発砲
         if (isWeaponBeacon)
@@ -342,7 +348,7 @@ public class CameraController : MonoBehaviour
         else
         {
             weapon.GetComponent<SniperBullet>().Fire(ray.direction);
-            //isSnipeFire = false;
+            isSnipeFire = false;
         }
     }
 
@@ -406,7 +412,7 @@ public class CameraController : MonoBehaviour
         line.startColor = c1;
         line.endColor = c1;
         line.startWidth = width;
-        line.endWidth = width * 4;
+        line.endWidth = width;
     }
 
     /// <summary>
@@ -420,12 +426,6 @@ public class CameraController : MonoBehaviour
 
     void PlayerLoss()
     {
-        //if (player == null) cameraCon.SetActive(false);
-        //Debug.Log("True");
-    }
-
-    public Vector3 GetHitPoint()
-    {
-        return beaconHitPos;
+        if (player == null) cameraCon.SetActive(false);
     }
 }

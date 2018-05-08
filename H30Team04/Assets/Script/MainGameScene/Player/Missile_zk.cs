@@ -32,15 +32,16 @@ public class Missile_zk : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.CompareTag("Player"))
+        if (collision.collider.CompareTag("Player") || collision.collider.CompareTag("Field"))
         {
             Destroy(missile);
             missile = null;
         }
 
         //プレイヤーかビルにヒットしたら、それを消滅させる
-        if (collision.collider.CompareTag("Building"))
+        if (collision.collider.CompareTag("Building") || collision.collider.CompareTag("SnipeBullet"))
         {
+            Debug.Log("Hit");
             Destroy(collision.collider.gameObject);
             Destroy(missile);
             missile = null;

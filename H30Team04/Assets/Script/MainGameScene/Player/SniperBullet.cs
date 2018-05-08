@@ -59,6 +59,9 @@ public class SniperBullet : MonoBehaviour
         return rangeDistance;
     }
 
+    /// <summary>
+    /// SnipeBulletを検索し、他にいなければ許可
+    /// </summary>
     //public bool IsFireOK()
     //{
     //    return (!GameObject.FindGameObjectWithTag("SnipeBullet")) ? true : false;

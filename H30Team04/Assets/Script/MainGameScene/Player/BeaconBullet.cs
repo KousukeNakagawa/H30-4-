@@ -10,15 +10,12 @@ public class BeaconBullet : MonoBehaviour
     [SerializeField, Range(10, 300)] float extinctionTime = 10; //消滅時間（秒）
 
     Rigidbody rb;
-    Vector3 hitPos; //命中位置
-    Vector3 startPos;
-
+    Vector3 startPos; //初期位置
     bool isChange; //タグ変化把握用
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        hitPos = GameObject.Find("CameraController").GetComponent<CameraController>().GetHitPoint();
         startPos = rb.position;
         isChange = false;
     }
@@ -29,13 +26,13 @@ public class BeaconBullet : MonoBehaviour
         Extinction(); //時間消滅処理
     }
 
-    void OnTriggerEnter(Collider collider)
+    void OnCollisionEnter(Collision other)
     {
         //プレイヤー・スナイパーらとの衝突は無視
-        if (collider.CompareTag("Player") || collider.CompareTag("Sniper")) return;
+        if (other.collider.CompareTag("Player") || other.collider.CompareTag("Sniper")) return;
 
         //ビル・地面に衝突時、くっつく
-        else if (collider.CompareTag("Building") || collider.CompareTag("Field")) Cling(collider);
+        else if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Cling(other);
     }
 
     /// <summary>
@@ -62,20 +59,17 @@ public class BeaconBullet : MonoBehaviour
     /// <summary>
     /// 張り付き処理
     /// </summary>
-    void Cling(Collider collider)
+    void Cling(Collision other)
     {
-        //必ず狙った位置に命中（位置固定）
-        transform.position = hitPos;
-
-        //今後一切の動きを停止
-        rb.constraints = RigidbodyConstraints.FreezeAll;
+        //スピードを止める
+        rb.velocity = Vector3.zero;
 
         //tagを「BeaconBullet」から「Beacon」へ
         transform.tag = "Beacon";
         isChange = true;
 
         //当たったオブジェクトの子になる
-        transform.parent = collider.transform;
+        transform.parent = other.transform;
     }
 
     /// <summary>
@@ -103,9 +97,9 @@ public class BeaconBullet : MonoBehaviour
     /// <summary>
     /// ビーコン・ビーコンバレットが一つもなければ発射許可
     /// </summary>
-    public bool IsFireOK()
-    {
-        return (!GameObject.FindGameObjectWithTag("Beacon") &&
-            !GameObject.FindGameObjectWithTag("BeaconBullet")) ? true : false;
-    }
+    //public bool IsFireOK()
+    //{
+    //    return (!GameObject.FindGameObjectWithTag("Beacon") &&
+    //        !GameObject.FindGameObjectWithTag("BeaconBullet")) ? true : false;
+    //}
 }

@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missile: {fileID: 1747811878228544}
-  speed: 50
+  speed: 10
   workTime: 30
   homingAbility: 3
   aimingTime: 0.5267979
