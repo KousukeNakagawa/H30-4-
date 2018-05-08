@@ -8,7 +8,7 @@ public class SearchObject : MonoBehaviour
     [HideInInspector] public float turnVel;  //-1で半時計回り、1で時計周り
     [HideInInspector] public GameObject searchTarget;  //突進、ミサイルの標的
     [HideInInspector] public bool isSearch;  //探索範囲に入ったか
-    [HideInInspector] public Vector3 targetPos;  //突進、ミサイルの目標座標
+    public Vector3 targetPos;  //突進、ミサイルの目標座標
     private float dontSearchTime;  //多重に判定させないため
 
     //  この範囲内にプレイヤーまたは射影機が入っているかの数値　　1.5マス分離れたらにしたかったけど、高さあったからとりあえず２

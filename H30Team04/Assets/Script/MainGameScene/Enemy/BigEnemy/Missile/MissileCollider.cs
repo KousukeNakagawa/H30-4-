@@ -21,7 +21,6 @@ public class MissileCollider : MonoBehaviour {
     {
         if (other.CompareTag("Player") || other.CompareTag("Xline") || other.CompareTag("Beacon"))
         {
-            //テスト
             Destroy(other.gameObject);
         }
         else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet"))

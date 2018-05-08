@@ -28,7 +28,6 @@ public class TestDoron : MonoBehaviour
     private Transform EnemyTransform;
     private Vector3 primaryPos;
 
-
     // 移動種類
     private enum MoveType
     {

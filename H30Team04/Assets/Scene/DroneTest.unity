@@ -352,6 +352,7 @@ MonoBehaviour:
   targetPos: {x: 1, y: 100, z: 60}
   moveSpeed: 1
   makebyRobot: []
+  isShooting: 0
 --- !u!1 &189416291
 GameObject:
   m_ObjectHideFlags: 0
