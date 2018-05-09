@@ -55,9 +55,10 @@ public class MissileMove2 : MonoBehaviour
                 break;
             case StateType.Rotation:  //回転
                 rate = rate + Time.deltaTime * (1 / rotationCount);
-                Ray ray = new Ray(transform.position + transform.forward, transform.forward);
-                List<RaycastHit> hits = new List<RaycastHit>(Physics.RaycastAll(ray));
-                if (hits.FindAll(f => (f.point - targetPos).magnitude <= 0.7f).Count != 0)
+                //Ray ray = new Ray(transform.position + transform.forward, transform.forward);
+                //List<RaycastHit> hits = new List<RaycastHit>(Physics.RaycastAll(ray));
+                //if (hits.FindAll(f => (f.point - targetPos).magnitude <= 0.7f).Count != 0)
+                if (rate >= 1.0f)
                 {
                     state++;  //状態更新
                     rigid.velocity = Vector3.zero;

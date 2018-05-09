@@ -24,6 +24,7 @@ public class BigEnemyMove : MonoBehaviour
             Vector3 endDir = TurnAngleSet(BigEnemyScripts.searchObject.targetPos);
             SetTurn(endDir);
             BigEnemyScripts.searchObject.isSearch = false;
+            BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(true);
         }
 
         if (isTurn)
@@ -33,6 +34,7 @@ public class BigEnemyMove : MonoBehaviour
                 isTurn = false;
                 BigEnemyScripts.droneCreate.DroneSet();
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
+                BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(false);
             }
             else
             {
@@ -78,5 +80,6 @@ public class BigEnemyMove : MonoBehaviour
         isTurn = true;
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         turnEndDir = Vector3.zero;
+        BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(true);
     }
 }

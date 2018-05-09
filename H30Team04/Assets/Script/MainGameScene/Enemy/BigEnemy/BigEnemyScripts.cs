@@ -13,6 +13,7 @@ public class BigEnemyScripts : MonoBehaviour
     public static DroneCreate droneCreate;
     public static ShootingPhaseMove shootingPhaseMove;
     public static Transform mTransform;
+    public static BigEnemyEffectManager bigEnemyEffectManager;
 
     [SerializeField] private Transform[] transforms;
 
@@ -25,6 +26,7 @@ public class BigEnemyScripts : MonoBehaviour
         missileLaunch = GetComponentInChildren<MissileLaunch>();
         droneCreate = GetComponentInChildren<DroneCreate>();
         shootingPhaseMove = GetComponent<ShootingPhaseMove>();
+        bigEnemyEffectManager = GetComponentInChildren<BigEnemyEffectManager>();
         mTransform = transform;
     }
 

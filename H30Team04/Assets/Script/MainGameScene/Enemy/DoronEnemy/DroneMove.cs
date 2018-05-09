@@ -20,12 +20,12 @@ public class DroneMove : MonoBehaviour
 
     [HideInInspector] public DroneDirection droneDirection = DroneDirection.Advance;
     private DroneState droneState = DroneState.FlyUp;
-    public float moveSpeed = 10.0f;  //X,Zの移動速度
-    public Vector2 moveArea = new Vector2(35.0f, 70.0f);  //X,Zの範囲
-    public int XFraction = 5; //Xに進む分割数
-    public float returnSpeed = 20.0f;  //ロボットへ戻るときのスピード
-    public float searchFollowTime = 10.0f;  //見つけた時の追尾時間
-    public Transform followObj = null;
+    [Tooltip("前(X)、横(Z)への移動速度")] public float moveSpeed = 10.0f;
+    [Tooltip("前(X)、横(Z)への移動範囲")] public Vector2 moveArea = new Vector2(35.0f, 70.0f);
+    [Tooltip("Xに進む分割数")] public int XFraction = 5;
+    [Tooltip("ロボットへ戻るときの移動速度")] public float returnSpeed = 20.0f;
+    [Tooltip("見つけた時の追尾時間")]public float searchFollowTime = 10.0f;
+    [HideInInspector] public Transform followObj = null;
 
     private Vector2 primaryPos;  //初期位置(x,z)
     private Vector2 onceTargetPos;  //到達したらターンする
@@ -34,7 +34,7 @@ public class DroneMove : MonoBehaviour
     private Vector3 velocity;
     private int sagittalDir;
     private int LRdir = 1;
-    [SerializeField] private Collider m_collider;
+    public Collider m_collider;
     private bool isGo; //前に進んでいるか（X）
     private float followCount;
 
@@ -88,7 +88,7 @@ public class DroneMove : MonoBehaviour
                         followCount -= Time.deltaTime;
                         Vector2 followDir = new Vector2(followObj.position.x - transform.position.x,
                             followObj.position.z - transform.position.z).normalized;
-                        transform.Translate(new Vector3(followDir.x,0,followDir.y) * Time.deltaTime * moveSpeed);
+                        transform.Translate(new Vector3(followDir.x, 0, followDir.y) * Time.deltaTime * moveSpeed);
                         return;
                     }
                 }
@@ -122,8 +122,8 @@ public class DroneMove : MonoBehaviour
                 break;
             case DroneState.Return:
                 transform.Translate(velocity * returnSpeed * Time.deltaTime, Space.Self);
-                if ((new Vector2(BigEnemyScripts.mTransform.position.x,BigEnemyScripts.mTransform.position.z) - 
-                    new Vector2(transform.position.x,transform.position.z)).sqrMagnitude <= 0.1f)
+                if ((new Vector2(BigEnemyScripts.mTransform.position.x, BigEnemyScripts.mTransform.position.z) -
+                    new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
                 {
                     transform.parent = BigEnemyScripts.mTransform;
                     velocity = Vector3.down / 4;
