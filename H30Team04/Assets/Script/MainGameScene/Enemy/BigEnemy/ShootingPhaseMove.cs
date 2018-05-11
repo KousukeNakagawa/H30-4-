@@ -11,6 +11,7 @@ public class ShootingPhaseMove : MonoBehaviour {
     [HideInInspector]public List<GameObject> makebyRobot = new List<GameObject>();
 
     [HideInInspector] public bool isShooting;
+    [SerializeField] private GameObject runEffect;
 
 	// Use this for initialization
 	void Start () {
@@ -43,5 +44,13 @@ public class ShootingPhaseMove : MonoBehaviour {
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
+        StartCoroutine(StopEffect(runEffect));
+    }
+
+    IEnumerator StopEffect(GameObject effect)
+    {
+        runEffect.SetActive(false);
+        yield return null;
+        runEffect.SetActive(true);
     }
 }

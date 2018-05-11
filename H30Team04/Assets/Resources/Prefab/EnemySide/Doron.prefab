@@ -174,7 +174,6 @@ MonoBehaviour:
   Explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
   breakSmoke: {fileID: 1149029344498834, guid: 75819b73e66d8774695a111ccecec2d2, type: 2}
   moveScript: {fileID: 114861202206686098}
-  droneEffect: {fileID: 0}
   m_rigid: {fileID: 54388968085187216}
 --- !u!114 &114861202206686098
 MonoBehaviour:
@@ -195,7 +194,7 @@ MonoBehaviour:
   searchFollowTime: 10
   followObj: {fileID: 0}
   m_collider: {fileID: 136722825180330886}
-  snipe: {fileID: 114815875837599508}
+  snipeBullet: {fileID: 114815875837599508}
 --- !u!136 &136722825180330886
 CapsuleCollider:
   m_ObjectHideFlags: 1

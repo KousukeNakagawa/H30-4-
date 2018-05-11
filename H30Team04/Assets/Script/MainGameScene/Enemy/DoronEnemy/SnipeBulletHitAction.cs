@@ -29,17 +29,22 @@ public class SnipeBulletHitAction : MonoBehaviour
         }
     }
 
+    public void Hit()
+    {
+        moveScript.m_collider.enabled = false;
+        moveScript.enabled = false;
+        children.Add(Instantiate(Explosion, transform.position, Quaternion.identity));
+        GameObject b = Instantiate(breakSmoke, transform.position, Quaternion.identity);
+        b.GetComponent<Following>().followTrans = transform;
+        children.Add(b);
+        crashVel = new Vector3(Random.Range(-360.0f, 360.0f), 0, Random.Range(-360.0f, 360.0f)).normalized;
+    }
+
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("SnipeBullet"))
         {
-            moveScript.m_collider.enabled = false;
-            moveScript.enabled = false;
-            children.Add(Instantiate(Explosion, transform.position, Quaternion.identity));
-            GameObject b = Instantiate(breakSmoke, transform.position, Quaternion.identity);
-            b.GetComponent<Following>().followTrans = transform;
-            children.Add(b);
-            crashVel = new Vector3(Random.Range(-360.0f, 360.0f), 0, Random.Range(-360.0f, 360.0f)).normalized;
+            Hit();
         }
         else if (other.CompareTag("Field"))
         {

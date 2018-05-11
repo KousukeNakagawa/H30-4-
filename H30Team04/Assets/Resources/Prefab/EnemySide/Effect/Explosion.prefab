@@ -112,7 +112,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1692811844450732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 22.4, y: 7.8, z: 77.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4974477404586762}
@@ -194,7 +194,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1167652554
+  randomSeed: -1787245919
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -3600,7 +3600,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1176550891
+  randomSeed: 1878026569
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -7006,7 +7006,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -1592602164
+  randomSeed: -1775738953
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -9570,9 +9570,9 @@ ParticleSystem:
       type: 0
       properties: 0
   LightsModule:
-    enabled: 0
-    ratio: 0
-    light: {fileID: 0}
+    enabled: 1
+    ratio: 1
+    light: {fileID: 108671469855297718, guid: 1cd89be5de78ec044b2315d9963a4fb6, type: 2}
     randomDistribution: 1
     color: 1
     range: 1
@@ -9659,7 +9659,7 @@ ParticleSystem:
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
-    maxLights: 20
+    maxLights: 0
   TrailModule:
     enabled: 0
     mode: 0
@@ -10412,14 +10412,14 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -682772593
+  randomSeed: -150386233
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.3
+      scalar: 0.75
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -12976,13 +12976,13 @@ ParticleSystem:
       type: 0
       properties: 0
   LightsModule:
-    enabled: 0
+    enabled: 1
     ratio: 0
-    light: {fileID: 0}
+    light: {fileID: 108671469855297718, guid: 1cd89be5de78ec044b2315d9963a4fb6, type: 2}
     randomDistribution: 1
     color: 1
-    range: 1
-    intensity: 1
+    range: 0
+    intensity: 0
     rangeCurve:
       serializedVersion: 2
       minMaxState: 0
