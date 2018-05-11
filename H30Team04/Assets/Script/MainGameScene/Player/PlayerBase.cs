@@ -8,7 +8,7 @@ public class PlayerBase : MonoBehaviour
     [SerializeField, Range(1, 500f)] float power = 20; //制動力（移動に影響）
     [SerializeField, Range(0.1f, 10f)] float rotate = 2; //回転量
     [SerializeField, Range(0.1f, 10f)] float driftRotate = 3f; //ドリフト時の回転量
-    [SerializeField, Range(1, 5)] int residue = 3; //死亡可能回数
+    [SerializeField] int residue = 3; //死亡可能回数
 
     //リスポーン用
     Vector3 startPosition;
@@ -44,6 +44,12 @@ public class PlayerBase : MonoBehaviour
         Drive(); //運転
     }
 
+    void OnCollisionEnter(Collision other)
+    {
+        //敵に衝突時、死亡
+        if (other.collider.CompareTag("BigEnemy") || other.collider.CompareTag("Missile")) Respawn();
+    }
+
     /// <summary>
     /// ＊運転操作入力の取得
     /// </summary>
@@ -64,7 +70,7 @@ public class PlayerBase : MonoBehaviour
 
         rb.AddForce(force); //移動
 
-        float rotation = (axel == 0) ? driftRotate : rotate; //旋回力の選択
+        var rotation = (axel == 0) ? driftRotate : rotate; //旋回力の選択
 
         //動いていればカーブ可能
         if (Mathf.Abs(force.x) > 0.05f)
@@ -94,7 +100,7 @@ public class PlayerBase : MonoBehaviour
     /// <summary>
     /// ＊死亡
     /// </summary>
-    public void Death()
+    void Death()
     {
         Destroy(GameObject.FindGameObjectWithTag("Player"));
     }
