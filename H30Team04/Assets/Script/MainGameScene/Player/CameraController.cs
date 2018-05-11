@@ -227,7 +227,7 @@ public class CameraController : MonoBehaviour
         //上下左右360度回転（更に下のコードで上下の動きを制限）
         sniper.transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
     }
-
+    
     /// <summary>
     /// ＊視点や武器の切替
     /// </summary>
