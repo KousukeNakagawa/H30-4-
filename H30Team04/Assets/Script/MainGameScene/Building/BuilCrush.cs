@@ -9,14 +9,17 @@ public class BuilCrush : MonoBehaviour {
     private bool isCrush = false;
     private Vector3 startPos;
     public float downSpeed = 2.0f;
+    public GameObject crashPrefab;
+    private GameObject currentSmoke;
+    private float crashMax;
 
     // Use this for initialization
     void Start () {
         startPos = transform.position;
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update () {
         if (isCrush)
         {
             if(transform.position.y < -MainStageDate.BuildingHeight * builsize)
@@ -42,9 +45,16 @@ public class BuilCrush : MonoBehaviour {
         if (collision.transform.tag == "BigEnemy"){
             isCrush = true;
             GetComponent<Collider>().enabled = false;
-            //Destroy(gameObject);
+            currentSmoke = Instantiate(crashPrefab, transform.Find("builunder").position, Quaternion.identity);
+            Vector3 size = GetComponent<BoxCollider>().size;
+            ParticleSystem.ShapeModule shape = currentSmoke.GetComponent<ParticleSystem>().shape;
+            shape.scale = new Vector3(size.x / 8.0f, size.z / 8.0f, 1);
         }
     }
-
-
+    void OnDestroy()
+    {
+        if (currentSmoke == null) return;
+        currentSmoke.GetComponent<ParticleSystem>().Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        Destroy(currentSmoke, 2.5f);
+    }
 }

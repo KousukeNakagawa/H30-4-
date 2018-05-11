@@ -8,7 +8,7 @@ public class SearchObject : MonoBehaviour
     [HideInInspector] public float turnVel;  //-1で半時計回り、1で時計周り
     [HideInInspector] public GameObject searchTarget;  //突進、ミサイルの標的
     [HideInInspector] public bool isSearch;  //探索範囲に入ったか
-    public Vector3 targetPos;  //突進、ミサイルの目標座標
+    [HideInInspector] public Vector3 targetPos;  //突進、ミサイルの目標座標
     private float dontSearchTime;  //多重に判定させないため
 
     //  この範囲内にプレイヤーまたは射影機が入っているかの数値　　1.5マス分離れたらにしたかったけど、高さあったからとりあえず２
@@ -19,7 +19,8 @@ public class SearchObject : MonoBehaviour
     {
         {"Player",1 },
         {"Beacon",2 },
-        {"Xline", 3 },
+        {"XlineEnd",3 },
+        {"Xline", 4 },
     };
 
     // Use this for initialization
@@ -37,7 +38,7 @@ public class SearchObject : MonoBehaviour
     {
         if (dontSearchTime > 0) return;
         if ((other.CompareTag("Player") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude
-            || other.CompareTag("Xline") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude ||
+            || other.tag.Contains("Xline") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude ||
             other.CompareTag("Beacon")))
         {
             //予備動作中ならミサイルのターゲットを変更するメソッドへ
@@ -54,7 +55,7 @@ public class SearchObject : MonoBehaviour
             SetTurnVel(target);
             targetPos = target.transform.position;
             isSearch = true;
-            if (target.CompareTag("Xline")) BigEnemyScripts.missileLaunch.isMissile = true;
+            if (target.tag.Contains("Xline")) BigEnemyScripts.missileLaunch.isMissile = true;
             else BigEnemyScripts.missileLaunch.isMissile = false;
         }
     }
@@ -100,7 +101,7 @@ public class SearchObject : MonoBehaviour
         while (dontSearchTime > 0)
         {
             dontSearchTime -= Time.deltaTime;
-            yield return null;
+            yield return new WaitForSeconds(Time.deltaTime);
         }
     }
 }

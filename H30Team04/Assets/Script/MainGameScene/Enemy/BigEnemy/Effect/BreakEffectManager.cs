@@ -27,12 +27,13 @@ public class BreakEffectManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        //テスト
+        ChangeType();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) ChangeType();
         if (countTime == 0) return;
         if (countTime < Time.time)
         {
