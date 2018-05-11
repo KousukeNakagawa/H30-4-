@@ -30,6 +30,9 @@ public class MapCreate : MonoBehaviour {
         {
             //一行読み込む
             string line = reader.ReadLine();
+
+            line = line.ToUpper();
+
             //カンマで区切る
             string[] data = line.Split(',');
 

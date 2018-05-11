@@ -31,6 +31,8 @@ public class XrayMachine : MonoBehaviour {
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
         if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
+
+        underPos *= int.Parse(texnumber.Substring(1, 1)); //別のカメラに映らないように下げる位置変更
     }
 	
 	// Update is called once per frame
@@ -112,7 +114,7 @@ public class XrayMachine : MonoBehaviour {
                 if(weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
                     //weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
-                    weekPoints.Add(weekpoints[i].transform.gameObject);
+                    //weekPoints.Add(weekpoints[i].transform.gameObject);
                 }
                 else  //対象の弱点に当たらない場合
                 {
@@ -130,6 +132,7 @@ public class XrayMachine : MonoBehaviour {
         bone.transform.tag = "Untagged";
         foreach(Transform child in bone.transform)
         {
+            if(child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
             child.tag = "Untagged";
         }
 
@@ -184,6 +187,7 @@ public class XrayMachine : MonoBehaviour {
                         if (weekPoints.Count - minus <= i)
                         {
                             weekPoints[i].transform.GetComponent<WeekPoint>().HideObject();
+                            Debug.Log("ieee");
                             continue;
                         }
                         weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
@@ -191,7 +195,7 @@ public class XrayMachine : MonoBehaviour {
                     SendForManager(weeknums);
                 }
                 m_XrayCameraObj.transform.parent = transform.parent;
-                m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
+                //m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
             }
             Destroy(gameObject);
 
