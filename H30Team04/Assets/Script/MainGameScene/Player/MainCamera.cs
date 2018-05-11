@@ -7,7 +7,7 @@ public class MainCamera : MonoBehaviour
     GameObject player;
     [SerializeField] GameObject cameraContoller;
 
-    List<MeshRenderer> meshRenderers = new List<MeshRenderer>();
+    List<Renderer[]> renderers = new List<Renderer[]>();
 
     //移動スピード
     [SerializeField] [Range(0.1f, 10)] float recoverySpeed = 3f;
@@ -24,16 +24,15 @@ public class MainCamera : MonoBehaviour
 
         //CameraControllerの情報
         root = transform.root;
-
-        //車のメッシュ
-        foreach (var item in player.GetComponentsInChildren<MeshRenderer>())
+        ////車のメッシュ
+        foreach (var item in player.GetComponentsInChildren<SkinnedMeshRenderer[]>())
         {
-            meshRenderers.Add(item);
+            renderers.Add(item);
         }
         //スナイパーのメッシュ
-        foreach (var item in cameraContoller.GetComponentsInChildren<MeshRenderer>())
+        foreach (var item in cameraContoller.GetComponentsInChildren<SkinnedMeshRenderer[]>())
         {
-            meshRenderers.Add(item);
+            renderers.Add(item);
         }
 
         //初期位置のバックアップ
@@ -87,49 +86,44 @@ public class MainCamera : MonoBehaviour
     /// <summary>
     /// プレイヤーの透過のオンオフ
     /// </summary>
-    void PlayerHide()
-    {
-        if (isHide)
-        {
-            foreach (var item in meshRenderers)
-            {
-                Color color = item.material.color;
-                color.a = alpha;
-                item.material.color = color;
-            }
-        }
-        else
-        {
-            foreach (var item in meshRenderers)
-            {
-                Color color = item.material.color;
-                color.a = 1;
-                item.material.color = color;
-            }
-        }
-    }
-
-    /// <summary>
-    /// プレイヤーの透過のオンオフ
-    /// </summary>
     public void PlayerHide(bool hide)
     {
         if (hide)
         {
-            foreach (var item in meshRenderers)
+            for (int i = 0; i < renderers.Count; i++)
             {
-                Color color = item.material.color;
-                color.a = alpha;
-                item.material.color = color;
+                foreach (var item in renderers)
+                {
+                    item[i].material.SetFloat("_Mode", 2);
+                    item[i].material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    item[i].material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    item[i].material.SetInt("_ZWrite", 0);
+                    item[i].material.DisableKeyword("_ALPHATEST_ON");
+                    item[i].material.EnableKeyword("_ALPHABLEND_ON");
+                    item[i].material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+
+                    item[i].material.SetOverrideTag("RenderType", "Transparent");
+                    item[i].material.renderQueue = 0;
+                }
             }
         }
         else
         {
-            foreach (var item in meshRenderers)
+            for (int i = 0; i < renderers.Count; i++)
             {
-                Color color = item.material.color;
-                color.a = 1;
-                item.material.color = color;
+                foreach (var item in renderers)
+                {
+                    item[i].material.SetFloat("_Mode", 2);
+                    item[i].material.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                    item[i].material.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                    item[i].material.SetInt("_ZWrite", 0);
+                    item[i].material.DisableKeyword("_ALPHATEST_ON");
+                    item[i].material.EnableKeyword("_ALPHABLEND_ON");
+                    item[i].material.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+
+                    item[i].material.SetOverrideTag("RenderType", "Transparent");
+                    item[i].material.renderQueue = 3000;
+                }
             }
         }
     }
