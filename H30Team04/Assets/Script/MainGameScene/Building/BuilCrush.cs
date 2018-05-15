@@ -5,10 +5,12 @@ using UnityEngine;
 public class BuilCrush : MonoBehaviour {
 
 
-    [SerializeField] private int builsize = 0;
+    private int builsize = 0;
     private bool isCrush = false;
     private Vector3 startPos;
     public float downSpeed = 2.0f;
+    public GameObject crashSmoke;
+    private GameObject currentSmoke;
 
     // Use this for initialization
     void Start () {
@@ -42,9 +44,18 @@ public class BuilCrush : MonoBehaviour {
         if (collision.transform.tag == "BigEnemy"){
             isCrush = true;
             GetComponent<Collider>().enabled = false;
+            currentSmoke = Instantiate(crashSmoke, transform.Find("builunder").position, Quaternion.identity);
+            Vector3 size = GetComponent<BoxCollider>().size;
+            ParticleSystem.ShapeModule shape = currentSmoke.GetComponent<ParticleSystem>().shape;
+            shape.scale = new Vector3(size.x / 8.0f * 1.2f, size.z / 8.0f * 1.2f, 1);
             //Destroy(gameObject);
         }
     }
 
-
+    void OnDestroy()
+    {
+        if (currentSmoke == null) return;
+        currentSmoke.GetComponent<ParticleSystem>().Stop(false, ParticleSystemStopBehavior.StopEmitting);
+        Destroy(currentSmoke, 2.5f);
+    }
 }

@@ -2,27 +2,29 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ShootingPhaseMove : MonoBehaviour {
-
+public class ShootingPhaseMove : MonoBehaviour
+{
     [SerializeField] private Behaviour[] contents;
     [Header("Y座標は関係ありません")]
-    [SerializeField,Tooltip("射撃フェーズでの目標座標")] private Vector3 targetPos;
-    [Tooltip("射撃フェーズでの移動スピード")]public float moveSpeed = 1.0f;
-    [HideInInspector]public List<GameObject> makebyRobot = new List<GameObject>();
+    [SerializeField, Tooltip("射撃フェーズでの目標座標")] private Vector3 targetPos;
+    [Tooltip("射撃フェーズでの移動スピード")] public float moveSpeed = 1.0f;
+    [HideInInspector] public List<GameObject> makebyRobot = new List<GameObject>();
 
     [HideInInspector] public bool isShooting;
     [SerializeField] private GameObject runEffect;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    // Use this for initialization
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (!isShooting) return;
         transform.Translate(moveSpeed * Time.deltaTime, 0, 0, Space.Self);
-	}
+    }
 
     public void ShootingPhaseSet()
     {

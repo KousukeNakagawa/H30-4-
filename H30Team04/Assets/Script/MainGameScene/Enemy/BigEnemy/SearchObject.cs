@@ -19,7 +19,8 @@ public class SearchObject : MonoBehaviour
     {
         {"Player",1 },
         {"Beacon",2 },
-        {"Xline", 3 },
+        {"XlineEnd",3 },
+        {"Xline", 4 },
     };
 
     // Use this for initialization
@@ -37,7 +38,7 @@ public class SearchObject : MonoBehaviour
     {
         if (dontSearchTime > 0) return;
         if ((other.CompareTag("Player") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude
-            || other.CompareTag("Xline") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude ||
+            || other.tag.Contains("Xline") && (other.transform.position - BigEnemyScripts.mTransform.position).sqrMagnitude < searchsqrMagnitude ||
             other.CompareTag("Beacon")))
         {
             //予備動作中ならミサイルのターゲットを変更するメソッドへ

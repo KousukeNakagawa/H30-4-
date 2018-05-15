@@ -127,6 +127,7 @@ GameObject:
   - component: {fileID: 4383051863934526}
   - component: {fileID: 114962260779139750}
   - component: {fileID: 114262242131303380}
+  - component: {fileID: 114449388112516860}
   m_Layer: 0
   m_Name: BigEnemy
   m_TagString: BigEnemy
@@ -446,11 +447,25 @@ MonoBehaviour:
   contents:
   - {fileID: 114262242131303380}
   - {fileID: 114962260779139750}
+  - {fileID: 114449388112516860}
   targetPos: {x: 1, y: 100, z: 60}
   moveSpeed: 1
   makebyRobot: []
   isShooting: 0
   runEffect: {fileID: 1878971383489102}
+--- !u!114 &114449388112516860
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1746986691240418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4757fd4c80690b741a526fe54782d54a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  missilePrefab: {fileID: 1126260942532714, guid: 0e519cb02915567419094dda61ca6f9e,
+    type: 2}
 --- !u!114 &114531947521147796
 MonoBehaviour:
   m_ObjectHideFlags: 1

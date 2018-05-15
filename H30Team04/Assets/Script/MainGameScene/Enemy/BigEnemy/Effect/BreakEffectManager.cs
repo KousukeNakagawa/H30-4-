@@ -51,7 +51,7 @@ public class BreakEffectManager : MonoBehaviour
                 break;
             case BreakEffectType.Light:
                 ExplosionEnd();
-                Time.timeScale = 0.5f;
+                Time.timeScale = 0.35f;
                 countTime = Time.time + lightEndTime;
                 breakLight.gameObject.SetActive(true);
                 break;
