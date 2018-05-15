@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour {
     public GameObject m_camera;
     GameObject m_player;
     GameObject m_enemy;
-    CameraController m_CC;
+    //CameraController m_CC;
     public GameObject minimap;
     PlayerBase m_PB;
     private int weeknumber; //敵の弱点の数字
@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour {
        // m_camera =  GameObject.FindGameObjectWithTag("MainCamera");
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
-        m_CC = m_camera.GetComponent<CameraController>();
+        //m_CC = m_camera.GetComponent<CameraController>();
         m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
         weekDatas = new List<WeekPointData>();
@@ -121,7 +121,7 @@ public class GameManager : MonoBehaviour {
     {
         if (test||BigEnemyScripts.mTransform.position.x > (mapXsize - 1) * MainStageDate.TroutLengthX)
         {
-            m_CC.Hide();
+            //m_CC.Hide();
             PlDes();
             m_attackP.SetActive(true);
             minimap.SetActive(false);

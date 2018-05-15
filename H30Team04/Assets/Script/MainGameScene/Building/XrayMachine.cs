@@ -28,11 +28,11 @@ public class XrayMachine : MonoBehaviour {
 
         weekPoints = new List<GameObject>();
 
+        //saveTime = 10.0f;
+
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
         if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
-
-        underPos *= int.Parse(texnumber.Substring(1, 1)); //別のカメラに映らないように下げる位置変更
     }
 	
 	// Update is called once per frame
@@ -46,12 +46,16 @@ public class XrayMachine : MonoBehaviour {
             saveTime -= Time.deltaTime;
             if(saveTime <= 0) //指定時間守り切ったとき、守れなかったときは下記OnCollisionEnterへ
             {
-                List<int> weeknums = new List<int>();
-                for(int i = 0; i < weekPoints.Count; i++)
+                if(weekPoints.Count != 0)
                 {
-                    weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
+                    List<int> weeknums = new List<int>();
+                    for (int i = 0; i < weekPoints.Count; i++)
+                    {
+                        weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
+                    }
+                    SendForManager(weeknums);
                 }
-                SendForManager(weeknums);
+                
                 m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
 
             }
@@ -167,6 +171,8 @@ public class XrayMachine : MonoBehaviour {
     public void SetCSVData(string num)
     {
         texnumber = num;
+
+        underPos *= int.Parse(texnumber.Substring(1, 1)); //別のカメラに映らないように下げる位置変更
     }
 
     private void OnCollisionEnter(Collision collision)
