@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
-    [SerializeField] Transform endSEPoint;
+    [SerializeField] GameObject canvas;
+    XlinePhoto xline;
+
+    [SerializeField] Transform endSEPoint; //SE終了ポイント
 
     [SerializeField, Range(0.1f, 10f)] float speed = 2f; //移動速度
     [SerializeField, Range(1, 500f)] float power = 20; //制動力（移動に影響）
@@ -26,6 +29,7 @@ public class PlayerBase : MonoBehaviour
 
     void Start()
     {
+        xline = canvas.GetComponent<XlinePhoto>();
         rb = gameObject.GetComponent<Rigidbody>();
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;

@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// カメラの回転を司る
+/// </summary>
 public class AngleCtrl : MonoBehaviour
 {
     GameObject player;
+    PlayerBase playerScript;
     Transform car; //PlayerのTransform
     List<GameObject> snipers = new List<GameObject>(); //sniper rifle cameraをまとめる
     [SerializeField] GameObject cameraAndRifle;
@@ -41,6 +45,7 @@ public class AngleCtrl : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerScript = player.GetComponent<PlayerBase>();
         car = player.transform;
 
         snipers.Add(cameraAndRifle);
@@ -49,7 +54,7 @@ public class AngleCtrl : MonoBehaviour
 
     void Update()
     {
-        if (player == null) return;
+        if (!playerScript.GetIsEndSE()) return;
 
         SetChanger();
 

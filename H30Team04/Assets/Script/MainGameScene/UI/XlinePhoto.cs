@@ -25,7 +25,7 @@ public class XlinePhoto : MonoBehaviour {
     private List<GameManager.WeekPointData> xrayDatas;
     private GameObject weektextparent;
     private WeekTextManager weektexts;
-    int _lifecount = 3;   //残機
+    public int _lifecount = 3;   //残機
 
     public bool test = false;
 
@@ -59,10 +59,6 @@ public class XlinePhoto : MonoBehaviour {
         UpdateSelect();
         ViewPhotos();
         WeponChoiceNow();
-        if (Input.GetMouseButtonDown(0))
-        {
-            Life();
-        }
 	}
 
     void WeponChoiceNow()
@@ -162,8 +158,8 @@ public class XlinePhoto : MonoBehaviour {
     /// 今の残機数を取得できる(0～2)
     /// </summary>
     /// <returns></returns>
-    public int LifeCounter()
-    {
-        return _lifecount;
-    }
+    //public int LifeCounter()
+    //{
+    //    return _lifecount;
+    //}
 }

@@ -2,8 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 射撃を司る
+/// </summary>
 public class FireCtrl : MonoBehaviour
 {
+    GameObject player;
+    PlayerBase playerScript;
     [SerializeField] GameObject beaconBullet;
     [SerializeField] GameObject snipeBullet;
     [SerializeField] GameObject blueRippel;
@@ -26,12 +31,17 @@ public class FireCtrl : MonoBehaviour
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player");
+        playerScript = player.GetComponent<PlayerBase>();
+
         line = laser.GetComponent<LineRenderer>();
         backupCoolTime = snipeCoolTime;
     }
 
     void Update()
     {
+        if (!playerScript.GetIsEndSE()) return;
+
         SetChanger();
         ShootingMode();
     }
