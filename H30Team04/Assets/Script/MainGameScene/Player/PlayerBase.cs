@@ -7,6 +7,8 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] GameObject canvas;
     XlinePhoto xline;
 
+    [SerializeField] GameObject sniper;
+
     [SerializeField] Transform endSEPoint; //SE終了ポイント
 
     [SerializeField, Range(0.1f, 10f)] float speed = 2f; //移動速度
@@ -14,6 +16,7 @@ public class PlayerBase : MonoBehaviour
     [SerializeField, Range(0.1f, 10f)] float rotate = 2; //回転量
     [SerializeField, Range(0.1f, 10f)] float driftRotate = 3f; //ドリフト時の回転量
     [SerializeField] int residue = 3; //死亡可能回数
+    [SerializeField, Range(1, 5)] float brake_power = 5;
 
     //リスポーン用
     Vector3 startPosition;
@@ -25,7 +28,9 @@ public class PlayerBase : MonoBehaviour
     float axel;
     float curve;
 
-    bool _isEndSE; //開始演出の終了フラグ
+    bool _isEndSE = false; //開始演出の終了フラグ
+    bool _isBrake = false;
+    bool _isSE = true;
 
     void Start()
     {
@@ -34,7 +39,6 @@ public class PlayerBase : MonoBehaviour
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;
         startRotation = gameObject.transform.rotation;
-        _isEndSE = false;
     }
 
     void Update()
@@ -125,12 +129,43 @@ public class PlayerBase : MonoBehaviour
     void StraightSEMove()
     {
         if (_isEndSE) return;
+
         //移動量
         Vector3 move = new Vector3(endSEPoint.position.x - transform.position.x, 0);
+
         //移動（目的地に近づくほど減速）
-        transform.position += new Vector3(move.normalized.x / 10 + move.x / 100, 0);
+        if (_isSE) transform.position += new Vector3(move.normalized.x / 10 + move.x / 100, 0);
+        //ブレーキ
+        else
+        {
+            Brake();
+        }
         //到着
-        if (move.x <= 0) _isEndSE = true;
+        if (move.x <= 0) _isSE = false;
+    }
+
+    /// <summary>
+    /// ブレーキ時
+    /// </summary>
+    void Brake()
+    {
+        //ブレーキ反動の力
+        float brake = brake_power - sniper.transform.eulerAngles.x / 10;
+        //元の位置に戻ろうとする
+        if (_isBrake)
+        {
+            if (sniper.transform.eulerAngles.x >= 1)
+                sniper.transform.eulerAngles += new Vector3(-brake / brake_power, 0);
+            else
+            {
+                sniper.transform.eulerAngles = new Vector3(0, sniper.transform.eulerAngles.y);
+                _isEndSE = true;
+            }
+        }
+        //ブレーキ反動処理
+        else sniper.transform.eulerAngles += new Vector3(brake, 0);
+        //ブレーキ反動の終了
+        if (brake <= 0.2f) _isBrake = true;
     }
 
     /// <summary>

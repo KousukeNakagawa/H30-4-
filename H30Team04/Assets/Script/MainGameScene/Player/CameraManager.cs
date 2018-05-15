@@ -9,7 +9,6 @@ public class CameraManager : MonoBehaviour
     List<GameObject> cameras = new List<GameObject>();
     [SerializeField] GameObject SE_camera;
     [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject freeCamera;
 
     void Start()
     {
@@ -19,7 +18,6 @@ public class CameraManager : MonoBehaviour
         //全てのカメラをリスト化
         cameras.Add(SE_camera);
         cameras.Add(playerCamera);
-        cameras.Add(freeCamera);
 
         SetActiveCamera(SE_camera);
     }
@@ -28,9 +26,6 @@ public class CameraManager : MonoBehaviour
     {
         //開始演出終了時
         if (playerScript.GetIsEndSE()) SetActiveCamera(playerCamera);
-
-        //プレイヤー消滅時
-        if (player == null) SetActiveCamera(freeCamera);
     }
 
     /// <summary>

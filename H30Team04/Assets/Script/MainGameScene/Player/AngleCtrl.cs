@@ -90,12 +90,12 @@ public class AngleCtrl : MonoBehaviour
             //すぐに後ろを向く（180度回転）
             if (Input.GetButton("BackAngle"))
                 item.transform.localEulerAngles =
-                    new Vector3(item.transform.localEulerAngles.x, car.localEulerAngles.y + 90, item.transform.localEulerAngles.z);
+                    new Vector3(item.transform.localEulerAngles.x, item.transform.localEulerAngles.y + 180, item.transform.localEulerAngles.z);
 
             //すぐに正面を向く
             else if (Input.GetButtonUp("BackAngle") || Input.GetButtonDown("CameraReset"))
                 item.transform.localEulerAngles =
-                    new Vector3(item.transform.localEulerAngles.x, car.localEulerAngles.y - 90, item.transform.localEulerAngles.z);
+                    new Vector3(item.transform.localEulerAngles.x, item.transform.localEulerAngles.y, item.transform.localEulerAngles.z);
         }
     }
 
