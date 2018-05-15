@@ -16,7 +16,7 @@ public class MainCamera : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        //CameraControllerの情報
+        //Projectionの情報
         root = transform.root;
 
         //初期位置のバックアップ

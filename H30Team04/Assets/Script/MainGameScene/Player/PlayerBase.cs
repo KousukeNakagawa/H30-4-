@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerBase : MonoBehaviour
 {
+    [SerializeField] Transform endSEPoint;
+
     [SerializeField, Range(0.1f, 10f)] float speed = 2f; //移動速度
     [SerializeField, Range(1, 500f)] float power = 20; //制動力（移動に影響）
     [SerializeField, Range(0.1f, 10f)] float rotate = 2; //回転量
@@ -20,17 +22,23 @@ public class PlayerBase : MonoBehaviour
     float axel;
     float curve;
 
+    bool _isEndSE; //開始演出の終了フラグ
+
     void Start()
     {
+        rb = gameObject.GetComponent<Rigidbody>();
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;
         startRotation = gameObject.transform.rotation;
-
-        rb = gameObject.GetComponent<Rigidbody>();
+        _isEndSE = false;
     }
 
     void Update()
     {
+        StraightSEMove();
+
+        if (!_isEndSE) return;
+
         GetInputDrive(); //運転操作入力の取得
 
         if (Annihilation()) Death(); //３回やられたら死亡
@@ -102,6 +110,30 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     void Death()
     {
+        //カメラは破壊しない
+        Camera.main.transform.parent = null;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
+    }
+
+    /// <summary>
+    /// 開始演出の自動運転(直進)
+    /// </summary>
+    void StraightSEMove()
+    {
+        if (_isEndSE) return;
+        //移動量
+        Vector3 move = new Vector3(endSEPoint.position.x - transform.position.x, 0);
+        //移動（目的地に近づくほど減速）
+        transform.position += new Vector3(move.normalized.x / 10 + move.x / 100, 0);
+        //到着
+        if (move.x <= 0) _isEndSE = true;
+    }
+
+    /// <summary>
+    /// 開始演出が終わったか
+    /// </summary>
+    public bool GetIsEndSE()
+    {
+        return _isEndSE;
     }
 }

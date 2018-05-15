@@ -2,60 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour
+public class FireCtrl : MonoBehaviour
 {
-    //必須ゲームオブジェクト
-    GameObject player;
     [SerializeField] GameObject beaconBullet;
     [SerializeField] GameObject snipeBullet;
     [SerializeField] GameObject blueRippel;
     [SerializeField] GameObject redRippel;
     [SerializeField] GameObject laserSight;
-    [SerializeField] GameObject lineObject;
+    [SerializeField] GameObject laser;
     LineRenderer line;
-
-    //ロックオン速度
-    [SerializeField, Range(0.1f, 10f)] float lockonRotateSpeed = 10;
     //レーザーポインターの幅
     [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
     //着弾点エフェクトを浮かす値
-    [SerializeField, Range(0.1f, 3)] float effectPos = 1;
-    //スナイパーライフルのクールタイム
-    [SerializeField, Range(0.1f, 2)] float snipeCoolTime = 1;
+    [SerializeField, Range(0, 3)] float effectPos = 1;
+    [SerializeField, Range(0, 3)] float snipeCoolTime = 1;
     float backupCoolTime;
 
-    bool isWeaponBeacon; //武器の切替用
-
-    bool isLaserHit;
+    bool isSnipeFire = true;
+    bool isWeaponBeacon = true;
+    bool isLaserHit = false;
     float laserLength;
 
-    bool isSnipeFire;
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
-        line = lineObject.GetComponent<LineRenderer>();
-
-        isWeaponBeacon = true;
-        isLaserHit = false;
-        isSnipeFire = true;
-
+        line = laser.GetComponent<LineRenderer>();
         backupCoolTime = snipeCoolTime;
     }
 
     void Update()
     {
-        SetChanger(); //カメラモード切替
-
+        SetChanger();
         ShootingMode();
-    }
-
-    /// <summary>
-    /// ＊プレイヤーとカメラの表示を消す
-    /// </summary>
-    public void Hide()
-    {
-        player.SetActive(false);
     }
 
     /// <summary>
@@ -113,7 +91,7 @@ public class CameraController : MonoBehaviour
 
         if (!isLaserHit) laserLength = rayLength;
 
-        LaserPointer(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
+        DrawLine(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
 
         if (Physics.Raycast(ray, out hit, rayLength))
         {
@@ -165,7 +143,7 @@ public class CameraController : MonoBehaviour
         }
     }
 
-    void LaserPointer(Vector3 p1, Vector3 p2, Color c1, float width)
+    void DrawLine(Vector3 p1, Vector3 p2, Color c1, float width)
     {
         line.SetPosition(0, p1);
         line.SetPosition(1, p2);
@@ -173,14 +151,5 @@ public class CameraController : MonoBehaviour
         line.endColor = c1;
         line.startWidth = width;
         line.endWidth = width;
-    }
-
-    /// <summary>
-    /// 装備中の武器（true = beacon / false = snipe）
-    /// </summary>
-    /// <returns></returns>
-    public bool GetWeapon()
-    {
-        return isWeaponBeacon;
     }
 }
