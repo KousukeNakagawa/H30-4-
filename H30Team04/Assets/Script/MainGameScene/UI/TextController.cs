@@ -21,6 +21,8 @@ public class TextController : MonoBehaviour {
     [SerializeField]
     string[] m_phDScenarios;
     public Text m_uiText;
+    [SerializeField]
+    private GameObject m_panel;
     CRT m_crt;
     private SpeakPhD _speakphd;
 
@@ -34,11 +36,13 @@ public class TextController : MonoBehaviour {
     private int lastUpdateCharacter = -1;		// 表示中の文
 
     int m_currentLine = 0;　　// 現在の行番号
+    int m_SenarioNumber = 0;
     int m_Random;
     float m_time = 0;
     float m_textEndtimer = 0;
 
     bool m_PhDface1 = false;
+    bool m_PhDface2 = false;
     bool m_scenarioi = false;
 
     public bool IsCompleteDisplayText
@@ -50,67 +54,38 @@ public class TextController : MonoBehaviour {
     void Start () {
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_crt.ScanLineTail = 0;
-        if (!m_PhDChange) _speakphd = SpeakPhD.GameSpeak;
-        else _speakphd = SpeakPhD.StartEndSpeak;
+        m_PhDface1 = true;
+        m_scenarioi = true;
     }
 
     // Update is called once per frame
-    void Update () {
-        if (_speakphd == SpeakPhD.GameSpeak)
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (!m_PhDface1 )
-                {
-                    m_PhDface1 = true;
-                    m_scenarioi = true;
-                }
-            }
+    void Update()
+    {
+            
+                //if (Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("RT"))
+                //{
+                //    if (!m_PhDface1)
+                //    {
+                //        m_PhDface1 = true;
+                //        m_scenarioi = true;
+                //    }
+                //}
 
             if (m_PhDface1)
             {
+            m_panel.SetActive(true);
                 m_rawImage.SetActive(true);
                 OpenPhDface(2f);
                 if (IsCompleteDisplayText)
                 {
-                    m_textEndtimer += Time.deltaTime;
-                        if (m_textEndtimer > 4)
-                        {
-                            m_PhDface1 = false;
-                        }
-                }
-            }
-            else if(!m_PhDface1)
-            {
-                ClosePhDface(0.0f);
-                currentText = "";
-            }
-        }
-        else
-        {
-            if (Input.GetMouseButtonDown(0))
-            {
-                if (!m_PhDface1)
-                {
-                    m_PhDface1 = true;
-                    m_scenarioi = true;
-                }
-            }
-
-            if (m_PhDface1)
-            {
-                m_rawImage.SetActive(true);
-                OpenPhDface(2f);
-                if (IsCompleteDisplayText)
-                {
-                    if (m_currentLine < m_Scenarios.Length && Input.GetMouseButtonDown(0))
+                    if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("RT"))
                     {
                         SetNextSpeak();
                     }
-                    else
+                    if (m_currentLine >= m_Scenarios.Length)
                     {
                         m_textEndtimer += Time.deltaTime;
-                        if (m_textEndtimer > 4)
+                        if (m_textEndtimer > 2)
                         {
                             m_PhDface1 = false;
                         }
@@ -127,13 +102,9 @@ public class TextController : MonoBehaviour {
             }
             else if (!m_PhDface1)
             {
+                currentText = " ";
                 ClosePhDface(0.0f);
-                currentText = "";
             }
-        }
-
-
-
         // クリックから経過した時間が想定表示時間の何%か確認し、表示文字数を出す
         int displayCharacterCount = (int)(Mathf.Clamp01((Time.time - timeElapsed) / timeUntilDisplay) * currentText.Length);
 
@@ -143,22 +114,6 @@ public class TextController : MonoBehaviour {
             m_uiText.text = currentText.Substring(0, displayCharacterCount);
             lastUpdateCharacter = displayCharacterCount;
         }
-    }
-
-    //ゲーム本編の博士のセリフ
-    void SetNextLine()
-    {
-        m_Random = Random.Range(0, m_Scenarios.Length);
-        m_currentLine = m_Random;
-        // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
-        currentText = m_Scenarios[m_currentLine];
-
-        // 想定表示時間と現在の時刻をキャッシュ
-        timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
-        timeElapsed = Time.time;
-
-        // 文字カウントを初期化
-        lastUpdateCharacter = -1;
     }
 
     //開始・終了演出時の博士のセリフ
@@ -201,7 +156,8 @@ public class TextController : MonoBehaviour {
     public void SetNextText(int sinarioNo, float timer,bool speak)
     {
             m_rawImage.SetActive(true);
-            m_time += Time.deltaTime;
+        m_panel.SetActive(true);
+        m_time += Time.deltaTime;
             m_crt.ScanLineTail = m_time;
         if (m_time > timer)
         {
@@ -225,8 +181,7 @@ public class TextController : MonoBehaviour {
             m_time = i;
             if (m_scenarioi)
             {
-                if (_speakphd == SpeakPhD.GameSpeak) SetNextLine();
-                else SetNextSpeak();
+                SetNextSpeak();
                 m_scenarioi = false;
             }
         }
@@ -240,6 +195,7 @@ public class TextController : MonoBehaviour {
         if (m_time < i)
         {
             m_time = i;
+            m_panel.SetActive(false);
             m_rawImage.SetActive(false);
             m_textEndtimer = 0;
         }
