@@ -30,7 +30,8 @@ public class GameManager : MonoBehaviour {
     public Image m_GameClear;
     public Image m_GameOver;
     public GameObject m_attackP;
-    GameObject m_camera;
+    public TextController m_textcontroller;
+    public GameObject m_camera;
     GameObject m_player;
     GameObject m_enemy;
     CameraController m_CC;
@@ -51,7 +52,7 @@ public class GameManager : MonoBehaviour {
     void Start () {
         m_attackP.SetActive(false);
         phaseState = PhaseState.photoState;
-        m_camera =  GameObject.FindGameObjectWithTag("MainCamera");
+       // m_camera =  GameObject.FindGameObjectWithTag("MainCamera");
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
         m_CC = m_camera.GetComponent<CameraController>();
@@ -70,16 +71,9 @@ public class GameManager : MonoBehaviour {
             case PhaseState.PhotoCheckState: PhotoCheckState(); break;
             case PhaseState.attackState: AttackState(); break;
         }
+
+        
     }
-    //void FixedUpdate()
-    //{
-    //    switch (phaseState)
-    //    {
-    //        case PhaseState.photoState: PhotoState(); break;
-    //        case PhaseState.PhotoCheckState: PhotoCheckState(); break;
-    //        case PhaseState.attackState: AttackState(); break;
-    //    }
-    //}
 
 
         private void PhotoState()
@@ -105,19 +99,21 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    void GameClear()
+    public void GameClear()
     {
+        m_textcontroller.SetNextText(0, 2, true);
         m_GameClear.enabled = true;
         //Destroy(m_enemy);
         m_enemy.SetActive(false);
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         //Debug.Log("ゲームクリア");
     }
 
-    void GameOver()
+    public void GameOver()
     {
+        m_textcontroller.SetNextText(0, 2, true);
         m_GameOver.enabled = true;
-        Time.timeScale = 0;
+        //Time.timeScale = 0;
         // Debug.Log("ゲームオーバー");
     }
 
@@ -207,10 +203,7 @@ public class GameManager : MonoBehaviour {
 
     public void Damege(int i)
     {
-        if(weeknumber == i)
-        {
-            GameClear();
-        }
-        else { GameOver(); }
+        if(weeknumber == i)GameClear();       
+        else  GameOver(); 
     }
 }

@@ -4,6 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class XlinePhoto : MonoBehaviour {
+    [SerializeField]
+    private GameObject[]m_lifes;
+    [SerializeField]
+    private Image[] m_wepons;
     public GameObject gm;
     GameObject XPhots;
     GameObject m_Sight;
@@ -21,6 +25,9 @@ public class XlinePhoto : MonoBehaviour {
     private List<GameManager.WeekPointData> xrayDatas;
     private GameObject weektextparent;
     private WeekTextManager weektexts;
+    int _lifecount = 3;   //残機
+
+    public bool test = false;
 
     // Use this for initialization
     void Start () {
@@ -51,7 +58,28 @@ public class XlinePhoto : MonoBehaviour {
 	void Update () {
         UpdateSelect();
         ViewPhotos();
+        WeponChoiceNow();
+        if (Input.GetMouseButtonDown(0))
+        {
+            Life();
+        }
 	}
+
+    void WeponChoiceNow()
+    {
+        if (!test)
+        {
+            m_wepons[1].transform.SetAsFirstSibling();
+            m_wepons[0].color = new Color(1, 0, 0, 1);
+            m_wepons[1].color = new Color(1, 1, 1, 0.5f);
+        }
+        else {
+            m_wepons[0].transform.SetAsFirstSibling();
+            m_wepons[1].color = new Color(1, 0, 0, 1);
+            m_wepons[0].color = new Color(1, 1, 1, 0.5f);
+        }
+    }
+
     void UpdateSelect()
     {
         if (m_gamemanager.PhotoCheckStateNow())
@@ -118,5 +146,24 @@ public class XlinePhoto : MonoBehaviour {
         photo.transform.Find("Photo").GetComponent<RawImage>().texture = Resources.Load("Texture/RenderTextures/XrayCamera" + data.name) as RenderTexture;
         if (m_FlyerCount == 0) weektexts.SetTexts(data.datas);
          m_FlyerCount++;
+    }
+
+    /// <summary>
+    /// これを呼ぶと残機UIが減らせる
+    /// </summary>
+    public void Life()
+    {
+        m_lifes[_lifecount -1].SetActive(false);
+        _lifecount--;
+        if (_lifecount <= 0) m_gamemanager.GameOver();
+    }
+
+    /// <summary>
+    /// 今の残機数を取得できる(0～2)
+    /// </summary>
+    /// <returns></returns>
+    public int LifeCounter()
+    {
+        return _lifecount;
     }
 }

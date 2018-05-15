@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1877363892220924}
+  m_IsPrefabParent: 1
+--- !u!1 &1877363892220924
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4469867881122576}
+  - component: {fileID: 114616319666547736}
+  m_Layer: 0
+  m_Name: TextController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4469867881122576
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877363892220924}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114616319666547736
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877363892220924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e46f9dbb71dfe64e96d7d6bf3b115f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PhDChange: 1
+  m_rawImage: {fileID: 0}
+  m_PhDcamera: {fileID: 0}
+  m_Scenarios:
+  - "\u306C\u304A\u304A\u3093"
+  - "\u3084\u308A\u307E\u3059\u306D\u3047\uFF01"
+  - "\u307E\u305A\u3046\u3061\u3055\u3041\u3001\u30DF\u30EB\u30AF\u30C6\u30A3\u30FC\u3042\u308B\u3093\u3060\u3051\u3069"
+  - 8101919
+  - 114514
+  - "\u514D\u8A31\u51FA\u305B\u30B4\u30EB\u30A1"
+  - "\u3042\u30FB\u30FB\u3042\u3042\u30FB\u30FB"
+  - "\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042"
+  - "\u4E0D\u5E78\u306B\u9ED2\u5857\u308A\u306E\u9AD8\u7D1A\u8ECA\u306B\u30FB\u30FB\u30FB"
+  - "\u771F\u590F\u306E\u591C\u306E\u30FB\u30FB\u30FB"
+  m_phDScenarios:
+  - "\u6B62\u307E\u308B\u3093\u3058\u3083\u306D\u3047\u305E"
+  - "\u30E9\u30A4\u30C9\u30A9\u30FB\u30FB\u30FB"
+  - "\u305D\u3046\u3060\u308D\u3001\u30DF\u30AB"
+  - "\u5E0C\u671B\u306E\u82B1\uFF5E\u266A"
+  - "\u56DE\u308A\u56DE\u3063\u3066"
+  m_uiText: {fileID: 0}
+  intervalForCharacterDisplay: 0.05
