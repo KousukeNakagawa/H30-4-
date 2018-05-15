@@ -11,30 +11,10 @@ public class CameraController : MonoBehaviour
     GameObject player;
     PlayerBase playerScript;
 
-    bool isWeaponBeacon; //武器の切替用
-
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         playerScript = player.GetComponent<PlayerBase>();
-
-        isWeaponBeacon = true;
-    }
-
-    void Update()
-    {
-        if (!playerScript.GetIsEndSE()) return;
-
-        WeaponChanger();
-    }
-
-    /// <summary>
-    /// ＊武器の切替
-    /// </summary>
-    void WeaponChanger()
-    {
-        //武器の切替
-        if (Input.GetButtonDown("WeaponChange")) isWeaponBeacon = !isWeaponBeacon;
     }
 
     /// <summary>
@@ -43,13 +23,5 @@ public class CameraController : MonoBehaviour
     public void Hide()
     {
         player.SetActive(false);
-    }
-
-    /// <summary>
-    /// 装備中の武器（true = beacon / false = snipe）
-    /// </summary>
-    public bool GetWeapon()
-    {
-        return isWeaponBeacon;
     }
 }

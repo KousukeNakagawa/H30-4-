@@ -32,7 +32,7 @@ public class AimRange : MonoBehaviour
                 Vector3 direction = drawnPos - player.transform.position;
 
                 //重複していなければ距離をソートし登録
-                if (!sortTargetDistance.ContainsValue(drawn))
+                if (!sortTargetDistance.ContainsKey(direction.sqrMagnitude))
                     sortTargetDistance.Add(direction.sqrMagnitude, drawn);
             }
         }
@@ -49,7 +49,7 @@ public class AimRange : MonoBehaviour
                 Vector3 direction = missilePos - player.transform.position;
 
                 //重複していなければ距離をソートし登録
-                if (!sortTargetDistance.ContainsValue(missile))
+                if (!sortTargetDistance.ContainsKey(direction.sqrMagnitude))
                     sortTargetDistance.Add(direction.sqrMagnitude, missile);
             }
         }

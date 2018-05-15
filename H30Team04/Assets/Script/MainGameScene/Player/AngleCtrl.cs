@@ -16,7 +16,7 @@ public class AngleCtrl : MonoBehaviour
     [SerializeField] GameObject playerCamera;
 
     [SerializeField] GameObject captureRange;
-    [SerializeField] GameObject bigEnemy;
+
 
     //カメラ回転速度
     [SerializeField, Range(1, 500)] int _rotateSpeed = 100;
@@ -164,8 +164,8 @@ public class AngleCtrl : MonoBehaviour
         var targetCount = targets.Count;
 
         //ビッグエネミーの取得
-        if (!targets.ContainsValue(bigEnemy))
-            targets.Add(Vector3.Distance(bigEnemy.transform.position, transform.position), bigEnemy);
+        if (!targets.ContainsValue(BigEnemyScripts.mTransform.gameObject))
+            targets.Add(Vector3.Distance(BigEnemyScripts.mTransform.position, transform.position), BigEnemyScripts.mTransform.gameObject);
 
         if (Input.GetButtonDown("LockAt") && isLockon) targetNum++;
         if (targetNum >= targetCount)

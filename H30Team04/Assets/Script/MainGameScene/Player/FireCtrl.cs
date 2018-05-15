@@ -162,4 +162,12 @@ public class FireCtrl : MonoBehaviour
         line.startWidth = width;
         line.endWidth = width;
     }
+
+    /// <summary>
+    /// 装備中の武器（true = beacon / false = snipe）
+    /// </summary>
+    public bool GetWeapon()
+    {
+        return isWeaponBeacon;
+    }
 }
