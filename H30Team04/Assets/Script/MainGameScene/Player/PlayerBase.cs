@@ -58,6 +58,10 @@ public class PlayerBase : MonoBehaviour
     void FixedUpdate()
     {
         Drive(); //運転
+        //ゲーム60fps
+        //アニメ　30~12fps
+        //ゲーミングPC　120fps
+        //FixedUpdate 50fps
     }
 
     void OnCollisionEnter(Collision other)
