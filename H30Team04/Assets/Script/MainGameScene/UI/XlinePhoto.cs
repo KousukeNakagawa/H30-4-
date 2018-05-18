@@ -8,6 +8,10 @@ public class XlinePhoto : MonoBehaviour {
     private GameObject[]m_lifes;
     [SerializeField]
     private Image[] m_wepons;
+    [SerializeField]
+    private Transform[] m_imagepos;
+    [SerializeField]
+    FireCtrl m_fireCtrl;
     public GameObject gm;
     GameObject XPhots;
     GameObject m_Sight;
@@ -63,16 +67,31 @@ public class XlinePhoto : MonoBehaviour {
 
     void WeponChoiceNow()
     {
-        if (!test)
+        if (m_gamemanager.PhotoStateNow())
         {
-            m_wepons[1].transform.SetAsFirstSibling();
-            m_wepons[0].color = new Color(1, 0, 0, 1);
-            m_wepons[1].color = new Color(1, 1, 1, 0.5f);
+            m_wepons[0].enabled = true;
+            m_wepons[1].enabled = true;
+            if (!m_fireCtrl.GetWeapon())
+            {
+                m_wepons[0].transform.position = m_imagepos[0].position;
+                m_wepons[1].transform.position = m_imagepos[1].position;
+                m_wepons[1].transform.SetAsFirstSibling();
+                m_wepons[0].color = new Color(1, 0, 0, 1);
+                m_wepons[1].color = new Color(1, 1, 1, 0.5f);
+            }
+            else
+            {
+                m_wepons[1].transform.position = m_imagepos[0].position;
+                m_wepons[0].transform.position = m_imagepos[1].position;
+                m_wepons[0].transform.SetAsFirstSibling();
+                m_wepons[1].color = new Color(1, 0, 0, 1);
+                m_wepons[0].color = new Color(1, 1, 1, 0.5f);
+            }
         }
-        else {
-            m_wepons[0].transform.SetAsFirstSibling();
-            m_wepons[1].color = new Color(1, 0, 0, 1);
-            m_wepons[0].color = new Color(1, 1, 1, 0.5f);
+        else
+        {
+            m_wepons[0].enabled = false;
+            m_wepons[1].enabled = false;
         }
     }
 
@@ -162,4 +181,9 @@ public class XlinePhoto : MonoBehaviour {
     //{
     //    return _lifecount;
     //}
+
+    public void UIdelete()
+    {
+        m_Sight.SetActive(false);
+    }
 }

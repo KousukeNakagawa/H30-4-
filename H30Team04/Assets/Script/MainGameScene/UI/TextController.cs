@@ -78,7 +78,7 @@ public class TextController : MonoBehaviour {
                 OpenPhDface(2f);
                 if (IsCompleteDisplayText)
                 {
-                    if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("RT"))
+                    if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetAxisRaw("RT")<0)
                     {
                         SetNextSpeak();
                     }
@@ -89,14 +89,6 @@ public class TextController : MonoBehaviour {
                         {
                             m_PhDface1 = false;
                         }
-                    }
-                }
-                else
-                {
-                    // 完了してないなら文字をすべて表示する
-                    if (Input.GetMouseButtonDown(0))
-                    {
-                        timeUntilDisplay = 0;
                     }
                 }
             }

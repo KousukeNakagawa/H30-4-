@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField] 
     bool test = false;  //必ず消し去るbool型
     public int testnum = 0;
+
     // Use this for initialization
     void Start () {
         m_attackP.SetActive(false);
@@ -179,6 +180,11 @@ public class GameManager : MonoBehaviour {
     public List<WeekPointData> GetWeekPointData
     {
         get { return weekDatas; }
+    }
+
+    public bool PhotoStateNow()
+    {
+        return phaseState == PhaseState.photoState;
     }
 
     public bool PhotoCheckStateNow()
