@@ -14,6 +14,8 @@ public class BigEnemyScripts : MonoBehaviour
     public static ShootingPhaseMove shootingPhaseMove;
     public static Transform mTransform;
     public static BigEnemyEffectManager bigEnemyEffectManager;
+    public static ShootingFailure shootingFailure;
+    public static BreakEffectManager breakEffectManager;
 
     [SerializeField] private Transform[] transforms;
 
@@ -27,6 +29,8 @@ public class BigEnemyScripts : MonoBehaviour
         droneCreate = GetComponentInChildren<DroneCreate>();
         shootingPhaseMove = GetComponent<ShootingPhaseMove>();
         bigEnemyEffectManager = GetComponentInChildren<BigEnemyEffectManager>();
+        shootingFailure = GetComponent<ShootingFailure>();
+        breakEffectManager = GetComponentInChildren<BreakEffectManager>();
         mTransform = transform;
     }
 

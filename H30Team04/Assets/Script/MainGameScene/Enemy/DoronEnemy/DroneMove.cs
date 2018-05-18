@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public class DroneMove : MonoBehaviour
 {
     public enum DroneDirection
@@ -26,6 +25,7 @@ public class DroneMove : MonoBehaviour
     [Tooltip("ロボットへ戻るときの移動速度")] public float returnSpeed = 20.0f;
     [Tooltip("見つけた時の追尾時間")]public float searchFollowTime = 10.0f;
     [HideInInspector] public Transform followObj = null;
+    [Tooltip("ドローン出現時、上昇する速度"),SerializeField] private float flyUpSpeed = 1.0f;
 
     private Vector2 primaryPos;  //初期位置(x,z)
     private Vector2 onceTargetPos;  //到達したらターンする
@@ -43,13 +43,12 @@ public class DroneMove : MonoBehaviour
     void Start()
     {
         followCount = searchFollowTime;
-        float up = 1f;
-        if (droneDirection == DroneDirection.Recession) up = 0.75f;
+        if (droneDirection == DroneDirection.Recession) flyUpSpeed *= 0.75f;
         primaryPos = new Vector2(transform.position.x, transform.position.z);
         initialPos = new Vector2(transform.position.x, transform.position.z + moveArea.y / 2);
         Vector3 dir = new Vector3(0, 0, initialPos.y - primaryPos.y);
         velocity = dir.normalized;
-        velocity.y = up;
+        velocity.y = flyUpSpeed;
         if (droneDirection == DroneDirection.Advance) sagittalDir = 1;
         else sagittalDir = -1;
         goalPos = transform.position.x + sagittalDir * moveArea.x;

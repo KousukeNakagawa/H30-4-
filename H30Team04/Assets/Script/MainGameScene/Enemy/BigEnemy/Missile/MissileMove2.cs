@@ -11,17 +11,18 @@ public class MissileMove2 : MonoBehaviour
         Fall,  //落下中
     }
 
-    [Tooltip("上昇する秒数")]public float riseCount = 2.0f; 
-    [Tooltip("回転する秒数")]public float rotationCount = 5.0f;
-    [Tooltip("通常の上昇速度")]public float riseSpeed = 20.0f;
-    [Tooltip("回転する時の移動速度")]public float TransSpeed = 10.0f;
+    [Tooltip("上昇する秒数")] public float riseCount = 2.0f;
+    [Tooltip("回転する秒数")] public float rotationCount = 5.0f;
+    [Tooltip("通常の上昇速度")] public float riseSpeed = 20.0f;
+    [Tooltip("回転する時の移動速度")] public float TransSpeed = 10.0f;
 
     private Rigidbody rigid;  //自身のRigidBody
-    private Vector3 targetPos;  //目標座標
+    [HideInInspector] public Vector3 targetPos = Vector3.zero;  //目標座標
     private StateType state;  //ミサイルの状態
     private float rate = 0f;  //Slerpを使用する時のカウント
     private Quaternion primary;  //一番最初の角度
     private float riseTime;  //上昇する時のカウント
+    [HideInInspector] public GameObject explosion = null;
 
     // Use this for initialization
     void Start()
@@ -29,7 +30,7 @@ public class MissileMove2 : MonoBehaviour
         rigid = GetComponent<Rigidbody>();
         primary = transform.rotation;
         riseTime = Time.time + riseCount;
-        targetPos = BigEnemyScripts.searchObject.targetPos;
+        targetPos = (targetPos == Vector3.zero) ? BigEnemyScripts.searchObject.targetPos : targetPos;
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
 
@@ -95,5 +96,12 @@ public class MissileMove2 : MonoBehaviour
     void OnDestroy()
     {
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Remove(gameObject);
+        if (explosion != null)
+        {
+            Vector3 exPos = GetComponentInChildren<MissileCollider>().explosionPos;
+            if (exPos == Vector3.zero) exPos = transform.position;
+            GameObject ex = Instantiate(explosion, exPos, Quaternion.identity);
+            Destroy(ex, 3.0f);
+        }
     }
 }

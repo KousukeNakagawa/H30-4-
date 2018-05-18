@@ -16,14 +16,14 @@ public class ShootingPhaseMove : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space)) ShootingPhaseSet();
         if (!isShooting) return;
-        transform.Translate(moveSpeed * Time.deltaTime, 0, 0, Space.Self);
+        //transform.Translate(moveSpeed * Time.deltaTime, 0, 0, Space.Self);
     }
 
     public void ShootingPhaseSet()
@@ -47,6 +47,7 @@ public class ShootingPhaseMove : MonoBehaviour
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
         StartCoroutine(StopEffect(runEffect));
+        BigEnemyScripts.shootingFailure.FailureAction();
     }
 
     IEnumerator StopEffect(GameObject effect)

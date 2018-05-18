@@ -6,6 +6,7 @@ public class MissileCollider : MonoBehaviour {
 
     private static List<MissileCollider> isHits = new List<MissileCollider>();
     private bool isHit = false;
+    [HideInInspector] public Vector3 explosionPos = Vector3.zero;
 
 	// Use this for initialization
 	void Start () {
@@ -23,13 +24,16 @@ public class MissileCollider : MonoBehaviour {
         {
             Destroy(other.gameObject);
         }
-        else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet"))
+        else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") || other.name == "TestCamera")
         {
             //ミサイル破壊
             Destroy(transform.root.gameObject);
             isHit = true;
+            if (other.name == "TestCamera")
+            {
+                explosionPos = other.transform.position + new Vector3(-3f, -1f, 0);
+            }
         }
-
         //全てのミサイルのisHitがtrueなら巨大ロボットのターゲットをリセットする
         if (isHits.Count > 0 && isHits.FindAll(f => !f.isHit).Count == 0)
         {

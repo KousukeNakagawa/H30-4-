@@ -48,7 +48,6 @@ public class BuilCrush : MonoBehaviour {
             Vector3 size = GetComponent<BoxCollider>().size;
             ParticleSystem.ShapeModule shape = currentSmoke.GetComponent<ParticleSystem>().shape;
             shape.scale = new Vector3(size.x / 8.0f * 1.2f, size.z / 8.0f * 1.2f, 1);
-            //Destroy(gameObject);
         }
     }
 
