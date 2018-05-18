@@ -34,7 +34,7 @@ public class ShootingFailure : MonoBehaviour
             Vector3 target = targetPos.position;
             //GameObject m = Instantiate(lossMissilePrefab, BigEnemyScripts.mTransform.position,
             //    Quaternion.Euler(-90.0f + Random.Range(-10.0f, 10.0f), Random.Range(-2.5f, 2.5f), 0));
-            GameObject mm = Instantiate(missilePrefab, BigEnemyScripts.mTransform.position,
+            GameObject mm = Instantiate(missilePrefab, BigEnemyScripts.mTransform.position + new Vector3(-7f, 5, 0),
                 Quaternion.Euler(-90.0f + Random.Range(-15.0f, 15.0f), Random.Range(-7.5f, 7.5f), 0f));
             MissileMove2 move2 = mm.GetComponent<MissileMove2>();
             if (i < missileCount - 1)

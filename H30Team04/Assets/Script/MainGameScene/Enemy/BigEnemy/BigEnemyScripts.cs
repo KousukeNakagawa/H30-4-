@@ -17,6 +17,9 @@ public class BigEnemyScripts : MonoBehaviour
     public static ShootingFailure shootingFailure;
     public static BreakEffectManager breakEffectManager;
 
+    public static Transform droneInstantiatePos;
+    public static Transform droneSearchStartPos;
+
     [SerializeField] private Transform[] transforms;
 
     // Use this for initialization
@@ -32,6 +35,8 @@ public class BigEnemyScripts : MonoBehaviour
         shootingFailure = GetComponent<ShootingFailure>();
         breakEffectManager = GetComponentInChildren<BreakEffectManager>();
         mTransform = transform;
+        droneInstantiatePos = transform.Find("DroneInstantiate");
+        droneSearchStartPos = transform.Find("DroneSearchStartPos");
     }
 
     void Update()

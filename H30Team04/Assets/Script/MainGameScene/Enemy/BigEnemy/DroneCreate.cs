@@ -22,6 +22,7 @@ public class DroneCreate : MonoBehaviour
     {
         if (droneCreateTime > 0) droneCreateTime -= Time.deltaTime;
         else droneCreateTime = 0;
+        
     }
 
     public void DroneSet()
@@ -29,7 +30,7 @@ public class DroneCreate : MonoBehaviour
         if (drones.Count != 0 || droneCreateTime > 0) return;
         for (int i = 0; i < droneCount; i++)
         {
-            drones.Add(Instantiate(dronePrefab, transform.position, Quaternion.identity));
+            drones.Add(Instantiate(dronePrefab, BigEnemyScripts.droneInstantiatePos.position, Quaternion.identity));
         }
         drones[0].GetComponent<DroneMove>().droneDirection = DroneMove.DroneDirection.Advance;
         drones[1].GetComponent<DroneMove>().droneDirection = DroneMove.DroneDirection.Recession;

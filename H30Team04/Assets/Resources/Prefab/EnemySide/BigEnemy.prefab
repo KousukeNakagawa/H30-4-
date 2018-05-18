@@ -386,7 +386,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1562054306419278}
   m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 26.5, y: 0, z: 0}
+  m_LocalPosition: {x: 38.5, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4383051863934526}
@@ -495,7 +495,7 @@ Transform:
   m_GameObject: {fileID: 1319909876319914}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 4540142042486722}
   m_RootOrder: 1
@@ -803,10 +803,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c27048fe494eb9b4d8d978b8e94662e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnVel: 0
+  turnVel: -1
   searchTarget: {fileID: 0}
   isSearch: 0
-  targetPos: {x: 0, y: 0, z: 0}
+  targetPos: {x: 37.7, y: 0, z: 117.9}
 --- !u!114 &114677600578361578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -11554,7 +11554,7 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: -8, z: 0}
+    m_Position: {x: 0, y: -4, z: 0}
     m_Rotation: {x: -90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
@@ -11660,7 +11660,7 @@ ParticleSystem:
           m_PostInfinity: 2
           m_RotationOrder: 4
   EmissionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 4
     rateOverTime:
       serializedVersion: 2
@@ -21278,14 +21278,14 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -469191457
+  randomSeed: -344819297
   InitialModule:
     serializedVersion: 3
     enabled: 1
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 3
+      scalar: 10
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -21727,9 +21727,9 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 1
     donutRadius: 0.2
-    m_Position: {x: 0, y: -8, z: 0}
+    m_Position: {x: 0, y: -10, z: 0}
     m_Rotation: {x: 90, y: 0, z: 0}
-    m_Scale: {x: 6, y: 6, z: 1}
+    m_Scale: {x: 9, y: 9, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
     m_MeshNormalOffset: 0

@@ -341,52 +341,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
-    - target: {fileID: 4391577272295470, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 38.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4829309002032604, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
-      propertyPath: m_LocalScale.x
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4829309002032604, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
-      propertyPath: m_LocalScale.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4829309002032604, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
-      propertyPath: m_LocalScale.z
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 198574654584825530, guid: f19857ad4ebe63740bf241b4620863fb,
-        type: 2}
-      propertyPath: ShapeModule.m_Position.y
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 198574654584825530, guid: f19857ad4ebe63740bf241b4620863fb,
-        type: 2}
-      propertyPath: randomSeed
-      value: -431224834
-      objectReference: {fileID: 0}
-    - target: {fileID: 198895542053235358, guid: f19857ad4ebe63740bf241b4620863fb,
-        type: 2}
-      propertyPath: InitialModule.startLifetime.scalar
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 198895542053235358, guid: f19857ad4ebe63740bf241b4620863fb,
-        type: 2}
-      propertyPath: ShapeModule.m_Scale.x
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 198895542053235358, guid: f19857ad4ebe63740bf241b4620863fb,
-        type: 2}
-      propertyPath: ShapeModule.m_Scale.y
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 198895542053235358, guid: f19857ad4ebe63740bf241b4620863fb,
-        type: 2}
-      propertyPath: randomSeed
-      value: -344819297
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
   m_IsPrefabParent: 0
@@ -714,6 +668,62 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 414972b668afb1c47ac31e180e9e103d, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &759342793
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 759342794}
+  m_Layer: 0
+  m_Name: DroneSearchStartPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &759342794
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 759342793}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 15.9, y: 4.9000006, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 956088815}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &777704108
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 777704109}
+  m_Layer: 0
+  m_Name: DroneInstantiate
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &777704109
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 777704108}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.39, y: 4.9, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 956088815}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &815062719
 GameObject:
   m_ObjectHideFlags: 0
@@ -818,6 +828,11 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b86d3e25856e134081f47a6be56bc9b, type: 3}
   m_IsPrefabParent: 0
+--- !u!4 &956088815 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4383051863934526, guid: f19857ad4ebe63740bf241b4620863fb,
+    type: 2}
+  m_PrefabInternal: {fileID: 157943834}
 --- !u!1 &1036250316
 GameObject:
   m_ObjectHideFlags: 0

@@ -46,14 +46,5 @@ public class ShootingPhaseMove : MonoBehaviour
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
-        StartCoroutine(StopEffect(runEffect));
-        BigEnemyScripts.shootingFailure.FailureAction();
-    }
-
-    IEnumerator StopEffect(GameObject effect)
-    {
-        runEffect.SetActive(false);
-        yield return null;
-        runEffect.SetActive(true);
     }
 }
