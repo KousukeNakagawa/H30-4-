@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class XrayMachine : MonoBehaviour {
 
@@ -19,6 +20,20 @@ public class XrayMachine : MonoBehaviour {
 
     private List<GameObject> weekPoints;
 
+
+    //[SerializeField] private GameObject MinimapIconpre;
+    //[SerializeField] private GameObject MinimapArrowpre;
+
+    //[SerializeField] private GameObject MinimapIcon;
+    //[SerializeField] private GameObject MinimapArrow;
+
+    [SerializeField] Image minimapIcon;
+    [SerializeField] Image minimapArrow;
+    [SerializeField]
+    private Camera m_MinimapCamera;
+    MiniMAPcamera _miniCamera;
+    private Rect _canvasRect;
+
     // Use this for initialization
     void Start () {
         m_XrayCameraObj = transform.Find("XrayCamera").gameObject;
@@ -34,6 +49,23 @@ public class XrayMachine : MonoBehaviour {
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
         if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
+
+        _miniCamera = m_MinimapCamera.GetComponent<MiniMAPcamera>();
+        //MinimapIcon = Instantiate(MinimapIconpre, GameObject.Find("Canvas2").transform);
+        //MinimapArrow = Instantiate(MinimapArrowpre, GameObject.Find("Canvas2").transform);
+        //MinimapIcon.transform.parent = GameObject.Find("Canvas2").transform;
+        //MinimapArrow.transform.parent = GameObject.Find("Canvas2").transform;
+        //MinimapIcon.GetComponent<RectTransform>().Translate(0, 0, 0);
+        //MinimapArrow.GetComponent<RectTransform>().Translate(0, 0, 0);
+
+         // UIがはみ出ないようにする
+        _canvasRect = ((RectTransform)minimapArrow.canvas.transform).rect;
+        _canvasRect.Set(
+           _canvasRect.x + minimapArrow.rectTransform.rect.width * 0.5f,
+            _canvasRect.y + minimapArrow.rectTransform.rect.height * 0.5f,
+            _canvasRect.width - minimapArrow.rectTransform.rect.width,
+            _canvasRect.height - minimapArrow.rectTransform.rect.height
+        );
     }
 	
 	// Update is called once per frame
@@ -61,7 +93,25 @@ public class XrayMachine : MonoBehaviour {
 
             }
         }
-	}
+        var viewport = m_MinimapCamera.WorldToViewportPoint(this.transform.position);
+        if (_miniCamera._rect.Contains(viewport))
+        {
+
+           minimapIcon.enabled = true;
+            minimapArrow.enabled = false;
+
+            minimapIcon.transform.position = transform.position;
+        }
+        else
+        {
+            minimapIcon.enabled = false;
+            minimapArrow.enabled = true;
+
+            viewport.x = Mathf.Clamp01(viewport.x);
+            viewport.y = Mathf.Clamp01(viewport.y);
+            minimapArrow.rectTransform.anchoredPosition = Rect.NormalizedToPoint(_canvasRect, viewport);
+        }
+    }
 
     //撮影
     private void Shooting()

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4341800957850858}
   - component: {fileID: 212400718547108358}
-  m_Layer: 4
+  m_Layer: 11
   m_Name: MapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -102,7 +102,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4781723500840480}
   - component: {fileID: 212851601434966674}
-  m_Layer: 4
+  m_Layer: 11
   m_Name: MapIcon (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1671065072317464}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10, y: 0, z: -40}
+  m_LocalPosition: {x: 25.356033, y: 0, z: -78.8004}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4487996838224790}
@@ -367,8 +367,14 @@ MonoBehaviour:
   texnumber: 01
   saveTime: 10
   underPos: 100
-  flashPrefab: {fileID: 1067940456065244, guid: 66cfd531690ae5b4396736ea7a60f545,
+  flashPrefab: {fileID: 0}
+  MinimapIconpre: {fileID: 0}
+  MinimapArrowpre: {fileID: 0}
+  MinimapIcon: {fileID: 1517038648394768, guid: e1ef75ba1e454344fbc9c55cf4304361,
     type: 2}
+  MinimapArrow: {fileID: 1835583677447752, guid: 67d4eef4f00490940b6112890eca315f,
+    type: 2}
+  m_MinimapCamera: {fileID: 0}
 --- !u!124 &124599970066433972
 Behaviour:
   m_ObjectHideFlags: 1
