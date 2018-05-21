@@ -18,9 +18,11 @@ public class Hilyouzi : MonoBehaviour
     void Update()
     {
         if (Input.GetKey(KeyCode.Space) || Input.GetButtonDown("Shutter"))
-        {
+        { 
             gameObj.SetActive(true);
             gameObj2.SetActive(true);
+
+            //ScecnManager.SceneChange("prototype");
         }
     }
 }
