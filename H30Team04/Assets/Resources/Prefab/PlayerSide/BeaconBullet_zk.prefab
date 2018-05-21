@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 135241128125789996}
   - component: {fileID: 33398240083619014}
   - component: {fileID: 23923692086438862}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: BeaconBullet_zk
   m_TagString: BeaconBullet
   m_Icon: {fileID: 0}

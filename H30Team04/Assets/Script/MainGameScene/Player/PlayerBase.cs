@@ -8,6 +8,8 @@ public class PlayerBase : MonoBehaviour
     XlinePhoto xline;
 
     [SerializeField] GameObject sniper;
+    [SerializeField] GameObject driver;
+    List<GameObject> soldiers = new List<GameObject>();
 
     [SerializeField] Transform endSEPoint; //SE終了ポイント
 
@@ -15,8 +17,8 @@ public class PlayerBase : MonoBehaviour
     [SerializeField, Range(1, 500f)] float power = 20; //制動力（移動に影響）
     [SerializeField, Range(0.1f, 10f)] float rotate = 2; //回転量
     [SerializeField, Range(0.1f, 10f)] float driftRotate = 3f; //ドリフト時の回転量
+    [SerializeField, Range(1, 5)] float brake_power = 5; //ブレーキ時反動
     [SerializeField] int residue = 3; //死亡可能回数
-    [SerializeField, Range(1, 5)] float brake_power = 5;
 
     //リスポーン用
     Vector3 startPosition;
@@ -29,21 +31,25 @@ public class PlayerBase : MonoBehaviour
     float curve;
 
     bool _isEndSE = false; //開始演出の終了フラグ
-    bool _isBrake = false;
-    bool _isSE = true;
+    bool _isBrake = false; //ブレーキフラグ
+    bool _isMove = true; //開始演出運転フラグ
 
     void Start()
     {
         xline = canvas.GetComponent<XlinePhoto>();
         rb = gameObject.GetComponent<Rigidbody>();
+
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;
         startRotation = gameObject.transform.rotation;
+
+        soldiers.Add(sniper);
+        soldiers.Add(driver);
     }
 
     void Update()
     {
-        StraightSEMove();
+        SEMove();
 
         if (!_isEndSE) return;
 
@@ -67,7 +73,7 @@ public class PlayerBase : MonoBehaviour
     }
 
     /// <summary>
-    /// ＊運転操作入力の取得
+    /// 運転操作入力の取得
     /// </summary>
     void GetInputDrive()
     {
@@ -76,7 +82,7 @@ public class PlayerBase : MonoBehaviour
     }
 
     /// <summary>
-    /// ＊運転操作
+    /// 運転
     /// </summary>
     void Drive()
     {
@@ -99,9 +105,12 @@ public class PlayerBase : MonoBehaviour
     public void Respawn()
     {
         if (Annihilation()) return;
+        //移動を殺す
+        rb.velocity = Vector3.zero;
+        //ビッグエネミーを向く
+        transform.LookAt(BigEnemyScripts.mTransform);
         //初期位置へ
         transform.position = startPosition;
-        transform.rotation = startRotation;
         residue--; //死亡可能回数の減少
     }
 
@@ -124,9 +133,25 @@ public class PlayerBase : MonoBehaviour
     }
 
     /// <summary>
-    /// 開始演出の自動運転(直進)
+    /// 自身とSEカメラの位置情報をもとに自動運転を行う
     /// </summary>
-    void StraightSEMove()
+    void SEMove()
+    {
+        if (transform.position.x != endSEPoint.position.x && transform.position.z != endSEPoint.position.z)
+        {
+            SEMove_X();
+            SEMove_Z();
+        }
+        else if (transform.position.x != endSEPoint.position.x) SEMove_X();
+        else if (transform.position.z != endSEPoint.position.z) SEMove_Z();
+
+        if (!_isEndSE) transform.LookAt(endSEPoint);
+    }
+
+    /// <summary>
+    /// 開始演出の自動運転（X軸）
+    /// </summary>
+    void SEMove_X()
     {
         if (_isEndSE) return;
 
@@ -134,14 +159,33 @@ public class PlayerBase : MonoBehaviour
         Vector3 move = new Vector3(endSEPoint.position.x - transform.position.x, 0);
 
         //移動（目的地に近づくほど減速）
-        if (_isSE) transform.position += new Vector3(move.normalized.x / 10 + move.x / 100, 0);
+        if (_isMove) transform.position += new Vector3(move.normalized.x / 10 + move.x / 100, 0);
+
         //ブレーキ
-        else
-        {
-            Brake();
-        }
+        else Brake();
+
         //到着
-        if (move.x <= 0) _isSE = false;
+        if (Mathf.Abs(move.x) < 1) _isMove = false;
+    }
+
+    /// <summary>
+    /// 開始演出の自動運転（Z軸）
+    /// </summary>
+    void SEMove_Z()
+    {
+        if (_isEndSE) return;
+
+        //移動量
+        Vector3 move = new Vector3(0, 0, endSEPoint.position.z - transform.position.z);
+
+        //移動（目的地に近づくほど減速）
+        if (_isMove) transform.position += new Vector3(0, 0, move.normalized.z / 10 + move.z / 100);
+
+        //ブレーキ
+        else Brake();
+
+        //到着
+        if (Mathf.Abs(move.z) < 1) _isMove = false;
     }
 
     /// <summary>
@@ -149,23 +193,29 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     void Brake()
     {
-        //ブレーキ反動の力
-        float brake = brake_power - sniper.transform.eulerAngles.x / 10;
-        //元の位置に戻ろうとする
-        if (_isBrake)
+        foreach (var soldier in soldiers)
         {
-            if (sniper.transform.eulerAngles.x >= 1)
-                sniper.transform.eulerAngles += new Vector3(-brake / brake_power, 0);
-            else
+            //ブレーキ反動の力
+            float brake = brake_power - soldier.transform.eulerAngles.x / 10;
+
+            //元の位置に戻ろうとする
+            if (_isBrake)
             {
-                sniper.transform.eulerAngles = new Vector3(0, sniper.transform.eulerAngles.y);
-                _isEndSE = true;
+                if (soldier.transform.eulerAngles.x >= 1)
+                    soldier.transform.eulerAngles += new Vector3(-brake / brake_power, 0);
+                else
+                {
+                    soldier.transform.eulerAngles = new Vector3(0, soldier.transform.eulerAngles.y);
+                    _isEndSE = true;
+                }
             }
+
+            //ブレーキ反動処理
+            else soldier.transform.eulerAngles += new Vector3(brake, 0);
+
+            //ブレーキ反動の終了
+            if (brake <= 0.2f) _isBrake = true;
         }
-        //ブレーキ反動処理
-        else sniper.transform.eulerAngles += new Vector3(brake, 0);
-        //ブレーキ反動の終了
-        if (brake <= 0.2f) _isBrake = true;
     }
 
     /// <summary>

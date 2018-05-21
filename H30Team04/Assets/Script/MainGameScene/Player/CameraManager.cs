@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// カメラの切替（同時にカメラが２つ以上になることはない）
+/// </summary>
 public class CameraManager : MonoBehaviour
 {
     GameObject player;

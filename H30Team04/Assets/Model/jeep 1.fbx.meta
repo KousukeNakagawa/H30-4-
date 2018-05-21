@@ -1,0 +1,131 @@
+fileFormatVersion: 2
+guid: 9992cfc81da45ce40a0e06979b24cfb7
+timeCreated: 1526695045
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: antenn_3
+    100002: antenn_4
+    100004: antenna
+    100006: antenna_2
+    100008: handle
+    100010: //RootNode
+    100012: Jeep_mesh
+    100014: Jeep_skelton
+    100016: L_front_tyre
+    100018: L_front_tyre_2
+    100020: L_front_tyre_3
+    100022: L_rear_tyre
+    100024: L_rear_tyre_2
+    100026: L_rear_tyre_3
+    100028: R_front_tyre
+    100030: R_front_tyre_2
+    100032: R_front_tyre_3
+    100034: R_rear_tyre
+    100036: R_rear_tyre_2
+    100038: R_rear_tyre_3
+    400000: antenn_3
+    400002: antenn_4
+    400004: antenna
+    400006: antenna_2
+    400008: handle
+    400010: //RootNode
+    400012: Jeep_mesh
+    400014: Jeep_skelton
+    400016: L_front_tyre
+    400018: L_front_tyre_2
+    400020: L_front_tyre_3
+    400022: L_rear_tyre
+    400024: L_rear_tyre_2
+    400026: L_rear_tyre_3
+    400028: R_front_tyre
+    400030: R_front_tyre_2
+    400032: R_front_tyre_3
+    400034: R_rear_tyre
+    400036: R_rear_tyre_2
+    400038: R_rear_tyre_3
+    2100000: jeep_material
+    4300000: Jeep_mesh
+    9500000: //RootNode
+    13700000: Jeep_mesh
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

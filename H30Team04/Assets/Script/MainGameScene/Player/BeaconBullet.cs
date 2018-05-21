@@ -31,6 +31,9 @@ public class BeaconBullet : MonoBehaviour
         //プレイヤー・スナイパーらとの衝突は無視
         if (other.collider.CompareTag("Player") || other.collider.CompareTag("Sniper")) return;
 
+        //エネミーとミサイルに衝突時、自身を破壊する
+        else if (other.collider.CompareTag("BigEnemy") || other.collider.CompareTag("SmallEnemy") || other.collider.CompareTag("Missile")) Destroy(beacon);
+
         //ビル・地面に衝突時、くっつく
         else if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Cling(other);
     }

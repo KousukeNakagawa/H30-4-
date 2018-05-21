@@ -45,9 +45,14 @@ public class Xray_SSS : MonoBehaviour
 
         //var keyArray = sortXrayDistance.Keys.ToArray();
         var keyList = sortXrayDistance.Keys.ToList();
+
+        //全ての値を比較し被りが無いようにする
+        for (int i = 0; i < keyList.Count - 1; i++)
+            for (int j = i + 1; j < keyList.Count; j++)
+                if (keyList[i] == keyList[j]) keyList[j] += 1;
         //if (Input.GetButtonDown("Select")) keyList.Sort();
         //keyList.Reverse();
-        
+
         for (int i = 0; i < XrayCaptureNum; i++)
         {
             if (XrayNum == i)
@@ -71,18 +76,22 @@ public class Xray_SSS : MonoBehaviour
         //数字で対象を管理
         if (Input.GetButtonDown("Select")) XrayNum++;
         if (XrayNum >= XrayCaptureNum) XrayNum = 0;
-
+        List<float> dir = new List<float>();
         foreach (var Xray in XrayMachines)
         {
             //本当の位置を取得・プレイヤーに対しての方向を取得
             Vector3 XrayPos = Xray.transform.Find("model").position;
             Vector3 direction = XrayPos - transform.position;
 
-            //各々の射影機との距離を登録
-            if (!sortXrayDistance.ContainsKey(direction.sqrMagnitude))
-                sortXrayDistance.Add(direction.sqrMagnitude, Xray);
-        }
 
+            dir.Add(direction.sqrMagnitude);
+
+            //各々の射影機との距離を登録
+            foreach (var ddd in dir)
+                if (!sortXrayDistance.ContainsKey(ddd) && !sortXrayDistance.ContainsValue(Xray))
+                    sortXrayDistance.Add(ddd, Xray);
+            
+        }
         //最大捕捉数の調整
         if (XrayCaptureNum > XrayMachines.Length) XrayCaptureNum = XrayMachines.Length;
     }
@@ -92,7 +101,7 @@ public class Xray_SSS : MonoBehaviour
     /// </summary>
     void Select(Dictionary<float, GameObject> sortXrayDistance, int i, List<float> keyArray)
     {
-        //Debug.Log(keyArray.IndexOf(keyArray.Min()));
+        if (sortXrayDistance.Count == 0) return;
         //方向・始点・終点
         Vector3 direction = sortXrayDistance[keyArray[i]].transform.Find("model").position - transform.position;
         Vector3 start = transform.position + direction * startPoint / 100 + Vector3.up * 3;

@@ -51,5 +51,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38090fa4371a7274d961e1937874c281, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SE_camera: {fileID: 0}
+  SE_camera: {fileID: 1823878472569226, guid: 3c5afe2b089632447bff726dafba7fb2, type: 2}
   playerCamera: {fileID: 0}
