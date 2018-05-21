@@ -365,6 +365,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texnumber: 01
+  saveTime: 10
+  underPos: 100
+  flashPrefab: {fileID: 1067940456065244, guid: 66cfd531690ae5b4396736ea7a60f545,
+    type: 2}
 --- !u!124 &124599970066433972
 Behaviour:
   m_ObjectHideFlags: 1

@@ -15,6 +15,7 @@ public class XrayMachine : MonoBehaviour {
     private GameManager gameManager;
     [SerializeField] private float saveTime = 10.0f;
     [SerializeField] private float underPos = 100.0f;
+    [SerializeField] private GameObject flashPrefab;
 
     private List<GameObject> weekPoints;
 
@@ -160,7 +161,7 @@ public class XrayMachine : MonoBehaviour {
             m_XrayCameraObj.transform.position -= Vector3.up * underPos;
             xrayOK = false;
             transform.tag = "XlineEnd";
-            GameObject flash = Instantiate(Resources.Load("Prefab/Stage/Flash") as GameObject);
+            GameObject flash = Instantiate(flashPrefab);
             flash.transform.parent = transform;
             flash.transform.localPosition = new Vector3(0, 5, 0);
             flash.transform.eulerAngles = transform.eulerAngles;
@@ -182,7 +183,7 @@ public class XrayMachine : MonoBehaviour {
             if (xrayOK) //撮影してない場合
             {
             }
-            else  //撮影している場合
+            else if(m_XrayCameraObj.activeSelf) //撮影している場合
             {
                 int minus = (int)saveTime / 2;
                 if(weekPoints.Count - minus > 0)
