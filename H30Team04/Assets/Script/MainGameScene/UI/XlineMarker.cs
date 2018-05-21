@@ -24,6 +24,8 @@ public class XlineMarker : MonoBehaviour
     {
         transform.LookAt(m_mainCamera.transform.position);
 
+        if (m_xsss.GetTargetXray() == null) return;
+
         transform.position = new Vector3(m_xsss.GetTargetXray().transform.position.x, m_xsss.GetTargetXray().transform.position.y + 5, m_xsss.GetTargetXray().transform.position.z);
     }
 }

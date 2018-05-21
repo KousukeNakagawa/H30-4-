@@ -16,6 +16,7 @@ public class BuilCreate : MonoBehaviour {
 	void Start () {
         underBuil = transform.Find("builunder");
         int builSize = 1;
+        float builHeight = (transform.name.Contains("mini"))? 3.5f : MainStageDate.BuildingHeight;
 
         Vector3 newPos;
 
@@ -24,7 +25,7 @@ public class BuilCreate : MonoBehaviour {
         {
             GameObject center = Instantiate(centerPrefab);
             center.transform.parent = transform;
-            newPos = new Vector3(0,builSize * MainStageDate.BuildingHeight,0) + underBuil.localPosition;
+            newPos = new Vector3(0,builSize * builHeight, 0) + underBuil.localPosition;
             builSize++;
             center.transform.localPosition = newPos;
             center.transform.rotation = transform.rotation;
@@ -33,7 +34,7 @@ public class BuilCreate : MonoBehaviour {
         //屋上作成
         GameObject top = Instantiate(topPrefab);
         top.transform.parent = transform;
-        newPos = new Vector3(0, builSize * MainStageDate.BuildingHeight, 0) + underBuil.localPosition;
+        newPos = new Vector3(0, builSize * builHeight, 0) + underBuil.localPosition;
         builSize++;
         top.transform.localPosition = newPos;
         top.transform.rotation = transform.rotation;
@@ -42,8 +43,8 @@ public class BuilCreate : MonoBehaviour {
         {
             m_Collider = GetComponent<BoxCollider>();
             //あたり判定の設定
-            m_Collider.size = new Vector3(m_Collider.size.x, builSize * MainStageDate.BuildingHeight, m_Collider.size.z);
-            m_Collider.center = new Vector3(m_Collider.center.x, (builSize * MainStageDate.BuildingHeight) / 2, m_Collider.center.z);
+            m_Collider.size = new Vector3(m_Collider.size.x, builSize * builHeight, m_Collider.size.z);
+            m_Collider.center = new Vector3(m_Collider.center.x, (builSize * builHeight) / 2, m_Collider.center.z);
 
             GetComponent<BuilCrush>().Builsize = builSize;
         }

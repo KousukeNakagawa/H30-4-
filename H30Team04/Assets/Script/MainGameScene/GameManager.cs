@@ -4,11 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
-    enum PhaseState
+    public enum PhaseState
     {
         photoState,
+        switchState,
         PhotoCheckState,
-        attackState
+        attackState,
+        waitingState
     }
 
     const int WEEKBONUS = 10; //弱点部位へのボーナス 
@@ -29,12 +31,13 @@ public class GameManager : MonoBehaviour {
     private List<WeekPointData> weekDatas;
     public Image m_GameClear;
     public Image m_GameOver;
+    public GameObject m_switchCam;
     public GameObject m_attackP;
     public TextController m_textcontroller;
     public GameObject m_camera;
     GameObject m_player;
     GameObject m_enemy;
-    //CameraController m_CC;
+    CameraController m_CC;
     public GameObject minimap;
     PlayerBase m_PB;
     private int weeknumber; //敵の弱点の数字
@@ -42,6 +45,8 @@ public class GameManager : MonoBehaviour {
     private int weekcount = 0; //弱点の数
     [SerializeField]
     private int mapXsize = 0; //マップのx方向のマスの数
+
+    private bool gameend = false;
 
 
     private PhaseState phaseState;
@@ -53,12 +58,13 @@ public class GameManager : MonoBehaviour {
     void Start () {
         m_attackP.SetActive(false);
         phaseState = PhaseState.photoState;
-       // m_camera =  GameObject.FindGameObjectWithTag("MainCamera");
+        //m_camera = Camera.main.gameObject;
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
-        //m_CC = m_camera.GetComponent<CameraController>();
+        m_CC = m_camera.transform.parent.parent.GetComponent<CameraController>();
         m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
+        weeknumber = 0; //テスト用
         weekDatas = new List<WeekPointData>();
         m_GameClear.enabled = false;
         m_GameOver.enabled = false;
@@ -69,8 +75,10 @@ public class GameManager : MonoBehaviour {
         switch (phaseState)
         {
             case PhaseState.photoState: PhotoState(); break;
+            case PhaseState.switchState: SwitchState(); break;
             case PhaseState.PhotoCheckState: PhotoCheckState(); break;
             case PhaseState.attackState: AttackState(); break;
+            case PhaseState.waitingState: WaitState(); break;
         }
 
         
@@ -82,6 +90,19 @@ public class GameManager : MonoBehaviour {
        // GameClear();
         //GameOver();
         PhaseTransition();
+    }
+
+    private void SwitchState()
+    {
+        //if (Fade.IsFadeOutOrIn() && Fade.IsFadeEnd())
+        //{
+        //    m_player.SetActive(false);
+        //}
+        if (m_switchCam == null)
+        {
+            //m_attackP.transform.Find("Camera").GetComponent<AudioListener>().enabled = true;
+            phaseState = PhaseState.PhotoCheckState;
+        }
     }
 
     private void PhotoCheckState()
@@ -100,34 +121,64 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void WaitState()
+    {
+        if (gameend)
+        {
+            if (Input.anyKeyDown)
+            {
+                ScecnManager.SceneChange("GameStart1");
+            }
+
+        }
+        else
+        {
+            if (BigEnemyScripts.breakEffectManager.isEnd) GameClear();
+            if (Fade.IsFadeOutOrIn() && Fade.IsFadeEnd()) GameOver();
+        }
+        
+    }
+
+
     public void GameClear()
     {
-        m_textcontroller.SetNextText(0, 2, true);
+        //m_textcontroller.SetNextText(0, 0, true);
         m_GameClear.enabled = true;
+        Time.timeScale = 1;
         //Destroy(m_enemy);
         m_enemy.SetActive(false);
         //Time.timeScale = 0;
         //Debug.Log("ゲームクリア");
+        gameend = true;
     }
 
     public void GameOver()
     {
-        m_textcontroller.SetNextText(0, 2, true);
+        //m_textcontroller.SetNextText(0, 0, true);
         m_GameOver.enabled = true;
         //Time.timeScale = 0;
         // Debug.Log("ゲームオーバー");
+        gameend = true;
     }
 
     void PhaseTransition()
     {
         if (test||BigEnemyScripts.mTransform.position.x > (mapXsize - 1) * MainStageDate.TroutLengthX)
         {
-            //m_CC.Hide();
+            m_player.transform.position = m_switchCam.transform.position;
+            //Camera.main.gameObject.SetActive(false);
+            m_camera.SetActive(false);
             PlDes();
             m_attackP.SetActive(true);
+            m_attackP.transform.Find("Camera").GetComponent<AudioListener>().enabled = false;
             minimap.SetActive(false);
-            phaseState = PhaseState.PhotoCheckState;
+            m_switchCam.SetActive(true);
+            phaseState = PhaseState.switchState;
         }
+    }
+    public void ChengeWait()
+    {
+        phaseState = PhaseState.waitingState;
     }
 
     /// <summary>弱点データの保存</summary>
@@ -197,6 +248,11 @@ public class GameManager : MonoBehaviour {
         return phaseState == PhaseState.attackState;
     }
 
+    public PhaseState NowState()
+    {
+        return phaseState;
+    }
+
     public void PlDes()
     {
         bool test = false;
@@ -209,7 +265,7 @@ public class GameManager : MonoBehaviour {
 
     public void Damege(int i)
     {
-        if(weeknumber == i)GameClear();       
-        else  GameOver(); 
+        if (weeknumber == i)BigEnemyScripts.breakEffectManager.ChangeType();       
+        else  BigEnemyScripts.shootingFailure.FailureAction(); 
     }
 }

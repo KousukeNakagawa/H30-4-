@@ -8,8 +8,8 @@ public class XlinePhoto : MonoBehaviour {
     private GameObject[]m_lifes;
     [SerializeField]
     private Image[] m_wepons;
-    [SerializeField]
-    private Transform[] m_imagepos;
+    //[SerializeField]
+    //private Transform[] m_imagepos;
     [SerializeField]
     FireCtrl m_fireCtrl;
     public GameObject gm;
@@ -73,16 +73,16 @@ public class XlinePhoto : MonoBehaviour {
             m_wepons[1].enabled = true;
             if (!m_fireCtrl.GetWeapon())
             {
-                m_wepons[0].transform.position = m_imagepos[0].position;
-                m_wepons[1].transform.position = m_imagepos[1].position;
+                //m_wepons[0].transform.position = m_imagepos[0].position;
+                //m_wepons[1].transform.position = m_imagepos[1].position;
                 m_wepons[1].transform.SetAsFirstSibling();
                 m_wepons[0].color = new Color(1, 0, 0, 1);
                 m_wepons[1].color = new Color(1, 1, 1, 0.5f);
             }
             else
             {
-                m_wepons[1].transform.position = m_imagepos[0].position;
-                m_wepons[0].transform.position = m_imagepos[1].position;
+                //m_wepons[1].transform.position = m_imagepos[0].position;
+                //m_wepons[0].transform.position = m_imagepos[1].position;
                 m_wepons[0].transform.SetAsFirstSibling();
                 m_wepons[1].color = new Color(1, 0, 0, 1);
                 m_wepons[0].color = new Color(1, 1, 1, 0.5f);
@@ -127,11 +127,18 @@ public class XlinePhoto : MonoBehaviour {
                 weektexts.SetTexts(xrayDatas[currentSelectStageIndex].datas);
             }
         }
-        if (m_gamemanager.AttackStateNow())
+        else if (m_gamemanager.AttackStateNow())
         {
             XPhots.SetActive(false);
             weektextparent.SetActive(false);
             m_Sight.SetActive(true);
+        }
+        else if(m_gamemanager.NowState() == GameManager.PhaseState.waitingState)
+        {
+
+            XPhots.SetActive(false);
+            weektextparent.SetActive(false);
+            m_Sight.SetActive(false);
         }
         else
         {
@@ -155,8 +162,8 @@ public class XlinePhoto : MonoBehaviour {
     public void PhotoCreate(GameManager.WeekPointData data)
     {
         xrayDatas.Add(data);
-        GameObject photo = Instantiate(photoPrefab);
-        photo.transform.parent = XPhots.transform;
+        GameObject photo = Instantiate(photoPrefab, XPhots.transform);
+        //photo.transform.parent = XPhots.transform;
         photo.GetComponent<RectTransform>().anchoredPosition = new Vector2(1280 * m_FlyerCount, 0);
         photo.transform.Find("Photo").GetComponent<RawImage>().texture = Resources.Load("Texture/RenderTextures/XrayCamera" + data.name) as RenderTexture;
         if (m_FlyerCount == 0) weektexts.SetTexts(data.datas);

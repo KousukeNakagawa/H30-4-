@@ -5,7 +5,7 @@ using UnityEngine;
 public class BuilCrush : MonoBehaviour {
 
 
-    private int builsize = 0;
+    [SerializeField] private int builsize = 0;
     private bool isCrush = false;
     private Vector3 startPos;
     public float downSpeed = 2.0f;

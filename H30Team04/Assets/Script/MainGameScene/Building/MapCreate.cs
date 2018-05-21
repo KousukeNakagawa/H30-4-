@@ -12,6 +12,7 @@ public class MapCreate : MonoBehaviour {
     public GameObject builBPrefab;
     public GameObject builCPrefab;
     public GameObject XrayMachinePrefab;
+    public GameObject builAAPrefab;
 
     private int row = 0;
 
@@ -47,8 +48,8 @@ public class MapCreate : MonoBehaviour {
                 if(minidata[0] == "X") //射影機
                 {
                     GameObject createObject = Instantiate(XrayMachinePrefab);
-                    //createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
-                    createObject.transform.position = new Vector3(i * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2, 0, -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2);
+                    createObject.transform.position = ObjectPosition(minidata[0], minidata[2], i);
+                    //createObject.transform.position = new Vector3(i * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2, 0, -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2);
                     createObject.transform.position += startPos;
                     createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(minidata[2]), new Vector3(0, 1, 0));
                     createObject.GetComponent<XrayMachine>().SetCSVData(minidata[1]);
@@ -79,6 +80,7 @@ public class MapCreate : MonoBehaviour {
         switch (name)
         {
             case "A": createObject = Instantiate(builAPrefab); break;
+            case "AA": createObject = Instantiate(builAAPrefab); break;
             case "B": createObject = Instantiate(builBPrefab); break;
             case "C": createObject = Instantiate(builCPrefab); break;
         }
@@ -103,16 +105,41 @@ public class MapCreate : MonoBehaviour {
     {
         Vector3 result = Vector3.zero;
 
-        if(direction == "E") //東向き
+        switch (name.Substring(0, 1))
         {
-            switch (name)
+            case "A":
+            case "X":
+                result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
+                break;
+            case "B":
+                if(direction == "N" || direction == "S")
+                {
+                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX;
+                    result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
+                }
+                else
+                {
+                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                    result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ;
+                }
+                break;
+            case "C":
+                result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX;
+                result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ;
+                break;
+        }
+
+        /*if (direction == "E") //東向き
+        {
+            switch (name.Substring(1, 1))
             {
                 case "A":
-                case "B":
                 case "X":
-                    result.x = (column + 1) * MainStageDate.TroutLengthX;
-                    result.z = -row * MainStageDate.TroutLengthZ;
+                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                    result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
                     break;
+                case "B":
                 case "C":
                     result.x = (column + 2) * MainStageDate.TroutLengthX;
                     result.z = -row * MainStageDate.TroutLengthZ;
@@ -125,8 +152,8 @@ public class MapCreate : MonoBehaviour {
             {
                 case "A":
                 case "X":
-                    result.x = (column + 1) * MainStageDate.TroutLengthX;
-                    result.z = -(row + 1) * MainStageDate.TroutLengthZ;
+                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                    result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
                     break;
                 case "B":
                     result.x = (column + 2) * MainStageDate.TroutLengthX;
@@ -138,14 +165,14 @@ public class MapCreate : MonoBehaviour {
                     break;
             }
         }
-        else if(direction == "W") //西向き
+        else if (direction == "W") //西向き
         {
             switch (name)
             {
                 case "A":
                 case "X":
-                    result.x = column * MainStageDate.TroutLengthX;
-                    result.z = -(row + 1) * MainStageDate.TroutLengthZ;
+                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                    result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
                     break;
                 case "B":
                 case "C":
@@ -156,9 +183,20 @@ public class MapCreate : MonoBehaviour {
         }
         else //北向き
         {
-            result.x = column * MainStageDate.TroutLengthX;
-            result.z = -row * MainStageDate.TroutLengthZ;
-        }
+            switch (name)
+            {
+                case "A":
+                case "X":
+                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                    result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
+                    break;
+                case "B":
+                case "C":
+                    result.x = column * MainStageDate.TroutLengthX;
+                    result.z = -(row + 2) * MainStageDate.TroutLengthZ;
+                    break;
+            }
+        }*/
 
         return result;
     }

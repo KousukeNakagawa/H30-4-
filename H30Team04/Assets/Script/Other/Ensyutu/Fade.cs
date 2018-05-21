@@ -4,15 +4,20 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Fade : MonoBehaviour {
-    private float alpha = 1.0f;
-    private bool m_Fade = false;
-    private bool fadeEnd = false;
-    private float fadeSpeed = 2.0f;
+    private static float alpha = 1.0f;
+    private static bool m_Fade = false;
+    private static bool fadeEnd = false;
+    private static float fadeSpeed = 2.0f;
+
+    private static Color fadeColor = new Color(0, 0, 0, 0);
 
     // Use this for initialization
     void Start()
     {
-
+        alpha = 1.0f;
+        m_Fade = false;
+        fadeEnd = false;
+        fadeSpeed = 2.0f;
     }
 
     // Update is called once per frame
@@ -26,22 +31,22 @@ public class Fade : MonoBehaviour {
                 alpha = 0.0f;
                 fadeEnd = true;
             }
-            GetComponent<Image>().color = new Color(0, 0, 0, alpha);
+            GetComponent<Image>().color = fadeColor + new Color(0, 0, 0, alpha);
             return;
         }
         if (m_Fade && alpha < 1.0f)
         {
-            GetComponent<Image>().color = new Color(0, 0, 0, alpha);
             alpha += Time.deltaTime / fadeSpeed;
             if (alpha >= 1)
             {
                 alpha = 1.0f;
                 fadeEnd = true;
             }
+            GetComponent<Image>().color = fadeColor + new Color(0, 0, 0, alpha);
         }
     }
 
-    public void FadeOut(float fadespeed = 2.0f)
+    public static void FadeOut(float fadespeed = 2.0f)
     {
         if (!fadeEnd || m_Fade) return;
         m_Fade = true;
@@ -49,7 +54,7 @@ public class Fade : MonoBehaviour {
         fadeSpeed = fadespeed;
     }
 
-    public void FadeIn(float fadespeed = 2.0f)
+    public static void FadeIn(float fadespeed = 2.0f)
     {
         if (!fadeEnd || !m_Fade) return;
         m_Fade = false;
@@ -57,15 +62,22 @@ public class Fade : MonoBehaviour {
         fadeSpeed = fadespeed;
     }
 
-    public bool IsFadeEnd()
+    public static bool IsFadeEnd()
     {
         return fadeEnd;
     }
 
-    /// <summary>フェードイン、フェードアウトどっちしてますか</summary>
-    /// <returns>trueでフェードアウト中</returns>
-    public bool IsFadeOutOrIn()
+    /// <summary>フェードイン、フェードアウトどっちしてますか,trueはフェードアウト中</summary>
+    public static bool IsFadeOutOrIn()
     {
         return m_Fade;
+    }
+
+    /// <summary>フェードの色変更</summary>
+    /// <param name="col">変えたい色</param>
+    public static void ColorChenge(Color col)
+    {
+        fadeColor = col;
+        fadeColor.a = 0;
     }
 }

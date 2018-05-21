@@ -10,6 +10,9 @@ public class StartHelicopter : MonoBehaviour {
     [SerializeField] private float rotateSpeed = 60.0f;
     [SerializeField] private float byebyeSpeed = 5.0f;
     [SerializeField] private float byebyeRotate;
+    //[SerializeField] private int scenarioCount = 3;
+    [SerializeField] private ViewOutChange m_view;
+    [SerializeField] private GameObject titleUI;
 
     private bool is_byebye = false;
 
@@ -29,16 +32,31 @@ public class StartHelicopter : MonoBehaviour {
             //transform.RotateAround(enemyT.position, Vector3.up, -rotateSpeed * Time.deltaTime);
             transform.LookAt(enemyT.position);
 
-            if (Input.GetKeyDown(KeyCode.P))
-            {
-                is_byebye = true;
-                Vector3 a = transform.eulerAngles;
-                a.x = 0;
-                a.y += byebyeRotate;
-                transform.eulerAngles = a;
+            //if (Input.GetKeyDown(KeyCode.Z)|| Input.GetAxisRaw("RT") < 0)
+            //{
+            //    scenarioCount--;
+            //    if(scenarioCount <= 0)
+            //    {
+            //        is_byebye = true;
+            //        Vector3 a = transform.eulerAngles;
+            //        a.x = 0;
+            //        a.y += byebyeRotate;
+            //        transform.eulerAngles = a;
+            //    }
 
-            }
+            //}
         }
 
+    }
+
+    public void SetScene(string name)
+    {
+        m_view.SetSceneName(name);
+        is_byebye = true;
+        Vector3 a = transform.eulerAngles;
+        a.x = 0;
+        a.y += byebyeRotate;
+        transform.eulerAngles = a;
+        titleUI.SetActive(false);
     }
 }

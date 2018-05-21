@@ -10,22 +10,23 @@ public class AttackPlayer : MonoBehaviour {
     private GameObject[] weekPoints;
     private Transform target;
     private int selectNum = 0;
-    
+
+    [SerializeField] private GameObject roketPrefab;
+    [SerializeField] private GameObject targetPrefab;
+    [SerializeField] private Vector3 fireRightPos;
+
+    private bool is_shot = false;
 
 
-
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 
     }
 
     private void Awake()
     {
         weekPoints = GameObject.FindGameObjectsWithTag("WeekPoint");
-        //Debug.Log(weekPoints[0]);
-        GameObject t = Resources.Load("Prefab/PlayerSide/AttackTarget") as GameObject;
-        //GameObject.Instantiate(t);
-        target = GameObject.Instantiate(t).transform;
+        target = GameObject.Instantiate(targetPrefab).transform;
         target.position = weekPoints[selectNum].transform.position;
         transform.LookAt(target);
         m_gm = m_gamemanager.GetComponent<GameManager>();
@@ -33,17 +34,48 @@ public class AttackPlayer : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        if (Input.GetButtonDown("Select"))
-        {
-            selectNum++;
-            if (selectNum >= weekPoints.Length) selectNum = 0;
-        }
-        target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
-        transform.LookAt(target);
 
-        if (Input.GetButtonDown("Shutter"))
+        if (m_gm.AttackStateNow() && !is_shot)
         {
-            m_gm.Damege(weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekNumber);
+            if (Input.GetButtonDown("Select"))
+            {
+                selectNum++;
+                if (selectNum >= weekPoints.Length) selectNum = 0;
+            }
+            target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
+            transform.LookAt(target);
+
+            if (Input.GetButtonDown("Shutter"))
+            {
+                is_shot = true;
+                GameObject roket = Instantiate(roketPrefab,transform);
+                roket.transform.localPosition = fireRightPos;
+                roket.transform.LookAt(target);
+                BigEnemyScripts.shootingPhaseMove.enabled = false;
+                m_gm.ChengeWait();
+                //weekPoints[0].transform.root.GetComponent<BigEnemyScripts>().
+                //m_gm.Damege(weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekNumber);
+            }
         }
     }
+
+    public void Damege()
+    {
+        m_gm.Damege(weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekNumber);
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        Fade.ColorChenge(Color.white);
+        Fade.FadeOut();
+    }
+
+
+
+
 }
