@@ -866,6 +866,7 @@ MonoBehaviour:
   searchTarget: {fileID: 0}
   isSearch: 0
   targetPos: {x: 37.7, y: 0, z: 117.9}
+  searchsqrMagnitude: 30
 --- !u!114 &114677600578361578
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -21338,7 +21339,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: -344819297
+  randomSeed: -1888671665
   InitialModule:
     serializedVersion: 3
     enabled: 1

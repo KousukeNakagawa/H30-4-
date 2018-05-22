@@ -28,12 +28,12 @@ public class MissileCollider : MonoBehaviour
         {
             Destroy(other.gameObject);
         }
-        else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") || other.name == "TestCamera")
+        else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") || other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))
         {
             //ミサイル破壊
             Destroy(transform.root.gameObject);
             Vector3 exPos = explosionPos.position;
-            if (other.name == "TestCamera")  //1発だけカメラに当たるミサイルの場合
+            if (other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))  //1発だけカメラに当たるミサイルの場合
             {
                 exPos = other.transform.position + new Vector3(-3f, -1f, 0);
             }
