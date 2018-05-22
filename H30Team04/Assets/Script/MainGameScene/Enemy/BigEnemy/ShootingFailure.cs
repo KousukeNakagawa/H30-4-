@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class ShootingFailure : MonoBehaviour
 {
-
     [Tooltip("ミサイルのプレファブ")]public GameObject missilePrefab;
     [Tooltip("大爆発のエフェクト")]public GameObject explosionPrefab;
     [Tooltip("ミサイルの目標座標")] public Transform targetPos;
