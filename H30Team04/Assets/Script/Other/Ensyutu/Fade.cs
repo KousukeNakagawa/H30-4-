@@ -18,6 +18,7 @@ public class Fade : MonoBehaviour {
         m_Fade = false;
         fadeEnd = false;
         fadeSpeed = 2.0f;
+        fadeColor = new Color(0, 0, 0, 0);
     }
 
     // Update is called once per frame

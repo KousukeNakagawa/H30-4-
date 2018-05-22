@@ -28,7 +28,7 @@ public class CameraManager : MonoBehaviour
     void Update()
     {
         //開始演出終了時
-        if (playerScript.GetIsEndSE()) SetActiveCamera(playerCamera);
+        if (playerScript.GetIsEndSE()) { SetActiveCamera(playerCamera); Destroy(gameObject); }
     }
 
     /// <summary>
