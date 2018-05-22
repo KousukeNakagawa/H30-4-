@@ -30,7 +30,7 @@ public static class TransformExtension {
         }
     }
 
-    //そのオブジェクトからの全ての親子を取得する
+    //そのオブジェクトからの全ての子を取得する
     public static GameObject[] GetAllGameObject(this GameObject obj)
     {
         List<GameObject> allObjects = new List<GameObject>();

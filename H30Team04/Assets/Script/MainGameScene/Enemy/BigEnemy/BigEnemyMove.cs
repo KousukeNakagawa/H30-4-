@@ -53,7 +53,7 @@ public class BigEnemyMove : MonoBehaviour
     }
 
     public Vector3 TurnAngleSet(Vector3 targetPos)
-    {
+    {  //回転が終了して時の回転角度を取得する
         float dir = GetDirction(transform.position, targetPos);
         Vector3 endDir = BigEnemyScripts.mTransform.eulerAngles;
         endDir.y = Mathf.Rad2Deg * dir;
@@ -61,21 +61,21 @@ public class BigEnemyMove : MonoBehaviour
     }
 
     private float GetDirction(Vector3 self, Vector3 target)
-    {
+    {  //selfからtargetまでの角度を取得する
         Vector2 dirVec2 = new Vector2(target.x - self.x, target.z - self.z).normalized;
         float dir = Mathf.Atan2(-dirVec2.y, dirVec2.x);
         return dir;
     }
 
     public void SetTurn(Vector3 endDir)
-    {
+    {  //回転を開始する
         turnEndDir = endDir.GetUnityVector3();
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         isTurn = true;
     }
 
     public void SetGoDefenseLine()
-    {
+    {  //防衛ラインに向かう
         BigEnemyScripts.searchObject.SetTurnVelGoDefenseLine();
         isTurn = true;
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();

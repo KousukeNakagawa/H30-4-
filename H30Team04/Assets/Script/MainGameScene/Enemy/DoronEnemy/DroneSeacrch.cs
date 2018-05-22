@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DroneSeacrch : MonoBehaviour
 {
-    [SerializeField] private DroneMove2 droneMove;
+    [SerializeField,Tooltip("自分のDroneMove2")] private DroneMove2 droneMove;
 
     // Use this for initialization
     void Start()
@@ -17,7 +17,7 @@ public class DroneSeacrch : MonoBehaviour
     }
 
     void OnTriggerStay(Collider other)
-    {
+    {  //探索範囲がプレイヤーと当たったら追従を開始する
         if (other.CompareTag("Player") && !BigEnemyScripts.missileLaunch.isMissile && !BigEnemyScripts.bigEnemyMove.isTurn)
         {
             droneMove.followObj = other.transform;

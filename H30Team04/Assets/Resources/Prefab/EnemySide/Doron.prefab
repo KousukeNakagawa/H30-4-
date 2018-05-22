@@ -2125,7 +2125,7 @@ Transform:
   m_GameObject: {fileID: 1687074184035746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 400, y: 400, z: 400}
+  m_LocalScale: {x: 200, y: 200, z: 200}
   m_Children:
   - {fileID: 4905783290193026}
   - {fileID: 4777594942578866}
@@ -2911,10 +2911,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   droneDirection: 0
-  moveSpeed: 5
-  moveArea: {x: 7, y: 3.5}
-  XFraction: 1
-  returnSpeed: 20
+  moveSpeed: 7.5
+  moveArea: {x: 70, y: 35}
+  XFraction: 5
+  returnSpeed: 15
   searchFollowTime: 10
   followObj: {fileID: 0}
   flyUpSpeed: 1

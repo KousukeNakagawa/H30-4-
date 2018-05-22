@@ -29,11 +29,11 @@ public class DroneMove2 : MonoBehaviour
     [Tooltip("見つけた時の追尾時間")] public float searchFollowTime = 10.0f;
     [HideInInspector] public Transform followObj = null;
     [Tooltip("ドローン出現時、上昇する速度"), SerializeField] private float flyUpSpeed = 1.0f;
-    [SerializeField] private float upDistance = 10.0f;
+    [SerializeField,Tooltip("上昇する距離")] private float upDistance = 10.0f;
 
     private Vector2 primaryPos;  //初期位置(x,z)
     private Vector2 onceTargetPos;  //到達したらターンする
-    [SerializeField] private float goalPos;
+    private float goalPos;
     private Vector3 velocity;
     private int sagittalDir;
     private int LRdir = 1;
@@ -41,7 +41,7 @@ public class DroneMove2 : MonoBehaviour
     private bool isGo; //前に進んでいるか（X）
     private float followCount;
     private bool isFirst;  //横移動の時、1回だけ半分移動する
-    [SerializeField] private SnipeBulletHitAction snipeBullet;
+    [SerializeField,Tooltip("自分のSnipeBulletHitAction")] private SnipeBulletHitAction snipeBullet;
     private int startEndVel = 1;
     private float upPrimary;
 
@@ -57,6 +57,7 @@ public class DroneMove2 : MonoBehaviour
         if (droneDirection == DroneDirection.Advance) sagittalDir = 1;
         else sagittalDir = -1;
         goalPos = transform.position.x + sagittalDir * moveArea.x;
+        BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
 
     void OnDrawGizmos()
@@ -114,7 +115,6 @@ public class DroneMove2 : MonoBehaviour
             case DroneState.Search:
                 if (followObj != null)
                 {
-                    print("fllowing");
                     if (followCount < 0)
                     {
                         droneState++;
@@ -167,7 +167,7 @@ public class DroneMove2 : MonoBehaviour
                     velocity = Vector3.down;
                     droneState++;
                     startEndVel = -1;
-                    transform.rotation = Quaternion.identity;
+                    transform.localRotation = Quaternion.identity;
                 }
                 else
                 {
@@ -180,10 +180,10 @@ public class DroneMove2 : MonoBehaviour
                 if (Mathf.Abs(BigEnemyScripts.droneSearchStartPos.position.y
                        - transform.position.y) <= 1f)
                 {
-                    velocity = Vector3.forward;
+                    velocity = Vector3.left;
                     if ((new Vector2(transform.localPosition.x, transform.localPosition.z)).sqrMagnitude <= 3f)
                     {
-                        Destroy(gameObject, 0.75f);
+                        Destroy(gameObject, 0.5f);
                     }
                 }
                 break;

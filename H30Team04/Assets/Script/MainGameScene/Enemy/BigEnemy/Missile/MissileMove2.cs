@@ -22,7 +22,6 @@ public class MissileMove2 : MonoBehaviour
     private float rate = 0f;  //Slerpを使用する時のカウント
     private Quaternion primary;  //一番最初の角度
     private float riseTime;  //上昇する時のカウント
-    [HideInInspector] public GameObject explosion = null;
 
     // Use this for initialization
     void Start()
@@ -34,15 +33,15 @@ public class MissileMove2 : MonoBehaviour
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
 
-    void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(transform.position, transform.up * 5);
-        Gizmos.color = Color.blue;
-        Gizmos.DrawRay(transform.position, transform.forward * 5);
-        Gizmos.color = Color.green;
-        Gizmos.DrawRay(transform.position, transform.right * 5);
-    }
+    //void OnDrawGizmos()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawRay(transform.position, transform.up * 5);
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawRay(transform.position, transform.forward * 5);
+    //    Gizmos.color = Color.green;
+    //    Gizmos.DrawRay(transform.position, transform.right * 5);
+    //}
 
     void Update()
     {  //状態の更新やカウンター処理などはこっちで行う
@@ -56,9 +55,6 @@ public class MissileMove2 : MonoBehaviour
                 break;
             case StateType.Rotation:  //回転
                 rate = rate + Time.deltaTime * (1 / rotationCount);
-                //Ray ray = new Ray(transform.position + transform.forward, transform.forward);
-                //List<RaycastHit> hits = new List<RaycastHit>(Physics.RaycastAll(ray));
-                //if (hits.FindAll(f => (f.point - targetPos).magnitude <= 0.7f).Count != 0)
                 if (rate >= 1.0f)
                 {
                     state++;  //状態更新

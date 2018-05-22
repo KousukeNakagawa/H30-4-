@@ -5,14 +5,14 @@ using UnityEngine;
 public class MissileMove : MonoBehaviour
 {
 
-    public float speed = 20.0f;  //飛ぶスピ―ド
-    public float riseTime = 2.0f;  //上昇する時間
-    [Range(0, 3)] public float rotationTime = 2.0f;  //回転をする秒数
+    [Tooltip("飛ぶスピード")]public float speed = 20.0f;
+    [Tooltip("上昇する時間")]public float riseTime = 2.0f;
+    [Range(0, 3),Tooltip("回転を行う秒数")] public float rotationTime = 2.0f;
     private float timeCount;  //Rise→Rotationへ移行するためのカウンター
 
     private Quaternion primaryRotation;  //最初の回転情報
     private float rotationCount;  //Slerpで使うカウンター
-    public Rigidbody rigid;  //自身のRigidBody
+    [Tooltip("自分のRigidBody")]public Rigidbody rigid;  //自身のRigidBody
 
     private enum MissileStateType
     {
@@ -31,7 +31,7 @@ public class MissileMove : MonoBehaviour
     }
 
     void Update()
-    {
+    {  //移動と回転関連をこちらで行う
         Vector3 target = BigEnemyScripts.searchObject.targetPos;
         switch (stateType)
         {
@@ -53,7 +53,7 @@ public class MissileMove : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {
+    {  //RigidBody関連をこちらで処理を行う
         switch (stateType)
         {
             case MissileStateType.Rise:

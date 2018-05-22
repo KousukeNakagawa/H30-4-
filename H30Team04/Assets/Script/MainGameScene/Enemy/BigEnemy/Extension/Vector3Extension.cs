@@ -15,4 +15,9 @@ public static class Vector3Extension
 
         return self;
     }
+
+    public static Vector2 ToTopView(this Vector3 self)
+    {
+        return new Vector2(self.x, self.z);
+    }
 }

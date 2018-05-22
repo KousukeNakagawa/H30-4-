@@ -37,7 +37,7 @@ public class DroneMove : MonoBehaviour
     public Collider m_collider;
     private bool isGo; //前に進んでいるか（X）
     private float followCount;
-    [SerializeField] private SnipeBulletHitAction snipeBullet;
+    [SerializeField,Tooltip("自分のSnipeBulletHitAction")] private SnipeBulletHitAction snipeBullet;
 
     // Use this for initialization
     void Start()

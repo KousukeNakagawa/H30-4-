@@ -5,7 +5,7 @@ using System;
 
 public class DroneCreate : MonoBehaviour
 {
-    [SerializeField] private GameObject dronePrefab;
+    [SerializeField,Tooltip("ドローンのプレファブ")] private GameObject dronePrefab;
     private int droneCount = 2;
 
     private List<GameObject> drones = new List<GameObject>();
@@ -36,7 +36,7 @@ public class DroneCreate : MonoBehaviour
     }
 
     public void DroneSet()
-    {
+    {  //ドローンを生成する
         if (drones.Count != 0 || droneCreateTime > 0) return;
         for (int i = 0; i < droneCount; i++)
         {
@@ -49,7 +49,7 @@ public class DroneCreate : MonoBehaviour
     }
 
     public void RemoveDrone(GameObject drone)
-    {
+    {  //ドローンを削除する
         drones.Remove(drone);
         if (drones.Count == 0) drones.Clear();
     }

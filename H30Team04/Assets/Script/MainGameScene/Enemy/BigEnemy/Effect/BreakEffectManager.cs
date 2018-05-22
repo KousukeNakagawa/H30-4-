@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class BreakEffectManager : MonoBehaviour
 {
-    public ParticleSystem breakLight;
-    public ParticleSystem explosionEffect;
-    public GameObject explosionPrefab;
-    public float lightEndTime = 0.15f;
-    public float randomExplosionTime = 1.0f;
-    public int explosionCount = 5;
+    [Tooltip("光のエフェクト")]public ParticleSystem breakLight;
+    [Tooltip("爆発するエフェクト")]public ParticleSystem explosionEffect;
+    [Tooltip("爆発するエフェクト")]public GameObject explosionPrefab;
+    [Tooltip("光が消える間隔")]public float lightEndTime = 0.15f;
+    [Tooltip("ランダムで爆発を行う感覚")]public float randomExplosionTime = 1.0f;
+    [Tooltip("1発で出る最大の爆発数")]public int explosionCount = 5;
+    [Tooltip("エフェクトを遅延させる時間")] public float actionDelay = 0.5f;
 
     private float countTime;
     private List<GameObject> explosions = new List<GameObject>();
@@ -33,16 +34,21 @@ public class BreakEffectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab)) ChangeType();
+        //if (Input.GetKeyDown(KeyCode.Tab)) ChangeType();
         if (countTime == 0) return;
         if (countTime < Time.time)
         {
             effectType++;
-            ChangeType();
+            Change();
         }
     }
 
     public void ChangeType()
+    {
+        Invoke("Change", actionDelay);
+    }
+
+    private void Change()
     {
         switch (effectType)
         {
@@ -108,7 +114,7 @@ public class BreakEffectManager : MonoBehaviour
         Time.timeScale = 0.35f;
         while (!isEnd)
         {
-            if (particles.Find(f => f.particleCount != 0) == null) isEnd = true;
+            if (particles.Find(f => f == null || f.particleCount != 0) == null) isEnd = true;
             yield return null;
         }
     }

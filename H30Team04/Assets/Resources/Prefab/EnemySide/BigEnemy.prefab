@@ -884,6 +884,7 @@ MonoBehaviour:
   lightEndTime: 0.15
   randomExplosionTime: 1
   explosionCount: 5
+  actionDelay: 0.5
   isEnd: 0
 --- !u!114 &114701910676091504
 MonoBehaviour:

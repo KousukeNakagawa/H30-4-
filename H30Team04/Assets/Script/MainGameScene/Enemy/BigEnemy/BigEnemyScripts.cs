@@ -17,7 +17,9 @@ public class BigEnemyScripts : MonoBehaviour
     public static ShootingFailure shootingFailure;
     public static BreakEffectManager breakEffectManager;
 
+    //ドローンを出す座標
     public static Transform droneInstantiatePos;
+    //ドローンが上昇して探索を開始する座標
     public static Transform droneSearchStartPos;
 
     [SerializeField] private Transform[] transforms;

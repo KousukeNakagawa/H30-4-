@@ -11,7 +11,7 @@ public class ShootingPhaseMove : MonoBehaviour
     [HideInInspector] public List<GameObject> makebyRobot = new List<GameObject>();
 
     [HideInInspector] public bool isShooting;
-    [SerializeField] private GameObject runEffect;
+    [SerializeField,Tooltip("走るエフェクト")] private GameObject runEffect;
 
     // Use this for initialization
     void Start()
@@ -21,22 +21,24 @@ public class ShootingPhaseMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) ShootingPhaseSet();
+        //if (Input.GetKeyDown(KeyCode.Space)) ShootingPhaseSet();
         if (!isShooting) return;
-        //transform.Translate(moveSpeed * Time.deltaTime, 0, 0, Space.Self);
     }
 
     public void ShootingPhaseSet()
     {
+        //射撃フェーズへ移動
         List<Behaviour> scripts = new List<Behaviour>(GetComponentsInChildren<Behaviour>());
         foreach (var script in contents)
         {
             scripts.RemoveAll((f => f.Equals(script)));
         }
+        //スクリプトを止める
         foreach (var script in scripts)
         {
             script.enabled = false;
         }
+        //ロボットが作ったオブジェクトを削除する
         foreach (var make in makebyRobot)
         {
             Destroy(make);
@@ -46,5 +48,6 @@ public class ShootingPhaseMove : MonoBehaviour
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
+        //BigEnemyScripts.shootingFailure.FailureAction();
     }
 }

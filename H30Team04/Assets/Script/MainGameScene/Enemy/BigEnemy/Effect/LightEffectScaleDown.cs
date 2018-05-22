@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LightEffectScaleDown : MonoBehaviour {
 
-    public float downSpeed = 40.0f;
+    [Tooltip("1秒で減るオブジェクトのサイズ")]public float downSpeed = 40.0f;
 
 	// Use this for initialization
 	void Start () {

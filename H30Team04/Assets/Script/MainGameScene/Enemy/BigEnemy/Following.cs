@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Following : MonoBehaviour {
 
-    public Transform followTrans;
+    [Tooltip("追従するオブジェクト")]public Transform followTrans;
 
 	// Use this for initialization
 	void Start () {
@@ -13,6 +13,7 @@ public class Following : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        //座標を固定する
         transform.position = followTrans.position;
 	}
 }

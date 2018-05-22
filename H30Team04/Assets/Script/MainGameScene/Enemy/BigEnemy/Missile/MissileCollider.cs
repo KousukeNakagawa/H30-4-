@@ -8,7 +8,7 @@ public class MissileCollider : MonoBehaviour
     private static List<MissileCollider> isHits = new List<MissileCollider>();
     private bool isHit = false;
     [SerializeField] private Transform explosionPos;
-    [SerializeField] private GameObject explosion;
+    public GameObject explosion;
 
     // Use this for initialization
     void Start()
@@ -33,7 +33,7 @@ public class MissileCollider : MonoBehaviour
             //ミサイル破壊
             Destroy(transform.root.gameObject);
             Vector3 exPos = explosionPos.position;
-            if (other.name == "TestCamera")
+            if (other.name == "TestCamera")  //1発だけカメラに当たるミサイルの場合
             {
                 exPos = other.transform.position + new Vector3(-3f, -1f, 0);
             }

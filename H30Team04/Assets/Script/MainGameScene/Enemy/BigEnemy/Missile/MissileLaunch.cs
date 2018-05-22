@@ -26,7 +26,7 @@ public class MissileLaunch : MonoBehaviour
     {
         if (!isLaunch) return;
         if (launchTime < Time.time)
-        {
+        {  //ミサイルを発射する
             Launch();
         }
     }

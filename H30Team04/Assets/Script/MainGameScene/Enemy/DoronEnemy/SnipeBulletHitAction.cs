@@ -5,10 +5,10 @@ using UnityEngine;
 public class SnipeBulletHitAction : MonoBehaviour
 {
 
-    public GameObject Explosion;
-    public GameObject breakSmoke;
-    [SerializeField] private DroneMove2 moveScript;
-    [SerializeField] private Rigidbody m_rigid;
+    [Tooltip("爆発のエフェクト")]public GameObject explosion;
+    [Tooltip("墜落の際の煙のエフェクト")]public GameObject breakSmoke;
+    [SerializeField,Tooltip("自分のDroneMove2")] private DroneMove2 moveScript;
+    [SerializeField,Tooltip("自分のRigidBody")] private Rigidbody m_rigid;
 
     private List<GameObject> children = new List<GameObject>();
     private Vector3 crashVel;
@@ -33,7 +33,7 @@ public class SnipeBulletHitAction : MonoBehaviour
     {
         moveScript.m_collider.enabled = false;
         moveScript.enabled = false;
-        children.Add(Instantiate(Explosion, transform.position, Quaternion.identity));
+        children.Add(Instantiate(explosion, transform.position, Quaternion.identity));
         GameObject b = Instantiate(breakSmoke, transform.position, Quaternion.identity);
         b.GetComponent<Following>().followTrans = transform;
         children.Add(b);

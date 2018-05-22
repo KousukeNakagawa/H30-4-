@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class BigEnemyEffectManager : MonoBehaviour
 {
-    public ParticleSystem runEffect;
-    public ParticleSystem turnEffect;
+    [Tooltip("走っている際のエフェクト")]public ParticleSystem runEffect;
+    [Tooltip("回転している際のエフェクト")]public ParticleSystem turnEffect;
 
     // Use this for initialization
     void Start()

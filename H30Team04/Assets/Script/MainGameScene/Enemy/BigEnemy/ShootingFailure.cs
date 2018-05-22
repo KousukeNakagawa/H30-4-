@@ -5,8 +5,8 @@ using UnityEngine;
 public class ShootingFailure : MonoBehaviour
 {
 
-    public GameObject missilePrefab;
-    public GameObject explosionPrefab;
+    [Tooltip("ミサイルのプレファブ")]public GameObject missilePrefab;
+    [Tooltip("大爆発のエフェクト")]public GameObject explosionPrefab;
     [Tooltip("ミサイルの目標座標")] public Transform targetPos;
     [Tooltip("ミサイルの本数")] public int missileCount = 6;
     [Tooltip("ミサイルの当たる範囲")] public float missileRange = 15.0f;
@@ -32,10 +32,9 @@ public class ShootingFailure : MonoBehaviour
             Vector3 rand = new Vector3(Random.Range(-missileRange * 2, -missileRange),
                 Random.Range(-missileRange, missileRange), Random.Range(-missileRange, missileRange));
             Vector3 target = targetPos.position;
-            //GameObject m = Instantiate(lossMissilePrefab, BigEnemyScripts.mTransform.position,
-            //    Quaternion.Euler(-90.0f + Random.Range(-10.0f, 10.0f), Random.Range(-2.5f, 2.5f), 0));
             GameObject mm = Instantiate(missilePrefab, BigEnemyScripts.mTransform.position + new Vector3(-7f, 5, 0),
                 Quaternion.Euler(-90.0f + Random.Range(-15.0f, 15.0f), Random.Range(-7.5f, 7.5f), 0f));
+            mm.GetComponentInChildren<MissileCollider>().explosion = explosionPrefab;
             MissileMove2 move2 = mm.GetComponent<MissileMove2>();
             if (i < missileCount - 1)
             {
