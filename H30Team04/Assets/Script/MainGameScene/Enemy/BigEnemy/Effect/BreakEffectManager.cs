@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BreakEffectManager : MonoBehaviour
 {
-
     public ParticleSystem breakLight;
     public ParticleSystem explosionEffect;
     public GameObject explosionPrefab;
@@ -14,6 +13,7 @@ public class BreakEffectManager : MonoBehaviour
 
     private float countTime;
     private List<GameObject> explosions = new List<GameObject>();
+    //破壊エフェクトが全て消えたか
     [HideInInspector] public bool isEnd = false;
 
     private enum BreakEffectType
@@ -79,11 +79,11 @@ public class BreakEffectManager : MonoBehaviour
         float loopTime = Time.time + randomExplosionTime;
         while (loopTime > Time.time)
         {
-            int count = Random.Range(1, 5);
+            int count = Random.Range(5, 10);
             for (int i = 0; i < count; i++)
             {
                 explosions.Add(Instantiate(explosionPrefab, transform.position + new Vector3(Random.Range(-3.0f, -6.0f),
-                    Random.Range(-7, 7), Random.Range(-7, 7)), Quaternion.identity, transform));
+                    Random.Range(-8.0f, 8.0f), Random.Range(-8.0f, 8.0f)), Quaternion.identity, transform));
             }
             yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
         }
@@ -105,6 +105,7 @@ public class BreakEffectManager : MonoBehaviour
         yield return null;
 
         List<ParticleSystem> particles = new List<ParticleSystem>(GetComponentsInChildren<ParticleSystem>());
+        Time.timeScale = 0.35f;
         while (!isEnd)
         {
             if (particles.Find(f => f.particleCount != 0) == null) isEnd = true;
