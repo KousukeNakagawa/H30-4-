@@ -32,8 +32,8 @@ public class DroneCreate : MonoBehaviour
         {
             drones.Add(Instantiate(dronePrefab, BigEnemyScripts.droneInstantiatePos.position, Quaternion.identity));
         }
-        drones[0].GetComponent<DroneMove>().droneDirection = DroneMove.DroneDirection.Advance;
-        drones[1].GetComponent<DroneMove>().droneDirection = DroneMove.DroneDirection.Recession;
+        drones[0].GetComponent<DroneMove2>().droneDirection = DroneMove2.DroneDirection.Advance;
+        drones[1].GetComponent<DroneMove2>().droneDirection = DroneMove2.DroneDirection.Recession;
         droneCreateTime = droneCreateCount;
     }
 

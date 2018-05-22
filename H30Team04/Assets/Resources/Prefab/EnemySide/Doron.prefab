@@ -548,9 +548,9 @@ GameObject:
   - component: {fileID: 4483045104330276}
   - component: {fileID: 33822549865918288}
   - component: {fileID: 135346680170166268}
-  - component: {fileID: 114861202206686098}
   - component: {fileID: 114815875837599508}
   - component: {fileID: 54388968085187216}
+  - component: {fileID: 114269292212028042}
   m_Layer: 0
   m_Name: Doron
   m_TagString: SmallEnemy
@@ -2899,6 +2899,28 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
+--- !u!114 &114269292212028042
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1366388990044496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602b6f45baf113642b42867cca09a165, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droneDirection: 0
+  moveSpeed: 5
+  moveArea: {x: 70, y: 35}
+  XFraction: 5
+  returnSpeed: 20
+  searchFollowTime: 10
+  followObj: {fileID: 0}
+  flyUpSpeed: 1
+  upDistance: 15
+  m_collider: {fileID: 136722825180330886}
+  snipeBullet: {fileID: 114815875837599508}
 --- !u!114 &114528210735007354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2910,7 +2932,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86281df284f608544a0975f827956da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droneMove: {fileID: 114861202206686098}
+  droneMove: {fileID: 114269292212028042}
 --- !u!114 &114815875837599508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2924,29 +2946,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
   breakSmoke: {fileID: 1149029344498834, guid: 75819b73e66d8774695a111ccecec2d2, type: 2}
-  moveScript: {fileID: 114861202206686098}
+  moveScript: {fileID: 114269292212028042}
   m_rigid: {fileID: 54388968085187216}
---- !u!114 &114861202206686098
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1366388990044496}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 139a3aaa33ad3604ca149d423857d748, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  droneDirection: 0
-  moveSpeed: 5
-  moveArea: {x: 70, y: 35}
-  XFraction: 5
-  returnSpeed: 20
-  searchFollowTime: 10
-  followObj: {fileID: 0}
-  flyUpSpeed: 1
-  m_collider: {fileID: 136722825180330886}
-  snipeBullet: {fileID: 114815875837599508}
 --- !u!135 &135346680170166268
 SphereCollider:
   m_ObjectHideFlags: 1

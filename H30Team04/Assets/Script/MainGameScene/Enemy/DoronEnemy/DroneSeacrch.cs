@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DroneSeacrch : MonoBehaviour
 {
-    [SerializeField] private DroneMove droneMove;
+    [SerializeField] private DroneMove2 droneMove;
 
     // Use this for initialization
     void Start()

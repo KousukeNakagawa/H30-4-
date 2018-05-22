@@ -42,7 +42,7 @@ public class BreakEffectManager : MonoBehaviour
         }
     }
 
-    private void ChangeType()
+    public void ChangeType()
     {
         switch (effectType)
         {

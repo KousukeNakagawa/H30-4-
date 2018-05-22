@@ -11,6 +11,8 @@ public class BigEnemyMove : MonoBehaviour
     private Vector3 turnEndDir;  //回転し終わった後の角度
     [HideInInspector] public bool isTurn { get; private set; }  //回転しているか
 
+    bool isStart = false;
+
     // Use this for initialization
     void Start()
     {
@@ -19,6 +21,7 @@ public class BigEnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isStart) return;
         if (BigEnemyScripts.searchObject.isSearch)
         {  //探索範囲に標的が入った後、1回だけ行う
             Vector3 endDir = TurnAngleSet(BigEnemyScripts.searchObject.targetPos);
@@ -35,6 +38,7 @@ public class BigEnemyMove : MonoBehaviour
                 BigEnemyScripts.droneCreate.DroneSet();
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
                 BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(false);
+                isStart = true;
             }
             else
             {

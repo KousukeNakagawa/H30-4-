@@ -7,7 +7,7 @@ public class SnipeBulletHitAction : MonoBehaviour
 
     public GameObject Explosion;
     public GameObject breakSmoke;
-    [SerializeField] private DroneMove moveScript;
+    [SerializeField] private DroneMove2 moveScript;
     [SerializeField] private Rigidbody m_rigid;
 
     private List<GameObject> children = new List<GameObject>();
