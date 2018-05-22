@@ -29,6 +29,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1404987415311414
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4295247820232658}
+  m_Layer: 0
+  m_Name: ExplosionPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1938948493913630
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,9 +74,23 @@ Transform:
   m_LocalScale: {x: 1, y: 4, z: 1}
   m_Children:
   - {fileID: 4457130843283778}
+  - {fileID: 4295247820232658}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!4 &4295247820232658
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1404987415311414}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 3.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4237087236186354}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4457130843283778
 Transform:
   m_ObjectHideFlags: 1
@@ -70,7 +99,7 @@ Transform:
   m_GameObject: {fileID: 1938948493913630}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 4, z: 0.25000006}
+  m_LocalScale: {x: 2, y: 6, z: 0.5}
   m_Children: []
   m_Father: {fileID: 4237087236186354}
   m_RootOrder: 0
@@ -233,6 +262,8 @@ MonoBehaviour:
   rotationCount: 3.5
   riseSpeed: 20
   TransSpeed: 10
+  targetPos: {x: 0, y: 0, z: 0}
+  explosion: {fileID: 0}
 --- !u!114 &114707329576432890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -244,6 +275,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea801d1c71495644790d665d8e49fe2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  explosionPos: {fileID: 4295247820232658}
+  explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
 --- !u!136 &136512309981200682
 CapsuleCollider:
   m_ObjectHideFlags: 1

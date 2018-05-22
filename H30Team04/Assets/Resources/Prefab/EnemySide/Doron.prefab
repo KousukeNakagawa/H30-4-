@@ -2125,7 +2125,7 @@ Transform:
   m_GameObject: {fileID: 1687074184035746}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 50, y: 50, z: 50}
+  m_LocalScale: {x: 400, y: 400, z: 400}
   m_Children:
   - {fileID: 4905783290193026}
   - {fileID: 4777594942578866}
@@ -2912,8 +2912,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   droneDirection: 0
   moveSpeed: 5
-  moveArea: {x: 70, y: 35}
-  XFraction: 5
+  moveArea: {x: 7, y: 3.5}
+  XFraction: 1
   returnSpeed: 20
   searchFollowTime: 10
   followObj: {fileID: 0}
@@ -2958,7 +2958,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.75
+  m_Radius: 6.5
   m_Center: {x: 0, y: 0.25, z: 0}
 --- !u!136 &136722825180330886
 CapsuleCollider:

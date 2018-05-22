@@ -50,7 +50,6 @@ public class ShootingFailure : MonoBehaviour
                 mm.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
             }
             move2.targetPos = target;
-            move2.explosion = explosionPrefab;
         }
     }
 }

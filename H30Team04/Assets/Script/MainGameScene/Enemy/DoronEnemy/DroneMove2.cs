@@ -33,7 +33,7 @@ public class DroneMove2 : MonoBehaviour
 
     private Vector2 primaryPos;  //初期位置(x,z)
     private Vector2 onceTargetPos;  //到達したらターンする
-    private float goalPos;
+    [SerializeField] private float goalPos;
     private Vector3 velocity;
     private int sagittalDir;
     private int LRdir = 1;
@@ -68,16 +68,14 @@ public class DroneMove2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(droneState);
+        //print(droneState);
         switch (droneState)
         {
             case DroneState.Start:
-            case DroneState.End:
                 transform.Translate(velocity * moveSpeed * Time.deltaTime);
                 if ((onceTargetPos - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
                 {
-                    if (droneState == DroneState.Start) droneState++;
-                    else Destroy(gameObject, 0.75f);
+                    droneState++;
                     velocity = Vector3.up;
                     upPrimary = transform.position.y + upDistance;
                 }
@@ -88,7 +86,7 @@ public class DroneMove2 : MonoBehaviour
                     droneState++;
                     isGo = true;
                     onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
-                        transform.position.z + LRdir * (moveArea.y));
+                        transform.position.z + LRdir * (moveArea.y / 2));
                     m_collider.enabled = true;
                     Vector2 dir = (onceTargetPos - new Vector2(transform.position.x, transform.position.z));
                     velocity = new Vector3(dir.x, 0, dir.y).normalized;
@@ -116,6 +114,7 @@ public class DroneMove2 : MonoBehaviour
             case DroneState.Search:
                 if (followObj != null)
                 {
+                    print("fllowing");
                     if (followCount < 0)
                     {
                         droneState++;
@@ -131,7 +130,7 @@ public class DroneMove2 : MonoBehaviour
                         return;
                     }
                 }
-                if (Mathf.Abs(Mathf.Abs(goalPos) - Mathf.Abs(transform.position.x)) <= 0.1f)
+                if (Mathf.Abs(Mathf.Abs(goalPos) - Mathf.Abs(transform.position.x)) <= 1f)
                 {
                     droneState++;
                     velocity = Vector3.forward;
@@ -165,7 +164,7 @@ public class DroneMove2 : MonoBehaviour
                     new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
                 {
                     transform.parent = BigEnemyScripts.mTransform;
-                    velocity = Vector3.down / 4;
+                    velocity = Vector3.down;
                     droneState++;
                     startEndVel = -1;
                     transform.rotation = Quaternion.identity;
@@ -176,6 +175,26 @@ public class DroneMove2 : MonoBehaviour
                     transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
                 }
                 break;
+            case DroneState.End:
+                transform.Translate(velocity * moveSpeed * Time.deltaTime);
+                if (Mathf.Abs(BigEnemyScripts.droneSearchStartPos.position.y
+                       - transform.position.y) <= 1f)
+                {
+                    velocity = Vector3.forward;
+                    if ((new Vector2(transform.localPosition.x, transform.localPosition.z)).sqrMagnitude <= 3f)
+                    {
+                        Destroy(gameObject, 0.75f);
+                    }
+                }
+                break;
+        }
+    }
+
+    public bool IsStart
+    {
+        get
+        {
+            return (droneState == DroneState.Initialize);
         }
     }
 

@@ -11,10 +11,12 @@ public class DroneCreate : MonoBehaviour
     private List<GameObject> drones = new List<GameObject>();
     [SerializeField, Tooltip("ドローンが再生成される間隔")] private float droneCreateCount = 20.0f;
     private float droneCreateTime;
+    [HideInInspector] public bool isEnd { get; private set; }
 
     // Use this for initialization
     void Awake()
     {
+        isEnd = true;
     }
 
     // Update is called once per frame
@@ -22,7 +24,15 @@ public class DroneCreate : MonoBehaviour
     {
         if (droneCreateTime > 0) droneCreateTime -= Time.deltaTime;
         else droneCreateTime = 0;
-        
+        if (drones.Count == 0 || isEnd) return;
+        isEnd = true;
+        foreach (var drone in drones)
+        {
+            if (!drone.GetComponent<DroneMove2>().IsStart)
+            {
+                isEnd = false;
+            }
+        }
     }
 
     public void DroneSet()
@@ -35,6 +45,7 @@ public class DroneCreate : MonoBehaviour
         drones[0].GetComponent<DroneMove2>().droneDirection = DroneMove2.DroneDirection.Advance;
         drones[1].GetComponent<DroneMove2>().droneDirection = DroneMove2.DroneDirection.Recession;
         droneCreateTime = droneCreateCount;
+        isEnd = false;
     }
 
     public void RemoveDrone(GameObject drone)

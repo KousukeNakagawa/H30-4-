@@ -96,12 +96,5 @@ public class MissileMove2 : MonoBehaviour
     void OnDestroy()
     {
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Remove(gameObject);
-        if (explosion != null)
-        {
-            Vector3 exPos = GetComponentInChildren<MissileCollider>().explosionPos;
-            if (exPos == Vector3.zero) exPos = transform.position;
-            GameObject ex = Instantiate(explosion, exPos, Quaternion.identity);
-            Destroy(ex, 3.0f);
-        }
     }
 }
