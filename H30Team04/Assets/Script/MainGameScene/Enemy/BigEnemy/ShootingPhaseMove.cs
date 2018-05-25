@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ShootingPhaseMove : MonoBehaviour
 {
+    [SerializeField] private MonoBehaviour[] scripts;
     [SerializeField] private Behaviour[] contents;
     [Header("Y座標は関係ありません")]
     [SerializeField, Tooltip("射撃フェーズでの目標座標")] private Vector3 targetPos;
@@ -21,22 +22,25 @@ public class ShootingPhaseMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.Space)) ShootingPhaseSet();
         if (!isShooting) return;
     }
 
     public void ShootingPhaseSet()
     {
         //射撃フェーズへ移動
-        List<Behaviour> scripts = new List<Behaviour>(GetComponentsInChildren<Behaviour>());
-        foreach (var script in contents)
-        {
-            scripts.RemoveAll((f => f.Equals(script)));
-        }
-        //スクリプトを止める
+        List<MonoBehaviour> scs = new List<MonoBehaviour>(GetComponentsInChildren<MonoBehaviour>());
         foreach (var script in scripts)
         {
+            scs.RemoveAll((f => f.Equals(script)));
+        }
+        //スクリプトを止める
+        foreach (var script in scs)
+        {
             script.enabled = false;
+        }
+        foreach (var com in contents)
+        {
+            com.enabled = false;
         }
         //ロボットが作ったオブジェクトを削除する
         foreach (var make in makebyRobot)
@@ -48,6 +52,6 @@ public class ShootingPhaseMove : MonoBehaviour
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
-        //BigEnemyScripts.shootingFailure.FailureAction();
+        BigEnemyScripts.shootingFailure.FailureAction();
     }
 }

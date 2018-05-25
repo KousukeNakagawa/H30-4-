@@ -23,6 +23,14 @@ public class BigEnemyScripts : MonoBehaviour
     public static Transform droneSearchStartPos;
 
     [SerializeField] private Transform[] transforms;
+    //ローカルポジション固定
+    private Dictionary<Transform, Vector3> localPoses = new Dictionary<Transform, Vector3>();
+    private SortedList<GameObject, Vector3> gs = new SortedList<GameObject, Vector3>();
+
+    void Awake()
+    {
+        mTransform = transform;
+    }
 
     // Use this for initialization
     void Start()
@@ -36,16 +44,15 @@ public class BigEnemyScripts : MonoBehaviour
         bigEnemyEffectManager = GetComponentInChildren<BigEnemyEffectManager>();
         shootingFailure = GetComponent<ShootingFailure>();
         breakEffectManager = GetComponentInChildren<BreakEffectManager>();
-        mTransform = transform;
         droneInstantiatePos = transform.Find("DroneInstantiate");
         droneSearchStartPos = transform.Find("DroneSearchStartPos");
     }
 
     void Update()
     {
-        foreach (Transform child in transforms)
+        foreach (Transform child in transform)
         {
-            child.position = mTransform.position;
+            if (localPoses.ContainsKey(child)) child.localPosition = localPoses[child];
         }
     }
 }

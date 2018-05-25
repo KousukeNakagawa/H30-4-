@@ -31,7 +31,7 @@ public class DroneMove2 : MonoBehaviour
     [Tooltip("ドローン出現時、上昇する速度"), SerializeField] private float flyUpSpeed = 1.0f;
     [SerializeField,Tooltip("上昇する距離")] private float upDistance = 10.0f;
 
-    private Vector2 primaryPos;  //初期位置(x,z)
+    private Vector3 primaryPos;  //初期位置(x,z)
     private Vector2 onceTargetPos;  //到達したらターンする
     private float goalPos;
     private Vector3 velocity;
@@ -49,10 +49,10 @@ public class DroneMove2 : MonoBehaviour
     void Start()
     {
         followCount = searchFollowTime;
-        primaryPos = new Vector2(transform.position.x, transform.position.z);
+        primaryPos = transform.position;
         onceTargetPos = new Vector2(BigEnemyScripts.droneSearchStartPos.position.x,
             BigEnemyScripts.droneSearchStartPos.position.z);
-        Vector2 dir = (onceTargetPos - primaryPos).normalized;
+        Vector2 dir = (onceTargetPos - new Vector2(primaryPos.x,primaryPos.z)).normalized;
         velocity = new Vector3(dir.x, 0, dir.y);
         if (droneDirection == DroneDirection.Advance) sagittalDir = 1;
         else sagittalDir = -1;
@@ -82,7 +82,7 @@ public class DroneMove2 : MonoBehaviour
                 }
                 break;
             case DroneState.FlyUp:
-                if (Mathf.Abs(upPrimary - transform.position.y) <= 0.1f)
+                if (upPrimary < transform.position.y)
                 {
                     droneState++;
                     isGo = true;
