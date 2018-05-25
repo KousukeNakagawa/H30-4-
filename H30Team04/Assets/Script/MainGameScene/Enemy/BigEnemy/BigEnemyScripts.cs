@@ -23,9 +23,10 @@ public class BigEnemyScripts : MonoBehaviour
     public static Transform droneSearchStartPos;
 
     [SerializeField] private Transform[] transforms;
+    //ボディ
+    [SerializeField] private Transform body_;
     //ローカルポジション固定
     private Dictionary<Transform, Vector3> localPoses = new Dictionary<Transform, Vector3>();
-    private SortedList<GameObject, Vector3> gs = new SortedList<GameObject, Vector3>();
 
     void Awake()
     {
@@ -46,6 +47,10 @@ public class BigEnemyScripts : MonoBehaviour
         breakEffectManager = GetComponentInChildren<BreakEffectManager>();
         droneInstantiatePos = transform.Find("DroneInstantiate");
         droneSearchStartPos = transform.Find("DroneSearchStartPos");
+        foreach (Transform child in transform)
+        {
+            localPoses[child] = child.localPosition;
+        }
     }
 
     void Update()

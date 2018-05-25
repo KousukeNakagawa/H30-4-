@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class SnipeBulletHitAction : MonoBehaviour
 {
-
     [Tooltip("爆発のエフェクト")]public GameObject explosion;
     [Tooltip("墜落の際の煙のエフェクト")]public GameObject breakSmoke;
     [SerializeField,Tooltip("自分のDroneMove2")] private DroneMove2 moveScript;
@@ -30,7 +29,7 @@ public class SnipeBulletHitAction : MonoBehaviour
     }
 
     public void Hit()
-    {
+    {  //墜落準備
         moveScript.m_collider.enabled = false;
         moveScript.enabled = false;
         children.Add(Instantiate(explosion, transform.position, Quaternion.identity));
