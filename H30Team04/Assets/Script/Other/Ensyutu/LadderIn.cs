@@ -7,9 +7,13 @@ public class LadderIn : MonoBehaviour {
     [SerializeField] private Transform targetPos;
     [SerializeField] private float speed = 1.0f;
 
+    private int num = 0;
+
 	// Use this for initialization
 	void Start () {
-	}
+        targetPos = XrayMachines.xrayMachineObjects[num].transform;
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -18,7 +22,9 @@ public class LadderIn : MonoBehaviour {
             Vector3 direction = targetPos.position - transform.position;
             if (direction.sqrMagnitude < 0.1f)
             {
-                transform.position = targetPos.position;
+                num++;
+                num %= XrayMachines.xrayMachineObjects.Count;
+                targetPos = XrayMachines.xrayMachineObjects[num].transform;
                 return;
             }
             direction = Vector3.Normalize(direction);
