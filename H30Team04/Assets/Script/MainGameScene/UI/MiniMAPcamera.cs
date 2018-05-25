@@ -44,31 +44,7 @@ public class MiniMAPcamera : MonoBehaviour
     void Update()
     {
         transform.position = new Vector3(m_Player.transform.position.x, m_Player.transform.position.y + cameraH, m_Player.transform.position.z);
-        //transform.rotation = Quaternion.Euler(0, m_Player.transform.localEulerAngles.y, 0);
-        //for(int i=0;i<m_targets.Length;i++)
-        //{
-        //    print(i);
-        //        var viewport = m_MinimapCamera.WorldToViewportPoint(m_targets[x_count].transform.position);
-        //    if (_rect.Contains(viewport))
-        //    {
-
-        //        MinimapIcon.enabled = true;
-        //        MInimapArrow.enabled = false;
-
-        //        MinimapIcon.transform.position = m_targets[x_count].transform.position;
-        //    }
-        //    else
-        //    {
-        //        MinimapIcon.enabled = false;
-        //        MInimapArrow.enabled = true;
-
-        //        viewport.x = Mathf.Clamp01(viewport.x);
-        //        viewport.y = Mathf.Clamp01(viewport.y);
-        //        MInimapArrow.rectTransform.anchoredPosition = Rect.NormalizedToPoint(_canvasRect, viewport);
-        //    }
-
-
-        //}
+        //transform.rotation = Quaternion.Euler(90, m_Player.transform.localEulerAngles.y, 0);
 
     }
 }

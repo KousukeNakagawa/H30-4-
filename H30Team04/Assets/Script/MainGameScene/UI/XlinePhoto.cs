@@ -50,12 +50,10 @@ public class XlinePhoto : MonoBehaviour {
         //        ++m_FlyerCount;
         //    }
         //}
-        m_Sight = transform.Find("sight").gameObject;
+        m_Sight = transform.Find("attackUI").transform.Find("sight").gameObject;
         XPhots.SetActive(false);
         m_Sight.SetActive(false);
         weektextparent.SetActive(false);
-
-
     }
 	
 	// Update is called once per frame

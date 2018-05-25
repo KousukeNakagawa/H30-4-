@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AttackPlayer : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class AttackPlayer : MonoBehaviour {
     [SerializeField] private GameObject roketPrefab;
     [SerializeField] private GameObject targetPrefab;
     [SerializeField] private Vector3 fireRightPos;
+    [SerializeField] private Text m_week_name;
+    private string m_weekText;
 
     private bool is_shot = false;
 
@@ -30,6 +33,7 @@ public class AttackPlayer : MonoBehaviour {
         target.position = weekPoints[selectNum].transform.position;
         transform.LookAt(target);
         m_gm = m_gamemanager.GetComponent<GameManager>();
+        
     }
 
     // Update is called once per frame
@@ -41,6 +45,8 @@ public class AttackPlayer : MonoBehaviour {
             {
                 selectNum++;
                 if (selectNum >= weekPoints.Length) selectNum = 0;
+                m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
+                m_week_name.text = m_weekText;
             }
             target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
             transform.LookAt(target);
