@@ -1,0 +1,1018 @@
+fileFormatVersion: 2
+guid: a34a8bc427a2302408f9e8fe5846d913
+timeCreated: 1527208698
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: AC Cylinder
+    100002: AC-OUT
+    100004: AMMOBOX_Mi
+    100006: Arm_In_Left_Thing
+    100008: Arm_In_Right_Thing
+    100010: ARM_LEFT_LOWER_MESH
+    100012: ARM_LEFT_UPPER_MESH
+    100014: arm_lowerR_HELP
+    100016: arm_topR_HELP
+    100018: ArmL_LaserHELP
+    100020: ArmL_ShoulderHELP
+    100022: ArmLBone01
+    100024: ArmLBone02
+    100026: ArmLBone03
+    100028: ArmRBone01
+    100030: ArmRBone02
+    100032: ArmRBone03
+    100034: ArmRBone04
+    100036: ArmRMinigun_CTRL
+    100038: AUTOCANNON
+    100040: BOTTOM RIGHT ARM
+    100042: Box02
+    100044: Box03
+    100046: Camera01
+    100048: CannonHolder
+    100050: ChamferBo1
+    100052: ChamferCyl03
+    100054: ChamferCyl04
+    100056: Chassi
+    100058: chassiCTRL
+    100060: chassiCTRLZERO
+    100062: ChassiHELP
+    100064: Cooler
+    100066: COOLER FO0
+    100068: COOLER FOR
+    100070: Cooler_Box_Minigun
+    100072: Cooler_Box_Minigun01
+    100074: Cooler_Chassi_Left
+    100076: Cooler_Chassi_Right
+    100078: Cooler_Lef
+    100080: Cooler_Rig
+    100082: Cylinder01
+    100084: Cylinder02
+    100086: Down_Arm
+    100088: Down_Arm_Thinger_Minigun
+    100090: FENCE LEG
+    100092: FENCE LEG01
+    100094: Foot_L
+    100096: Foot_L_CTRL
+    100098: Foot_L_MESH
+    100100: Foot_R
+    100102: Foot_R_CTRL
+    100104: Foot_R_MESH
+    100106: FootLHELP
+    100108: FootRHELP
+    100110: Glass
+    100112: GroundCTRL
+    100114: Head
+    100116: HEAVY LASER_MESH
+    100118: HeavyLaser CBox
+    100120: HeavyLaserCylinder 01
+    100122: IK_ankleL_GOAL
+    100124: IK_ankleR_GOAL
+    100126: IK_arm_GOAL
+    100128: IK_armR_Minigun
+    100130: IK_footL_GOAL
+    100132: IK_footR_GOAL
+    100134: IKArmLGOAL
+    100136: laser
+    100138: laser01
+    100140: LaserBack01
+    100142: LaserBack02
+    100144: LaserMiddle01
+    100146: LaserMiddle02
+    100148: LaserOut01
+    100150: LaserOut02
+    100152: LaserR_CTRL
+    100154: Left_Shoulder
+    100156: Left_Shoulder_Cylinder
+    100158: LEFT_Strecher for Foot
+    100160: LEFT_Strecher for Foot01
+    100162: Leg Upper Sphere Left
+    100164: Leg Upper Sphere Right
+    100166: Leg_Cylinder_Top
+    100168: Leg_Cylinder_Top01
+    100170: Leg_thinger_Cone01
+    100172: Leg_thinger_Cone02
+    100174: Leg_thinger_Cone03
+    100176: Leg_thinger_Cone04
+    100178: LegBoneL01
+    100180: LegBoneL02
+    100182: LegBoneL03
+    100184: LegBoneL04
+    100186: LegBoneR01
+    100188: LegBoneR02
+    100190: LegBoneR03
+    100192: LegBoneR04
+    100194: LegThinger
+    100196: LegThinger01
+    100198: Lower Leg
+    100200: Lower Leg01
+    100202: lower_legL_MESH
+    100204: lower_legR_MESH
+    100206: LowerBinde
+    100208: LowerLeftA
+    100210: LowerLegLHELP
+    100212: LowerLegRHELP
+    100214: LowerRotat
+    100216: Middle leg
+    100218: Middle leg01
+    100220: MINIGUN
+    100222: Minigun AmmoThing
+    100224: Minigun Ba
+    100226: Minigun Cy01
+    100228: Minigun In
+    100230: Minigun OUT Cylinders
+    100232: Minigun_LeftBox
+    100234: Minigun_RightBox
+    100236: Minigunam0
+    100238: minigunCy0
+    100240: minigunCy1
+    100242: minigunCy2
+    100244: minigunCy3
+    100246: minugun_HELP
+    100248: Missile 01
+    100250: Missile 02
+    100252: Missile 03
+    100254: Missile 04
+    100256: Missile 05
+    100258: Missile 06
+    100260: Missile 07
+    100262: Missile 08
+    100264: Missile 09
+    100266: Missile 10
+    100268: Missile 11
+    100270: Missile 12
+    100272: Missile 13
+    100274: Missile 14
+    100276: Missile 15
+    100278: Missile 16
+    100280: Missile 17
+    100282: Missile 18
+    100284: Missile 19
+    100286: Missile 20
+    100288: Missile 21
+    100290: Missile 22
+    100292: Missile 23
+    100294: Missile 24
+    100296: Missile 25
+    100298: Missile 26
+    100300: Missiles_Group_Left_01
+    100302: Missiles_Group_Right_01
+    100304: NIJATHING
+    100306: NIJATHINGR
+    100308: OUTAC -Green
+    100310: PlacementCTRL
+    100312: Plane03
+    100314: Plate for leg
+    100316: Plate for leg01
+    100318: PrismforArm 01
+    100320: PrismforArm 02
+    100322: Pyramid01
+    100324: Pyramid02
+    100326: Pyramid03
+    100328: Pyramid04
+    100330: Pyramid05
+    100332: Pyramid06
+    100334: Pyramid07
+    100336: Pyramid08
+    100338: RIGHT ARM N MG
+    100340: Right Laser
+    100342: //RootNode
+    100344: Rocket_Launcer_Inside_Left_01
+    100346: Rocket_Launcer_Inside_Right_01
+    100348: RocketL_Sp01
+    100350: RocketL_Sp02
+    100352: RocketLauncer_Left_MAINGROUP_01
+    100354: RocketLauncer_Left_MAINGROUP_02
+    100356: RocketLauncer_Right_MAINGROUP_01
+    100358: Rocketlauncher_Outside_Left_01
+    100360: Rocketlauncher_Outside_Right_01
+    100362: Rotator-Smallbox 01
+    100364: Rotator-Smallbox 02
+    100366: Rotator-Smallbox 03
+    100368: Rotator-Smallbox 04
+    100370: Rotator-Smallbox 05
+    100372: Rotator-Smallbox 06
+    100374: Rotator-Smallbox 07
+    100376: Rotator-Smallbox 08
+    100378: Rotator-Smallbox 09
+    100380: Rotator-Smallbox 10
+    100382: Rotator-Smallbox 11
+    100384: Rotator-Smallbox 12
+    100386: Rotator-Smallbox 13
+    100388: Rotator-Smallbox 14
+    100390: Rotator-Smallbox 15
+    100392: Rotator-Smallbox 16
+    100394: RounderSphereMG
+    100396: Srew 01
+    100398: Srew 02
+    100400: Srew 03
+    100402: Srew 04
+    100404: Srew 05
+    100406: Srew 06
+    100408: Srew 07
+    100410: Srew 08
+    100412: ThingerLef
+    100414: TOP RIGHT ARM
+    100416: TORSO ROTATOR GROUP
+    100418: Torso Upper Part
+    100420: Torso-Rotator
+    100422: Torso_Lower_Part
+    100424: TorsoHELP
+    100426: UnderArmChainer
+    100428: Upper_Leg_Bone_Left
+    100430: Upper_Leg_Bone_Left 1
+    100432: Upper_Leg_Bone_Right
+    100434: UpperArmCy
+    100436: UpperArmTh
+    100438: UpperBinde
+    100440: UpperLeftA
+    100442: UpperLegLCTRL
+    100444: UpperLegLCTRLZERO
+    100446: UpperLegLHELP
+    100448: UpperLegRCTRL
+    100450: UpperLegRCTRLZERO
+    100452: UpperLegRHELP
+    100454: uppet_legL_Mesh
+    100456: uppet_legR_Mesh
+    400000: AC Cylinder
+    400002: AC-OUT
+    400004: AMMOBOX_Mi
+    400006: Arm_In_Left_Thing
+    400008: Arm_In_Right_Thing
+    400010: ARM_LEFT_LOWER_MESH
+    400012: ARM_LEFT_UPPER_MESH
+    400014: arm_lowerR_HELP
+    400016: arm_topR_HELP
+    400018: ArmL_LaserHELP
+    400020: ArmL_ShoulderHELP
+    400022: ArmLBone01
+    400024: ArmLBone02
+    400026: ArmLBone03
+    400028: ArmRBone01
+    400030: ArmRBone02
+    400032: ArmRBone03
+    400034: ArmRBone04
+    400036: ArmRMinigun_CTRL
+    400038: AUTOCANNON
+    400040: BOTTOM RIGHT ARM
+    400042: Box02
+    400044: Box03
+    400046: Camera01
+    400048: CannonHolder
+    400050: ChamferBo1
+    400052: ChamferCyl03
+    400054: ChamferCyl04
+    400056: Chassi
+    400058: chassiCTRL
+    400060: chassiCTRLZERO
+    400062: ChassiHELP
+    400064: Cooler
+    400066: COOLER FO0
+    400068: COOLER FOR
+    400070: Cooler_Box_Minigun
+    400072: Cooler_Box_Minigun01
+    400074: Cooler_Chassi_Left
+    400076: Cooler_Chassi_Right
+    400078: Cooler_Lef
+    400080: Cooler_Rig
+    400082: Cylinder01
+    400084: Cylinder02
+    400086: Down_Arm
+    400088: Down_Arm_Thinger_Minigun
+    400090: FENCE LEG
+    400092: FENCE LEG01
+    400094: Foot_L
+    400096: Foot_L_CTRL
+    400098: Foot_L_MESH
+    400100: Foot_R
+    400102: Foot_R_CTRL
+    400104: Foot_R_MESH
+    400106: FootLHELP
+    400108: FootRHELP
+    400110: Glass
+    400112: GroundCTRL
+    400114: Head
+    400116: HEAVY LASER_MESH
+    400118: HeavyLaser CBox
+    400120: HeavyLaserCylinder 01
+    400122: IK_ankleL_GOAL
+    400124: IK_ankleR_GOAL
+    400126: IK_arm_GOAL
+    400128: IK_armR_Minigun
+    400130: IK_footL_GOAL
+    400132: IK_footR_GOAL
+    400134: IKArmLGOAL
+    400136: laser
+    400138: laser01
+    400140: LaserBack01
+    400142: LaserBack02
+    400144: LaserMiddle01
+    400146: LaserMiddle02
+    400148: LaserOut01
+    400150: LaserOut02
+    400152: LaserR_CTRL
+    400154: Left_Shoulder
+    400156: Left_Shoulder_Cylinder
+    400158: LEFT_Strecher for Foot
+    400160: LEFT_Strecher for Foot01
+    400162: Leg Upper Sphere Left
+    400164: Leg Upper Sphere Right
+    400166: Leg_Cylinder_Top
+    400168: Leg_Cylinder_Top01
+    400170: Leg_thinger_Cone01
+    400172: Leg_thinger_Cone02
+    400174: Leg_thinger_Cone03
+    400176: Leg_thinger_Cone04
+    400178: LegBoneL01
+    400180: LegBoneL02
+    400182: LegBoneL03
+    400184: LegBoneL04
+    400186: LegBoneR01
+    400188: LegBoneR02
+    400190: LegBoneR03
+    400192: LegBoneR04
+    400194: LegThinger
+    400196: LegThinger01
+    400198: Lower Leg
+    400200: Lower Leg01
+    400202: lower_legL_MESH
+    400204: lower_legR_MESH
+    400206: LowerBinde
+    400208: LowerLeftA
+    400210: LowerLegLHELP
+    400212: LowerLegRHELP
+    400214: LowerRotat
+    400216: Middle leg
+    400218: Middle leg01
+    400220: MINIGUN
+    400222: Minigun AmmoThing
+    400224: Minigun Ba
+    400226: Minigun Cy01
+    400228: Minigun In
+    400230: Minigun OUT Cylinders
+    400232: Minigun_LeftBox
+    400234: Minigun_RightBox
+    400236: Minigunam0
+    400238: minigunCy0
+    400240: minigunCy1
+    400242: minigunCy2
+    400244: minigunCy3
+    400246: minugun_HELP
+    400248: Missile 01
+    400250: Missile 02
+    400252: Missile 03
+    400254: Missile 04
+    400256: Missile 05
+    400258: Missile 06
+    400260: Missile 07
+    400262: Missile 08
+    400264: Missile 09
+    400266: Missile 10
+    400268: Missile 11
+    400270: Missile 12
+    400272: Missile 13
+    400274: Missile 14
+    400276: Missile 15
+    400278: Missile 16
+    400280: Missile 17
+    400282: Missile 18
+    400284: Missile 19
+    400286: Missile 20
+    400288: Missile 21
+    400290: Missile 22
+    400292: Missile 23
+    400294: Missile 24
+    400296: Missile 25
+    400298: Missile 26
+    400300: Missiles_Group_Left_01
+    400302: Missiles_Group_Right_01
+    400304: NIJATHING
+    400306: NIJATHINGR
+    400308: OUTAC -Green
+    400310: PlacementCTRL
+    400312: Plane03
+    400314: Plate for leg
+    400316: Plate for leg01
+    400318: PrismforArm 01
+    400320: PrismforArm 02
+    400322: Pyramid01
+    400324: Pyramid02
+    400326: Pyramid03
+    400328: Pyramid04
+    400330: Pyramid05
+    400332: Pyramid06
+    400334: Pyramid07
+    400336: Pyramid08
+    400338: RIGHT ARM N MG
+    400340: Right Laser
+    400342: //RootNode
+    400344: Rocket_Launcer_Inside_Left_01
+    400346: Rocket_Launcer_Inside_Right_01
+    400348: RocketL_Sp01
+    400350: RocketL_Sp02
+    400352: RocketLauncer_Left_MAINGROUP_01
+    400354: RocketLauncer_Left_MAINGROUP_02
+    400356: RocketLauncer_Right_MAINGROUP_01
+    400358: Rocketlauncher_Outside_Left_01
+    400360: Rocketlauncher_Outside_Right_01
+    400362: Rotator-Smallbox 01
+    400364: Rotator-Smallbox 02
+    400366: Rotator-Smallbox 03
+    400368: Rotator-Smallbox 04
+    400370: Rotator-Smallbox 05
+    400372: Rotator-Smallbox 06
+    400374: Rotator-Smallbox 07
+    400376: Rotator-Smallbox 08
+    400378: Rotator-Smallbox 09
+    400380: Rotator-Smallbox 10
+    400382: Rotator-Smallbox 11
+    400384: Rotator-Smallbox 12
+    400386: Rotator-Smallbox 13
+    400388: Rotator-Smallbox 14
+    400390: Rotator-Smallbox 15
+    400392: Rotator-Smallbox 16
+    400394: RounderSphereMG
+    400396: Srew 01
+    400398: Srew 02
+    400400: Srew 03
+    400402: Srew 04
+    400404: Srew 05
+    400406: Srew 06
+    400408: Srew 07
+    400410: Srew 08
+    400412: ThingerLef
+    400414: TOP RIGHT ARM
+    400416: TORSO ROTATOR GROUP
+    400418: Torso Upper Part
+    400420: Torso-Rotator
+    400422: Torso_Lower_Part
+    400424: TorsoHELP
+    400426: UnderArmChainer
+    400428: Upper_Leg_Bone_Left
+    400430: Upper_Leg_Bone_Left 1
+    400432: Upper_Leg_Bone_Right
+    400434: UpperArmCy
+    400436: UpperArmTh
+    400438: UpperBinde
+    400440: UpperLeftA
+    400442: UpperLegLCTRL
+    400444: UpperLegLCTRLZERO
+    400446: UpperLegLHELP
+    400448: UpperLegRCTRL
+    400450: UpperLegRCTRLZERO
+    400452: UpperLegRHELP
+    400454: uppet_legL_Mesh
+    400456: uppet_legR_Mesh
+    2000000: Camera01
+    2100000: 6 - Default
+    2100002: Metal_Galvanized
+    2100004: Metal_Black_Plain
+    2100006: Metal_Steel
+    2100008: Steel 2
+    2100010: Black_Thinger
+    2100012: 19 - Default
+    2100014: Missile
+    2100016: Black_Yellow Stripes
+    2100018: No Name
+    2300000: AC Cylinder
+    2300002: AC-OUT
+    2300004: AMMOBOX_Mi
+    2300006: Arm_In_Left_Thing
+    2300008: Arm_In_Right_Thing
+    2300010: ArmRMinigun_CTRL
+    2300012: Box02
+    2300014: Box03
+    2300016: CannonHolder
+    2300018: ChamferBo1
+    2300020: ChamferCyl03
+    2300022: ChamferCyl04
+    2300024: Chassi
+    2300026: Cooler
+    2300028: COOLER FO0
+    2300030: COOLER FOR
+    2300032: Cooler_Box_Minigun
+    2300034: Cooler_Box_Minigun01
+    2300036: Cooler_Chassi_Left
+    2300038: Cooler_Chassi_Right
+    2300040: Cooler_Lef
+    2300042: Cooler_Rig
+    2300044: Cylinder01
+    2300046: Cylinder02
+    2300048: Down_Arm
+    2300050: Foot_L
+    2300052: Foot_R
+    2300054: Glass
+    2300056: Head
+    2300058: HeavyLaser CBox
+    2300060: HeavyLaserCylinder 01
+    2300062: laser
+    2300064: laser01
+    2300066: LaserBack01
+    2300068: LaserBack02
+    2300070: LaserMiddle01
+    2300072: LaserMiddle02
+    2300074: LaserOut01
+    2300076: LaserOut02
+    2300078: LaserR_CTRL
+    2300080: Left_Shoulder
+    2300082: Left_Shoulder_Cylinder
+    2300084: LEFT_Strecher for Foot
+    2300086: LEFT_Strecher for Foot01
+    2300088: Leg Upper Sphere Left
+    2300090: Leg Upper Sphere Right
+    2300092: Leg_Cylinder_Top
+    2300094: Leg_Cylinder_Top01
+    2300096: Leg_thinger_Cone01
+    2300098: Leg_thinger_Cone02
+    2300100: Leg_thinger_Cone03
+    2300102: Leg_thinger_Cone04
+    2300104: LegThinger
+    2300106: LegThinger01
+    2300108: Lower Leg
+    2300110: Lower Leg01
+    2300112: LowerBinde
+    2300114: LowerLeftA
+    2300116: LowerRotat
+    2300118: Middle leg
+    2300120: Middle leg01
+    2300122: Minigun AmmoThing
+    2300124: Minigun Ba
+    2300126: Minigun Cy01
+    2300128: Minigun In
+    2300130: Minigun OUT Cylinders
+    2300132: Minigun_LeftBox
+    2300134: Minigun_RightBox
+    2300136: Minigunam0
+    2300138: minigunCy0
+    2300140: minigunCy1
+    2300142: minigunCy2
+    2300144: minigunCy3
+    2300146: Missile 01
+    2300148: Missile 02
+    2300150: Missile 03
+    2300152: Missile 04
+    2300154: Missile 05
+    2300156: Missile 06
+    2300158: Missile 07
+    2300160: Missile 08
+    2300162: Missile 09
+    2300164: Missile 10
+    2300166: Missile 11
+    2300168: Missile 12
+    2300170: Missile 13
+    2300172: Missile 14
+    2300174: Missile 15
+    2300176: Missile 16
+    2300178: Missile 17
+    2300180: Missile 18
+    2300182: Missile 19
+    2300184: Missile 20
+    2300186: Missile 21
+    2300188: Missile 22
+    2300190: Missile 23
+    2300192: Missile 24
+    2300194: Missile 25
+    2300196: Missile 26
+    2300198: OUTAC -Green
+    2300200: Plane03
+    2300202: Plate for leg
+    2300204: Plate for leg01
+    2300206: PrismforArm 01
+    2300208: PrismforArm 02
+    2300210: Pyramid01
+    2300212: Pyramid02
+    2300214: Pyramid03
+    2300216: Pyramid04
+    2300218: Pyramid05
+    2300220: Pyramid06
+    2300222: Pyramid07
+    2300224: Pyramid08
+    2300226: Rocket_Launcer_Inside_Left_01
+    2300228: Rocket_Launcer_Inside_Right_01
+    2300230: RocketL_Sp01
+    2300232: RocketL_Sp02
+    2300234: Rocketlauncher_Outside_Left_01
+    2300236: Rocketlauncher_Outside_Right_01
+    2300238: Rotator-Smallbox 01
+    2300240: Rotator-Smallbox 02
+    2300242: Rotator-Smallbox 03
+    2300244: Rotator-Smallbox 04
+    2300246: Rotator-Smallbox 05
+    2300248: Rotator-Smallbox 06
+    2300250: Rotator-Smallbox 07
+    2300252: Rotator-Smallbox 08
+    2300254: Rotator-Smallbox 09
+    2300256: Rotator-Smallbox 10
+    2300258: Rotator-Smallbox 11
+    2300260: Rotator-Smallbox 12
+    2300262: Rotator-Smallbox 13
+    2300264: Rotator-Smallbox 14
+    2300266: Rotator-Smallbox 15
+    2300268: Rotator-Smallbox 16
+    2300270: RounderSphereMG
+    2300272: Srew 01
+    2300274: Srew 02
+    2300276: Srew 03
+    2300278: Srew 04
+    2300280: Srew 05
+    2300282: Srew 06
+    2300284: Srew 07
+    2300286: Srew 08
+    2300288: ThingerLef
+    2300290: Torso Upper Part
+    2300292: Torso-Rotator
+    2300294: Torso_Lower_Part
+    2300296: UnderArmChainer
+    2300298: UpperArmCy
+    2300300: UpperBinde
+    2300302: UpperLeftA
+    3300000: AC Cylinder
+    3300002: AC-OUT
+    3300004: AMMOBOX_Mi
+    3300006: Arm_In_Left_Thing
+    3300008: Arm_In_Right_Thing
+    3300010: ArmRMinigun_CTRL
+    3300012: Box02
+    3300014: Box03
+    3300016: CannonHolder
+    3300018: ChamferBo1
+    3300020: ChamferCyl03
+    3300022: ChamferCyl04
+    3300024: Chassi
+    3300026: Cooler
+    3300028: COOLER FO0
+    3300030: COOLER FOR
+    3300032: Cooler_Box_Minigun
+    3300034: Cooler_Box_Minigun01
+    3300036: Cooler_Chassi_Left
+    3300038: Cooler_Chassi_Right
+    3300040: Cooler_Lef
+    3300042: Cooler_Rig
+    3300044: Cylinder01
+    3300046: Cylinder02
+    3300048: Down_Arm
+    3300050: Foot_L
+    3300052: Foot_R
+    3300054: Glass
+    3300056: Head
+    3300058: HeavyLaser CBox
+    3300060: HeavyLaserCylinder 01
+    3300062: laser
+    3300064: laser01
+    3300066: LaserBack01
+    3300068: LaserBack02
+    3300070: LaserMiddle01
+    3300072: LaserMiddle02
+    3300074: LaserOut01
+    3300076: LaserOut02
+    3300078: LaserR_CTRL
+    3300080: Left_Shoulder
+    3300082: Left_Shoulder_Cylinder
+    3300084: LEFT_Strecher for Foot
+    3300086: LEFT_Strecher for Foot01
+    3300088: Leg Upper Sphere Left
+    3300090: Leg Upper Sphere Right
+    3300092: Leg_Cylinder_Top
+    3300094: Leg_Cylinder_Top01
+    3300096: Leg_thinger_Cone01
+    3300098: Leg_thinger_Cone02
+    3300100: Leg_thinger_Cone03
+    3300102: Leg_thinger_Cone04
+    3300104: LegThinger
+    3300106: LegThinger01
+    3300108: Lower Leg
+    3300110: Lower Leg01
+    3300112: LowerBinde
+    3300114: LowerLeftA
+    3300116: LowerRotat
+    3300118: Middle leg
+    3300120: Middle leg01
+    3300122: Minigun AmmoThing
+    3300124: Minigun Ba
+    3300126: Minigun Cy01
+    3300128: Minigun In
+    3300130: Minigun OUT Cylinders
+    3300132: Minigun_LeftBox
+    3300134: Minigun_RightBox
+    3300136: Minigunam0
+    3300138: minigunCy0
+    3300140: minigunCy1
+    3300142: minigunCy2
+    3300144: minigunCy3
+    3300146: Missile 01
+    3300148: Missile 02
+    3300150: Missile 03
+    3300152: Missile 04
+    3300154: Missile 05
+    3300156: Missile 06
+    3300158: Missile 07
+    3300160: Missile 08
+    3300162: Missile 09
+    3300164: Missile 10
+    3300166: Missile 11
+    3300168: Missile 12
+    3300170: Missile 13
+    3300172: Missile 14
+    3300174: Missile 15
+    3300176: Missile 16
+    3300178: Missile 17
+    3300180: Missile 18
+    3300182: Missile 19
+    3300184: Missile 20
+    3300186: Missile 21
+    3300188: Missile 22
+    3300190: Missile 23
+    3300192: Missile 24
+    3300194: Missile 25
+    3300196: Missile 26
+    3300198: OUTAC -Green
+    3300200: Plane03
+    3300202: Plate for leg
+    3300204: Plate for leg01
+    3300206: PrismforArm 01
+    3300208: PrismforArm 02
+    3300210: Pyramid01
+    3300212: Pyramid02
+    3300214: Pyramid03
+    3300216: Pyramid04
+    3300218: Pyramid05
+    3300220: Pyramid06
+    3300222: Pyramid07
+    3300224: Pyramid08
+    3300226: Rocket_Launcer_Inside_Left_01
+    3300228: Rocket_Launcer_Inside_Right_01
+    3300230: RocketL_Sp01
+    3300232: RocketL_Sp02
+    3300234: Rocketlauncher_Outside_Left_01
+    3300236: Rocketlauncher_Outside_Right_01
+    3300238: Rotator-Smallbox 01
+    3300240: Rotator-Smallbox 02
+    3300242: Rotator-Smallbox 03
+    3300244: Rotator-Smallbox 04
+    3300246: Rotator-Smallbox 05
+    3300248: Rotator-Smallbox 06
+    3300250: Rotator-Smallbox 07
+    3300252: Rotator-Smallbox 08
+    3300254: Rotator-Smallbox 09
+    3300256: Rotator-Smallbox 10
+    3300258: Rotator-Smallbox 11
+    3300260: Rotator-Smallbox 12
+    3300262: Rotator-Smallbox 13
+    3300264: Rotator-Smallbox 14
+    3300266: Rotator-Smallbox 15
+    3300268: Rotator-Smallbox 16
+    3300270: RounderSphereMG
+    3300272: Srew 01
+    3300274: Srew 02
+    3300276: Srew 03
+    3300278: Srew 04
+    3300280: Srew 05
+    3300282: Srew 06
+    3300284: Srew 07
+    3300286: Srew 08
+    3300288: ThingerLef
+    3300290: Torso Upper Part
+    3300292: Torso-Rotator
+    3300294: Torso_Lower_Part
+    3300296: UnderArmChainer
+    3300298: UpperArmCy
+    3300300: UpperBinde
+    3300302: UpperLeftA
+    4300000: Plane03
+    4300002: Foot_L
+    4300004: LEFT_Strecher for Foot
+    4300006: Lower Leg
+    4300008: Cylinder01
+    4300010: Pyramid01
+    4300012: Pyramid02
+    4300014: Pyramid04
+    4300016: Pyramid03
+    4300018: Leg_thinger_Cone02
+    4300020: LegThinger
+    4300022: Leg_thinger_Cone01
+    4300024: Plate for leg
+    4300026: ChamferCyl03
+    4300028: Leg_Cylinder_Top
+    4300030: Box02
+    4300032: Srew 01
+    4300034: Srew 02
+    4300036: Srew 03
+    4300038: Srew 04
+    4300040: Middle leg
+    4300042: Leg Upper Sphere Left
+    4300044: Foot_R
+    4300046: Lower Leg01
+    4300048: LEFT_Strecher for Foot01
+    4300050: Cylinder02
+    4300052: Pyramid05
+    4300054: Pyramid06
+    4300056: Pyramid07
+    4300058: Pyramid08
+    4300060: Leg_thinger_Cone04
+    4300062: LegThinger01
+    4300064: Leg_thinger_Cone03
+    4300066: Plate for leg01
+    4300068: Middle leg01
+    4300070: ChamferCyl04
+    4300072: Leg_Cylinder_Top01
+    4300074: Box03
+    4300076: Srew 05
+    4300078: Srew 06
+    4300080: Srew 07
+    4300082: Srew 08
+    4300084: Leg Upper Sphere Right
+    4300086: Down_Arm
+    4300088: RounderSphereMG
+    4300090: Minigun OUT Cylinders
+    4300092: minigunCy1
+    4300094: minigunCy3
+    4300096: minigunCy0
+    4300098: Minigun Cy01
+    4300100: minigunCy2
+    4300102: Minigun In
+    4300104: Minigun AmmoThing
+    4300106: Cooler_Rig
+    4300108: Cooler_Lef
+    4300110: AMMOBOX_Mi
+    4300112: Minigun_LeftBox
+    4300114: Minigunam0
+    4300116: ChamferBo1
+    4300118: Minigun_RightBox
+    4300120: Minigun Ba
+    4300122: UnderArmChainer
+    4300124: Cooler_Box_Minigun
+    4300126: Cooler_Box_Minigun01
+    4300128: UpperArmCy
+    4300130: UpperArmTh
+    4300132: Down_Arm_Thinger_Minigun
+    4300134: laser01
+    4300136: COOLER FO0
+    4300138: HeavyLaser CBox
+    4300140: COOLER FOR
+    4300142: laser
+    4300144: LowerRotat
+    4300146: LowerBinde
+    4300148: HeavyLaserCylinder 01
+    4300150: LowerLeftA
+    4300152: UpperBinde
+    4300154: OUTAC -Green
+    4300156: CannonHolder
+    4300158: AC-OUT
+    4300160: AC Cylinder
+    4300162: Cooler
+    4300164: Torso-Rotator
+    4300166: Rotator-Smallbox 16
+    4300168: Rotator-Smallbox 15
+    4300170: Rotator-Smallbox 14
+    4300172: Rotator-Smallbox 13
+    4300174: Rotator-Smallbox 12
+    4300176: Rotator-Smallbox 11
+    4300178: Rotator-Smallbox 10
+    4300180: Rotator-Smallbox 09
+    4300182: Rotator-Smallbox 08
+    4300184: Rotator-Smallbox 07
+    4300186: Rotator-Smallbox 06
+    4300188: Rotator-Smallbox 05
+    4300190: Rotator-Smallbox 04
+    4300192: Rotator-Smallbox 03
+    4300194: Rotator-Smallbox 02
+    4300196: Rotator-Smallbox 01
+    4300198: Arm_In_Left_Thing
+    4300200: PrismforArm 01
+    4300202: Arm_In_Right_Thing
+    4300204: PrismforArm 02
+    4300206: Left_Shoulder
+    4300208: Left_Shoulder_Cylinder
+    4300210: Torso Upper Part
+    4300212: Cooler_Chassi_Left
+    4300214: Chassi
+    4300216: Glass
+    4300218: Head
+    4300220: Missile 04
+    4300222: Missile 05
+    4300224: Missile 03
+    4300226: Missile 07
+    4300228: Missile 08
+    4300230: Missile 06
+    4300232: Missile 10
+    4300234: Missile 11
+    4300236: Missile 09
+    4300238: Missile 13
+    4300240: Missile 12
+    4300242: Missile 01
+    4300244: Missile 02
+    4300246: UpperLeftA
+    4300248: ThingerLef
+    4300250: Missile 14
+    4300252: Missile 15
+    4300254: Missile 16
+    4300256: Missile 17
+    4300258: Missile 18
+    4300260: Missile 19
+    4300262: Missile 20
+    4300264: Missile 21
+    4300266: Missile 22
+    4300268: Missile 23
+    4300270: Missile 24
+    4300272: Missile 25
+    4300274: Missile 26
+    4300276: Rocketlauncher_Outside_Right_01
+    4300278: Rocket_Launcer_Inside_Right_01
+    4300280: LaserBack01
+    4300282: LaserMiddle01
+    4300284: LaserOut01
+    4300286: RocketL_Sp01
+    4300288: Rocketlauncher_Outside_Left_01
+    4300290: Rocket_Launcer_Inside_Left_01
+    4300292: LaserBack02
+    4300294: RocketL_Sp02
+    4300296: LaserMiddle02
+    4300298: LaserOut02
+    4300300: Cooler_Chassi_Right
+    4300302: LaserR_CTRL
+    4300304: ArmRMinigun_CTRL
+    4300306: Torso_Lower_Part
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Down_Arm_Thinger_Minigun
+    13700002: UpperArmTh
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
