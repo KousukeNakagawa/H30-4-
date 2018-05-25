@@ -5,6 +5,7 @@ using UnityEngine;
 public class WeekPoint : MonoBehaviour {
 
     public int weeknumber = 0;
+    public string _week_name;
 
     private GameObject m_model;
     private float hideTime = 1.0f;
@@ -46,5 +47,10 @@ public class WeekPoint : MonoBehaviour {
     public int GetWeekNumber
     {
         get { return weeknumber; }
+    }
+
+    public string GetWeekName()
+    {
+         return _week_name;
     }
 }
