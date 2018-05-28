@@ -109,23 +109,23 @@ public class MapCreate : MonoBehaviour {
         {
             case "A":
             case "X":
-                result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                result.x = column * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
                 result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
                 break;
             case "B":
                 if(direction == "N" || direction == "S")
                 {
-                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX;
+                    result.x = column * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX;
                     result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
                 }
                 else
                 {
-                    result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
+                    result.x = column * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
                     result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ;
                 }
                 break;
             case "C":
-                result.x = (column + 1) * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX;
+                result.x = column * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX;
                 result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ;
                 break;
         }

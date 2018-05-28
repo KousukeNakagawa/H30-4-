@@ -226,17 +226,17 @@ public class XrayMachine : MonoBehaviour {
         underPos *= int.Parse(texnumber.Substring(1, 1)); //別のカメラに映らないように下げる位置変更
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void DeadProcessing(string tagName)
     {
-        if(collision.transform.tag == "BigEnemy" || collision.transform.tag == "Missile")
+        if (tagName == "BigEnemy" || tagName == "Missile")
         {
             if (xrayOK) //撮影してない場合
             {
             }
-            else if(m_XrayCameraObj.activeSelf) //撮影している場合
+            else if (m_XrayCameraObj.activeSelf) //撮影している場合
             {
                 int minus = (int)saveTime / 2;
-                if(weekPoints.Count - minus > 0)
+                if (weekPoints.Count - minus > 0)
                 {
                     List<int> weeknums = new List<int>();
                     for (int i = 0; i < weekPoints.Count; i++)
@@ -260,6 +260,18 @@ public class XrayMachine : MonoBehaviour {
 
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        DeadProcessing(collision.transform.tag);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        DeadProcessing(other.transform.tag);
+    }
+
+
 
 
 }

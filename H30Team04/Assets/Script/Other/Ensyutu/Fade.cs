@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class Fade : MonoBehaviour {
     private static float alpha = 1.0f;
-    private static bool m_Fade = false;
-    private static bool fadeEnd = false;
+    private static bool m_Fade = false; //trueはフェードアウト中
+    private static bool fadeEnd = false; //フェードしているか
     private static float fadeSpeed = 2.0f;
 
-    private static Color fadeColor = new Color(0, 0, 0, 0);
+    private static Color fadeColor = new Color(0, 0, 0, 0);  //フェードの色
+    private static float fadeAlphaLimit = 1.0f;  //フェードアウトα値の限界、どのくらいフェードアウトするか
 
     // Use this for initialization
     void Start()
@@ -19,28 +20,30 @@ public class Fade : MonoBehaviour {
         fadeEnd = false;
         fadeSpeed = 2.0f;
         fadeColor = new Color(0, 0, 0, 0);
+        fadeAlphaLimit = 1.0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (alpha > 0.0f && !m_Fade)
+        if (alpha > 0.0f && !m_Fade) //フェードイン
         {
-            alpha -= Time.deltaTime / fadeSpeed;
+            alpha -= Time.deltaTime / fadeSpeed * fadeAlphaLimit;
             if (alpha <= 0)
             {
                 alpha = 0.0f;
+                fadeAlphaLimit = 1.0f;
                 fadeEnd = true;
             }
             GetComponent<Image>().color = fadeColor + new Color(0, 0, 0, alpha);
             return;
         }
-        if (m_Fade && alpha < 1.0f)
+        else if (m_Fade && alpha < fadeAlphaLimit) //フェードアウト
         {
-            alpha += Time.deltaTime / fadeSpeed;
-            if (alpha >= 1)
+            alpha += Time.deltaTime / fadeSpeed * fadeAlphaLimit;
+            if (alpha >= fadeAlphaLimit)
             {
-                alpha = 1.0f;
+                alpha = fadeAlphaLimit;
                 fadeEnd = true;
             }
             GetComponent<Image>().color = fadeColor + new Color(0, 0, 0, alpha);
@@ -80,5 +83,10 @@ public class Fade : MonoBehaviour {
     {
         fadeColor = col;
         fadeColor.a = 0;
+    }
+
+    public static void ChengeAlphaLimit(float a)
+    {
+        fadeAlphaLimit = a;
     }
 }
