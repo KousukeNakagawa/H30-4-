@@ -5,8 +5,14 @@ using UnityEngine.UI;
 
 public class TextController : MonoBehaviour { 
 
+    enum tutorialState
+    {
+        Tutorial,
+        Game,
+    }
+
     [SerializeField]
-    bool m_PhDChange = false;
+    bool m_TutorialChange;
     [SerializeField]
     GameObject m_rawImage;
     [SerializeField]
@@ -32,8 +38,9 @@ public class TextController : MonoBehaviour {
     float m_textEndtimer = 0;
 
     bool m_PhDface = false;
-    /// </summary>
     bool m_scenarioi = false;
+
+    private tutorialState m_tutorialState;
 
     public bool IsCompleteDisplayText
     {
@@ -42,42 +49,117 @@ public class TextController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        switch (m_tutorialState)
+        {
+            case tutorialState.Tutorial : TutorialState(); break;
+            case tutorialState.Game:GameState();break;
+        }
         m_crt = m_PhDcamera.GetComponent<CRT>();
-        m_crt.ScanLineTail = 0;
-        //m_PhDface = true;
-        //m_scenarioi = true;
+        if (m_TutorialChange)
+        {
+            m_tutorialState = tutorialState.Tutorial;
+            m_crt.ScanLineTail = 2;
+            SetNextSpeak();
+        }
+        else
+        {
+            m_tutorialState = tutorialState.Game;
+            m_crt.ScanLineTail = 0;
+        }
+
+        m_PhDface = true;
     }
 
     // Update is called once per frame
     void Update()
-    {        
+    {
+        Debug.Log(m_currentLine);
+        if(m_tutorialState== tutorialState.Tutorial)
+        {
+            TutorialState();
+        }
+        else
+        {
+            GameState();
+        }
+    }
+
+    void TutorialState()
+    {
         if (m_PhDface)
-            {
+        {
             m_panel.SetActive(true);
-                m_rawImage.SetActive(true);
             m_scenarioi = true;
-                OpenPhDface(2f);
-                if (IsCompleteDisplayText)
+            if (IsCompleteDisplayText)
+            {
+                if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
                 {
-                    if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetAxisRaw("RT")<0)
+                    SetNextSpeak();
+                }
+                else if (m_currentLine >= m_Scenarios.Length)
+                {
+                    m_textEndtimer += Time.deltaTime;
+                    if (m_textEndtimer > 2)
                     {
-                        SetNextSpeak();
-                    }
-                    if (m_currentLine >= m_Scenarios.Length)
-                    {
-                        m_textEndtimer += Time.deltaTime;
-                        if (m_textEndtimer > 2)
-                        {
-                            m_PhDface = false;
-                        }
+                        m_PhDface = false;
                     }
                 }
             }
-            else if (!m_PhDface)
+            if (m_currentLine >= 2)
             {
-                currentText = " ";
-                ClosePhDface(0.0f);
+                m_rawImage.SetActive(false);
             }
+            else
+            {
+                m_rawImage.SetActive(true);
+            }
+        }
+        else
+        {
+            currentText = " ";
+        }
+
+        // クリックから経過した時間が想定表示時間の何%か確認し、表示文字数を出す
+        int displayCharacterCount = (int)(Mathf.Clamp01((Time.time - timeElapsed) / timeUntilDisplay) * currentText.Length);
+
+        // 表示文字数が前回の表示文字数と異なるならテキストを更新する
+        if (displayCharacterCount != lastUpdateCharacter)
+        {
+            m_uiText.text = currentText.Substring(0, displayCharacterCount);
+            lastUpdateCharacter = displayCharacterCount;
+        }
+    }
+
+    void GameState()
+    {
+        if (m_PhDface)
+        {
+            m_panel.SetActive(true);
+            m_rawImage.SetActive(true);
+            m_scenarioi = true;
+            OpenPhDface(2f);
+            if (IsCompleteDisplayText)
+            {
+                if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
+                {
+                    SetNextSpeak();
+                }
+                if (m_currentLine >= m_Scenarios.Length)
+                {
+                    m_textEndtimer += Time.deltaTime;
+                    if (m_textEndtimer > 2)
+                    {
+                        m_PhDface = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            currentText = " ";
+            ClosePhDface(0.0f);
+        }
+
         // クリックから経過した時間が想定表示時間の何%か確認し、表示文字数を出す
         int displayCharacterCount = (int)(Mathf.Clamp01((Time.time - timeElapsed) / timeUntilDisplay) * currentText.Length);
 
@@ -92,7 +174,7 @@ public class TextController : MonoBehaviour {
     //開始・終了演出時の博士のセリフ
     void SetNextSpeak()
     {
-        // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
+        // 現在の行のテキストをuiTextに流し込み、現在の行番号を追加する
         currentText = m_Scenarios[m_currentLine];
 
         // 想定表示時間と現在の時刻をキャッシュ
