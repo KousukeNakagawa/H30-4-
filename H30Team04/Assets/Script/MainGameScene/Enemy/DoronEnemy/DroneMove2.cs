@@ -44,6 +44,7 @@ public class DroneMove2 : MonoBehaviour
     [SerializeField,Tooltip("自分のSnipeBulletHitAction")] private SnipeBulletHitAction snipeBullet;
     private int startEndVel = 1;
     private float upPrimary;
+    private SphereCollider bodySpherer;
 
     // Use this for initialization
     void Start()
@@ -57,6 +58,7 @@ public class DroneMove2 : MonoBehaviour
         if (droneDirection == DroneDirection.Advance) sagittalDir = 1;
         else sagittalDir = -1;
         goalPos = transform.position.x + sagittalDir * moveArea.x;
+        bodySpherer = GetComponent<SphereCollider>();
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
 
@@ -88,7 +90,6 @@ public class DroneMove2 : MonoBehaviour
                     isGo = true;
                     onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
                         transform.position.z + LRdir * (moveArea.y / 2));
-                    m_collider.enabled = true;
                     Vector2 dir = (onceTargetPos - new Vector2(transform.position.x, transform.position.z));
                     velocity = new Vector3(dir.x, 0, dir.y).normalized;
                 }
@@ -105,6 +106,7 @@ public class DroneMove2 : MonoBehaviour
                     onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
                         transform.position.z);
                     velocity = new Vector3(sagittalDir, 0, 1).normalized;
+                    bodySpherer.enabled = true;
                     m_collider.enabled = true;
                 }
                 else
@@ -135,6 +137,7 @@ public class DroneMove2 : MonoBehaviour
                     droneState++;
                     velocity = Vector3.forward;
                     m_collider.enabled = false;
+                    bodySpherer.enabled = false;
                     return;
                 }
 

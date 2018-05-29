@@ -2944,7 +2944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19294b1357593da4f8a7d81ead3904c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
+  explosion: {fileID: 0}
   breakSmoke: {fileID: 1149029344498834, guid: 75819b73e66d8774695a111ccecec2d2, type: 2}
   moveScript: {fileID: 114269292212028042}
   m_rigid: {fileID: 54388968085187216}
@@ -2955,8 +2955,8 @@ SphereCollider:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366388990044496}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
+  m_IsTrigger: 0
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 6.5
   m_Center: {x: 0, y: 0.25, z: 0}

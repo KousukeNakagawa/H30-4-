@@ -22,6 +22,7 @@ public class MissileMove2 : MonoBehaviour
     private float rate = 0f;  //Slerpを使用する時のカウント
     private Quaternion primary;  //一番最初の角度
     private float riseTime;  //上昇する時のカウント
+    [HideInInspector] public int velocity = 1;
 
     // Use this for initialization
     void Start()
@@ -32,17 +33,6 @@ public class MissileMove2 : MonoBehaviour
         targetPos = (targetPos == Vector3.zero) ? BigEnemyScripts.searchObject.targetPos : targetPos;
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
     }
-
-    //void OnDrawGizmos()
-    //{
-    //    Gizmos.color = Color.red;
-    //    Gizmos.DrawRay(transform.position, transform.up * 5);
-    //    Gizmos.color = Color.blue;
-    //    Gizmos.DrawRay(transform.position, transform.forward * 5);
-    //    Gizmos.color = Color.green;
-    //    Gizmos.DrawRay(transform.position, transform.right * 5);
-    //}
-
     void Update()
     {  //状態の更新やカウンター処理などはこっちで行う
         switch (state)
@@ -75,7 +65,7 @@ public class MissileMove2 : MonoBehaviour
         switch (state)
         {
             case StateType.Rise:  //上昇
-                rigid.AddForce(transform.forward * riseSpeed);
+                rigid.AddForce(transform.forward * velocity * riseSpeed);
                 break;
             case StateType.Rotation:  //回転
                 rigid.AddForce(-Physics.gravity * 0.5f);

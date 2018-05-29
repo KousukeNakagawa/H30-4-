@@ -41,13 +41,17 @@ public class SnipeBulletHitAction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("SnipeBullet"))
-        {
-            Hit();
-        }
-        else if (other.CompareTag("Field"))
+        if (other.CompareTag("Field"))
         {
             Destroy(gameObject);
+        }
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("SnipeBullet"))
+        {
+            Hit();
         }
     }
 

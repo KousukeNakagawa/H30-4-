@@ -24,7 +24,7 @@ public class MissileCollider : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player") || other.tag.Contains("Xline") || other.CompareTag("Beacon"))
+        if (other.CompareTag("Beacon"))
         {
             Destroy(other.gameObject);
         }
