@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4469867881122576}
   - component: {fileID: 114616319666547736}
+  - component: {fileID: 114775173966406268}
   m_Layer: 0
   m_Name: TextController
   m_TagString: Untagged
@@ -51,7 +52,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e46f9dbb71dfe64e96d7d6bf3b115f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PhDChange: 1
+  m_TutorialChange: 0
   m_rawImage: {fileID: 0}
   m_PhDcamera: {fileID: 0}
   m_Scenarios:
@@ -65,11 +66,28 @@ MonoBehaviour:
   - "\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042"
   - "\u4E0D\u5E78\u306B\u9ED2\u5857\u308A\u306E\u9AD8\u7D1A\u8ECA\u306B\u30FB\u30FB\u30FB"
   - "\u771F\u590F\u306E\u591C\u306E\u30FB\u30FB\u30FB"
-  m_phDScenarios:
-  - "\u6B62\u307E\u308B\u3093\u3058\u3083\u306D\u3047\u305E"
-  - "\u30E9\u30A4\u30C9\u30A9\u30FB\u30FB\u30FB"
-  - "\u305D\u3046\u3060\u308D\u3001\u30DF\u30AB"
-  - "\u5E0C\u671B\u306E\u82B1\uFF5E\u266A"
-  - "\u56DE\u308A\u56DE\u3063\u3066"
   m_uiText: {fileID: 0}
+  m_panel: {fileID: 0}
+  intervalForCharacterDisplay: 0.05
+--- !u!114 &114775173966406268
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877363892220924}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b38e9e9490fb9db428ed1a3d25acde48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PhDChange: 0
+  m_rawImage: {fileID: 0}
+  m_PhDcamera: {fileID: 0}
+  m_Scenarios:
+  - "\u3042\u3042"
+  - "\u3042\u3042\u3042\u3042\u3042\u3042"
+  - "\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042"
+  - "\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042\u3042"
+  m_uiText: {fileID: 0}
+  m_panel: {fileID: 0}
   intervalForCharacterDisplay: 0.05
