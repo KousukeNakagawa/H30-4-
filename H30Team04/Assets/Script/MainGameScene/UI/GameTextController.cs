@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextController : MonoBehaviour { 
+public class GameTextController : MonoBehaviour {
 
     [SerializeField]
     bool m_PhDChange = false;
@@ -26,6 +26,7 @@ public class TextController : MonoBehaviour {
     private float timeUntilDisplay = 0;     // 表示にかかる時間
     private float timeElapsed = 1;          // 文字列の表示を開始した時間
     private int lastUpdateCharacter = -1;		// 表示中の文
+    private int _nowtext=-1;
 
     int m_currentLine = 0;　　// 現在の行番号
     float m_time = 0;
@@ -41,83 +42,91 @@ public class TextController : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_crt.ScanLineTail = 0;
-        //m_PhDface = true;
-        //m_scenarioi = true;
+        TextStart(0);
     }
 
     // Update is called once per frame
     void Update()
-    {        
+    {
+        Debug.Log(m_time);
         if (m_PhDface)
-            {
+        {
             m_panel.SetActive(true);
-                m_rawImage.SetActive(true);
-            m_scenarioi = true;
-                OpenPhDface(2f);
-                if (IsCompleteDisplayText)
+            m_rawImage.SetActive(true);
+            OpenPhDface(2.0f);
+            if (IsCompleteDisplayText)
+            {
+                m_textEndtimer += Time.deltaTime;
+                if (m_textEndtimer > 5)
                 {
-                    if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetAxisRaw("RT")<0)
-                    {
-                        SetNextSpeak();
-                    }
-                    if (m_currentLine >= m_Scenarios.Length)
-                    {
-                        m_textEndtimer += Time.deltaTime;
-                        if (m_textEndtimer > 2)
-                        {
-                            m_PhDface = false;
-                        }
-                    }
+                    m_PhDface = false;
                 }
             }
-            else if (!m_PhDface)
-            {
-                currentText = " ";
-                ClosePhDface(0.0f);
-            }
+        }
+        else if (!m_PhDface)
+        {
+            currentText = " ";
+            ClosePhDface(0.0f);
+        }
         // クリックから経過した時間が想定表示時間の何%か確認し、表示文字数を出す
         int displayCharacterCount = (int)(Mathf.Clamp01((Time.time - timeElapsed) / timeUntilDisplay) * currentText.Length);
 
         // 表示文字数が前回の表示文字数と異なるならテキストを更新する
         if (displayCharacterCount != lastUpdateCharacter)
         {
-            m_uiText.text = currentText.Substring(0, displayCharacterCount);
+            m_uiText.text = currentText;
             lastUpdateCharacter = displayCharacterCount;
         }
     }
 
-    //開始・終了演出時の博士のセリフ
-    void SetNextSpeak()
+    public void TextStart(int i)
     {
+        m_PhDface = true;
+        m_scenarioi = true;
+        _nowtext = i;
+    }
+
+    //博士の現場をアナウンスするセリフ
+     void GetNextText()
+    {
+        m_currentLine = _nowtext;
         // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
         currentText = m_Scenarios[m_currentLine];
 
         // 想定表示時間と現在の時刻をキャッシュ
         timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
         timeElapsed = Time.time;
-        m_currentLine++;
+
         // 文字カウントを初期化
         lastUpdateCharacter = -1;
     }
 
+    public int NowText
+    {
+        get { return _nowtext; }
+        private set { _nowtext = value; }
+    }
 
     //博士の枠を出す
-    void OpenPhDface(float i)
+     void OpenPhDface(float i)
     {
-        m_time += Time.deltaTime;
-        m_crt.ScanLineTail = m_time;
+        m_PhDface = true;
+            m_time += Time.deltaTime;
+                m_crt.ScanLineTail = m_time;
         if (m_time > i)
         {
             m_time = i;
             if (m_scenarioi)
             {
-                SetNextSpeak();
+                GetNextText();
                 m_scenarioi = false;
             }
         }
+        
     }
 
     //博士の枠を消す
