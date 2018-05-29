@@ -265,7 +265,7 @@ public class GameManager : MonoBehaviour {
 
     public void Damege(int i)
     {
-        if (weeknumber == i)BigEnemyScripts.breakEffectManager.ChangeType();       
-        else  BigEnemyScripts.shootingFailure.FailureAction(); 
+        if (weeknumber == i) BigEnemyScripts.breakEffectManager.ChangeType();
+        else BigEnemyScripts.shootingFailure.FailureAction();
     }
 }
