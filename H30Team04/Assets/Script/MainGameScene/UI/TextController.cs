@@ -55,6 +55,7 @@ public class TextController : MonoBehaviour {
             case tutorialState.Game:GameState();break;
         }
         m_crt = m_PhDcamera.GetComponent<CRT>();
+        m_PhDface = true;
         if (m_TutorialChange)
         {
             m_tutorialState = tutorialState.Tutorial;
@@ -65,15 +66,14 @@ public class TextController : MonoBehaviour {
         {
             m_tutorialState = tutorialState.Game;
             m_crt.ScanLineTail = 0;
+            m_scenarioi = true;
         }
-
-        m_PhDface = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_currentLine);
+        Debug.Log(m_time);
         if(m_tutorialState== tutorialState.Tutorial)
         {
             TutorialState();
@@ -95,6 +95,10 @@ public class TextController : MonoBehaviour {
                 if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
                 {
                     SetNextSpeak();
+                }
+                else if (m_currentLine >= m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
+                {
+                    currentText = " ";
                 }
                 else if (m_currentLine >= m_Scenarios.Length)
                 {
@@ -136,13 +140,16 @@ public class TextController : MonoBehaviour {
         {
             m_panel.SetActive(true);
             m_rawImage.SetActive(true);
-            m_scenarioi = true;
             OpenPhDface(2f);
             if (IsCompleteDisplayText)
             {
                 if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
                 {
                     SetNextSpeak();
+                }
+                else if(m_currentLine >= m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
+                {
+                    currentText = " ";
                 }
                 if (m_currentLine >= m_Scenarios.Length)
                 {

@@ -84883,6 +84883,11 @@ Prefab:
       propertyPath: m_panel
       value: 
       objectReference: {fileID: 947279333}
+    - target: {fileID: 114616319666547736, guid: efc2dfcdfe4179840937523d23f496e5,
+        type: 2}
+      propertyPath: m_TutorialChange
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: efc2dfcdfe4179840937523d23f496e5, type: 2}
   m_IsPrefabParent: 0
