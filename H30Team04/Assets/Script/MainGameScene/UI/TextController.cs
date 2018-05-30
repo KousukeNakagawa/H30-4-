@@ -11,7 +11,7 @@ public class TextController : MonoBehaviour {
         Game,
     }
 
-    [SerializeField]
+    [SerializeField, TooltipAttribute("trueならチュートリアル用。falseならゲーム開始演出用")]
     bool m_TutorialChange;
     [SerializeField]
     GameObject m_rawImage;
@@ -19,7 +19,8 @@ public class TextController : MonoBehaviour {
     GameObject m_PhDcamera;
     [SerializeField]
     string[] m_Scenarios;
-    public Text m_uiText;
+    [SerializeField]
+    private Text m_uiText;
     [SerializeField]
     private GameObject m_panel;
     CRT m_crt;
@@ -84,6 +85,7 @@ public class TextController : MonoBehaviour {
         }
     }
 
+    //チュートリアル用セリフ制御
     void TutorialState()
     {
         if (m_PhDface)
@@ -134,6 +136,7 @@ public class TextController : MonoBehaviour {
         }
     }
 
+    //ゲーム本編＆ゲーム開始演出用セリフ演出
     void GameState()
     {
         if (m_PhDface)

@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class GameTextController : MonoBehaviour {
 
     [SerializeField]
-    bool m_PhDChange = false;
-    [SerializeField]
     GameObject m_rawImage;
     [SerializeField]
     GameObject m_PhDcamera;
