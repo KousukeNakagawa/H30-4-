@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 222089896768103034}
   - component: {fileID: 114561544495896230}
   m_Layer: 11
-  m_Name: mapArrow
+  m_Name: maparrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

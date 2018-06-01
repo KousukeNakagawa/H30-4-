@@ -94,7 +94,7 @@ public class AngleCtrl : MonoBehaviour
 
         CameraAngleControl(); //カメラアングル
 
-        //LockonTargets();
+        LockonTargets();
 
         LookBigEnemy();
 
@@ -191,8 +191,6 @@ public class AngleCtrl : MonoBehaviour
             {
                 item.transform.LookAt(BigEnemyScripts.mTransform.position);
             }
-
-        Debug.Log(_isLockon);
     }
 
     /// <summary>
@@ -206,11 +204,13 @@ public class AngleCtrl : MonoBehaviour
         //ドローンとミサイルに対する距離をソートしたリスト
         var targets = captureRange.GetComponent<AimRange>().GetTarget();
         //対象の数
-        var targetCount = targets.Count;
+        var targetCount = targets.Keys.Count;
+
+        Debug.Log(targetCount);
 
         //ビッグエネミーの取得
-        if (!targets.ContainsValue(BigEnemyScripts.mTransform.gameObject))
-            targets.Add(Vector3.Distance(BigEnemyScripts.mTransform.position, transform.position), BigEnemyScripts.mTransform.gameObject);
+        if (!targets.ContainsKey(BigEnemyScripts.mTransform.gameObject))
+            targets.Add(BigEnemyScripts.mTransform.gameObject, Vector3.Distance(BigEnemyScripts.mTransform.position, transform.position));
 
         //Debug.Log("数：" + targetCount + "i：" + targetNum);
 
@@ -223,7 +223,7 @@ public class AngleCtrl : MonoBehaviour
 
         for (int i = 0; i < targetCount; i++)
         {
-            if (targets.Values[i] == null)
+            if (targets.Keys[i] == null)
             {
                 targets.Clear();
                 targetNum = 0;
@@ -232,7 +232,7 @@ public class AngleCtrl : MonoBehaviour
 
             //ターゲットとの間の障害物の有無
             bool isLookOK =
-                    (Physics.Linecast(transform.position + Vector3.up, targets.Values[i].transform.position, LayerMask.GetMask("Building"))) ?
+                    (Physics.Linecast(transform.position + Vector3.up, targets.Keys[i].transform.position, LayerMask.GetMask("Building"))) ?
                     false : true;
             //isObstcleがtrueかつ間に障害物があればロックオン不可能
             if (!isObstcle)
@@ -240,7 +240,7 @@ public class AngleCtrl : MonoBehaviour
 
             if (targetNum == i)
             {
-                Vector3 targetPos = targets.Values[i].transform.position;
+                Vector3 targetPos = targets.Keys[i].transform.position;
                 Vector3 distance = targetPos - cameraAndRifle.transform.position;
                 distance.y /= 1.5f;
 
@@ -254,7 +254,7 @@ public class AngleCtrl : MonoBehaviour
 
             if (targetNum == i)
             {
-                Vector3 targetPos = targets.Values[i].transform.position;
+                Vector3 targetPos = targets.Keys[i].transform.position;
                 Vector3 distance = targetPos - sniper.transform.position;
                 distance.y = 0;
 

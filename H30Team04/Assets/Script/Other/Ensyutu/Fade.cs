@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Fade : MonoBehaviour {
+public class Fade : MonoBehaviour
+{
     private static float alpha = 1.0f;
     private static bool m_Fade = false; //trueはフェードアウト中
     private static bool fadeEnd = false; //フェードしているか
@@ -52,6 +53,8 @@ public class Fade : MonoBehaviour {
 
     public static void FadeOut(float fadespeed = 2.0f)
     {
+        Debug.Log(fadeEnd + "///" + m_Fade);
+
         if (!fadeEnd || m_Fade) return;
         m_Fade = true;
         fadeEnd = false;

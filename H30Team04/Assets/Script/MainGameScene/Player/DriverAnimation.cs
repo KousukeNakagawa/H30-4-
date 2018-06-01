@@ -25,7 +25,7 @@ public class DriverAnimation : MonoBehaviour
     {
         //運転操作の取得
         float axel = Input.GetAxis("Axel");
-        float curve = Input.GetAxis("Curve");
+        float curve = /*Input.GetAxis("Curve")*/0;
 
         //アニメーション条件
         if (axel < 0)

@@ -7,6 +7,9 @@ public class PlayerBase : MonoBehaviour
     [SerializeField] GameObject canvas;
     XlinePhoto xline;
 
+    [SerializeField] GameObject wheelManager;
+    [SerializeField] WheelManager manager;
+
     [SerializeField] GameObject sniper;
     [SerializeField] GameObject driver;
     List<GameObject> soldiers = new List<GameObject>();
@@ -34,10 +37,15 @@ public class PlayerBase : MonoBehaviour
     bool _isBrake = false; //ブレーキフラグ
     bool _isMove = true; //開始演出運転フラグ
 
+    bool _isDead = false;
+    Fade fade;
+
     void Start()
     {
         xline = canvas.GetComponent<XlinePhoto>();
         rb = gameObject.GetComponent<Rigidbody>();
+
+        manager = wheelManager.GetComponent<WheelManager>();
 
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;
@@ -45,11 +53,13 @@ public class PlayerBase : MonoBehaviour
 
         soldiers.Add(sniper);
         soldiers.Add(driver);
+
+        fade = GetComponent<Fade>();
     }
 
     void Update()
     {
-        SEMove();
+        SEMove_X();
 
         if (!_isEndSE) return;
 
@@ -69,7 +79,12 @@ public class PlayerBase : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         //敵に衝突時、死亡
-        if (other.collider.CompareTag("BigEnemy") || other.collider.CompareTag("Missile")) Respawn();
+        if (other.collider.CompareTag("BigEnemy")) Respawn();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Missile")) Respawn();
     }
 
     /// <summary>
@@ -77,8 +92,8 @@ public class PlayerBase : MonoBehaviour
     /// </summary>
     void GetInputDrive()
     {
-        axel = Input.GetAxis("Axel");
-        curve = Input.GetAxis("Curve");
+        //axel = Input.GetAxis("Axel");
+        //curve = Input.GetAxis("Curve");
     }
 
     /// <summary>
@@ -87,6 +102,7 @@ public class PlayerBase : MonoBehaviour
     void Drive()
     {
         //移動計算用
+        //Vector3 move = manager.GetForward() * axel * speed;
         Vector3 move = rb.transform.forward * axel * speed;
         Vector3 force = power * move - rb.velocity;
 
@@ -95,8 +111,8 @@ public class PlayerBase : MonoBehaviour
         var rotation = (axel == 0) ? driftRotate : rotate; //旋回力の選択
 
         //動いていればカーブ可能
-        if (Mathf.Abs(force.x) > 0.05f)
-            rb.transform.Rotate(new Vector3(0.0f, curve * rotation, 0.0f));
+        //if (Mathf.Abs(force.x) > 0.05f)
+        rb.transform.Rotate(new Vector3(0.0f, curve * rotation, 0.0f));
     }
 
     /// <summary>
@@ -105,13 +121,29 @@ public class PlayerBase : MonoBehaviour
     public void Respawn()
     {
         if (Annihilation()) return;
+
+        //フェード
+
+        _isDead = true;
+
         //移動を殺す
         rb.velocity = Vector3.zero;
-        //ビッグエネミーを向く
-        transform.LookAt(BigEnemyScripts.mTransform);
-        //初期位置へ
-        transform.position = startPosition;
-        residue--; //死亡可能回数の減少
+
+        if (_isDead && Input.GetButtonDown("Select"))
+        {
+            //初期位置へ
+            transform.position = startPosition;
+            transform.rotation = startRotation;
+            //ビッグエネミーを向く
+            transform.LookAt(BigEnemyScripts.mTransform);
+            residue--; //死亡可能回数の減少
+            _isDead = false;
+        }
+    }
+
+    public bool IsDead()
+    {
+        return _isDead;
     }
 
     /// <summary>

@@ -16,7 +16,7 @@ public class XrayMachines : MonoBehaviour {
         }
         foreach (GameObject machine in xrayMachineObjects)
         {
-            Debug.Log(machine.transform.position);
+            //Debug.Log(machine.transform.position);
         }
     }
 	
@@ -42,7 +42,7 @@ public class XrayMachines : MonoBehaviour {
 
         foreach (GameObject machine in xrayMachineObjects)
         {
-            Debug.Log(machine);
+            //Debug.Log(machine);
         }
     }
 }

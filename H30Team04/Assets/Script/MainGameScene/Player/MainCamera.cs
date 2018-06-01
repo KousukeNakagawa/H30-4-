@@ -5,6 +5,7 @@ using UnityEngine;
 public class MainCamera : MonoBehaviour
 {
     GameObject player;
+    PlayerBase playerBase;
     Transform root;
     List<Renderer> renderers = new List<Renderer>();
 
@@ -13,9 +14,23 @@ public class MainCamera : MonoBehaviour
 
     Vector3 startPos;
 
+    //カメラ回転速度
+    [SerializeField, Range(1, 500)] int _rotateSpeed = 100;
+    //isAim=true時のカメラ回転速度
+    [SerializeField, Range(1, 100)] int aimRotateSpeed = 20;
+    //上下角度範囲
+    [SerializeField, Range(0, 80)] float maxAngle = 80;
+    [SerializeField, Range(0, -80)] float minAngle = -25;
+    //プレイヤーを透過する角度
+    [SerializeField, Range(0, 90)] float hideAngle = 35;
+
+    //カメラ反転のON/OFF
+    [SerializeField] bool inverted = false;
+
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        playerBase = player.GetComponent<PlayerBase>();
         //Projectionの情報
         root = transform.root;
 
@@ -30,9 +45,10 @@ public class MainCamera : MonoBehaviour
         foreach (var rifle in root.GetComponentsInChildren<MeshRenderer>()) renderers.Add(rifle);
     }
 
-    void Update()
+    void LateUpdate()
     {
-        AutoCameraControl();
+        RotateCameraAngle();
+        //AutoCameraControl();
     }
 
     /// <summary>
@@ -78,5 +94,36 @@ public class MainCamera : MonoBehaviour
                 item.renderQueue = alpha;
             }
         }
+    }
+
+    /// <summary>
+    /// ＊手動カメラアングル（右スティック）
+    /// </summary>
+    void RotateCameraAngle()
+    {
+        transform.position = player.transform.position - player.transform.forward*2 + Vector3.up * 1.5f;
+
+        //カメラ反転の対応
+        float changer = (inverted) ? 1 : -1;
+        //AIM時の対応
+        float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
+
+        //右パット入力の取得
+        Vector3 angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical")) * Time.deltaTime;
+
+        //カメラとライフルの回転
+        transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed;
+
+        //-180＜上下の動き＜180に変更
+        float angleX = (180 <= transform.eulerAngles.x) ?
+            transform.eulerAngles.x - 360 : transform.eulerAngles.x;
+
+        //上下の制限
+        transform.eulerAngles =
+            new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), transform.eulerAngles.y, transform.eulerAngles.z);
+
+        //プレイヤーの透過
+        //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
+
     }
 }

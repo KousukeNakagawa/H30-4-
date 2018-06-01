@@ -137,8 +137,8 @@ public class XraySSS : MonoBehaviour
         //Debug.Log(Xrays.Length);
 
         //射影機///距離///順番
-        foreach (var distance in _XrayDistance)
-            Debug.Log("射影機::" + _Xrays[distance] + "//距離::" + distance + "//順番::" + distance);
+        //foreach (var distance in _XrayDistance)
+        //    Debug.Log("射影機::" + _Xrays[distance] + "//距離::" + distance + "//順番::" + distance);
 
         //Debug.Log(_Xrays[_XrayKeys[0]] + "////" + _XrayKeys[0]);
 

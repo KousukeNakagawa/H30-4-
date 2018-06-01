@@ -24,10 +24,14 @@ public class SniperBullet : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        //ドローンと衝突時、ドローンを消滅
-        if (collider.CompareTag("SmallEnemy")) Destroy(collider.gameObject);
         //地面・ビルと衝突時、自身を消滅
-        else if (collider.CompareTag("Field") || collider.CompareTag("Building")) Destroy(snipeBullet);
+        if (collider.CompareTag("Field") || collider.CompareTag("Building")) Destroy(snipeBullet);
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        //地面・ビルと衝突時、自身を消滅
+        if (other.collider.CompareTag("Field") || other.collider.CompareTag("Building")) Destroy(snipeBullet);
     }
 
     /// <summary>
