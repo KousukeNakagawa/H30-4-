@@ -1588,7 +1588,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 189416291}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.4, y: 0, z: 26.7}
+  m_LocalPosition: {x: 5.4, y: 0, z: 125.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -8744,7 +8744,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4334219304878856, guid: f25e1bd6f0aa1cc41ab2ee569081a214, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 25.356033
+      value: 29.1
       objectReference: {fileID: 0}
     - target: {fileID: 4334219304878856, guid: f25e1bd6f0aa1cc41ab2ee569081a214, type: 2}
       propertyPath: m_LocalPosition.y
@@ -8752,7 +8752,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4334219304878856, guid: f25e1bd6f0aa1cc41ab2ee569081a214, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 85
+      value: 84
       objectReference: {fileID: 0}
     - target: {fileID: 4334219304878856, guid: f25e1bd6f0aa1cc41ab2ee569081a214, type: 2}
       propertyPath: m_LocalRotation.x
@@ -25086,7 +25086,7 @@ GameObject:
   - component: {fileID: 1053940042}
   - component: {fileID: 1053940041}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: XrayMachines
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -25110,7 +25110,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1053940040}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.7224617, y: 15.103214, z: 99.83744}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

@@ -44,10 +44,6 @@ public class SearchObject : MonoBehaviour
     void OnTriggerStay(Collider other)
     {
         if (dontSearchTime > 0) return;
-        //if ((other.CompareTag("Player")
-        //    || other.tag.Contains("Xline") && (other.transform.position.ToTopView()
-        //    - BigEnemyScripts.mTransform.position.ToTopView()).sqrMagnitude < searchsqrMagnitude ||
-        //    other.CompareTag("Beacon")))
         //射影機だけ距離も条件に追加
         if ((other.CompareTag("Player")
             || (other.tag.Contains("Xline") && Vector2.Distance(other.transform.position.ToTopView(),

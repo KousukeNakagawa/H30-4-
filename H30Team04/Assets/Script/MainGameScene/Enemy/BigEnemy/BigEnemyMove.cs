@@ -29,7 +29,9 @@ public class BigEnemyMove : MonoBehaviour
 
         if (isTurn)
         {
-            if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
+            //print(Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)));
+            //if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
+            if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= turnSpeed * Time.deltaTime)
             {  //回転を終了する
                 isTurn = false;
                 BigEnemyScripts.droneCreate.DroneSet();
