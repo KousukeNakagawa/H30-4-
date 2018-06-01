@@ -87,6 +87,16 @@ public class Soldier : MonoBehaviour
         rb.velocity = move * speed * Time.deltaTime;
     }
 
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.collider.CompareTag("BigEnemy")) Respawn();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Missile")) Respawn();
+    }
+
     /// <summary>
     /// ＊射撃モード
     /// </summary>

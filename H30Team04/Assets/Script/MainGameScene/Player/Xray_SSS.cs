@@ -82,7 +82,6 @@ public class Xray_SSS : MonoBehaviour
 
             Select();
             Shutter();
-            Debug.Log("a");
         }
     }
 
@@ -113,6 +112,11 @@ public class Xray_SSS : MonoBehaviour
     /// </summary>
     void Select()
     {
+        if (_XrayMachines.Length < 1)
+        {
+            return;
+        }
+
         //null演算子
         _oldXray = _oldXray ?? _sortXrays[0].Key;
 

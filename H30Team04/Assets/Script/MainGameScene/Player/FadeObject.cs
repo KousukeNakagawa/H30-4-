@@ -3,30 +3,37 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary> フェードカラー </summary>=
-public enum FadeColor
+/// <summary> 色のタイプ </summary>
+public enum ColorType
 {
     RBG, Black, White, Red
 }
 
 public class FadeObject : MonoBehaviour
 {
-    //デリゲート
+    //色の変数
     float[] RBG;
 
-    //ステートパターンのDictionary
-    public Dictionary<FadeColor, float[]> color
-    = new Dictionary<FadeColor, float[]>();
+    //ステートパターンで色のタイプを格納
+    public Dictionary<ColorType, float[]> color
+    = new Dictionary<ColorType, float[]>();
 
-    //色の状態変更
-    FadeColor colorState = FadeColor.RBG;
+    //色のタイプの変更
+    ColorType type = ColorType.RBG;
+
+    //タイプごとの色
+    float[] rbg = new float[3];
+    float[] black = new float[3] { 1, 1, 1 };
+    float[] white = new float[3] { 0, 0, 0 };
+    float[] red = new float[3] { 1, 0, 0 };
 
     //兵士の情報取得用
     [SerializeField] GameObject soldier;
     SoldierMove soldierMove;
 
-    //フェード情報
+    //フェード速度
     [SerializeField, Range(0.01f, 1)] float alphaSpeed = 0.01f;
+    //最小透明度
     [SerializeField, Range(0, 1)] float limitAlfa = 1;
 
     //透明度
@@ -37,10 +44,7 @@ public class FadeObject : MonoBehaviour
     //フェードフラグ
     bool isFade;
 
-    float[] rbg = new float[3];
-    float[] black = new float[3] { 1, 1, 1 };
-    float[] white = new float[3] { 0, 0, 0 };
-    float[] red = new float[3] { 1, 0, 0 };
+
 
     void Start()
     {
@@ -55,16 +59,16 @@ public class FadeObject : MonoBehaviour
         rbg = new float[3] { R, B, G };
 
         //フェードカラー
-        color.Add(FadeColor.RBG, rbg);
-        color.Add(FadeColor.Black, black);
-        color.Add(FadeColor.White, white);
-        color.Add(FadeColor.Red, red);
+        color.Add(ColorType.RBG, rbg);
+        color.Add(ColorType.Black, black);
+        color.Add(ColorType.White, white);
+        color.Add(ColorType.Red, red);
     }
 
     void Update()
     {
         Color fadeColor =
-            new Color(color[colorState][0], color[colorState][1], color[colorState][2], alfa);
+            new Color(color[type][0], color[type][1], color[type][2], alfa);
 
         GetComponent<Image>().color = fadeColor;
 
@@ -114,14 +118,14 @@ public class FadeObject : MonoBehaviour
     /// <summary> フェードさせる色の設定（RBG） </summary>
     public void SetFadeColor(float r, float b, float g)
     {
-        colorState = FadeColor.RBG;
+        type = ColorType.RBG;
 
         R = r;
         B = b;
         G = g;
     }
 
-    public void SetFadeColor(FadeColor color)
+    public void SetFadeColor(ColorType color)
     {
         R = this.color[color][0];
         G = this.color[color][1];
