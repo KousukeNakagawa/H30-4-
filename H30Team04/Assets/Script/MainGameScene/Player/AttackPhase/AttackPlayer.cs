@@ -46,7 +46,7 @@ public class AttackPlayer : MonoBehaviour {
                 selectNum++;
                 if (selectNum >= weekPoints.Length) selectNum = 0;
                 m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
-                m_week_name.text = m_weekText;
+                //m_week_name.text = m_weekText;
             }
             target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
             transform.LookAt(target);
@@ -63,6 +63,12 @@ public class AttackPlayer : MonoBehaviour {
                 //m_gm.Damege(weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekNumber);
             }
         }
+    }
+
+    public string WeekName
+    {
+        get { return m_weekText; }
+        set { m_weekText = value; }
     }
 
     public void Damege()

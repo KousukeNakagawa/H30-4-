@@ -8,6 +8,8 @@ public class XlinePhoto : MonoBehaviour {
     private GameObject[]m_lifes;
     [SerializeField]
     private Image[] m_wepons;
+    [SerializeField]
+    AttackPlayer m_AP;
     //[SerializeField]
     //private Transform[] m_imagepos;
     [SerializeField]
@@ -15,6 +17,7 @@ public class XlinePhoto : MonoBehaviour {
     public GameObject gm;
     GameObject XPhots;
     GameObject m_Sight;
+    GameObject m_textBackImage;
     GameManager m_gamemanager;
     //GameObject Arrows;
     public int m_FlyerCount;
@@ -32,6 +35,8 @@ public class XlinePhoto : MonoBehaviour {
     public int _lifecount = 3;   //残機
 
     public bool test = false;
+    [SerializeField]
+    Text m_text;
 
     // Use this for initialization
     void Start () {
@@ -43,16 +48,11 @@ public class XlinePhoto : MonoBehaviour {
         xrayDatas = new List<GameManager.WeekPointData>();
         weektextparent = transform.Find("Probabilitys").gameObject;
         weektexts = weektextparent.GetComponent<WeekTextManager>();
-        //for (int i = 0; i < XPhots.transform.childCount; ++i)
-        //{
-        //    if (XPhots.transform.GetChild(i).name.Split('_')[0] == "XPhoto")
-        //    {
-        //        ++m_FlyerCount;
-        //    }
-        //}
         m_Sight = transform.Find("attackUI").transform.Find("sight").gameObject;
+        m_textBackImage = transform.Find("attackUI").transform.Find("Image").gameObject;
         XPhots.SetActive(false);
         m_Sight.SetActive(false);
+        m_textBackImage.SetActive(false);
         weektextparent.SetActive(false);
     }
 	
@@ -98,6 +98,8 @@ public class XlinePhoto : MonoBehaviour {
         if (m_gamemanager.PhotoCheckStateNow())
         {
             m_Sight.SetActive(false);
+            m_textBackImage.SetActive(false);
+            m_text.text = " ";
             XPhots.SetActive(true);
             weektextparent.SetActive(true);
             if (m_FlyerCount == 0) return;
@@ -127,9 +129,11 @@ public class XlinePhoto : MonoBehaviour {
         }
         else if (m_gamemanager.AttackStateNow())
         {
+            m_text.text = m_AP.WeekName;
             XPhots.SetActive(false);
             weektextparent.SetActive(false);
             m_Sight.SetActive(true);
+            m_textBackImage.SetActive(true);
         }
         else if(m_gamemanager.NowState() == GameManager.PhaseState.waitingState)
         {
@@ -137,6 +141,8 @@ public class XlinePhoto : MonoBehaviour {
             XPhots.SetActive(false);
             weektextparent.SetActive(false);
             m_Sight.SetActive(false);
+            m_textBackImage.SetActive(false);
+            m_text.text = " ";
         }
         else
         {
