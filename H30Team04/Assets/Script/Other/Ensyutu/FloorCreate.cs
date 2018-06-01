@@ -35,9 +35,9 @@ public class FloorCreate : MonoBehaviour {
                 //-で区切る
                 string[] minidata = data[i].Split('-');
 
-                if (minidata.Length < 2) continue;
+                if (minidata[0] == "") continue;
                 
-                 Arrangement(minidata[0], minidata[1], i);
+                 Arrangement(minidata, i);
                 
             }
 
@@ -50,20 +50,26 @@ public class FloorCreate : MonoBehaviour {
 		
 	}
 
-    private void Arrangement(string name,  string direction, int column)
+    private void Arrangement(string[] minidata, int column)
     {
-        //生成するビル
+        //生成する
         GameObject createObject = Instantiate(floorPrefab);
         
         if (createObject == null) return;
 
-        createObject.GetComponent<Renderer>().material = floorMats[int.Parse(name)];
+        createObject.GetComponent<Renderer>().material = floorMats[int.Parse(minidata[0])];
 
         //ポジション
         createObject.transform.position = ObjectPosition(column) + startPos;
 
         //回転
-        createObject.transform.rotation = Quaternion.AngleAxis(RotationSize(direction), new Vector3(0, 1, 0));
+        if(minidata.Length > 1)
+        {
+            Vector3 rotate = createObject.transform.eulerAngles;
+            rotate.y = RotationSize(minidata[1]);
+            createObject.transform.eulerAngles = rotate;
+        }
+        
 
         //自分の子にする
         createObject.transform.parent = transform;
@@ -74,8 +80,8 @@ public class FloorCreate : MonoBehaviour {
     {
         Vector3 result = Vector3.zero;
         
-        result.x = column * MainStageDate.TroutLengthX + MainStageDate.TroutLengthX / 2;
-        result.z = -row * MainStageDate.TroutLengthZ - MainStageDate.TroutLengthZ / 2;
+        result.x = column * MainStageDate.TroutLengthX / 2 + MainStageDate.TroutLengthX / 4;
+        result.z = -row * MainStageDate.TroutLengthZ / 2 - MainStageDate.TroutLengthZ / 4;
        
         return result;
     }

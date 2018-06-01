@@ -1,0 +1,70 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1167588740022578}
+  m_IsPrefabParent: 1
+--- !u!1 &1167588740022578
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4090152403647460}
+  - component: {fileID: 114960137156811950}
+  m_Layer: 0
+  m_Name: floors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4090152403647460
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1167588740022578}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114960137156811950
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1167588740022578}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a53ef279ab8e414796474ff8b3ade54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  csvFile: {fileID: 4900000, guid: 4ae0167788b912b468243d4f8604deaa, type: 3}
+  floorMats:
+  - {fileID: 2100000, guid: 0deb35642d16f354492f31013af0eaf5, type: 2}
+  - {fileID: 2100000, guid: 3d7ad54e69b5a8146b62661481d21773, type: 2}
+  - {fileID: 2100000, guid: e5d9f3b72c2974840a771322fc0f6281, type: 2}
+  - {fileID: 2100000, guid: e4a42c23bf331d6469ce5044b3e5bcde, type: 2}
+  - {fileID: 2100000, guid: ec8cf3edeaa0f5f4eb3cdab17b4126d2, type: 2}
+  - {fileID: 2100000, guid: d0f221b7d8c346a4a9d0ecb46fd0c2ca, type: 2}
+  - {fileID: 2100000, guid: e2f6c1f39214a5e4389a4e0d8d9d7238, type: 2}
+  - {fileID: 2100000, guid: f854ec35ac6127f45b053dcdfcc98288, type: 2}
+  - {fileID: 2100000, guid: 856631a9be48d9a40afc4d31bf92f8b2, type: 2}
+  - {fileID: 2100000, guid: 25e5999e338af554581cbbd487c0f73c, type: 2}
+  - {fileID: 2100000, guid: cd948ac9df83a08478f71c866d3c031d, type: 2}
+  - {fileID: 2100000, guid: cd948ac9df83a08478f71c866d3c031d, type: 2}
+  floorPrefab: {fileID: 1310283864620682, guid: b68dd0dcf07d15f44a3790652a6c165c,
+    type: 2}
+  startPos: {x: 0, y: 0, z: 0}
