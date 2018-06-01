@@ -14,7 +14,7 @@ public class StartLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(endPos.position.x < transform.position.x)
+		if(endPos.position.x < transform.position.x && Fade.IsFadeEnd())
         {
             Vector3 returnPos = transform.position;
             returnPos.x = startPos.position.x;

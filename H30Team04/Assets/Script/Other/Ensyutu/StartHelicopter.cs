@@ -9,15 +9,23 @@ public class StartHelicopter : MonoBehaviour {
     [SerializeField] private Transform enemyT;
     [SerializeField] private float rotateSpeed = 60.0f;
     [SerializeField] private float byebyeSpeed = 5.0f;
-    [SerializeField] private float byebyeRotate;
+    [SerializeField] private float byebyeRotateY;
+    [SerializeField] private float byebyeRotateZ;
     //[SerializeField] private int scenarioCount = 3;
     [SerializeField] private ViewOutChange m_view;
     [SerializeField] private GameObject titleUI;
 
     private bool is_byebye = false;
 
-	// Use this for initialization
-	void Start () {
+    [SerializeField] private Transform direction;
+
+    private Vector3 startAngle;
+    private Quaternion startAngle2;
+    private float lerpTime = 0.0f;
+    [SerializeField] private float endrotateSpeed = 1.0f;
+
+    // Use this for initialization
+    void Start () {
         //enemyT = GameObject.FindGameObjectWithTag("BigEnemy").transform;
 	}
 	
@@ -25,26 +33,19 @@ public class StartHelicopter : MonoBehaviour {
 	void Update () {
         if (is_byebye)
         {
-            transform.position += transform.forward * byebyeSpeed * Time.deltaTime;
+            transform.position += direction.forward * byebyeSpeed * Time.deltaTime;
+            if(lerpTime < 1.0f)
+            {
+                lerpTime += Time.deltaTime / endrotateSpeed;
+                //transform.eulerAngles = Vector3.Lerp(startAngle, direction.eulerAngles, lerpTime);
+                //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, byebyeRotateY, byebyeRotateZ), lerpTime);
+                transform.rotation = Quaternion.Slerp(startAngle2, direction.rotation, lerpTime);
+            }
+            
         }
         else
         {
-            //transform.RotateAround(enemyT.position, Vector3.up, -rotateSpeed * Time.deltaTime);
             transform.LookAt(enemyT.position);
-
-            //if (Input.GetKeyDown(KeyCode.Z)|| Input.GetAxisRaw("RT") < 0)
-            //{
-            //    scenarioCount--;
-            //    if(scenarioCount <= 0)
-            //    {
-            //        is_byebye = true;
-            //        Vector3 a = transform.eulerAngles;
-            //        a.x = 0;
-            //        a.y += byebyeRotate;
-            //        transform.eulerAngles = a;
-            //    }
-
-            //}
         }
 
     }
@@ -53,10 +54,18 @@ public class StartHelicopter : MonoBehaviour {
     {
         m_view.SetSceneName(name);
         is_byebye = true;
-        Vector3 a = transform.eulerAngles;
+        Vector3 a = Camera.main.transform.eulerAngles;
         a.x = 0;
-        a.y += byebyeRotate;
-        transform.eulerAngles = a;
+        a.y += byebyeRotateY;
+        a.z += byebyeRotateZ;
+        direction.eulerAngles = a;
+
+        transform.parent.GetComponent<FollowCamera>().enabled = false;
+        transform.parent.parent = null;
+
+        startAngle = transform.eulerAngles;
+        startAngle2 = transform.rotation;
+
         titleUI.SetActive(false);
     }
 }
