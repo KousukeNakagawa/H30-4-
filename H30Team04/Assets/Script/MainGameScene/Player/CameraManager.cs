@@ -8,7 +8,7 @@ using UnityEngine;
 public class CameraManager : MonoBehaviour
 {
     GameObject player;
-    PlayerBase playerScript;
+    Soldier playerScript;
     List<GameObject> cameras = new List<GameObject>();
     [SerializeField] GameObject SE_camera;
     [SerializeField] GameObject playerCamera;
@@ -16,7 +16,7 @@ public class CameraManager : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
-        playerScript = player.GetComponent<PlayerBase>();
+        playerScript = player.GetComponent<Soldier>();
 
         //全てのカメラをリスト化
         cameras.Add(SE_camera);

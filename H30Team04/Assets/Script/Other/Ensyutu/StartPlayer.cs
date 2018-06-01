@@ -22,7 +22,7 @@ public class StartPlayer : MonoBehaviour {
             transform.parent = Camera.main.transform;
         }
 
-        if (Input.GetAxisRaw("RT") < 0 && transform.parent != null)
+        if (Input.GetAxisRaw("RT") < 0 && transform.parent != null || Input.GetKeyDown(KeyCode.P))
         {
             scenarioCount--;
             if (scenarioCount == 0)

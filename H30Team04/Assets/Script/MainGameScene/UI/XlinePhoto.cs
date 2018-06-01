@@ -13,7 +13,7 @@ public class XlinePhoto : MonoBehaviour {
     //[SerializeField]
     //private Transform[] m_imagepos;
     [SerializeField]
-    FireCtrl m_fireCtrl;
+    Soldier m_fireCtrl;
     public GameObject gm;
     GameObject XPhots;
     GameObject m_Sight;

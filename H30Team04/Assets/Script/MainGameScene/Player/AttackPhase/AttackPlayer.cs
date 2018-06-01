@@ -31,6 +31,7 @@ public class AttackPlayer : MonoBehaviour {
         weekPoints = GameObject.FindGameObjectsWithTag("WeekPoint");
         target = GameObject.Instantiate(targetPrefab).transform;
         target.position = weekPoints[selectNum].transform.position;
+        m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
         transform.LookAt(target);
         m_gm = m_gamemanager.GetComponent<GameManager>();
         

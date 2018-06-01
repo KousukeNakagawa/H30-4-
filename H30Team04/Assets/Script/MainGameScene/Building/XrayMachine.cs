@@ -202,6 +202,7 @@ public class XrayMachine : MonoBehaviour {
             flash.transform.parent = transform;
             flash.transform.localPosition = new Vector3(0, 5, 0);
             flash.transform.eulerAngles = transform.eulerAngles;
+            XrayMachines.RemoveObj(gameObject);
         }
     }
 

@@ -61,7 +61,7 @@ public class GameManager : MonoBehaviour {
         //m_camera = Camera.main.gameObject;
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
-        m_CC = m_camera.transform.parent.parent.GetComponent<CameraController>();
+        //m_CC = m_camera.transform.parent.parent.GetComponent<CameraController>();
         m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
         weeknumber = 0; //テスト用
@@ -265,7 +265,10 @@ public class GameManager : MonoBehaviour {
 
     public void Damege(int i)
     {
-        if (weeknumber == i) BigEnemyScripts.breakEffectManager.ChangeType();
+        if (weeknumber == i) {
+            BigEnemyScripts.breakEffectManager.ChangeType();
+            //m_attackP.GetComponent<AttackPlayer>().ClearCamera();
+        }
         else BigEnemyScripts.shootingFailure.FailureAction();
     }
 }

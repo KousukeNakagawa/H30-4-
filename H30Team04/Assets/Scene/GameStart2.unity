@@ -124998,7 +124998,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d968b57d40d6494cb21a6c417e4c3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  changeScene: alpha
+  changeScene: beta
   distance: 40
 --- !u!137 &1905654616
 SkinnedMeshRenderer:

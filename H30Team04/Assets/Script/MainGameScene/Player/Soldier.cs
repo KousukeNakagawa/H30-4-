@@ -62,6 +62,8 @@ public class Soldier : MonoBehaviour
 
     void Update()
     {
+        SEMove_Z();
+
         //カメラの向きとプレイヤーの向きを統一
         var dir = playerCamera.transform.forward;
         rifle.transform.forward = dir;
@@ -283,10 +285,10 @@ public class Soldier : MonoBehaviour
         if (_isEndSE) return;
 
         //移動量
-        Vector3 move = new Vector3(endSEPoint.position.z - transform.position.z, 0);
+        Vector3 move = new Vector3(0, 0, endSEPoint.position.z - transform.position.z);
 
         //移動（目的地に近づくほど減速）
-        if (_isMove) transform.position += new Vector3(move.normalized.z / 10 + move.z / 100, 0);
+        if (_isMove) transform.position += new Vector3(0, 0, move.normalized.z / 10 + move.z / 100);
 
         //開始演出の終了
         else _isEndSE = true;

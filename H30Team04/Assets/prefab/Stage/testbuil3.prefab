@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4103792452153986}
   - component: {fileID: 212488500439510162}
-  m_Layer: 4
+  m_Layer: 11
   m_Name: MapIcon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -114,7 +114,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1072539515213436}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 5, z: 0}
+  m_LocalPosition: {x: 0, y: -5, z: 0}
   m_LocalScale: {x: 100, y: 100, z: 1.0000005}
   m_Children: []
   m_Father: {fileID: 4012843427511348}
@@ -278,7 +278,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10911, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0.41176468, g: 0.3784602, b: 0.3784602, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

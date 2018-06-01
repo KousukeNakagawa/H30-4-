@@ -5,7 +5,7 @@ using UnityEngine;
 public class XlineMarker : MonoBehaviour
 {
     GameObject m_player;
-    Xray_SSS_a m_xsss;
+    Xray_SSS m_xsss;
     int XlineCount;
     bool test=false;
     GameObject m_mainCamera;
@@ -15,7 +15,7 @@ public class XlineMarker : MonoBehaviour
     {
         m_mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
         m_player = GameObject.FindGameObjectWithTag("Player");
-        m_xsss = m_player.GetComponent<Xray_SSS_a>();
+        m_xsss = m_player.GetComponent<Xray_SSS>();
 
     }
 
@@ -24,8 +24,8 @@ public class XlineMarker : MonoBehaviour
     {
         transform.LookAt(m_mainCamera.transform.position);
 
-        if (m_xsss.GetTargetXray() == null) return;
+        if (m_xsss.GetTarget() == null) return;
 
-        transform.position = new Vector3(m_xsss.GetTargetXray().transform.position.x, m_xsss.GetTargetXray().transform.position.y + 5, m_xsss.GetTargetXray().transform.position.z);
+        transform.position = new Vector3(m_xsss.GetTarget().transform.position.x, m_xsss.GetTarget().transform.position.y + 5, m_xsss.GetTarget().transform.position.z);
     }
 }

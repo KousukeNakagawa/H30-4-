@@ -26,7 +26,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1327074596516720
 GameObject:
   m_ObjectHideFlags: 0
@@ -108,7 +108,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1897271772889820
 GameObject:
   m_ObjectHideFlags: 1
@@ -367,13 +367,10 @@ MonoBehaviour:
   texnumber: 01
   saveTime: 10
   underPos: 100
-  flashPrefab: {fileID: 0}
-  MinimapIconpre: {fileID: 0}
-  MinimapArrowpre: {fileID: 0}
-  MinimapIcon: {fileID: 1517038648394768, guid: e1ef75ba1e454344fbc9c55cf4304361,
+  flashPrefab: {fileID: 1067940456065244, guid: 66cfd531690ae5b4396736ea7a60f545,
     type: 2}
-  MinimapArrow: {fileID: 1835583677447752, guid: 67d4eef4f00490940b6112890eca315f,
-    type: 2}
+  minimapIcon: {fileID: 0}
+  minimapArrow: {fileID: 0}
   m_MinimapCamera: {fileID: 0}
 --- !u!124 &124599970066433972
 Behaviour:
