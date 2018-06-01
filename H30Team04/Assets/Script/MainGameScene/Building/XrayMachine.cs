@@ -23,7 +23,8 @@ public class XrayMachine : MonoBehaviour {
     [SerializeField] Image minimapIcon;
     [SerializeField] Image minimapArrow;
     [SerializeField] private Camera m_MinimapCamera;
-    MiniMAPcamera _miniCamera;
+    [SerializeField]
+    MinimapScript _minimapScript;
     private Rect _canvasRect;
 
     // Use this for initialization
@@ -41,8 +42,6 @@ public class XrayMachine : MonoBehaviour {
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
         if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
-
-        _miniCamera = m_MinimapCamera.GetComponent<MiniMAPcamera>();
 
        // UIがはみ出ないようにする
       _canvasRect = ((RectTransform)minimapArrow.canvas.transform).rect;
@@ -80,7 +79,7 @@ public class XrayMachine : MonoBehaviour {
             }
         }
         var viewport = m_MinimapCamera.WorldToViewportPoint(this.transform.position);
-        if (_miniCamera.MiniCameraRect.Contains(viewport))
+        if (_minimapScript.MiniCameraRect.Contains(viewport))
         {
 
             minimapIcon.enabled = true;

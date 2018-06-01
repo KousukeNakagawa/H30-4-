@@ -29,9 +29,9 @@ public class MiniMAPcamera : MonoBehaviour
 
     }
 
-    public Rect MiniCameraRect
-    {
-        get { return _rect; }
-        set { _rect = value; }
-    }
+    //public Rect MiniCameraRect
+    //{
+    //    get { return _rect; }
+    //    set { _rect = value; }
+    //}
 }
