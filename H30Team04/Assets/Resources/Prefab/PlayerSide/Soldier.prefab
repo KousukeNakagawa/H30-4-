@@ -2675,6 +2675,11 @@ MonoBehaviour:
   laserWide: 0.1
   effectPos: 0.1
   snipeCoolTime: 1
+  endSEPoint: {fileID: 0}
+  walkSpeed: 2
+  dashSpeed: 6
+  rotateSpeed: 2
+  residue: 3
 --- !u!114 &114798628905216860
 MonoBehaviour:
   m_ObjectHideFlags: 1
