@@ -25,14 +25,14 @@ public class BreakDown : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         if (isHit) return;
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Player") || other.gameObject.CompareTag("BigEnemy"))
         {
             BreakDownAction(other.transform);
         }
     }
     public void BreakDownAction(Transform target)
     {  //プレイヤーと当たらないレイヤーに変更
-        //gameObject.layer = LayerMask.NameToLayer("StageObject");
+        gameObject.layer = LayerMask.NameToLayer("StageObject");
         Vector3 dir = -(target.position - transform.position).normalized;
         m_rigid.useGravity = true;
         m_rigid.AddForce(dir * torquePower, ForceMode.VelocityChange);
