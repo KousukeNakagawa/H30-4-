@@ -8427,43 +8427,21 @@ Prefab:
       propertyPath: m_RootOrder
       value: 13
       objectReference: {fileID: 0}
-    - target: {fileID: 1567542908502392, guid: 4b8c9f986489e1c41b071b40dcc1b06a, type: 2}
-      propertyPath: m_Name
-      value: MinimapCamera
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813591353975132, guid: 4b8c9f986489e1c41b071b40dcc1b06a, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
     - target: {fileID: 114482996997671152, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
         type: 2}
       propertyPath: m_Player
       value: 
       objectReference: {fileID: 905877962}
-    - target: {fileID: 20590498462304212, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
+    - target: {fileID: 114482996997671152, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
         type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 2048
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813591353975132, guid: 4b8c9f986489e1c41b071b40dcc1b06a, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 20590498462304212, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
-        type: 2}
-      propertyPath: m_TargetTexture
+      propertyPath: m_Minimap
       value: 
-      objectReference: {fileID: 8400000, guid: 96d287edc57a8aa4daf6dcdb7c53f353, type: 2}
-    - target: {fileID: 20590498462304212, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
+      objectReference: {fileID: 935923147}
+    - target: {fileID: 114482996997671152, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
         type: 2}
-      propertyPath: m_NormalizedViewPortRect.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20590498462304212, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
-        type: 2}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0
-      objectReference: {fileID: 0}
+      propertyPath: m_Map
+      value: 
+      objectReference: {fileID: 1625577504}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8c9f986489e1c41b071b40dcc1b06a, type: 2}
   m_IsPrefabParent: 0
@@ -26289,7 +26267,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!124 &504758728
 Behaviour:
   m_ObjectHideFlags: 0
@@ -83713,7 +83691,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1592938135
 RectTransform:
   m_ObjectHideFlags: 0

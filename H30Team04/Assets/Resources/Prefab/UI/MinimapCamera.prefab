@@ -35,13 +35,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1567542908502392}
-  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 148, y: 300, z: 148}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 153.01, y: 300, z: 144.72}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 90, z: 0}
 --- !u!20 &20590498462304212
 Camera:
   m_ObjectHideFlags: 1
@@ -54,8 +54,8 @@ Camera:
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
-    x: 0.818
-    y: 0.7
+    x: 0
+    y: 0
     width: 1
     height: 1
   near clip plane: 0.3
@@ -66,9 +66,9 @@ Camera:
   m_Depth: 1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 2080
+    m_Bits: 2048
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 96d287edc57a8aa4daf6dcdb7c53f353, type: 2}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -91,12 +91,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Player: {fileID: 0}
   cameraH: 20
-  MinimapIcon: {fileID: 114561544495896230, guid: e1ef75ba1e454344fbc9c55cf4304361,
-    type: 2}
-  MInimapArrow: {fileID: 114705940731430476, guid: 64e9ca094c0765646acb2ca0fe888ca3,
-    type: 2}
-  m_targets: []
-  m_MinimapCamera: {fileID: 20590498462304212}
+  m_minimapRender: {fileID: 8400000, guid: 96d287edc57a8aa4daf6dcdb7c53f353, type: 2}
+  m_mapRender: {fileID: 8400000, guid: e14b6ba855efabc4c98c636e3fc23e7f, type: 2}
+  m_Minimap: {fileID: 0}
+  m_Map: {fileID: 0}
+  _pose: 0
 --- !u!124 &124565365579315726
 Behaviour:
   m_ObjectHideFlags: 1
