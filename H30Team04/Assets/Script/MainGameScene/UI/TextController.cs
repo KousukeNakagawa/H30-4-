@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TextController : MonoBehaviour { 
+public class TextController : MonoBehaviour
+{
 
     enum tutorialState
     {
@@ -43,17 +44,20 @@ public class TextController : MonoBehaviour {
 
     private tutorialState m_tutorialState;
 
+    [SerializeField] TutorialManager tutorialManager;
+
     public bool IsCompleteDisplayText
     {
         get { return Time.time > timeElapsed + timeUntilDisplay; }
     }
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         switch (m_tutorialState)
         {
-            case tutorialState.Tutorial : TutorialState(); break;
-            case tutorialState.Game:GameState();break;
+            case tutorialState.Tutorial: TutorialState(); break;
+            case tutorialState.Game: GameState(); break;
         }
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_PhDface = true;
@@ -74,8 +78,8 @@ public class TextController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_time);
-        if(m_tutorialState== tutorialState.Tutorial)
+        //Debug.Log(m_time);
+        if (m_tutorialState == tutorialState.Tutorial)
         {
             TutorialState();
         }
@@ -94,11 +98,11 @@ public class TextController : MonoBehaviour {
             m_scenarioi = true;
             if (IsCompleteDisplayText)
             {
-                if (m_currentLine < m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
+                if (m_currentLine < m_Scenarios.Length && tutorialManager.ChangeText())
                 {
                     SetNextSpeak();
                 }
-                else if (m_currentLine >= m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
+                else if (m_currentLine >= m_Scenarios.Length && tutorialManager.ChangeText())
                 {
                     currentText = " ";
                 }
@@ -136,6 +140,12 @@ public class TextController : MonoBehaviour {
         }
     }
 
+    public int CurrebtLine
+    {
+        get { return m_currentLine; }
+        set { m_currentLine = value; }
+    }
+
     //ゲーム本編＆ゲーム開始演出用セリフ演出
     void GameState()
     {
@@ -150,7 +160,7 @@ public class TextController : MonoBehaviour {
                 {
                     SetNextSpeak();
                 }
-                else if(m_currentLine >= m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
+                else if (m_currentLine >= m_Scenarios.Length && Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("Shutter"))
                 {
                     currentText = " ";
                 }

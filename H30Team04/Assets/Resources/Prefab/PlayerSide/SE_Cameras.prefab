@@ -45,7 +45,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4191814678682494
 Transform:
   m_ObjectHideFlags: 1
@@ -140,6 +140,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   recoverySpeed: 3
+  _rotateSpeed: 100
+  aimRotateSpeed: 20
+  maxAngle: 80
+  minAngle: -25
+  hideAngle: 35
+  inverted: 0
 --- !u!124 &124644743180046364
 Behaviour:
   m_ObjectHideFlags: 1

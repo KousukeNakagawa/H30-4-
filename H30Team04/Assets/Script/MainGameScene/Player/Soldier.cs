@@ -4,87 +4,57 @@ using UnityEngine;
 
 public class Soldier : MonoBehaviour
 {
-    [SerializeField] float speed = 100;
     [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject rifle;
-    float moveX;
-    float moveZ;
+
+    //走る速度
+    [SerializeField, Range(10, 500)] float speed = 100;
+
     Rigidbody rb;
 
+    //操作入力取得用
+    float Hor;
+    float Ver;
 
-
-    [SerializeField] GameObject beaconBullet;
-    [SerializeField] GameObject snipeBullet;
-    [SerializeField] GameObject blueRippel;
-    [SerializeField] GameObject redRippel;
-    [SerializeField] GameObject laser;
-    LineRenderer line;
-    //レーザーポインターの幅
-    [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
-    //着弾点エフェクトを浮かす値
-    [SerializeField, Range(0, 3)] float effectPos = 1;
-    [SerializeField, Range(0, 3)] float snipeCoolTime = 1;
-    float backupCoolTime;
-
-    bool isSnipeFire = true;
     bool isWeaponBeacon = true;
-    bool isLaserHit = false;
-    float laserLength;
 
-
-
-    //開始演出終了ポイント
-    [SerializeField] Transform endSEPoint;
-    //通常速度
-    [SerializeField, Range(0.1f, 10f)] float walkSpeed = 2f;
-    //ダッシュ時速度
-    [SerializeField, Range(0.1f, 100f)] float dashSpeed = 6f;
-    //旋回力
-    [SerializeField, Range(0.1f, 30f)] float rotateSpeed = 2;
     //死亡可能回数
     [SerializeField] int residue = 3;
-
 
     //リスポーン用
     Vector3 startPosition;
     Quaternion startRotation;
 
-    bool _isEndSE = false; //開始演出の終了フラグ
-    bool _isMove = true; //開始演出運転フラグ
     //死亡判定
-    bool _isDead = false;
+    //bool _isDead = false;
+
+    public static bool IsDead { get; private set; }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        line = laser.GetComponent<LineRenderer>();
+        IsDead = false;
     }
 
     void Update()
     {
-        SEMove_Z();
+        if (!SEManager.IsEndSE) return;
 
-        //カメラの向きとプレイヤーの向きを統一
-        var dir = playerCamera.transform.forward;
-        rifle.transform.forward = dir;
-        dir.y = 0;
-        transform.forward = dir;
+        DirectionSet();
 
         GetInput();
 
-        ShootingMode();
-    }
+        if (Annihilation()) Death(); //３回やられたら死亡
 
-    void GetInput()
-    {
-        moveX = Input.GetAxis("Hor");
-        moveZ = Input.GetAxis("Ver");
+        //START:初期位置へワープ（デバック用）
+        if (Input.GetButtonDown("Restart")) IsDead = true;
+
+        Respawn();
     }
 
     void FixedUpdate()
     {
-        var move = ((transform.forward * moveZ) + (transform.right * moveX)).normalized;
-        rb.velocity = move * speed * Time.deltaTime;
+        Move();
     }
 
     void OnCollisionEnter(Collision other)
@@ -97,133 +67,47 @@ public class Soldier : MonoBehaviour
         if (other.CompareTag("Missile")) Respawn();
     }
 
-    /// <summary>
-    /// ＊射撃モード
-    /// </summary>
-    void ShootingMode()
+    /// <summary> 移動処理 </summary>
+    void Move()
     {
-        //武器の切替
-        if (Input.GetButtonDown("WeaponChange")) isWeaponBeacon = !isWeaponBeacon;
+        if (!UnlockManager.limit[TutorialState.move]) return;
 
-        RaycastHit hit; //レイとの衝突場所にエフェクトを後々追加予定
-
-        //自分の位置の少し上から正面へ（微調整）
-        Ray ray = new Ray(rifle.transform.position + rifle.transform.forward * 2, rifle.transform.forward);
-
-        //武器によって長さが変わる
-        float rayLength = (isWeaponBeacon) ?
-            beaconBullet.GetComponent<BeaconBullet>().GetRangeDistance() : snipeBullet.GetComponent<SniperBullet>().GetRangeDistance();
-
-        //武器によって色が変わる
-        Color rayColor = (isWeaponBeacon) ? Color.blue : Color.red;
-
-        GameObject effect = (isWeaponBeacon) ? blueRippel : redRippel;
-
-        if (isWeaponBeacon)
-        {
-            blueRippel.SetActive(true);
-            redRippel.SetActive(false);
-        }
-        else
-        {
-            blueRippel.SetActive(false);
-            redRippel.SetActive(true);
-        }
-
-        bool isFire = (isWeaponBeacon) ? true : isSnipeFire;
-
-        if (!isSnipeFire)
-        {
-            snipeCoolTime -= Time.deltaTime;
-            if (snipeCoolTime <= 0)
-            {
-                isSnipeFire = true;
-                snipeCoolTime = backupCoolTime;
-            }
-        }
-
-        if (Input.GetButtonDown("Fire") && isFire) Fire(ray); //射撃
-
-        if (!isLaserHit) laserLength = rayLength;
-
-        DrawLine(ray.origin, ray.origin + ray.direction * laserLength, rayColor, laserWide);
-
-        if (Physics.Raycast(ray, out hit, rayLength))
-        {
-            //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
-            if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
-                hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper")) return;
-
-            effect.SetActive(true);
-            effect.transform.rotation = Quaternion.LookRotation(hit.normal);
-            effect.transform.position = hit.point + hit.normal * effectPos;
-
-            isLaserHit = true;
-            if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
-        }
-        else
-        {
-            isLaserHit = false;
-            effect.SetActive(false);
-        }
+        var move = ((transform.forward * Ver) + (transform.right * Hor)).normalized;
+        rb.velocity = move * speed * Time.deltaTime;
     }
 
-    /// <summary>
-    /// ＊装備している武器の射撃
-    /// </summary>
-    void Fire(Ray ray)
+    /// <summary> カメラと向きを合わせる </summary>
+    void DirectionSet()
     {
-        //ビーコン重複防止処理
-        if (isWeaponBeacon)
-        {
-            var beforBeacon = GameObject.FindGameObjectWithTag("Beacon");
-            var beforBullet = GameObject.FindGameObjectWithTag("BeaconBullet");
-            if (beforBeacon != null) Destroy(beforBeacon);
-            if (beforBullet != null) Destroy(beforBullet);
-        }
+        //カメラの向きの取得
+        var dir = playerCamera.transform.forward;
 
-        //発射する武器の指定
-        GameObject weapon = (isWeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
+        rifle.transform.forward = dir;
 
-        weapon.transform.position = ray.origin + rifle.transform.forward; //発射位置の指定
-
-        //装備している武器で発砲
-        if (isWeaponBeacon)
-            weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
-        else
-        {
-            weapon.GetComponent<SniperBullet>().Fire(ray.direction);
-            isSnipeFire = false;
-        }
+        //プレイヤーは上下アングルを無視する
+        dir.y = 0;
+        transform.forward = dir;
     }
 
-    void DrawLine(Vector3 p1, Vector3 p2, Color c1, float width)
+    /// <summary> 操作入力の取得 </summary>
+    void GetInput()
     {
-        line.SetPosition(0, p1);
-        line.SetPosition(1, p2);
-        line.startColor = c1;
-        line.endColor = c1;
-        line.startWidth = width;
-        line.endWidth = width;
+        Hor = Input.GetAxis("Hor");
+        Ver = Input.GetAxis("Ver");
     }
 
-    /// <summary>
-    /// 装備中の武器（true = beacon / false = snipe）
-    /// </summary>
+    /// <summary> 装備中の武器の取得 </summary>
     public bool GetWeapon()
     {
         return isWeaponBeacon;
     }
 
-    /// <summary>
-    /// リスポーン
-    /// </summary>
+    /// <summary> リスポーン </summary>
     public void Respawn()
     {
         if (Annihilation()) return;
 
-        if (_isDead)
+        if (IsDead)
         {
             //移動を殺す
             rb.velocity = Vector3.zero;
@@ -236,82 +120,22 @@ public class Soldier : MonoBehaviour
                 //ビッグエネミーを向く
                 transform.LookAt(BigEnemyScripts.mTransform);
                 residue--; //死亡可能回数の減少
-                _isDead = false;
+                IsDead = false;
             }
         }
     }
 
-    /// <summary>
-    /// 死亡判定
-    /// </summary>
-    public bool IsDead()
-    {
-        return _isDead;
-    }
-
-    /// <summary>
-    /// ＊残機が0になったら「全滅」＝True
-    /// </summary>
+    /// <summary> 残機０で死亡時 </summary>
     public bool Annihilation()
     {
         return (residue <= 0) ? true : false;
     }
 
-    /// <summary>
-    /// ＊死亡
-    /// </summary>
+    /// <summary> 死亡処理 </summary>
     void Death()
     {
         //カメラは破壊しない
         Camera.main.transform.parent = null;
         Destroy(GameObject.FindGameObjectWithTag("Player"));
-    }
-
-    /// <summary>
-    /// 開始演出の自動運転（X軸）
-    /// </summary>
-    void SEMove_X()
-    {
-        if (_isEndSE) return;
-
-        //移動量
-        Vector3 move = new Vector3(endSEPoint.position.x - transform.position.x, 0);
-
-        //移動（目的地に近づくほど減速）
-        if (_isMove) transform.position += new Vector3(move.normalized.x / 10 + move.x / 100, 0);
-
-        //開始演出の終了
-        else _isEndSE = true;
-
-        //到着
-        if (Mathf.Abs(move.x) < 1) _isMove = false;
-    }
-
-    /// <summary>
-    /// 開始演出の自動運転（Z軸）
-    /// </summary>
-    void SEMove_Z()
-    {
-        if (_isEndSE) return;
-
-        //移動量
-        Vector3 move = new Vector3(0, 0, endSEPoint.position.z - transform.position.z);
-
-        //移動（目的地に近づくほど減速）
-        if (_isMove) transform.position += new Vector3(0, 0, move.normalized.z / 10 + move.z / 100);
-
-        //開始演出の終了
-        else _isEndSE = true;
-
-        //到着
-        if (Mathf.Abs(move.z) < 1) _isMove = false;
-    }
-
-    /// <summary>
-    /// 開始演出が終わったか
-    /// </summary>
-    public bool GetIsEndSE()
-    {
-        return _isEndSE;
     }
 }

@@ -4,11 +4,8 @@ using UnityEngine;
 
 public enum TutorialState
 {
-    start,
     move,
     rotation,
-    weapon,
-    xray,
+    battle,
     shooting,
-    end
 }

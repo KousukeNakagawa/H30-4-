@@ -287,7 +287,9 @@ public class AngleCtrl : MonoBehaviour
 
         //武器によって長さが変わる
         float rayLength = (isWeaponBeacon) ?
-            beaconBullet.GetComponent<BeaconBullet>().GetRangeDistance() : snipeBullet.GetComponent<SniperBullet>().GetRangeDistance();
+            BeaconBullet.GetRangeDistance() : SniperBullet.GetRangeDistance();
+
+        Debug.Log(rayLength);
 
         //武器によって色が変わる
         Color rayColor = (isWeaponBeacon) ? Color.blue : Color.red;

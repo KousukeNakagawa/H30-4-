@@ -47,6 +47,8 @@ public class MainCamera : MonoBehaviour
 
     void LateUpdate()
     {
+        if (!SEManager.IsEndSE) return;
+
         RotateCameraAngle();
         //AutoCameraControl();
     }
@@ -101,7 +103,7 @@ public class MainCamera : MonoBehaviour
     /// </summary>
     void RotateCameraAngle()
     {
-        transform.position = player.transform.position - player.transform.forward*2 + Vector3.up * 1.5f;
+        transform.position = player.transform.position - player.transform.forward * 2 + Vector3.up * 1.5f;
 
         //カメラ反転の対応
         float changer = (inverted) ? 1 : -1;

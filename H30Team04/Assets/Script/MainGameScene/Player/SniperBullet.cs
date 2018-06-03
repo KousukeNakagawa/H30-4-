@@ -6,7 +6,7 @@ public class SniperBullet : MonoBehaviour
 {
     [SerializeField] GameObject snipeBullet;
     [SerializeField] [Range(1, 300)] float speed = 100; //弾速
-    [SerializeField] [Range(5, 300)] float rangeDistance = 100; //射程距離
+    [SerializeField] [Range(5, 300)] static float rangeDistance = 100; //射程距離
 
     Rigidbody rb;
     Vector3 startPos;
@@ -58,7 +58,7 @@ public class SniperBullet : MonoBehaviour
     /// <summary>
     /// ＊射程距離のゲッター
     /// </summary>
-    public float GetRangeDistance()
+    public static float GetRangeDistance()
     {
         return rangeDistance;
     }

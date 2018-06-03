@@ -6,7 +6,7 @@ public class BeaconBullet : MonoBehaviour
 {
     [SerializeField] GameObject beacon;
     [SerializeField] [Range(1, 300)] float speed = 50; //弾速
-    [SerializeField] [Range(5, 100)] float rangeDistance = 50; //射程距離
+    [SerializeField] [Range(5, 100)] static float rangeDistance = 50; //射程距離
     [SerializeField, Range(10, 300)] float extinctionTime = 10; //消滅時間（秒）
 
     Rigidbody rb;
@@ -92,7 +92,7 @@ public class BeaconBullet : MonoBehaviour
     /// <summary>
     /// 射程距離のゲッター
     /// </summary>
-    public float GetRangeDistance()
+    public static float GetRangeDistance()
     {
         return rangeDistance;
     }
