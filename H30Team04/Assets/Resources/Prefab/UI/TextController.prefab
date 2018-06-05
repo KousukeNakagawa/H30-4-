@@ -80,7 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b38e9e9490fb9db428ed1a3d25acde48, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_PhDChange: 0
   m_rawImage: {fileID: 0}
   m_PhDcamera: {fileID: 0}
   m_Scenarios:
