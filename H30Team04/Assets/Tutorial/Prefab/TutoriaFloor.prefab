@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 154043702140409538}
   m_Layer: 0
   m_Name: TutoriaFloor
-  m_TagString: Untagged
+  m_TagString: Field
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -393,6 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4626032959268352}
   - component: {fileID: 135492059484268728}
+  - component: {fileID: 114735600683428544}
   m_Layer: 0
   m_Name: MoveRange
   m_TagString: Untagged
@@ -5530,7 +5531,7 @@ GameObject:
   - component: {fileID: 108672808763737020}
   m_Layer: 0
   m_Name: GoalPoint
-  m_TagString: Untagged
+  m_TagString: GoalPoin
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
@@ -23298,7 +23299,7 @@ Light:
   m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_Intensity: 1
   m_Range: 100
-  m_SpotAngle: 82
+  m_SpotAngle: 100
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -23969,6 +23970,17 @@ MonoBehaviour:
     type: 2}
   topPrefab: {fileID: 1216586824666278, guid: 72cb9b226eec2ef4c9376824c2ec8fb6, type: 2}
   centerCount: 1
+--- !u!114 &114735600683428544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1043596332030296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3dc64de9dbb6329428a54fdbbc37a1d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114777367256102662
 MonoBehaviour:
   m_ObjectHideFlags: 1
