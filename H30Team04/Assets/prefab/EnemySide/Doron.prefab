@@ -2944,7 +2944,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19294b1357593da4f8a7d81ead3904c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  explosion: {fileID: 0}
+  explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
   breakSmoke: {fileID: 1149029344498834, guid: 75819b73e66d8774695a111ccecec2d2, type: 2}
   moveScript: {fileID: 114269292212028042}
   m_rigid: {fileID: 54388968085187216}
