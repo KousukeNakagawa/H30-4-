@@ -18,7 +18,7 @@ public class WeaponCtrl : MonoBehaviour
     [SerializeField, Range(0, 3)] float effectPos = 0.1f;
     //スナイパーライフルのクールタイム
     [SerializeField, Range(0, 3)] float snipeCoolTime = 1;
-    float backupCoolTime;
+    static float backupCoolTime;
 
     bool isSnipeFire = true;
     bool isLaserHit = false;
@@ -32,6 +32,8 @@ public class WeaponCtrl : MonoBehaviour
         //初期装備はビーコン
         WeaponBeacon = true;
         line = laser.GetComponent<LineRenderer>();
+
+        backupCoolTime = snipeCoolTime;
     }
 
     void Update()

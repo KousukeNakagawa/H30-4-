@@ -34,6 +34,8 @@ public class Soldier : MonoBehaviour
     //死亡可能回数
     [SerializeField] int residue = 3;
 
+    [SerializeField] bool isUnlock = true;
+
     //リスポーン用
     Vector3 startPosition;
     Quaternion startRotation;
@@ -50,6 +52,8 @@ public class Soldier : MonoBehaviour
 
         cameras.Add(playerCamera);
         cameras.Add(rifle);
+
+        UnlockManager.AllSet(isUnlock);
     }
 
     void Update()

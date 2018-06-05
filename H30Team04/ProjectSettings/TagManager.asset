@@ -16,6 +16,8 @@ TagManager:
   - Missile
   - WeekPoint
   - Sniper
+  - Canvas2
+  - GoalPoin
   layers:
   - Default
   - TransparentFX
