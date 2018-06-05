@@ -44766,6 +44766,10 @@ Prefab:
       propertyPath: m_Scenarios.Array.data[2]
       value: "\u3042\u308B\u304B\u3082\u3057\u308C\u306A\u3044"
       objectReference: {fileID: 0}
+    - target: {fileID: 1877363892220924, guid: efc2dfcdfe4179840937523d23f496e5, type: 2}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: efc2dfcdfe4179840937523d23f496e5, type: 2}
   m_IsPrefabParent: 0
@@ -46669,6 +46673,10 @@ Prefab:
     - target: {fileID: 4762071387284178, guid: a05df22d7a79a574980aa1f8dd40b5c8, type: 2}
       propertyPath: m_RootOrder
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1537488511650572, guid: a05df22d7a79a574980aa1f8dd40b5c8, type: 2}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: a05df22d7a79a574980aa1f8dd40b5c8, type: 2}
@@ -106611,7 +106619,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1661190330
 MonoBehaviour:
   m_ObjectHideFlags: 0

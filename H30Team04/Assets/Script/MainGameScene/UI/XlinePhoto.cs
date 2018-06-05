@@ -12,8 +12,8 @@ public class XlinePhoto : MonoBehaviour {
     AttackPlayer m_AP;
     //[SerializeField]
     //private Transform[] m_imagepos;
-    [SerializeField]
-    Soldier m_fireCtrl;
+    //[SerializeField]
+    //WeaponCtrl m_fireCtrl;
     public GameObject gm;
     GameObject XPhots;
     GameObject m_Sight;
@@ -69,7 +69,7 @@ public class XlinePhoto : MonoBehaviour {
         {
             m_wepons[0].enabled = true;
             m_wepons[1].enabled = true;
-            if (!m_fireCtrl.GetWeapon())
+            if (!WeaponCtrl.WeaponBeacon)
             {
                 //m_wepons[0].transform.position = m_imagepos[0].position;
                 //m_wepons[1].transform.position = m_imagepos[1].position;
