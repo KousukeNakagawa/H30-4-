@@ -8,7 +8,6 @@ public class PlayerBase : MonoBehaviour
     XlinePhoto xline;
 
     [SerializeField] GameObject wheelManager;
-    [SerializeField] WheelManager manager;
 
     [SerializeField] GameObject sniper;
     [SerializeField] GameObject driver;
@@ -44,8 +43,6 @@ public class PlayerBase : MonoBehaviour
     {
         xline = canvas.GetComponent<XlinePhoto>();
         rb = gameObject.GetComponent<Rigidbody>();
-
-        manager = wheelManager.GetComponent<WheelManager>();
 
         //リスポーン用初期情報
         startPosition = gameObject.transform.position;

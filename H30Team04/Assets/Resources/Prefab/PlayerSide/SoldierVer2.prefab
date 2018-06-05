@@ -835,13 +835,13 @@ GameObject:
   - component: {fileID: 4200115768434932}
   - component: {fileID: 114745437230682250}
   - component: {fileID: 114912356559031516}
-  - component: {fileID: 114995701686262730}
   - component: {fileID: 114347762702366028}
+  - component: {fileID: 114995701686262730}
   - component: {fileID: 95684761952631970}
   - component: {fileID: 54054906819218650}
   - component: {fileID: 136921756284452104}
   m_Layer: 0
-  m_Name: Soldier
+  m_Name: SoldierVer2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2653,7 +2653,7 @@ MonoBehaviour:
   rippel: {fileID: 1918775397421590}
   laser: {fileID: 1618888337967162}
   laserWide: 0.1
-  effectPos: 1
+  effectPos: 0.1
   snipeCoolTime: 1
 --- !u!114 &114745437230682250
 MonoBehaviour:
@@ -2666,9 +2666,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251b478b207346d4f8f58ba429bacf18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
+  playerCamera: {fileID: 1710213729628032, guid: 793dfb9f202256c478bde84c6ee23b33,
+    type: 2}
   rifle: {fileID: 1412742504195918}
-  speed: 300
+  speed: 100
   residue: 3
 --- !u!114 &114765120528075112
 MonoBehaviour:
@@ -2692,7 +2693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0559ac0b00e395409979a6574fa6fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endSEPoint: {fileID: 0}
+  endSEPoint: {fileID: 4574465392306540, guid: 3c5afe2b089632447bff726dafba7fb2, type: 2}
   _isSE: 0
   dirX: 0
 --- !u!114 &114995701686262730

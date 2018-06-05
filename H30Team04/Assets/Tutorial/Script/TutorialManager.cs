@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
+    [SerializeField] TextController textCtrl;
+
     //フェード機能の実装
     [SerializeField, Tooltip("フェード機能")]
     FadeFunction fadeFunction;
@@ -73,18 +75,24 @@ public class TutorialManager : MonoBehaviour
 
     void Update()
     {
-        //range.SetRange(player.transform.position, 10);
-
-        //A or B を押した瞬間のみ true
+        //A or B を押した瞬間 true
         textInput = (Input.GetButtonDown("Shutter") || Input.GetButtonDown("Select")) ?
             true : false;
 
         //現在のチュートリアルの実行
         exe[tutorial]();
 
+        //チュートリアル中に行動範囲外にでたら
+        if (range.RangeEnter)
+        {
+            Debug.Log("行動範囲を出てしまいました");
+            //ReStart(tutorial);
+            //range.SetRange(player.transform.position, 20);
+        }
+
         //現在のチュートリアルの終了判定
         //現在のテキストが現在のチュートリアルの最後のテキストなら
-        if (fadeFunction.textController.CurrebtLine == lastTextNum[tutorial])
+        if (textCtrl.CurrebtLine == lastTextNum[tutorial])
         {
             textStop = true;
             //画面を暗転させる
@@ -94,7 +102,7 @@ public class TutorialManager : MonoBehaviour
         }
 
         //フェードがかかっているとき
-        if (!fade.IsMinAlpha())
+        if (!fade.IsMinAlpha() && !textStop)
         {
             fade.FadeIn();
             oldTutorial = tutorial;
@@ -106,24 +114,18 @@ public class TutorialManager : MonoBehaviour
 
     void TutorialMove()
     {
-        //指定範囲外に出たら
-        if (range.RangeEnter)
-        {
-            //ReStart(tutorial);
-            //range.SetRange(player.transform.position, 20);
-        }
-
         //目標地点を表示する
         tutorialObject.goalPoint.SetActive(true);
 
         //一旦テキストを止めたい番号
-        var textPause = 2;
-        if (fadeFunction.textController.CurrebtLine == textPause) textStop = true;
+        var stopNum = 2;
+        //今のテキストが止めたいテキストなら止める
+        if (textCtrl.CurrebtLine == stopNum) textStop = true;
 
         //動き
         if (textStop)
         {
-
+            UnlockManager.
         }
     }
 
