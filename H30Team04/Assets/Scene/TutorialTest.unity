@@ -473,6 +473,11 @@ Prefab:
       propertyPath: tutorialObject.moveRange
       value: 
       objectReference: {fileID: 453259245}
+    - target: {fileID: 114261905039411812, guid: 786cedf235c0e3c44a64f31f55f1962e,
+        type: 2}
+      propertyPath: textCtrl
+      value: 
+      objectReference: {fileID: 49852473}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 786cedf235c0e3c44a64f31f55f1962e, type: 2}
   m_IsPrefabParent: 0
