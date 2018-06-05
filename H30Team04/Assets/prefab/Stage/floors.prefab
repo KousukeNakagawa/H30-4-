@@ -20,6 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4090152403647460}
   - component: {fileID: 114960137156811950}
+  - component: {fileID: 65578341129693460}
   m_Layer: 0
   m_Name: floors
   m_TagString: Untagged
@@ -40,6 +41,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &65578341129693460
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1167588740022578}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 500, y: 2, z: 300}
+  m_Center: {x: 220, y: -1, z: -120}
 --- !u!114 &114960137156811950
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a53ef279ab8e414796474ff8b3ade54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  csvFile: {fileID: 4900000, guid: 4ae0167788b912b468243d4f8604deaa, type: 3}
+  csvFile: {fileID: 4900000, guid: 4854e17a76b7c254abbec77465b8b6be, type: 3}
   floorMats:
   - {fileID: 2100000, guid: 0deb35642d16f354492f31013af0eaf5, type: 2}
   - {fileID: 2100000, guid: 3d7ad54e69b5a8146b62661481d21773, type: 2}
