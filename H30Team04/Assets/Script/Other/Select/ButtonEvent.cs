@@ -18,6 +18,8 @@ public class ButtonEvent : MonoBehaviour
     bool sw;
     [SerializeField]
     private GameObject pauseUI;
+    [SerializeField]
+    private Text m_text;
 
 
     void Start()
@@ -42,12 +44,14 @@ public class ButtonEvent : MonoBehaviour
                 EventSystem.current.SetSelectedGameObject(gameObject);
             }
             informationText.text = informationString;
+            m_text.fontStyle = FontStyle.Bold;
         }
     }
     //　ボタンから移動したら情報を削除
     public void OnDeselected()
     {
         informationText.text = "";
+        m_text.fontStyle = FontStyle.Normal;
     }
 
     //　ステータスウインドウを非アクティブにする

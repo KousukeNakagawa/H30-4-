@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Hilyouzi : MonoBehaviour
 {
-
+    [SerializeField]
     public GameObject gameObj;
+    [SerializeField]
     public GameObject gameObj2;
     // Use this for initialization
     void Start()
@@ -23,6 +25,10 @@ public class Hilyouzi : MonoBehaviour
             gameObj2.SetActive(true);
 
             //ScecnManager.SceneChange("prototype");
+        }
+        if(Input.GetMouseButtonDown(0))
+        {
+            EventSystem.current.SetSelectedGameObject(gameObj);
         }
     }
 }
