@@ -1687,7 +1687,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1412742504195918}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.02, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4656219434745066}
@@ -2666,10 +2666,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251b478b207346d4f8f58ba429bacf18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 1710213729628032, guid: 793dfb9f202256c478bde84c6ee23b33,
-    type: 2}
+  playerCamera: {fileID: 0}
   rifle: {fileID: 1412742504195918}
   speed: 100
+  _rotateSpeed: 100
+  aimRotateSpeed: 20
+  maxAngle: 60
+  minAngle: -25
+  hideAngle: 35
+  inverted: 1
   residue: 3
 --- !u!114 &114765120528075112
 MonoBehaviour:
@@ -2693,7 +2698,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f0559ac0b00e395409979a6574fa6fe1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endSEPoint: {fileID: 4574465392306540, guid: 3c5afe2b089632447bff726dafba7fb2, type: 2}
+  endSEPoint: {fileID: 0}
   _isSE: 0
   dirX: 0
 --- !u!114 &114995701686262730

@@ -21,20 +21,20 @@ public class UnlockManager : MonoBehaviour
     }
 
     /// <summary> 全行動制限の解除 or 制限 </summary>
-    public void AllSet(bool value)
+    public  static void AllSet(bool value)
     {
         for (int i = 0; i < 4; i++)
             limit[TutorialState.move + i] = value;
     }
 
     /// <summary> プレイヤーの行動制限 </summary>
-    public void Lock(TutorialState tutorial)
+    public static void Lock(TutorialState tutorial)
     {
         limit[tutorial] = false;
     }
 
     /// <summary> 行動制限の解除 </summary>
-    public void Unlock(TutorialState tutorial)
+    public static void Unlock(TutorialState tutorial)
     {
         limit[tutorial] = true;
     }

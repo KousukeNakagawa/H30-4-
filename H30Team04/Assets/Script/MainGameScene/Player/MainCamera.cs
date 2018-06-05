@@ -45,12 +45,48 @@ public class MainCamera : MonoBehaviour
         foreach (var rifle in root.GetComponentsInChildren<MeshRenderer>()) renderers.Add(rifle);
     }
 
-    void LateUpdate()
+    void Update()
     {
         if (!SEManager.IsEndSE) return;
 
-        RotateCameraAngle();
+        transform.position = player.transform.position - player.transform.forward * 2 + Vector3.up * 1.5f;
+    }
+
+    void LateUpdate()
+    {
+
+        //RotateCameraAngle();
         //AutoCameraControl();
+    }
+
+    /// <summary>
+    /// ＊手動カメラアングル（右スティック）
+    /// </summary>
+    void RotateCameraAngle()
+    {
+        //transform.position = player.transform.position - player.transform.forward * 2 + Vector3.up * 1.5f;
+
+        //カメラ反転の対応
+        float changer = (inverted) ? 1 : -1;
+        //AIM時の対応
+        float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
+
+        //右パット入力の取得
+        Vector3 angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical")) * Time.deltaTime;
+
+        //カメラとライフルの回転
+        transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed;
+
+        //-180＜上下の動き＜180に変更
+        float angleX = (180 <= transform.eulerAngles.x) ?
+            transform.eulerAngles.x - 360 : transform.eulerAngles.x;
+
+        //上下の制限
+        transform.eulerAngles =
+            new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), transform.eulerAngles.y, transform.eulerAngles.z);
+
+        //プレイヤーの透過
+        //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
     }
 
     /// <summary>
@@ -96,36 +132,5 @@ public class MainCamera : MonoBehaviour
                 item.renderQueue = alpha;
             }
         }
-    }
-
-    /// <summary>
-    /// ＊手動カメラアングル（右スティック）
-    /// </summary>
-    void RotateCameraAngle()
-    {
-        transform.position = player.transform.position - player.transform.forward * 2 + Vector3.up * 1.5f;
-
-        //カメラ反転の対応
-        float changer = (inverted) ? 1 : -1;
-        //AIM時の対応
-        float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
-
-        //右パット入力の取得
-        Vector3 angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical")) * Time.deltaTime;
-
-        //カメラとライフルの回転
-        transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed;
-
-        //-180＜上下の動き＜180に変更
-        float angleX = (180 <= transform.eulerAngles.x) ?
-            transform.eulerAngles.x - 360 : transform.eulerAngles.x;
-
-        //上下の制限
-        transform.eulerAngles =
-            new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), transform.eulerAngles.y, transform.eulerAngles.z);
-
-        //プレイヤーの透過
-        //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
-
     }
 }

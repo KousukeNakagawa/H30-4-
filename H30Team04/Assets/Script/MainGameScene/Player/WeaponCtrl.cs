@@ -79,31 +79,31 @@ public class WeaponCtrl : MonoBehaviour
         //レイの衝突判定用
         RaycastHit hit;
 
+        //レーザーの長さ
+        if (!isLaserHit) laserLength = rayLength;
+
+        LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);
+
         //レイが何かに衝突したら
         if (Physics.Raycast(ray, out hit, rayLength))
         {
             //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
             if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
                 hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper")) return;
+                hit.collider.CompareTag("Sniper") || hit.collider.CompareTag("GoalPoint")) return;
 
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
 
             isLaserHit = true;
+            if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
         }
         else
         {
             isLaserHit = false;
             rippel.SetActive(false);
         }
-
-        //レーザーの長さ
-        laserLength = (isLaserHit) ?
-            Vector3.Distance(hit.point, ray.origin) : rayLength;
-
-        LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);
     }
 
     /// <summary> 装備中の武器の使用 </summary>

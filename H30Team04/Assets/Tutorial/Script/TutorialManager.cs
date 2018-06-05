@@ -125,18 +125,39 @@ public class TutorialManager : MonoBehaviour
         //動き
         if (textStop)
         {
-            UnlockManager.
+            //移動の解除
+            UnlockManager.Unlock(TutorialState.move);
+            //プレイヤーが目的地に到達したら
+            if (GoalPoint.Goal)
+            {
+                UnlockManager.Lock(TutorialState.move);
+                textInput = true;
+                textStop = false;
+            }
         }
     }
 
     void TutorialRotation()
     {
+        //目標地点を表示する
+        tutorialObject.goalPoint.SetActive(false);
+
         tutorialObject.lookPoint[0].SetActive(true);
         tutorialObject.lookPoint[1].SetActive(true);
+
+        //一旦テキストを止めたい番号
+        var stopNum = 2;
+        //今のテキストが止めたいテキストなら止める
+        if (textCtrl.CurrebtLine == stopNum) textStop = true;
 
         //二つの LookPoint が視界に入ったらクリア
         var clear = (tutorialObject.lookPoint[0].GetComponent<LookPoint>().IsLook &&
             tutorialObject.lookPoint[1].GetComponent<LookPoint>().IsLook) ? true : false;
+
+        if(textStop)
+        {
+            UnlockManager.Unlock(TutorialState.rotation);
+        }
 
         if (clear)
         {
@@ -180,6 +201,6 @@ public class TutorialManager : MonoBehaviour
     {
         //A or B を押した瞬間 かつ 
         //テキストを止めていないなら
-        return (textInput && !textStop) ? true : false;
+        return ((textInput && !textStop)) ? true : false;
     }
 }

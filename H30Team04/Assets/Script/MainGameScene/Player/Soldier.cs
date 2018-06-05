@@ -6,9 +6,22 @@ public class Soldier : MonoBehaviour
 {
     [SerializeField] GameObject playerCamera;
     [SerializeField] GameObject rifle;
+    List<GameObject> cameras = new List<GameObject>();
 
     //走る速度
     [SerializeField, Range(10, 500)] float speed = 100;
+    //カメラ回転速度
+    [SerializeField, Range(1, 500)] int _rotateSpeed = 100;
+    //isAim=true時のカメラ回転速度
+    [SerializeField, Range(1, 100)] int aimRotateSpeed = 20;
+    //上下角度範囲
+    [SerializeField, Range(0, 80)] float maxAngle = 80;
+    [SerializeField, Range(0, -80)] float minAngle = -25;
+    //プレイヤーを透過する角度
+    [SerializeField, Range(0, 90)] float hideAngle = 35;
+
+    //カメラ反転のON/OFF
+    [SerializeField] bool inverted = false;
 
     Rigidbody rb;
 
@@ -34,15 +47,17 @@ public class Soldier : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         IsDead = false;
+
+        cameras.Add(playerCamera);
+        cameras.Add(rifle);
     }
 
     void Update()
     {
         if (!SEManager.IsEndSE) return;
 
-        DirectionSet();
-
         GetInput();
+        Rotation();
 
         if (Annihilation()) Death(); //３回やられたら死亡
 
@@ -76,17 +91,37 @@ public class Soldier : MonoBehaviour
         rb.velocity = move * speed * Time.deltaTime;
     }
 
-    /// <summary> カメラと向きを合わせる </summary>
-    void DirectionSet()
+    /// <summary> 回転処理 </summary>
+    void Rotation()
     {
-        //カメラの向きの取得
-        var dir = playerCamera.transform.forward;
+        //カメラ反転の対応
+        float changer = (inverted) ? 1 : -1;
+        //AIM時の対応
+        float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
 
-        rifle.transform.forward = dir;
+        //右パット入力の取得
+        Vector3 angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
 
-        //プレイヤーは上下アングルを無視する
-        dir.y = 0;
-        transform.forward = dir;
+        //プレイヤーの回転
+        transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
+
+        //カメラとライフルの回転
+        playerCamera.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
+        //rifle.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
+        rifle.transform.forward = playerCamera.transform.forward;
+
+        Debug.Log(transform.eulerAngles.y + "///" + rifle.transform.eulerAngles.y);
+
+        //-180＜上下の動き＜180に変更
+        float angleX = (180 <= playerCamera.transform.eulerAngles.x) ?
+            playerCamera.transform.eulerAngles.x - 360 : playerCamera.transform.eulerAngles.x;
+
+        //上下の制限
+        playerCamera.transform.eulerAngles =
+            new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
+
+        //プレイヤーの透過
+        //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
     }
 
     /// <summary> 操作入力の取得 </summary>
