@@ -37,6 +37,10 @@ public class WeaponCtrl : MonoBehaviour
     void Update()
     {
         ChangeWeapon();
+    }
+
+    void LateUpdate()
+    {
         Shooting();
     }
 
@@ -50,7 +54,7 @@ public class WeaponCtrl : MonoBehaviour
     void Shooting()
     {
         //発射位置・方向
-        var ray = new Ray(muzzle.position, muzzle.forward);
+        var ray = new Ray(muzzle.position, Camera.main.transform.forward);
 
         //武器によって長さが変わる
         var rayLength = (WeaponBeacon) ?
@@ -90,7 +94,10 @@ public class WeaponCtrl : MonoBehaviour
             //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
             if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
                 hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper") || hit.collider.CompareTag("GoalPoint")) return;
+                hit.collider.CompareTag("Sniper") /*|| hit.collider.CompareTag("GoalPoin")*/)
+            {
+                return;
+            }
 
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);

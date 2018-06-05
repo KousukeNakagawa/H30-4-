@@ -107,10 +107,8 @@ public class Soldier : MonoBehaviour
 
         //カメラとライフルの回転
         playerCamera.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
-        //rifle.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
+        //playerCamera.transform.forward = transform.forward;
         rifle.transform.forward = playerCamera.transform.forward;
-
-        Debug.Log(transform.eulerAngles.y + "///" + rifle.transform.eulerAngles.y);
 
         //-180＜上下の動き＜180に変更
         float angleX = (180 <= playerCamera.transform.eulerAngles.x) ?
@@ -119,6 +117,8 @@ public class Soldier : MonoBehaviour
         //上下の制限
         playerCamera.transform.eulerAngles =
             new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
+
+        playerCamera.transform.position = transform.position - transform.forward * 2 + Vector3.up * 1.5f;
 
         //プレイヤーの透過
         //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
