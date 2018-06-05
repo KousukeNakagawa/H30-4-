@@ -24,23 +24,23 @@ public class BigEnemyMove : MonoBehaviour
             Vector3 endDir = TurnAngleSet(BigEnemyScripts.searchObject.targetPos);
             SetTurn(endDir);
             BigEnemyScripts.searchObject.isSearch = false;
-            BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(true);
         }
 
         if (isTurn)
         {
             //print(Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)));
             //if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
-            if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= turnSpeed * Time.deltaTime)
+            if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= 1f)
             {  //回転を終了する
                 isTurn = false;
                 BigEnemyScripts.droneCreate.DroneSet();
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
-                BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(false);
+                BigEnemyScripts.bigEnemyAnimatorManager.WalkStop();
             }
             else
             {
-                turnDir.y += BigEnemyScripts.searchObject.turnVel * turnSpeed * Time.deltaTime;
+                float speed = BigEnemyScripts.bigEnemyAnimatorManager.moveSpeed;
+                turnDir.y += BigEnemyScripts.searchObject.turnVel * turnSpeed * speed * Time.deltaTime;
                 turnDir = turnDir.GetUnityVector3();
                 BigEnemyScripts.mTransform.rotation = Quaternion.Euler(turnDir);
             }
@@ -49,7 +49,9 @@ public class BigEnemyMove : MonoBehaviour
         {
             if (!BigEnemyScripts.missileLaunch.isMissile && BigEnemyScripts.droneCreate.isEnd)
             {
-                BigEnemyScripts.mTransform.Translate(xSpeed * Time.deltaTime, 0, 0, Space.Self);
+                BigEnemyScripts.bigEnemyAnimatorManager.WalkStart();
+                float speed = BigEnemyScripts.bigEnemyAnimatorManager.moveSpeed;
+                BigEnemyScripts.mTransform.Translate(speed * xSpeed * Time.deltaTime, 0, 0, Space.Self);
             }
         }
     }
@@ -73,6 +75,7 @@ public class BigEnemyMove : MonoBehaviour
     {  //回転を開始する
         turnEndDir = endDir.GetUnityVector3();
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
+        print(turnEndDir.y + ":" + turnDir.y);
         isTurn = true;
     }
 
@@ -82,6 +85,5 @@ public class BigEnemyMove : MonoBehaviour
         isTurn = true;
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         turnEndDir = Vector3.zero;
-        BigEnemyScripts.bigEnemyEffectManager.ChangeEffect(true);
     }
 }

@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 4364147370222576}
   - component: {fileID: 198514573930985040}
   - component: {fileID: 199989518436950868}
+  - component: {fileID: 114657447010881778}
   m_Layer: 0
   m_Name: WalkSmokeEffect
   m_TagString: Untagged
@@ -41,6 +42,19 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114657447010881778
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1777688589811498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37fac21d1f093d344816942d1abce94e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TimeOut: 3
+  m_DetachChildren: 0
 --- !u!198 &198514573930985040
 ParticleSystem:
   m_ObjectHideFlags: 1

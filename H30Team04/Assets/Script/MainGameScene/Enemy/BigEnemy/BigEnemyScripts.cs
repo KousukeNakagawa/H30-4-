@@ -17,6 +17,8 @@ public class BigEnemyScripts : MonoBehaviour
     public static ShootingFailure shootingFailure;
     public static BreakEffectManager breakEffectManager;
     public static MissileGroupManager missileGroupManager;
+    public static BigEnemyAnimatorManager bigEnemyAnimatorManager;
+    public static BigEnemyEffect bigEnemyEffect;
 
     //ドローンを出す座標
     public static Transform droneInstantiatePos;
@@ -47,6 +49,8 @@ public class BigEnemyScripts : MonoBehaviour
         shootingFailure = GetComponent<ShootingFailure>();
         breakEffectManager = GetComponentInChildren<BreakEffectManager>();
         missileGroupManager = GetComponentInChildren<MissileGroupManager>();
+        bigEnemyAnimatorManager = GetComponentInChildren<BigEnemyAnimatorManager>();
+        bigEnemyEffect = GetComponentInChildren<BigEnemyEffect>();
         droneInstantiatePos = transform.Find("DroneInstantiate");
         droneSearchStartPos = transform.Find("DroneSearchStartPos");
         foreach (Transform child in transform)

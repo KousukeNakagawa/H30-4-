@@ -24,6 +24,7 @@ public class SnipeBulletHitAction : MonoBehaviour
         if (!moveScript.enabled)
         {  //墜落処理
             m_rigid.useGravity = true;
+            m_rigid.isKinematic = false;
             m_rigid.AddTorque(crashVel, ForceMode.Force);
         }
     }

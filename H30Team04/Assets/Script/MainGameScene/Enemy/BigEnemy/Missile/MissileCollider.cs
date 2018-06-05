@@ -31,7 +31,7 @@ public class MissileCollider : MonoBehaviour
         else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") || other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))
         {
             //ミサイル破壊
-            Destroy(transform.root.gameObject);
+            Destroy(transform.parent.gameObject);
             Vector3 exPos = explosionPos.position;
             if (other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))  //1発だけカメラに当たるミサイルの場合
             {

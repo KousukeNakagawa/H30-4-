@@ -4,27 +4,32 @@ using UnityEngine;
 
 public class BigEnemyEffectManager : MonoBehaviour
 {
-    [Tooltip("走っている際のエフェクト")]public ParticleSystem runEffect;
-    [Tooltip("回転している際のエフェクト")]public ParticleSystem turnEffect;
+    [Tooltip("走る際のエフェクト")] public ParticleSystem runEffect;
+    public GameObject[] feets;
+    private Direction previous;
 
     // Use this for initialization
     void Start()
     {
-        EnabledChange(runEffect, true);
-        EnabledChange(turnEffect);
     }
 
-
-    public void ChangeEffect(bool isTurn)
+    void Update()
     {
-        EnabledChange(runEffect, !isTurn);
-        EnabledChange(turnEffect, isTurn);
+        Direction dir = BigEnemyScripts.bigEnemyEffect.direction_;
+        if (dir != previous && dir != Direction.None)
+        {
+            StartCoroutine(RunEffectCreate(dir));
+            BigEnemyScripts.bigEnemyEffect.direction_ = Direction.None;
+        }
+        previous = dir;
     }
 
-    private void EnabledChange(ParticleSystem particle, bool? isEnable = null)
+    IEnumerator RunEffectCreate(Direction dir)
     {
-        var emission = particle.emission;
-        bool isE = (isEnable == null) ? !emission.enabled : isEnable.Value;
-        emission.enabled = isE;
+        GameObject effect = Instantiate(runEffect.gameObject, feets[(int)dir].transform.position, Quaternion.Euler(-90.0f, 0.0f, 0.0f), feets[(int)dir].transform);
+        yield return null;
+        effect.transform.localPosition = Vector3.zero;
+        effect.transform.parent = null;
+        effect.transform.localScale = Vector3.one;
     }
 }

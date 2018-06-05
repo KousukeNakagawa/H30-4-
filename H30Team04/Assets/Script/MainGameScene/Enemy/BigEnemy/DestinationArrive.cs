@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class DestinationArrive : MonoBehaviour {
 
+    [SerializeField] private float targetMagnitudeRange = 5.0f;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -15,7 +17,7 @@ public class DestinationArrive : MonoBehaviour {
         if (targetPos != Vector3.zero)
         {
             //目的地に到着していたら突進を終了する
-            if ((targetPos - BigEnemyScripts.mTransform.position).magnitude < 10.0f)
+            if ((targetPos - BigEnemyScripts.mTransform.position).magnitude < targetMagnitudeRange)
             {
                 BigEnemyScripts.searchObject.ResetTarget();
                 BigEnemyScripts.bigEnemyMove.SetGoDefenseLine();
