@@ -25,8 +25,10 @@ public class XrayMachine : MonoBehaviour {
     [SerializeField] private Camera m_MinimapCamera;
     [SerializeField]
     MinimapScript _minimapScript;
+    MiniMAPcamera _minimapCS;
     private Rect _canvasRect;
     Rect _rect = new Rect(0, 0, 1, 1);
+    RectTransform m_minimap_rect;
 
     // Use this for initialization
     void Start () {
@@ -37,7 +39,8 @@ public class XrayMachine : MonoBehaviour {
         builLayerMask = LayerMask.GetMask(new string[] { LayerMask.LayerToName(9) });
 
         weekPoints = new List<GameObject>();
-
+        _minimapCS = m_MinimapCamera.GetComponent<MiniMAPcamera>();
+        m_minimap_rect = minimapIcon.GetComponent<RectTransform>();
         //saveTime = 10.0f;
 
         GameObject gamemanagerObj = GameObject.Find("GameManager");
@@ -79,11 +82,16 @@ public class XrayMachine : MonoBehaviour {
 
             }
         }
-        minimapIcon.transform.position = transform.position;
-        var viewport = m_MinimapCamera.WorldToViewportPoint(this.transform.position);
-        if (_minimapScript.MiniCameraRect.Contains(viewport))
-        {
 
+        if (_minimapCS.Pose)
+        {
+            minimapIcon.transform.position = transform.position;
+            m_minimap_rect.sizeDelta = new Vector2(5, 5);
+        }
+        var viewport = m_MinimapCamera.WorldToViewportPoint(this.transform.position);
+        if (_minimapCS.MiniCameraRect.Contains(viewport))
+        {
+            minimapIcon.transform.position = transform.position;
             minimapIcon.enabled = true;
             minimapArrow.enabled = false;
         }

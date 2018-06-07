@@ -9,7 +9,6 @@ public class MiniMAPcamera : MonoBehaviour
     GameObject m_Player;
     [SerializeField]
     float cameraH = 20;
-    public Rect _rect = new Rect(0, 0, 1, 1);
     Camera m_camera;
     [SerializeField]
     RenderTexture m_minimapRender;
@@ -20,17 +19,14 @@ public class MiniMAPcamera : MonoBehaviour
     GameObject m_Minimap;
     [SerializeField]
     GameObject m_Map;
-    
+
+    Rect _rect = new Rect(0, 0, 1, 1);
     public bool _pose = false;
 
     // Use this for initialization
     void Start()
     {
         m_camera = GetComponent<Camera>();
-    }
-    private void FixedUpdate()
-    {
-       
     }
 
     // Update is called once per frame
@@ -55,9 +51,16 @@ public class MiniMAPcamera : MonoBehaviour
             transform.rotation = Quaternion.Euler(90, 0, 0);
         }
     }
+
     public Rect MiniCameraRect
     {
         get { return _rect; }
         set { _rect = value; }
+    }
+
+    public bool Pose
+    {
+        get { return _pose; }
+        set { _pose = value; }
     }
 }
