@@ -9,7 +9,7 @@ public class MiniMAPcamera : MonoBehaviour
     GameObject m_Player;
     [SerializeField]
     float cameraH = 20;
-    Rect _rect = new Rect(0, 0, 1, 1);
+    public Rect _rect = new Rect(0, 0, 1, 1);
     Camera m_camera;
     [SerializeField]
     RenderTexture m_minimapRender;
@@ -41,7 +41,7 @@ public class MiniMAPcamera : MonoBehaviour
             m_Map.SetActive(false);
             m_Minimap.SetActive(true);
             m_camera.targetTexture = m_minimapRender;
-            m_camera.orthographicSize = 25;
+            m_camera.orthographicSize = 50;
             transform.position = new Vector3(m_Player.transform.position.x, m_Player.transform.position.y + cameraH, m_Player.transform.position.z);
             transform.rotation = Quaternion.Euler(90, 0, 0);
         }
@@ -54,5 +54,10 @@ public class MiniMAPcamera : MonoBehaviour
             transform.position = new Vector3(191, 145, -111);
             transform.rotation = Quaternion.Euler(90, 0, 0);
         }
+    }
+    public Rect MiniCameraRect
+    {
+        get { return _rect; }
+        set { _rect = value; }
     }
 }

@@ -26,6 +26,7 @@ public class XrayMachine : MonoBehaviour {
     [SerializeField]
     MinimapScript _minimapScript;
     private Rect _canvasRect;
+    Rect _rect = new Rect(0, 0, 1, 1);
 
     // Use this for initialization
     void Start () {
@@ -78,21 +79,20 @@ public class XrayMachine : MonoBehaviour {
 
             }
         }
+        minimapIcon.transform.position = transform.position;
         var viewport = m_MinimapCamera.WorldToViewportPoint(this.transform.position);
         if (_minimapScript.MiniCameraRect.Contains(viewport))
         {
 
             minimapIcon.enabled = true;
             minimapArrow.enabled = false;
-
-            minimapIcon.transform.position = transform.position;
         }
         else
         {
             minimapIcon.enabled = false;
             minimapArrow.enabled = true;
 
-            
+            minimapArrow.transform.LookAt(new Vector3(minimapIcon.transform.position.x, 90,0));
 
             viewport.x = Mathf.Clamp01(viewport.x);
             viewport.y = Mathf.Clamp01(viewport.y);

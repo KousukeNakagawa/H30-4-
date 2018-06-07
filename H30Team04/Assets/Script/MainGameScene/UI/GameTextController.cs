@@ -44,7 +44,6 @@ public class GameTextController : MonoBehaviour {
     {
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_crt.ScanLineTail = 0;
-        TextStart(0);
     }
 
     // Update is called once per frame
@@ -83,9 +82,9 @@ public class GameTextController : MonoBehaviour {
 
     public void TextStart(int i)
     {
-        m_PhDface = true;
-        m_scenarioi = true;
-        _nowtext = i;
+            m_PhDface = true;
+            m_scenarioi = true;
+            _nowtext = i;
     }
 
     //博士の現場をアナウンスするセリフ
@@ -138,6 +137,7 @@ public class GameTextController : MonoBehaviour {
             m_panel.SetActive(false);
             m_rawImage.SetActive(false);
             m_textEndtimer = 0;
+            m_Scenarios[m_currentLine].Remove(m_currentLine);
         }
     }
 }
