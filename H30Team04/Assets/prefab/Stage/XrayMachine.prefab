@@ -240,7 +240,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 100
+  far clip plane: 65
   field of view: 60
   orthographic: 1
   orthographic size: 10
@@ -372,6 +372,7 @@ MonoBehaviour:
   minimapIcon: {fileID: 0}
   minimapArrow: {fileID: 0}
   m_MinimapCamera: {fileID: 0}
+  _minimapScript: {fileID: 0}
 --- !u!124 &124599970066433972
 Behaviour:
   m_ObjectHideFlags: 1
