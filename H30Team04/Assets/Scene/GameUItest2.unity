@@ -78570,11 +78570,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4383051863934526, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -4534.6
+      value: 12.2
       objectReference: {fileID: 0}
     - target: {fileID: 4383051863934526, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 4
+      value: 9.5
       objectReference: {fileID: 0}
     - target: {fileID: 4383051863934526, guid: f19857ad4ebe63740bf241b4620863fb, type: 2}
       propertyPath: m_LocalPosition.z
@@ -86784,27 +86784,27 @@ Prefab:
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalPosition.z
-      value: 144.72
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalRotation.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalRotation.z
-      value: -0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalRotation.w
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
@@ -86814,22 +86814,22 @@ Prefab:
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_AnchoredPosition.x
-      value: 153.01
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: 302
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_SizeDelta.x
-      value: 299.85358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 299.85358
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
@@ -86854,12 +86854,12 @@ Prefab:
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_Pivot.x
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_Pivot.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 223804697642146638, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
@@ -86878,17 +86878,17 @@ Prefab:
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalScale.x
-      value: 0.46689454
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalScale.y
-      value: 0.46689454
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 224502715407979122, guid: 246d977f1ba4764478c44434bead2ac9,
         type: 2}
       propertyPath: m_LocalScale.z
-      value: 0.46689454
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1271011478479968, guid: 246d977f1ba4764478c44434bead2ac9, type: 2}
       propertyPath: m_Layer

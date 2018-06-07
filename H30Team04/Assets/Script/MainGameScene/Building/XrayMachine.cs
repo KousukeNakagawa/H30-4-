@@ -92,7 +92,9 @@ public class XrayMachine : MonoBehaviour {
             minimapIcon.enabled = false;
             minimapArrow.enabled = true;
 
-            minimapArrow.transform.LookAt(new Vector3(minimapIcon.transform.position.x, 90,0));
+            //var aim = minimapArrow.transform.position - this.transform.position;
+            //var look = Quaternion.LookRotation(aim, minimapArrow.transform.up);
+            //minimapArrow.transform.localRotation = look;
 
             viewport.x = Mathf.Clamp01(viewport.x);
             viewport.y = Mathf.Clamp01(viewport.y);

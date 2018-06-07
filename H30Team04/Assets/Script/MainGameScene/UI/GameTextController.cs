@@ -46,10 +46,18 @@ public class GameTextController : MonoBehaviour {
         m_crt.ScanLineTail = 0;
     }
 
+
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(m_time);
+        if (Input.GetMouseButtonDown(0))
+        {
+            TextStart(0);
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            TextStart(1);
+        }
         if (m_PhDface)
         {
             m_panel.SetActive(true);
@@ -61,6 +69,7 @@ public class GameTextController : MonoBehaviour {
                 if (m_textEndtimer > 5)
                 {
                     m_PhDface = false;
+                    m_Scenarios[m_currentLine] = null;
                 }
             }
         }
@@ -82,9 +91,24 @@ public class GameTextController : MonoBehaviour {
 
     public void TextStart(int i)
     {
-            m_PhDface = true;
-            m_scenarioi = true;
-            _nowtext = i;
+        if (m_Scenarios[i] != null)
+        {
+            if (!m_PhDface)
+            {
+                _nowtext = i;
+                m_PhDface = true;
+                m_scenarioi = true;
+            }
+            else
+            {
+                return;
+            }
+        }
+        else
+        {
+            return;
+        }
+            
     }
 
     //博士の現場をアナウンスするセリフ
@@ -100,12 +124,6 @@ public class GameTextController : MonoBehaviour {
 
         // 文字カウントを初期化
         lastUpdateCharacter = -1;
-    }
-
-    public int NowText
-    {
-        get { return _nowtext; }
-        private set { _nowtext = value; }
     }
 
     //博士の枠を出す
@@ -137,7 +155,6 @@ public class GameTextController : MonoBehaviour {
             m_panel.SetActive(false);
             m_rawImage.SetActive(false);
             m_textEndtimer = 0;
-            m_Scenarios[m_currentLine].Remove(m_currentLine);
         }
     }
 }
