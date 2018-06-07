@@ -8497,7 +8497,7 @@ Prefab:
     - target: {fileID: 20590498462304212, guid: 4b8c9f986489e1c41b071b40dcc1b06a,
         type: 2}
       propertyPath: m_CullingMask.m_Bits
-      value: 2048
+      value: 2080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4b8c9f986489e1c41b071b40dcc1b06a, type: 2}
@@ -87017,11 +87017,6 @@ Prefab:
         type: 2}
       propertyPath: m_UiScaleMode
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114094876903495118, guid: 246d977f1ba4764478c44434bead2ac9,
-        type: 2}
-      propertyPath: m_ScreenMatchMode
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 246d977f1ba4764478c44434bead2ac9, type: 2}
