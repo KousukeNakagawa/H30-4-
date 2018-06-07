@@ -73,12 +73,13 @@ public class XrayMachine : MonoBehaviour {
                     List<int> weeknums = new List<int>();
                     for (int i = 0; i < weekPoints.Count; i++)
                     {
+                        weekPoints[i].GetComponent<WeekPoint>().ActiveModel();
                         weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
                     }
                     SendForManager(weeknums);
                 }
                 
-                m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
+                //m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
 
             }
         }
@@ -127,7 +128,7 @@ public class XrayMachine : MonoBehaviour {
         //弱点が写っているかどうか
         RaycastHit[] weekpoints
             = Physics.BoxCastAll(m_XrayCameraObj.transform.position,
-            new Vector3(MainStageDate.TroutLengthX / 2, m_XrayCameraObj.transform.position.y, MainStageDate.TroutLengthZ / 2),
+            new Vector3(4, m_XrayCameraObj.transform.position.y, 4),
             m_XrayCameraObj.transform.forward, Quaternion.identity,m_XrayCamera.farClipPlane, weekLayerMask);
 
         //写っていなかったら終了
@@ -150,7 +151,7 @@ public class XrayMachine : MonoBehaviour {
         {
             if(weekpoints.Length - minusPoint <= i)
             {
-                weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
+                //weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
                 continue;
             }
 
@@ -166,30 +167,35 @@ public class XrayMachine : MonoBehaviour {
                 if(weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
                     //weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
-                    //weekPoints.Add(weekpoints[i].transform.gameObject);
+                    weekPoints.Add(weekpoints[i].transform.gameObject);
                 }
                 else  //対象の弱点に当たらない場合
                 {
-                    weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
+                    //weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
                 }
             }
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 3.0f);
         }
 
-        GameObject boneObj = weekpoints[0].transform.parent.gameObject;
+        GameObject boneObj = weekpoints[0].transform.root.Find("WeekPoints").gameObject;
         GameObject bone = Instantiate(boneObj);
-        bone.transform.parent = transform.parent;
-        bone.transform.position = weekpoints[0].transform.parent.position;
-        bone.transform.position -= Vector3.up * underPos;
-        bone.transform.tag = "Untagged";
-        foreach(Transform child in bone.transform)
-        {
-            if(child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
-            child.tag = "Untagged";
-        }
+        bone.transform.parent = boneObj.transform.parent;
+        bone.transform.position = boneObj.transform.position;
+        boneObj.transform.position -= Vector3.up * underPos;
+        boneObj.transform.tag = "Untagged";
+        boneObj.transform.parent = transform.parent;
+        //foreach(Transform child in bone.transform)
+        //{
+        //    if(child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
+        //    child.tag = "Untagged";
+        //}
 
         //weeknums.Sort();
         //if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
+
+
+        //レイが当たったビルの幕に撮ったやつを出す(2つついてるやつどうしよっか)
+        builhit.transform.Find("Maku").Find("XrayMaku").gameObject.SetActive(true);
     }
 
     private void SendForManager(List<int> weeknums)
@@ -241,10 +247,10 @@ public class XrayMachine : MonoBehaviour {
                     {
                         if (weekPoints.Count - minus <= i)
                         {
-                            weekPoints[i].transform.GetComponent<WeekPoint>().HideObject();
-                            Debug.Log("ieee");
+                            //weekPoints[i].transform.GetComponent<WeekPoint>().HideObject();
                             continue;
                         }
+                        weekPoints[i].GetComponent<WeekPoint>().ActiveModel();
                         weeknums.Add(weekPoints[i].GetComponent<WeekPoint>().GetWeekNumber);
                     }
                     SendForManager(weeknums);

@@ -20,14 +20,14 @@ public class WeekPoint : MonoBehaviour {
 	void Update () {
 
         //モデルが非表示の場合、指定時間過ぎたらモデル表示
-        if (!m_model.activeSelf && transform.root.tag == "BigEnemy")
-        {
-            m_time += Time.deltaTime;
-            if(m_time > hideTime)
-            {
-                m_model.SetActive(true);
-            }
-        }
+        //if (!m_model.activeSelf && transform.root.tag == "BigEnemy")
+        //{
+        //    m_time += Time.deltaTime;
+        //    if(m_time > hideTime)
+        //    {
+        //        m_model.SetActive(true);
+        //    }
+        //}
 	}
 
     /// <summary>射影機からのレイが通らない弱点は非表示</summary>
@@ -36,6 +36,11 @@ public class WeekPoint : MonoBehaviour {
         //Debug.Log("やるじゃない");
         m_model.SetActive(false);
         m_time = 0.0f;
+    }
+
+    public void ActiveModel()
+    {
+        m_model.SetActive(true);
     }
 
     /// <summary>弱点番号(頭なら０とか)を返す関数</summary>
