@@ -8,6 +8,7 @@ public class BreakDown : MonoBehaviour
     private Vector3 primaryPos;
     [SerializeField, Range(0.0f, 5.0f)] private float torquePower = 2.0f;
     private bool isHit = false;
+    [SerializeField,Range(0.0f,6.0f)] private float dropdownPower = 3.0f;
 
     // Use this for initialization
     void Start()
@@ -20,6 +21,11 @@ public class BreakDown : MonoBehaviour
     void Update()
     {
         transform.position = primaryPos;
+        //要調整
+        if (m_rigid.velocity.sqrMagnitude > dropdownPower)
+        {
+            gameObject.layer = LayerMask.NameToLayer("StageObject");
+        }
     }
 
     void OnCollisionEnter(Collision other)
@@ -31,8 +37,7 @@ public class BreakDown : MonoBehaviour
         }
     }
     public void BreakDownAction(Transform target)
-    {  //プレイヤーと当たらないレイヤーに変更
-        gameObject.layer = LayerMask.NameToLayer("StageObject");
+    {
         Vector3 dir = -(target.position - transform.position).normalized;
         m_rigid.useGravity = true;
         m_rigid.AddForce(dir * torquePower, ForceMode.VelocityChange);
