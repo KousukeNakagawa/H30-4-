@@ -29,6 +29,7 @@ public class XrayMachine : MonoBehaviour {
     private Rect _canvasRect;
     Rect _rect = new Rect(0, 0, 1, 1);
     RectTransform m_minimap_rect;
+    [SerializeField] float y;
 
     // Use this for initialization
     void Start () {
@@ -83,6 +84,11 @@ public class XrayMachine : MonoBehaviour {
 
             }
         }
+
+        
+
+        minimapIcon.rectTransform.rotation = Quaternion.Euler(90, 0, y);
+        minimapArrow.rectTransform.rotation = Quaternion.Euler(90, 0, y);
 
         if (_minimapCS.Pose)
         {

@@ -111,8 +111,24 @@ public class GameTextController : MonoBehaviour {
             
     }
 
+    public void FailedText(int i)
+    {
+
+        if (!m_PhDface)
+        {
+            _nowtext = i;
+            m_PhDface = true;
+            m_scenarioi = true;
+        }
+        else
+        {
+            return;
+        }
+
+    }
+
     //博士の現場をアナウンスするセリフ
-     void GetNextText()
+    void GetNextText()
     {
         m_currentLine = _nowtext;
         // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
