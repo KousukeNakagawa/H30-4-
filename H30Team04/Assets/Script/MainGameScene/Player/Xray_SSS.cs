@@ -29,6 +29,10 @@ public class Xray_SSS : MonoBehaviour
         public float _minDepth = 0.5f;
     }
 
+    [SerializeField] MainCamera m_maincamera;
+
+    [SerializeField] GameObject markwe;
+
     [SerializeField] Arrow arrow;
     //射影機の方向を示す矢印
     LineRenderer _arrow;
@@ -68,6 +72,7 @@ public class Xray_SSS : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(_currentXray);
         //開始演出が終わらなければ動かない
         //if (!_playerBase.GetIsEndSE()) return;
         //射影機が無ければ終了
@@ -114,6 +119,7 @@ public class Xray_SSS : MonoBehaviour
     {
         if (_XrayMachines.Length < 1)
         {
+            markwe.SetActive(false);
             return;
         }
 
@@ -160,6 +166,7 @@ public class Xray_SSS : MonoBehaviour
             return;
         }
 
+        Marker();
         Show();
     }
 
@@ -180,6 +187,14 @@ public class Xray_SSS : MonoBehaviour
         float depth = (depthCalculation <= arrow._minDepth) ? arrow._minDepth : depthCalculation;
 
         DrawArrow(start, end, arrow._startColor, arrow._endColor * depth, arrow.width);
+    }
+
+    void Marker()
+    {
+        Vector3 m_target = _selectXray.transform.Find("model").position;
+        markwe.transform.LookAt(m_maincamera.transform.transform.position);
+
+        markwe.transform.position = new Vector3(m_target.x, m_target.y + 5, m_target.z);
     }
 
     /// <summary>
