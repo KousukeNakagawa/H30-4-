@@ -7,7 +7,9 @@ using UnityEngine;
 public class TutorialObject
 {
     public GameObject player;
+    public GameObject playerCamera;
     public GameObject goalPoint;
     public GameObject[] lookPoint;
+    public GameObject beaconPoint;
     public GameObject moveRange;
 }

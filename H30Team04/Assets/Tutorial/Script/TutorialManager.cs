@@ -29,6 +29,7 @@ public class TutorialManager : MonoBehaviour
     //プレイヤーの初期情報
     Vector3 startPos;
     Quaternion startRotate;
+    Vector3 startAngles;
 
     //最初の状態の登録
     TutorialState tutorial = TutorialState.move;
@@ -41,10 +42,10 @@ public class TutorialManager : MonoBehaviour
     //テキスト変更用
     bool textInput;
 
-    MoveRange range;
-
     void Start()
     {
+        UnlockManager.AllSet(false);
+
         //チュートリアルのシーンの登録
         exe.Add(TutorialState.move, TutorialMove);
         exe.Add(TutorialState.rotation, TutorialRotation);
@@ -63,14 +64,14 @@ public class TutorialManager : MonoBehaviour
         tutorialObject.goalPoint.SetActive(false);
         tutorialObject.lookPoint[0].SetActive(false);
         tutorialObject.lookPoint[1].SetActive(false);
+        tutorialObject.beaconPoint.SetActive(false);
 
         player = tutorialObject.player;
         _light = tutorialObject.goalPoint.GetComponent<Light>();
 
         startPos = player.transform.position;
         startRotate = player.transform.rotation;
-
-        range = tutorialObject.moveRange.GetComponent<MoveRange>();
+        startAngles = tutorialObject.playerCamera.transform.eulerAngles;
     }
 
     void Update()
@@ -79,16 +80,16 @@ public class TutorialManager : MonoBehaviour
         textInput = (Input.GetButtonDown("Shutter") || Input.GetButtonDown("Select")) ?
             true : false;
 
-        //現在のチュートリアルの実行
-        exe[tutorial]();
-
         //チュートリアル中に行動範囲外にでたら
-        if (range.RangeEnter)
+        if (MoveRange.RangeExit)
         {
             Debug.Log("行動範囲を出てしまいました");
             //ReStart(tutorial);
-            //range.SetRange(player.transform.position, 20);
+            MoveRange.SetRange(player.transform.position, 20);
         }
+
+        //現在のチュートリアルの実行
+        exe[tutorial]();
 
         //現在のチュートリアルの終了判定
         //現在のテキストが現在のチュートリアルの最後のテキストなら
@@ -96,22 +97,23 @@ public class TutorialManager : MonoBehaviour
         {
             textStop = true;
             //画面を暗転させる
-            if (textInput) fade.FadeOut();
+            fade.FadeOut();
             //真っ暗になったらチュートリアルを変更
             if (fade.IsMaxAlpha()) ChangeTutorialState();
         }
-
         //フェードがかかっているとき
-        if (!fade.IsMinAlpha() && !textStop)
+        //if (!fade.IsMinAlpha() && !textStop)
+        if (textCtrl.CurrebtLine != lastTextNum[tutorial])
         {
             fade.FadeIn();
             oldTutorial = tutorial;
         }
-
         //Debug.Log(ChangeText());
         //Debug.Log(tutorial);
+        //Debug.Log(textCtrl.CurrebtLine);
     }
 
+    /// <summary> 移動のチュートリアル </summary>
     void TutorialMove()
     {
         //目標地点を表示する
@@ -126,48 +128,171 @@ public class TutorialManager : MonoBehaviour
         if (textStop)
         {
             //移動の解除
-            UnlockManager.Unlock(TutorialState.move);
+            UnlockManager.Unlock(UnlockState.move);
             //プレイヤーが目的地に到達したら
-            if (GoalPoint.Goal)
+            if (GoalPoint.IsGoal)
             {
-                UnlockManager.Lock(TutorialState.move);
-                textInput = true;
+                Soldier.IsStop = true;
+                UnlockManager.AllSet(false);
                 textStop = false;
+                textInput = true;
             }
         }
     }
 
+    /// <summary> 回転のチュートリアル </summary>
     void TutorialRotation()
     {
-        //目標地点を表示する
-        tutorialObject.goalPoint.SetActive(false);
+        //移動チュートリアル用オブジェクトの破壊
+        Destroy(tutorialObject.goalPoint);
 
         tutorialObject.lookPoint[0].SetActive(true);
         tutorialObject.lookPoint[1].SetActive(true);
+        Soldier.IsStop = false;
 
         //一旦テキストを止めたい番号
-        var stopNum = 2;
+        var stopNum = 5;
         //今のテキストが止めたいテキストなら止める
         if (textCtrl.CurrebtLine == stopNum) textStop = true;
 
-        //二つの LookPoint が視界に入ったらクリア
-        var clear = (tutorialObject.lookPoint[0].GetComponent<LookPoint>().IsLook &&
-            tutorialObject.lookPoint[1].GetComponent<LookPoint>().IsLook) ? true : false;
-
-        if(textStop)
+        if (textStop)
         {
-            UnlockManager.Unlock(TutorialState.rotation);
-        }
+            UnlockManager.Unlock(UnlockState.move);
+            //二つの LookPoint が視界に入ったらクリア
+            var clear = (tutorialObject.lookPoint[0].GetComponent<LookPoint>().IsLook &&
+                tutorialObject.lookPoint[1].GetComponent<LookPoint>().IsLook) ? true : false;
 
-        if (clear)
-        {
-
+            if (clear)
+            {
+                Soldier.IsStop = true;
+                UnlockManager.AllSet(false);
+                textStop = false;
+                textInput = true;
+            }
         }
     }
 
+    /// <summary> アクションのチュートリアル </summary>
     void TutorialBattle()
     {
+        //回転チュートリアル用オブジェクトの破壊
+        Destroy(tutorialObject.lookPoint[0]);
+        Destroy(tutorialObject.lookPoint[1]);
 
+        //BigEnemyの出現
+
+        //一旦テキストを止めたい番号
+        var stopNum = new int[] { 9, 14, 20 };
+
+        //今のテキストが止めたいテキストなら止める
+        if (textCtrl.CurrebtLine == stopNum[0])
+        {
+            UnlockManager.Unlock(UnlockState.move);
+            UnlockManager.Unlock(UnlockState.beacon);
+
+            BeaconPhase();
+        }
+
+        if (textCtrl.CurrebtLine == stopNum[1])
+        {
+            UnlockManager.Unlock(UnlockState.move);
+            UnlockManager.Unlock(UnlockState.beacon);
+            UnlockManager.Unlock(UnlockState.snipe);
+            SnipePhase();
+        }
+
+        if (textCtrl.CurrebtLine == stopNum[2])
+        {
+            UnlockManager.Unlock(UnlockState.move);
+            UnlockManager.Unlock(UnlockState.xray);
+            XrayPhase();
+        }
+    }
+
+    void BeaconPhase()
+    {
+        Soldier.IsStop = false;
+        tutorialObject.beaconPoint.SetActive(true);
+        //一旦テキストを止める
+        textStop = true;
+
+        //ビーコンが目的地に命中したらテキストを進める
+        if (BeaconPoint.IsBeaconHit)
+        {
+            UnlockManager.AllSet(false);
+            textStop = false;
+            textInput = true;
+        }
+
+        //またテキストを止めたい番号
+        var stopNum = 11;
+
+        if (textCtrl.CurrebtLine == stopNum)
+        {
+            //テキストを止め、ビッグエネミーが誘導されるのを待つ
+            textStop = true;
+            if (BeaconPoint.IsBigEnemyHit || textInput)
+            {
+                //誘導されたらテキストを進める
+                textStop = false;
+                textInput = true;
+            }
+        }
+    }
+
+    void SnipePhase()
+    {
+        //ドローンを出現させる
+
+        if (WeaponCtrl.WeaponBeacon /*&&
+            GameObject.FindGameObjectWithTag("SmallEnemy") != null*/) textStop = true;
+
+        if (!WeaponCtrl.WeaponBeacon)
+        {
+            textStop = false;
+            textInput = true;
+        }
+
+        //またテキストを止めたい番号
+        var stopNum = 15;
+
+        if (textCtrl.CurrebtLine == stopNum)
+        {
+            textStop = true;
+            //ドローンがいなくなったら
+            if (GameObject.FindGameObjectWithTag("SmallEnemy") == null || textInput)
+            {
+                UnlockManager.AllSet(false);
+                textStop = false;
+                textInput = true;
+            }
+        }
+    }
+
+    void XrayPhase()
+    {
+        textStop = true;
+        if (Input.GetButtonDown("Select"))
+        {
+            textStop = false;
+            textInput = true;
+        }
+
+        //またテキストを止めたい番号
+        var stopNum = 21;
+
+        if (textCtrl.CurrebtLine == stopNum)
+        {
+            textStop = true;
+            //射影機を全て使う
+            if (GameObject.FindGameObjectsWithTag("Xline") == null || textInput)
+            {
+                Soldier.IsStop = false;
+                UnlockManager.AllSet(false);
+                textStop = false;
+                textInput = true;
+            }
+        }
     }
 
     void TutorialShooting()
@@ -178,6 +303,8 @@ public class TutorialManager : MonoBehaviour
     /// <summary> チュートリアルシーンの変更 </summary>
     void ChangeTutorialState()
     {
+        PlayerReset();
+
         if (tutorial == oldTutorial)
             tutorial++;
 
@@ -188,6 +315,14 @@ public class TutorialManager : MonoBehaviour
     void ReStart(TutorialState tutorial)
     {
         exe[tutorial]();
+    }
+
+    /// <summary> プレイヤーのリセット </summary>
+    void PlayerReset()
+    {
+        player.transform.position = startPos;
+        player.transform.rotation = startRotate;
+        Camera.main.transform.eulerAngles = startAngles;
     }
 
     /// <summary> チュートリアルシーンの取得 </summary>

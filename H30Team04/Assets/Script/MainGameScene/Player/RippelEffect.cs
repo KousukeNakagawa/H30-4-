@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> レーザーポインターの命中エフェクト </summary>
 public class RippelEffect : MonoBehaviour
 {
     Material material;

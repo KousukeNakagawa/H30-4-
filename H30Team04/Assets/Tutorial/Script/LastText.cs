@@ -11,4 +11,3 @@ public class LastText
     public int T_battle;
     public int T_shooting;
 }
-

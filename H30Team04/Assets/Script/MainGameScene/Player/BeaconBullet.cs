@@ -8,16 +8,19 @@ public class BeaconBullet : MonoBehaviour
     [SerializeField] [Range(1, 300)] float speed = 50; //弾速
     [SerializeField] [Range(5, 100)] static float rangeDistance = 50; //射程距離
     [SerializeField, Range(10, 300)] float extinctionTime = 10; //消滅時間（秒）
+    AudioSource audioSourse;
+    [SerializeField] AudioClip SE;
 
     Rigidbody rb;
     Vector3 startPos; //初期位置
-    bool isChange; //タグ変化把握用
+    public bool IsChange { get; private set; } //タグ変化把握用
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSourse = gameObject.AddComponent<AudioSource>();
         startPos = rb.position;
-        isChange = false;
+        IsChange = false;
     }
 
     void Update()
@@ -36,6 +39,8 @@ public class BeaconBullet : MonoBehaviour
 
         //ビル・地面に衝突時、くっつく
         else if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Cling(other);
+
+        audioSourse.PlayOneShot(SE);
     }
 
     /// <summary>
@@ -69,7 +74,7 @@ public class BeaconBullet : MonoBehaviour
 
         //tagを「BeaconBullet」から「Beacon」へ
         transform.tag = "Beacon";
-        isChange = true;
+        IsChange = true;
 
         //当たったオブジェクトの子になる
         transform.parent = other.transform;
@@ -80,7 +85,7 @@ public class BeaconBullet : MonoBehaviour
     /// </summary>
     void Extinction()
     {
-        if (!isChange) return;
+        if (!IsChange) return;
 
         //消滅時間をカウント
         extinctionTime -= Time.deltaTime;

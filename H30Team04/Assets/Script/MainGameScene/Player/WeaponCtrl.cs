@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class WeaponCtrl : MonoBehaviour
 {
-    [SerializeField] Transform muzzle;
+    [SerializeField] GameObject beaconGun;
+    [SerializeField] GameObject snipeGun;
     [SerializeField] GameObject beaconBullet;
     [SerializeField] GameObject snipeBullet;
     [SerializeField] GameObject rippel;
@@ -19,26 +20,64 @@ public class WeaponCtrl : MonoBehaviour
     //スナイパーライフルのクールタイム
     [SerializeField, Range(0, 3)] float snipeCoolTime = 1;
     static float backupCoolTime;
+    static float reloadTime;
 
     bool isSnipeFire = true;
+    bool isreload = false;
     bool isLaserHit = false;
     float laserLength;
 
-    /// /// <summary> 装備中の武器（true = beacon / false = snipe） </summary>
+    /// <summary> 装備中の武器（true = beacon / false = snipe） </summary>
     public static bool WeaponBeacon { get; private set; }
+
+    /// <summary> 武器を構えているか </summary>
+    public static bool IsSetup { get; private set; }
+
+    AudioSource audioSourse;
+    [SerializeField]
+    AudioClip[] SE = new AudioClip[4];
+
+    /// <summary> 使用するSEを分かりやすくするため </summary>
+    enum SEs
+    {
+        fireBeacon, fireSnipe, reload, change
+    }
+    SEs audios = SEs.fireBeacon;
+    Dictionary<SEs, AudioClip> playerSE = new Dictionary<SEs, AudioClip>();
 
     void Start()
     {
         //初期装備はビーコン
         WeaponBeacon = true;
+        IsSetup = false;
         line = laser.GetComponent<LineRenderer>();
+        audioSourse = gameObject.AddComponent<AudioSource>();
+
+        for (int i = 0; i < SE.Length; i++)
+            playerSE.Add(audios + i, SE[0 + i]);
 
         backupCoolTime = snipeCoolTime;
+        reloadTime = snipeCoolTime / 2;
+        WeaponSet();
     }
 
     void Update()
     {
+        if (!UnlockManager.limit[UnlockState.move]) return;
+        //回転入力
+        if (Input.GetAxis("CameraHorizontal") != 0 || Input.GetAxis("CameraVertical") != 0)
+            IsSetup = true;
+
+        //移動入力
+        if (Input.GetAxis("Hor") != 0 || Input.GetAxis("Ver") != 0)
+            IsSetup = false;
+        if (!laser.activeSelf) laser.SetActive(true);
+        if (!UnlockManager.limit[UnlockState.snipe]) return;
         ChangeWeapon();
+        WeaponSet();
+
+        //音を鳴らす処理
+        //audioSourse.PlayOneShot(audioClip[0]);
     }
 
     void LateUpdate()
@@ -48,13 +87,24 @@ public class WeaponCtrl : MonoBehaviour
 
     void ChangeWeapon()
     {
+        if (!UnlockManager.limit[UnlockState.snipe]) return;
         //武器の切替
-        if (Input.GetButtonDown("WeaponChange")) WeaponBeacon = !WeaponBeacon;
+        if (Input.GetButtonDown("WeaponChange"))
+        {
+            audioSourse.PlayOneShot(playerSE[SEs.change]);
+            WeaponBeacon = !WeaponBeacon;
+            IsSetup = true;
+        }
     }
 
     /// <summary> レーザーポインターの描画 </summary>
     void Shooting()
     {
+        if (!UnlockManager.limit[UnlockState.beacon]) return;
+
+        var muzzle = (WeaponBeacon) ?
+            beaconGun.transform.Find("BeaconMuzzle") : snipeGun.transform.Find("SnipeMuzzle");
+
         //発射位置・方向
         var ray = new Ray(muzzle.position, Camera.main.transform.forward);
 
@@ -72,15 +122,24 @@ public class WeaponCtrl : MonoBehaviour
         if (!isSnipeFire)
         {
             snipeCoolTime -= Time.deltaTime;
+            if (snipeCoolTime <= reloadTime && !isreload)
+            {
+                audioSourse.PlayOneShot(playerSE[SEs.reload]);
+                isreload = true;
+            }
             if (snipeCoolTime <= 0)
             {
                 isSnipeFire = true;
+                isreload = false;
                 snipeCoolTime = backupCoolTime;
             }
         }
 
+        var fireMuzzle = (WeaponBeacon) ?
+            muzzle : snipeGun.transform.Find("FireMuzzle");
+
         //射撃可能なら射撃
-        if (Input.GetButtonDown("Fire") && isFire) Fire(ray);
+        if (Input.GetButtonDown("Fire") && isFire && IsSetup) Fire(ray, fireMuzzle);
 
         //レイの衝突判定用
         RaycastHit hit;
@@ -116,7 +175,7 @@ public class WeaponCtrl : MonoBehaviour
     }
 
     /// <summary> 装備中の武器の使用 </summary>
-    void Fire(Ray ray)
+    void Fire(Ray ray, Transform muzzle)
     {
         //他のビーコンを削除
         if (WeaponBeacon) OtherBeaconDedtroy();
@@ -125,13 +184,18 @@ public class WeaponCtrl : MonoBehaviour
         var weapon = (WeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
         //発射位置
-        weapon.transform.position = ray.origin + muzzle.forward;
+        weapon.transform.position = muzzle.position + muzzle.forward;
 
         //装備している武器で射撃
-        if (WeaponBeacon) weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
+        if (WeaponBeacon)
+        {
+            weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
+            audioSourse.PlayOneShot(playerSE[SEs.fireBeacon]);
+        }
         else
         {
             weapon.GetComponent<SniperBullet>().Fire(ray.direction);
+            audioSourse.PlayOneShot(playerSE[SEs.fireSnipe]);
             isSnipeFire = false;
         }
     }
@@ -154,5 +218,12 @@ public class WeaponCtrl : MonoBehaviour
         line.endColor = c1;
         line.startWidth = width;
         line.endWidth = width;
+    }
+
+    /// <summary> 装備中の武器の描画オンオフ </summary>
+    void WeaponSet()
+    {
+        beaconGun.SetActive(WeaponBeacon);
+        snipeGun.SetActive(!WeaponBeacon);
     }
 }

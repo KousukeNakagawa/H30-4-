@@ -9,6 +9,7 @@ public enum ColorType
     RBG, Black, White, Red
 }
 
+/// <summary> フェード機能 </summary>
 public class FadeObject : MonoBehaviour
 {
     //色の変数
@@ -38,7 +39,7 @@ public class FadeObject : MonoBehaviour
     float R, G, B;
 
     //フェードフラグ
-    bool isFade;
+    public bool IsFade { get; set; }
 
     void Start()
     {
@@ -68,25 +69,20 @@ public class FadeObject : MonoBehaviour
 
         //透明度の上限調整
         AlfaRange();
-
-        //フェード処理
-        if (Soldier.IsDead) FadeOut();
-        else FadeIn();
-
-        if (Input.GetButtonDown("Select")) isFade = true;
     }
 
     /// <summary> 暗転 </summary>
     public void FadeOut()
     {
-        isFade = false;
+        IsFade = false;
         alfa += alphaSpeed;
     }
 
     /// <summary> 暗転の逆 </summary>
     public void FadeIn()
     {
-        if (!isFade) return;
+        IsFade = true;
+        if (!IsFade) return;
         alfa -= alphaSpeed;
     }
 
@@ -112,6 +108,12 @@ public class FadeObject : MonoBehaviour
     public bool IsMinAlpha()
     {
         return (alfa <= 0);
+    }
+
+    /// <summary> 透明度 </summary>
+    public float GetAlpha()
+    {
+        return alfa;
     }
 
     /// <summary> フェード速度の設定 </summary>

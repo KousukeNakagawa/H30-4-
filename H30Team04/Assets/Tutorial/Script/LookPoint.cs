@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary> カメラに映ったら色が変わる回転チュートリアル用オブジェクト </summary>
 public class LookPoint : MonoBehaviour
 {
     [SerializeField] Camera playerCamera;

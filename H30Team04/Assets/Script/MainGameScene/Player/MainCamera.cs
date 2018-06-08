@@ -49,7 +49,7 @@ public class MainCamera : MonoBehaviour
     {
         if (!SEManager.IsEndSE) return;
 
-        //transform.position = player.transform.position - player.transform.forward * 2 + Vector3.up * 1.5f;
+        transform.position = player.transform.position - player.transform.forward * 2 + Vector3.up * 1.5f;
     }
 
     void LateUpdate()

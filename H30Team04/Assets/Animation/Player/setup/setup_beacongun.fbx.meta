@@ -1,0 +1,253 @@
+fileFormatVersion: 2
+guid: 0c6ca82919dfb1b4b833891ba89c5357
+timeCreated: 1528418627
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: beacon_gun_beacon_gun
+    100002: D0515029:smdimport
+    100004: GP_JOINT
+    100006: GP_Scale
+    100008: GP_SKIN
+    100010: Head
+    100012: Hips
+    100014: LeftArm
+    100016: LeftArm_fk
+    100018: LeftArm_ik
+    100020: LeftFoot
+    100022: LeftFoot_fk
+    100024: LeftFoot_ik
+    100026: LeftFootMiddle1
+    100028: LeftFootMiddle2
+    100030: LeftForeArm
+    100032: LeftForeArm_fk
+    100034: LeftForeArm_ik
+    100036: LeftHand
+    100038: LeftHand_fk
+    100040: LeftHand_ik
+    100042: LeftHandIndex1
+    100044: LeftHandIndex2
+    100046: LeftHandIndex3
+    100048: LeftHandIndex4
+    100050: LeftHandMiddle1
+    100052: LeftHandMiddle2
+    100054: LeftHandMiddle3
+    100056: LeftHandMiddle4
+    100058: LeftHandThumb1
+    100060: LeftHandThumb2
+    100062: LeftHandThumb3
+    100064: LeftHandThumb4
+    100066: LeftLeg
+    100068: LeftLeg_fk
+    100070: LeftLeg_ik
+    100072: LeftShoulder
+    100074: LeftUpLeg
+    100076: LeftUpLeg_fk
+    100078: LeftUpLeg_ik
+    100080: Neck
+    100082: RightArm
+    100084: RightArm_fk
+    100086: RightArm_ik
+    100088: RightFoot
+    100090: RightFoot_fk
+    100092: RightFoot_ik
+    100094: RightFootMiddle1
+    100096: RightFootMiddle2
+    100098: RightForeArm
+    100100: RightForeArm_fk
+    100102: RightForeArm_ik
+    100104: RightHand
+    100106: RightHand_fk
+    100108: RightHand_ik
+    100110: RightHandIndex1
+    100112: RightHandIndex2
+    100114: RightHandIndex3
+    100116: RightHandIndex4
+    100118: RightHandMiddle1
+    100120: RightHandMiddle2
+    100122: RightHandMiddle3
+    100124: RightHandMiddle4
+    100126: RightHandThumb1
+    100128: RightHandThumb2
+    100130: RightHandThumb3
+    100132: RightHandThumb4
+    100134: RightLeg
+    100136: RightLeg_fk
+    100138: RightLeg_ik
+    100140: RightShoulder
+    100142: RightUpLeg
+    100144: RightUpLeg_fk
+    100146: RightUpLeg_ik
+    100148: //RootNode
+    100150: Spine
+    100152: Spine1
+    100154: Spine2
+    400000: beacon_gun_beacon_gun
+    400002: D0515029:smdimport
+    400004: GP_JOINT
+    400006: GP_Scale
+    400008: GP_SKIN
+    400010: Head
+    400012: Hips
+    400014: LeftArm
+    400016: LeftArm_fk
+    400018: LeftArm_ik
+    400020: LeftFoot
+    400022: LeftFoot_fk
+    400024: LeftFoot_ik
+    400026: LeftFootMiddle1
+    400028: LeftFootMiddle2
+    400030: LeftForeArm
+    400032: LeftForeArm_fk
+    400034: LeftForeArm_ik
+    400036: LeftHand
+    400038: LeftHand_fk
+    400040: LeftHand_ik
+    400042: LeftHandIndex1
+    400044: LeftHandIndex2
+    400046: LeftHandIndex3
+    400048: LeftHandIndex4
+    400050: LeftHandMiddle1
+    400052: LeftHandMiddle2
+    400054: LeftHandMiddle3
+    400056: LeftHandMiddle4
+    400058: LeftHandThumb1
+    400060: LeftHandThumb2
+    400062: LeftHandThumb3
+    400064: LeftHandThumb4
+    400066: LeftLeg
+    400068: LeftLeg_fk
+    400070: LeftLeg_ik
+    400072: LeftShoulder
+    400074: LeftUpLeg
+    400076: LeftUpLeg_fk
+    400078: LeftUpLeg_ik
+    400080: Neck
+    400082: RightArm
+    400084: RightArm_fk
+    400086: RightArm_ik
+    400088: RightFoot
+    400090: RightFoot_fk
+    400092: RightFoot_ik
+    400094: RightFootMiddle1
+    400096: RightFootMiddle2
+    400098: RightForeArm
+    400100: RightForeArm_fk
+    400102: RightForeArm_ik
+    400104: RightHand
+    400106: RightHand_fk
+    400108: RightHand_ik
+    400110: RightHandIndex1
+    400112: RightHandIndex2
+    400114: RightHandIndex3
+    400116: RightHandIndex4
+    400118: RightHandMiddle1
+    400120: RightHandMiddle2
+    400122: RightHandMiddle3
+    400124: RightHandMiddle4
+    400126: RightHandThumb1
+    400128: RightHandThumb2
+    400130: RightHandThumb3
+    400132: RightHandThumb4
+    400134: RightLeg
+    400136: RightLeg_fk
+    400138: RightLeg_ik
+    400140: RightShoulder
+    400142: RightUpLeg
+    400144: RightUpLeg_fk
+    400146: RightUpLeg_ik
+    400148: //RootNode
+    400150: Spine
+    400152: Spine1
+    400154: Spine2
+    2100000: player_material_glass
+    2100002: player_material_main
+    2100004: beacon_gun_beacon_gun_material
+    2300000: beacon_gun_beacon_gun
+    3300000: beacon_gun_beacon_gun
+    4300000: D0515029:smdimport
+    4300002: beacon_gun_beacon_gun
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: D0515029:smdimport
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

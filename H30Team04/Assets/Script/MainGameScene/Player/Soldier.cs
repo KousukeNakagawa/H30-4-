@@ -5,8 +5,6 @@ using UnityEngine;
 public class Soldier : MonoBehaviour
 {
     [SerializeField] GameObject playerCamera;
-    [SerializeField] GameObject rifle;
-    List<GameObject> cameras = new List<GameObject>();
 
     //走る速度
     [SerializeField, Range(10, 500)] float speed = 100;
@@ -28,6 +26,7 @@ public class Soldier : MonoBehaviour
     //操作入力取得用
     float Hor;
     float Ver;
+    Vector3 angle;
 
     bool isWeaponBeacon = true;
 
@@ -35,6 +34,9 @@ public class Soldier : MonoBehaviour
     [SerializeField] int residue = 3;
 
     [SerializeField] bool isUnlock = true;
+
+    AudioSource audioSourse;
+    [SerializeField] AudioClip SE;
 
     //リスポーン用
     Vector3 startPosition;
@@ -44,14 +46,17 @@ public class Soldier : MonoBehaviour
     //bool _isDead = false;
 
     public static bool IsDead { get; private set; }
+    public static bool IsStop { get; set; }
+
+    /// <summary> 移動しているかどうか（アニメーション用） </summary>
+    public static bool IsMove { get; private set; }
 
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        audioSourse = gameObject.AddComponent<AudioSource>();
         IsDead = false;
-
-        cameras.Add(playerCamera);
-        cameras.Add(rifle);
+        IsStop = false;
 
         UnlockManager.AllSet(isUnlock);
     }
@@ -73,6 +78,8 @@ public class Soldier : MonoBehaviour
 
     void FixedUpdate()
     {
+        if (IsStop) rb.velocity = Vector3.zero;
+
         Move();
     }
 
@@ -89,22 +96,25 @@ public class Soldier : MonoBehaviour
     /// <summary> 移動処理 </summary>
     void Move()
     {
-        if (!UnlockManager.limit[TutorialState.move]) return;
+        if (!UnlockManager.limit[UnlockState.move]) return;
+
+        var speed = (IsStop) ? 0 : this.speed;
 
         var move = ((transform.forward * Ver) + (transform.right * Hor)).normalized;
         rb.velocity = move * speed * Time.deltaTime;
+
+        IsMove = (rb.velocity != Vector3.zero);
+        if (Ver != 0 || Hor != 0) audioSourse.PlayOneShot(SE);
     }
 
     /// <summary> 回転処理 </summary>
     void Rotation()
     {
+        if (!UnlockManager.limit[UnlockState.move]) return;
         //カメラ反転の対応
         float changer = (inverted) ? 1 : -1;
         //AIM時の対応
         float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
-
-        //右パット入力の取得
-        Vector3 angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
 
         //プレイヤーの回転
         transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
@@ -112,7 +122,6 @@ public class Soldier : MonoBehaviour
         //カメラとライフルの回転
         playerCamera.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
         //playerCamera.transform.forward = transform.forward;
-        rifle.transform.forward = playerCamera.transform.forward;
 
         //-180＜上下の動き＜180に変更
         float angleX = (180 <= playerCamera.transform.eulerAngles.x) ?
@@ -122,7 +131,7 @@ public class Soldier : MonoBehaviour
         playerCamera.transform.eulerAngles =
             new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
 
-        playerCamera.transform.position = transform.position - transform.forward * 2 + Vector3.up * 1.5f;
+        //playerCamera.transform.position = transform.position - transform.forward * 2 + Vector3.up * 1.5f;
 
         //プレイヤーの透過
         //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
@@ -131,8 +140,10 @@ public class Soldier : MonoBehaviour
     /// <summary> 操作入力の取得 </summary>
     void GetInput()
     {
+        if (!UnlockManager.limit[UnlockState.move]) return;
         Hor = Input.GetAxis("Hor");
         Ver = Input.GetAxis("Ver");
+        angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
     }
 
     /// <summary> 装備中の武器の取得 </summary>
