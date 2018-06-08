@@ -11,7 +11,7 @@ public class MissileCollider : MonoBehaviour
     public GameObject explosion;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         isHits.Add(this);  //全て当たったかを判定するために自分自身を代入する
     }
