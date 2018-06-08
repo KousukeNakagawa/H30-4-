@@ -263,6 +263,7 @@ MonoBehaviour:
   riseSpeed: 20
   TransSpeed: 10
   targetPos: {x: 0, y: 0, z: 0}
+  velocity: 1
 --- !u!114 &114707329576432890
 MonoBehaviour:
   m_ObjectHideFlags: 1
