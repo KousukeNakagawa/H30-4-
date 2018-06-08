@@ -265,6 +265,11 @@ public class XrayMachine : MonoBehaviour {
         }
     }
 
+    public bool GetXrayOK()
+    {
+        return xrayOK;
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         DeadProcessing(collision.transform.tag);
