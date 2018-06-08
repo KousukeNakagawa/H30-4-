@@ -89,6 +89,10 @@ public class GameTextController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 特定のアクションが行われたときのはさせのセリフ処理
+    /// </summary>
+    /// <param name="i"></param>
     public void TextStart(int i)
     {
         if (m_Scenarios[i] != null)
@@ -111,6 +115,10 @@ public class GameTextController : MonoBehaviour {
             
     }
 
+    /// <summary>
+    /// 撮影に失敗したときの博士のセリフ
+    /// </summary>
+    /// <param name="i"></param>
     public void FailedText(int i)
     {
 
