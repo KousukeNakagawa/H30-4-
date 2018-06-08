@@ -50,14 +50,6 @@ public class GameTextController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            TextStart(0);
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            TextStart(1);
-        }
         if (m_PhDface)
         {
             m_panel.SetActive(true);
