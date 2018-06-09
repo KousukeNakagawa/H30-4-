@@ -29,13 +29,15 @@ public class Xray_SSS : MonoBehaviour
         public float _minDepth = 0.5f;
     }
 
+    [SerializeField] GameObject XrayArrow;
+
     [SerializeField] MainCamera m_maincamera;
 
     [SerializeField] GameObject markwe;
 
-    [SerializeField] Arrow arrow;
-    //射影機の方向を示す矢印
-    LineRenderer _arrow;
+    //[SerializeField] Arrow arrow;
+    ////射影機の方向を示す矢印
+    //LineRenderer _arrow;
 
     //開始演出終了フラグ取得
     GameObject _player;
@@ -65,7 +67,7 @@ public class Xray_SSS : MonoBehaviour
     {
         _player = GameObject.FindGameObjectWithTag("Player");
         _playerBase = _player.GetComponent<PlayerBase>();
-        _arrow = arrow._lineObject.GetComponent<LineRenderer>();
+        //_arrow = arrow._lineObject.GetComponent<LineRenderer>();
 
         Serch();
     }
@@ -78,7 +80,7 @@ public class Xray_SSS : MonoBehaviour
         //射影機が無ければ終了
         if (_XrayMachines.Length < 1)
         {
-            Destroy(_arrow);
+            Destroy(XrayArrow);
         }
         else
         {
@@ -177,16 +179,19 @@ public class Xray_SSS : MonoBehaviour
     {
         //示す射影機の方向
         Vector3 direction = _selectXray.transform.Find("model").position - transform.position;
-        //矢印の始点
-        Vector3 start = transform.position + direction / 100 * arrow._startPoint + Vector3.up;
-        //矢印の終点
-        Vector3 end = start + direction/* / 10*/;
+        ////矢印の始点
+        //Vector3 start = transform.position + direction / 100 * arrow._startPoint + Vector3.up;
+        ////矢印の終点
+        //Vector3 end = start + direction/* / 10*/;
 
-        //距離に比例する透明度
-        float depthCalculation = arrow._colorDepth - direction.sqrMagnitude / 10000;
-        float depth = (depthCalculation <= arrow._minDepth) ? arrow._minDepth : depthCalculation;
+        ////距離に比例する透明度
+        //float depthCalculation = arrow._colorDepth - direction.sqrMagnitude / 10000;
+        //float depth = (depthCalculation <= arrow._minDepth) ? arrow._minDepth : depthCalculation;
 
-        DrawArrow(start, end, arrow._startColor, arrow._endColor * depth, arrow.width);
+        Vector3 arrowPos = transform.position + direction / 100 + Vector3.up;
+        XrayArrow.transform.position = arrowPos;
+
+        //DrawArrow(start, end, arrow._startColor, arrow._endColor * depth, arrow.width);
     }
 
     void Marker()
@@ -235,19 +240,19 @@ public class Xray_SSS : MonoBehaviour
         Serch();
     }
 
-    /// <summary>
-    /// 射影機の方向を指す矢印の描画
-    /// </summary>
-    void DrawArrow(Vector3 p1, Vector3 p2, Color c1, Color c2, float width, bool isSharp = true)
-    {
-        if (_Xrays.Count == 0) Destroy(_arrow);
-        _arrow.SetPosition(0, p1);
-        _arrow.SetPosition(1, p2);
-        _arrow.startColor = c1;
-        _arrow.endColor = c2;
-        _arrow.startWidth = width;
-        _arrow.endWidth = (isSharp) ? 0 : width;
-    }
+    ///// <summary>
+    ///// 射影機の方向を指す矢印の描画
+    ///// </summary>
+    //void DrawArrow(Vector3 p1, Vector3 p2, Color c1, Color c2, float width, bool isSharp = true)
+    //{
+    //    if (_Xrays.Count == 0) Destroy(_arrow);
+    //    _arrow.SetPosition(0, p1);
+    //    _arrow.SetPosition(1, p2);
+    //    _arrow.startColor = c1;
+    //    _arrow.endColor = c2;
+    //    _arrow.startWidth = width;
+    //    _arrow.endWidth = (isSharp) ? 0 : width;
+    //}
 
     /// <summary>
     /// 現在示している射影機の取得

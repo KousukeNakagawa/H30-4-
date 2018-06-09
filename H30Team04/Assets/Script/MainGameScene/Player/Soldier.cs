@@ -104,7 +104,7 @@ public class Soldier : MonoBehaviour
         rb.velocity = move * speed * Time.deltaTime;
 
         IsMove = (rb.velocity != Vector3.zero);
-        if (Ver != 0 || Hor != 0) audioSourse.PlayOneShot(SE);
+        //if (Ver != 0 || Hor != 0) audioSourse.PlayOneShot(SE);
     }
 
     /// <summary> 回転処理 </summary>
