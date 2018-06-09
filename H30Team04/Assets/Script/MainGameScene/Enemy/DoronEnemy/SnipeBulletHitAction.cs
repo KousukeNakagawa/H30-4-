@@ -15,7 +15,6 @@ public class SnipeBulletHitAction : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-
     }
 
     // Update is called once per frame
@@ -23,9 +22,8 @@ public class SnipeBulletHitAction : MonoBehaviour
     {
         if (!moveScript.enabled)
         {  //墜落処理
-            m_rigid.useGravity = true;
-            m_rigid.isKinematic = false;
             m_rigid.AddTorque(crashVel, ForceMode.Force);
+            if (transform.position.y < 0) Destroy(gameObject);
         }
     }
 
@@ -33,9 +31,15 @@ public class SnipeBulletHitAction : MonoBehaviour
     {  //墜落準備
         moveScript.m_collider.enabled = false;
         moveScript.enabled = false;
+        m_rigid.useGravity = true;
+        m_rigid.isKinematic = false;
+        m_rigid.constraints = RigidbodyConstraints.None;
         children.Add(Instantiate(explosion, transform.position, Quaternion.identity));
         GameObject b = Instantiate(breakSmoke, transform.position, Quaternion.identity);
         b.GetComponent<Following>().followTrans = transform;
+        gameObject.layer = LayerMask.NameToLayer("StageObject");
+        //爆発音再生
+        GetComponent<DroneAudioPlay>().Play(DroneAudioPlay.AudioType.Explosion, false);
         children.Add(b);
         crashVel = new Vector3(Random.Range(-360.0f, 360.0f), 0, Random.Range(-360.0f, 360.0f)).normalized;
     }
@@ -46,11 +50,17 @@ public class SnipeBulletHitAction : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        HitCheck(other);
     }
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("SnipeBullet"))
+        HitCheck(other.collider);
+    }
+
+    private void HitCheck(Collider other)
+    {
+        if (other.CompareTag("SnipeBullet"))
         {
             Hit();
         }

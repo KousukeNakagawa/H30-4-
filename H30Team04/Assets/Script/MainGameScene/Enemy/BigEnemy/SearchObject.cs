@@ -64,7 +64,7 @@ public class SearchObject : MonoBehaviour
             SetTurnVel(target);
             targetPos = target.transform.position;
             isSearch = true;
-            if (target.CompareTag("Xline")) BigEnemyScripts.missileLaunch.isMissile = true;
+            if (searchTarget.CompareTag("Xline")) BigEnemyScripts.missileLaunch.isMissile = true;
             else BigEnemyScripts.missileLaunch.isMissile = false;
         }
     }
@@ -82,10 +82,14 @@ public class SearchObject : MonoBehaviour
     private void SetTurnVel(GameObject target)
     {   //Z軸を中心に、右にいる場合は1を、左にいる場合はｰ1をturnVelに代入する
         Vector3 transDot = BigEnemyScripts.mTransform.TransformDirection(Vector3.forward);
+        float selfatan = Mathf.Atan2(BigEnemyScripts.mTransform.position.z, BigEnemyScripts.mTransform.position.x);
+        float otheratan = Mathf.Atan2(target.transform.position.z, target.transform.position.x);
+        float delta = Mathf.DeltaAngle(selfatan, otheratan);
         float dot = Vector2.Dot(new Vector2(transDot.x, transDot.z),
             new Vector2(target.transform.position.x - BigEnemyScripts.mTransform.position.x,
             target.transform.position.z - BigEnemyScripts.mTransform.position.z).normalized);
         turnVel = dot / Mathf.Abs(dot) * -1;
+        //print(Mathf.Sign(delta) + ":" + -turnVel);
     }
 
     public void SetTurnVelGoDefenseLine()

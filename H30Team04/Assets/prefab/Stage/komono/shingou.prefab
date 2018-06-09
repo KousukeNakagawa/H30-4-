@@ -2643,8 +2643,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1888385286636262}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 48.42, y: 0.05, z: -1.5}
+  m_LocalRotation: {x: -0, y: -0.7101415, z: -0, w: 0.70405906}
+  m_LocalPosition: {x: 129.30449, y: -1.6163149, z: 1.3568726}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 4005898941032422}
@@ -2686,7 +2686,7 @@ Transform:
   - {fileID: 4398305186555652}
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90.493004, z: 0}
 --- !u!4 &4765655015431640
 Transform:
   m_ObjectHideFlags: 1
@@ -4840,7 +4840,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!54 &54943943841513462
 Rigidbody:
   m_ObjectHideFlags: 1
@@ -4930,5 +4930,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7c8127b3490204c923b2fa78bf70f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  torquePower: 1.666
+  torquePower: 3.04
   dropdownPower: 3

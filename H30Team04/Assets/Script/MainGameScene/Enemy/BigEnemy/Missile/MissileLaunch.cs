@@ -12,7 +12,6 @@ public class MissileLaunch : MonoBehaviour
     private float launchTime;  //ミサイルを発射するまでのカウンター
     [Tooltip("ミサイルを発射するまでの時間")] public float launchSense = 1.0f;
     [Tooltip("撃つミサイルの本数")] public float missileCount = 3;
-    [Tooltip("モデルのミサイルの位置")] public List<Transform> missiles = new List<Transform>();
 
     [Header("配列の要素数を同じにしないとエラーが発生します")]
     [Tooltip("初期角度の設定")] public Vector3[] instantiateAngles;
@@ -39,6 +38,7 @@ public class MissileLaunch : MonoBehaviour
     {
         isLaunch = true;
         launchTime = Time.time + launchSense;
+        BigEnemyScripts.bigEnemyAnimatorManager.LaunchStart();
     }
 
     public void Launch()
@@ -51,14 +51,16 @@ public class MissileLaunch : MonoBehaviour
     {
         for (int i = 0; i < missileCount; i++)
         {
-            yield return new WaitForSeconds(launchCount);
+            yield return null;
+            BigEnemyScripts.bigEnemyAnimatorManager.Launch();
             if (!BigEnemyScripts.shootingPhaseMove.isShooting)
             {
-                Transform inPos = missiles[Random.Range(0, missiles.Count - 1)];
                 GameObject m = Instantiate(missilePrefab,
-                    missileLaunchPos[i % missileLaunchPos.Length].position /*inPos.position*/,
-                    Quaternion.Euler(instantiateAngles[i]) /*missileLaunchPos[i % missileLaunchPos.Length].rotation*/);
+                    missileLaunchPos[i % missileLaunchPos.Length].position,
+                    missileLaunchPos[i % missileLaunchPos.Length].rotation);
             }
+            yield return new WaitForSeconds(launchCount);
+            if (missileCount - 1 != i) BigEnemyScripts.bigEnemyAnimatorManager.LaunchReset();
         }
     }
 }

@@ -19,16 +19,18 @@ public class MissileCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (transform.position.y < -2)
+        {  //地面より下に入ったら強制的に消す
+            Destroy(transform.parent.gameObject);
+            isHit = true;
+            HitCheck();
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Beacon"))
-        {
-            Destroy(other.gameObject);
-        }
-        else if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") || other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))
+        if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") 
+            || other.CompareTag("Building") || other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))
         {
             //ミサイル破壊
             Destroy(transform.parent.gameObject);
@@ -43,12 +45,23 @@ public class MissileCollider : MonoBehaviour
             Destroy(ex, 3.0f);
             isHit = true;
         }
+        else if (other.CompareTag("Beacon")/* || other.tag.Contains("Xline")*/)
+        {
+            Destroy(other.gameObject);
+        }
+        HitCheck();
+    }
+
+    private void HitCheck()
+    {
         //全てのミサイルのisHitがtrueなら巨大ロボットのターゲットをリセットする
         if (isHits.Count > 0 && isHits.FindAll(f => !f.isHit).Count == 0)
         {
             BigEnemyScripts.missileLaunch.isMissile = false;
             BigEnemyScripts.searchObject.ResetTarget();
             BigEnemyScripts.bigEnemyMove.SetGoDefenseLine();
+            BigEnemyScripts.bigEnemyAnimatorManager.LaunchEnd();
+            BigEnemyScripts.bigEnemyAnimatorManager.AnimatorInitialize();
             isHits.Clear();
         }
     }
