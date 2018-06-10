@@ -30,7 +30,6 @@ public class BigEnemyMove : MonoBehaviour
                 isTurn = false;
                 BigEnemyScripts.droneCreate.DroneSet();
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
-                //BigEnemyScripts.bigEnemyAnimatorManager.WalkStop();
             }
             else
             {
@@ -50,7 +49,7 @@ public class BigEnemyMove : MonoBehaviour
             }
         }
     }
-
+    
     public Vector3 TurnAngleSet(Vector3 targetPos)
     {  //回転が終了して時の回転角度を取得する
         float dir = GetDirction(transform.position, targetPos);

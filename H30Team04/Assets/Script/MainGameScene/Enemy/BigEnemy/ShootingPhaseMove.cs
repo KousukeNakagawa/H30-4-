@@ -22,6 +22,10 @@ public class ShootingPhaseMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Tab))
+        {
+            ShootingPhaseSet();
+        }
         if (!isShooting) return;
     }
 
@@ -52,6 +56,6 @@ public class ShootingPhaseMove : MonoBehaviour
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
-        //BigEnemyScripts.shootingFailure.FailureAction();
+        BigEnemyScripts.shootingFailure.FailureAction();
     }
 }

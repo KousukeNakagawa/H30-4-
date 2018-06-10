@@ -2978,7 +2978,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   audios:
   - {fileID: 8300000, guid: 482d53db3fd91c048a9b6f0b37425d9b, type: 3}
-  - {fileID: 8300000, guid: a5c8ff9a3347e0748a87a49d734215e6, type: 3}
 --- !u!114 &114269292212028042
 MonoBehaviour:
   m_ObjectHideFlags: 1

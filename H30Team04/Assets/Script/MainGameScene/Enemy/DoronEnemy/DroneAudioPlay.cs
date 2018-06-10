@@ -7,7 +7,6 @@ public class DroneAudioPlay : MonoBehaviour {
     public enum AudioType
     {
         Search,
-        Explosion,
     }
 
     [SerializeField] private AudioClip[] audios;

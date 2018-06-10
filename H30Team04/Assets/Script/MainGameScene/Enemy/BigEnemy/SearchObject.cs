@@ -64,8 +64,8 @@ public class SearchObject : MonoBehaviour
             SetTurnVel(target);
             targetPos = target.transform.position;
             isSearch = true;
-            if (searchTarget.CompareTag("Xline")) BigEnemyScripts.missileLaunch.isMissile = true;
-            else BigEnemyScripts.missileLaunch.isMissile = false;
+            if (!searchTarget.tag.Contains("Xline")) BigEnemyScripts.missileLaunch.isMissile = false;
+            else BigEnemyScripts.missileLaunch.isMissile = true;
         }
     }
 

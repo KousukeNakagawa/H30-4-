@@ -39,7 +39,6 @@ public class SnipeBulletHitAction : MonoBehaviour
         b.GetComponent<Following>().followTrans = transform;
         gameObject.layer = LayerMask.NameToLayer("StageObject");
         //爆発音再生
-        GetComponent<DroneAudioPlay>().Play(DroneAudioPlay.AudioType.Explosion, false);
         children.Add(b);
         crashVel = new Vector3(Random.Range(-360.0f, 360.0f), 0, Random.Range(-360.0f, 360.0f)).normalized;
     }

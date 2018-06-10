@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using System;
 
 public class UpdateManager : MonoBehaviour
@@ -9,8 +7,6 @@ public class UpdateManager : MonoBehaviour
 
     void Awake()
     {  //Static関数で呼び出しが出来るようにする
-       //BigEnemyUpdateManager manager = FindObjectOfType<BigEnemyUpdateManager>();
-       //updateManager = manager;
         updateManager = this;
     }
 
@@ -79,7 +75,7 @@ public class UpdateManager : MonoBehaviour
     {
         for (int i = 0; i < updates.Length; i++)
         {
-            if (updates[i].Equals(iupdate))
+            if (updates[i] == iupdate)
             {
                 updates[i] = null;
                 updateManager.refreshUpdate();

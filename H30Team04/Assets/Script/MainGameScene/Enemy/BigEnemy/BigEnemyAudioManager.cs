@@ -14,7 +14,6 @@ public class BigEnemyAudioManager : MonoBehaviour {
     [SerializeField] private GameObject emptyAudio;
 
     private bool previousIsStep;
-    private bool isFirst;
 
 	// Use this for initialization
 	void Awake () {
@@ -43,8 +42,7 @@ public class BigEnemyAudioManager : MonoBehaviour {
 
     public void Play(BigEnemyAudioType type,Transform target = null)
     {
-        if (isFirst) return;
-        Transform t = (target == null) ? BigEnemyScripts.mTransform : target;
+        Transform t = target ?? BigEnemyScripts.mTransform;
         AudioSource.PlayClipAtPoint(audios[(int)type], t.position);
     }
 }
