@@ -23,7 +23,8 @@ public class SnipeBulletHitAction : MonoBehaviour
         if (!moveScript.enabled)
         {  //墜落処理
             m_rigid.AddTorque(crashVel, ForceMode.Force);
-            if (transform.position.y < 0) Destroy(gameObject);
+            if (transform.position.y < 0)
+                Destroy(gameObject);
         }
     }
 
@@ -45,15 +46,15 @@ public class SnipeBulletHitAction : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Field"))
-        {
-            Destroy(gameObject);
-        }
         HitCheck(other);
     }
 
     void OnCollisionEnter(Collision other)
     {
+        if (other.gameObject.CompareTag("Field"))
+        {
+            Destroy(gameObject);
+        }
         HitCheck(other.collider);
     }
 

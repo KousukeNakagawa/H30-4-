@@ -29,4 +29,9 @@ public class DroneAudioPlay : MonoBehaviour {
         m_audio.loop = isLoop;
         m_audio.Play();
     }
+
+    public void Stop()
+    {
+        m_audio.Stop();
+    }
 }

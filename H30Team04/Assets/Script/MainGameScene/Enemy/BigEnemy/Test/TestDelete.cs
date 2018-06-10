@@ -16,7 +16,7 @@ public class TestDelete : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("BigEnemy"))
+        if (other.CompareTag("BigEnemy") || other.CompareTag("Missile"))
         {
             if (!gameObject.CompareTag("Player")) Destroy(gameObject);
         }
