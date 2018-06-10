@@ -7,7 +7,8 @@ public class SoldierAnimator : MonoBehaviour
     Animator animator;
 
     bool isStay = false;
-    bool isMove = false;
+    bool isFront = false;
+    bool isSide = false;
     bool isBeacon = false;
     bool isSnipe = false;
 
@@ -25,7 +26,7 @@ public class SoldierAnimator : MonoBehaviour
     /// <summary> アニメーションのセッティング </summary>
     void SetAnimator()
     {
-        //animator.SetBool("Move", isMove);
+        animator.SetBool("RunFront", isFront);
         animator.SetBool("Stay", isStay);
         animator.SetBool("SetupBeacon", isSnipe);
         animator.SetBool("SetupSnipe", isBeacon);
@@ -39,19 +40,19 @@ public class SoldierAnimator : MonoBehaviour
     /// <summary> アニメーションの条件処理 </summary>
     void ChangeAnimator()
     {
-        ////移動しているなら
-        //if (Soldier.IsMove)
-        //{
-        //    isMove = false;
-        //    isStay = true;
-        //    isBeacon = false;
-        //    isSnipe = false;
-        //}
-        ////IsMoveがFalseで
-        ////止まっているなら
-        /*   else*/ if (!WeaponCtrl.IsSetup)
+        //移動しているなら
+        if (Soldier.IsMove)
         {
-            isMove = false;
+            isFront = true;
+            isStay = false;
+            isBeacon = false;
+            isSnipe = false;
+        }
+        //IsMoveがFalseで
+        //止まっているなら
+        else if (!WeaponCtrl.IsSetup)
+        {
+            isFront = false;
             isStay = true;
             isBeacon = false;
             isSnipe = false;
@@ -59,14 +60,14 @@ public class SoldierAnimator : MonoBehaviour
         //ビーコンを装備しているなら
         else if (WeaponCtrl.WeaponBeacon)
         {
-            isMove = false;
+            isFront = false;
             isStay = false;
             isBeacon = true;
             isSnipe = false;
         }
         else
         {
-            isMove = false;
+            isFront = false;
             isStay = false;
             isBeacon = false;
             isSnipe = true;

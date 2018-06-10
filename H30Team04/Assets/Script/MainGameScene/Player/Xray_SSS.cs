@@ -30,6 +30,8 @@ public class Xray_SSS : MonoBehaviour
     }
 
     [SerializeField] GameObject XrayArrow;
+    [SerializeField, Range(1, 3)] float arrowOrigin = 1;
+    [SerializeField, Range(0.1f, 3)] float arrowHeight = 0.1f;
 
     [SerializeField] MainCamera m_maincamera;
 
@@ -188,8 +190,10 @@ public class Xray_SSS : MonoBehaviour
         //float depthCalculation = arrow._colorDepth - direction.sqrMagnitude / 10000;
         //float depth = (depthCalculation <= arrow._minDepth) ? arrow._minDepth : depthCalculation;
 
-        Vector3 arrowPos = transform.position + direction / 100 + Vector3.up;
+        Vector3 arrowPos = transform.position + direction.normalized * arrowOrigin + Vector3.up * arrowHeight;
         XrayArrow.transform.position = arrowPos;
+        XrayArrow.transform.LookAt(_selectXray.transform.Find("model").position);
+        XrayArrow.transform.eulerAngles = new Vector3(90, XrayArrow.transform.eulerAngles.y, XrayArrow.transform.eulerAngles.z);
 
         //DrawArrow(start, end, arrow._startColor, arrow._endColor * depth, arrow.width);
     }

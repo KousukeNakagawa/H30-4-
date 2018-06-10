@@ -64,6 +64,7 @@ public class WeaponCtrl : MonoBehaviour
     void Update()
     {
         if (!UnlockManager.limit[UnlockState.move]) return;
+
         //回転入力
         if (Input.GetAxis("CameraHorizontal") != 0 || Input.GetAxis("CameraVertical") != 0)
             IsSetup = true;
@@ -71,6 +72,9 @@ public class WeaponCtrl : MonoBehaviour
         //移動入力
         if (Input.GetAxis("Hor") != 0 || Input.GetAxis("Ver") != 0)
             IsSetup = false;
+
+        Debug.Log(IsSetup);
+
         if (!laser.activeSelf) laser.SetActive(true);
         if (!UnlockManager.limit[UnlockState.snipe]) return;
         ChangeWeapon();
@@ -139,7 +143,7 @@ public class WeaponCtrl : MonoBehaviour
             muzzle : snipeGun.transform.Find("FireMuzzle");
 
         //射撃可能なら射撃
-        if (Input.GetButtonDown("Fire") && isFire && IsSetup) Fire(ray, fireMuzzle);
+        if (Input.GetButtonDown("Fire") && isFire && (IsSetup || Soldier.IsMove)) Fire(ray, fireMuzzle);
 
         //レイの衝突判定用
         RaycastHit hit;
@@ -147,7 +151,10 @@ public class WeaponCtrl : MonoBehaviour
         //レーザーの長さ
         if (!isLaserHit) laserLength = rayLength;
 
-        LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);
+        if (IsSetup || Soldier.IsMove)
+            LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);
+        else
+            LaserPointer(ray.origin, Vector3.zero, rayColor, laserWide);
 
         //レイが何かに衝突したら
         if (Physics.Raycast(ray, out hit, rayLength))
