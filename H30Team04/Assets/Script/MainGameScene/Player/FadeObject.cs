@@ -12,6 +12,8 @@ public enum ColorType
 /// <summary> フェード機能 </summary>
 public class FadeObject : MonoBehaviour
 {
+    RectTransform rect;
+
     //色の変数
     float[] RBG;
 
@@ -43,6 +45,9 @@ public class FadeObject : MonoBehaviour
 
     void Start()
     {
+        rect = GetComponent<RectTransform>();
+        rect.sizeDelta = new Vector2(Screen.width, Screen.height);
+
         //色彩情報の取得
         R = GetComponent<Image>().color.r;
         G = GetComponent<Image>().color.g;
