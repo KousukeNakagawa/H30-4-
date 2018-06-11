@@ -1,0 +1,296 @@
+fileFormatVersion: 2
+guid: 5feb3c96f62f07e498cf9ada3f3b241b
+timeCreated: 1528682061
+licenseType: Free
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: AC Cylinder
+    100002: AC-OUT
+    100004: CannonHolder
+    100006: CON_ROOT
+    100008: Cooler
+    100010: Down_Arm_Thinger_Minigun
+    100012: Foot_R
+    100014: Foot_R1
+    100016: GP_JOINT
+    100018: GP_ROBOT
+    100020: GP_SKIN
+    100022: Head
+    100024: HeavyLaser CBox
+    100026: HeavyLaserCylinder 01
+    100028: joint1
+    100030: joint15
+    100032: joint16
+    100034: joint17
+    100036: joint17 1
+    100038: joint18
+    100040: joint18 1
+    100042: joint19
+    100044: joint19 1
+    100046: joint2
+    100048: joint25
+    100050: joint27
+    100052: joint29
+    100054: joint3
+    100056: joint34
+    100058: joint5
+    100060: joint6
+    100062: joint7
+    100064: joint8
+    100066: joint9
+    100068: Left_Shoulder_Cylinder1
+    100070: Leg_Cylinder_Top01
+    100072: Leg_thinger_Cone06
+    100074: Lower Leg01
+    100076: Lower Leg02
+    100078: LowerBinde
+    100080: OUTAC -Green
+    100082: pasted__Minigunam2
+    100084: Plate for leg01
+    100086: polySurface10
+    100088: polySurface16
+    100090: polySurface2
+    100092: polySurface27
+    100094: //RootNode
+    100096: Rocket_Launcer_Inside_Right_01
+    100098: Rotator-Smallbox 04
+    100100: SP_scale
+    100102: Torso Upper Part
+    100104: transform1
+    100106: UpperArmCy
+    100108: UpperArmTh
+    100110: UpperLeftA
+    400000: AC Cylinder
+    400002: AC-OUT
+    400004: CannonHolder
+    400006: CON_ROOT
+    400008: Cooler
+    400010: Down_Arm_Thinger_Minigun
+    400012: Foot_R
+    400014: Foot_R1
+    400016: GP_JOINT
+    400018: GP_ROBOT
+    400020: GP_SKIN
+    400022: Head
+    400024: HeavyLaser CBox
+    400026: HeavyLaserCylinder 01
+    400028: joint1
+    400030: joint15
+    400032: joint16
+    400034: joint17
+    400036: joint17 1
+    400038: joint18
+    400040: joint18 1
+    400042: joint19
+    400044: joint19 1
+    400046: joint2
+    400048: joint25
+    400050: joint27
+    400052: joint29
+    400054: joint3
+    400056: joint34
+    400058: joint5
+    400060: joint6
+    400062: joint7
+    400064: joint8
+    400066: joint9
+    400068: Left_Shoulder_Cylinder1
+    400070: Leg_Cylinder_Top01
+    400072: Leg_thinger_Cone06
+    400074: Lower Leg01
+    400076: Lower Leg02
+    400078: LowerBinde
+    400080: OUTAC -Green
+    400082: pasted__Minigunam2
+    400084: Plate for leg01
+    400086: polySurface10
+    400088: polySurface16
+    400090: polySurface2
+    400092: polySurface27
+    400094: //RootNode
+    400096: Rocket_Launcer_Inside_Right_01
+    400098: Rotator-Smallbox 04
+    400100: SP_scale
+    400102: Torso Upper Part
+    400104: transform1
+    400106: UpperArmCy
+    400108: UpperArmTh
+    400110: UpperLeftA
+    2100000: Metal_Black_Plain 1
+    2100002: Metal_Galvanized
+    2100004: Black_Yellow Stripes
+    2100006: Metal_Black_Plain 4
+    2100008: Steel 2
+    2100010: Metal_Black_Plain
+    2100012: pasted__Metal_Galvanized1
+    2100014: pasted__Metal_Black_Plain1
+    2100016: pasted__Metal_Black_Plain 6
+    2100018: lambert1
+    2100020: Metal_Steel
+    2100022: 19 - Default
+    2100024: Metal_Black_Plain 5
+    2100026: Metal_Steel 1
+    2100028: pasted__Steel 3
+    2100030: phongE1
+    2300000: AC Cylinder
+    2300002: AC-OUT
+    2300004: CannonHolder
+    2300006: Cooler
+    2300008: Foot_R
+    2300010: Foot_R1
+    2300012: Head
+    2300014: HeavyLaser CBox
+    2300016: HeavyLaserCylinder 01
+    2300018: Left_Shoulder_Cylinder1
+    2300020: Leg_Cylinder_Top01
+    2300022: Leg_thinger_Cone06
+    2300024: Lower Leg01
+    2300026: Lower Leg02
+    2300028: LowerBinde
+    2300030: OUTAC -Green
+    2300032: Plate for leg01
+    2300034: polySurface16
+    2300036: polySurface2
+    2300038: polySurface27
+    2300040: Rocket_Launcer_Inside_Right_01
+    2300042: Rotator-Smallbox 04
+    2300044: Torso Upper Part
+    2300046: UpperArmCy
+    2300048: UpperLeftA
+    3300000: AC Cylinder
+    3300002: AC-OUT
+    3300004: CannonHolder
+    3300006: Cooler
+    3300008: Foot_R
+    3300010: Foot_R1
+    3300012: Head
+    3300014: HeavyLaser CBox
+    3300016: HeavyLaserCylinder 01
+    3300018: Left_Shoulder_Cylinder1
+    3300020: Leg_Cylinder_Top01
+    3300022: Leg_thinger_Cone06
+    3300024: Lower Leg01
+    3300026: Lower Leg02
+    3300028: LowerBinde
+    3300030: OUTAC -Green
+    3300032: Plate for leg01
+    3300034: polySurface16
+    3300036: polySurface2
+    3300038: polySurface27
+    3300040: Rocket_Launcer_Inside_Right_01
+    3300042: Rotator-Smallbox 04
+    3300044: Torso Upper Part
+    3300046: UpperArmCy
+    3300048: UpperLeftA
+    4300000: UpperArmTh
+    4300002: Down_Arm_Thinger_Minigun
+    4300004: Rocket_Launcer_Inside_Right_01
+    4300006: polySurface27
+    4300008: polySurface2
+    4300010: UpperArmCy
+    4300012: AC-OUT
+    4300014: Cooler
+    4300016: OUTAC -Green
+    4300018: CannonHolder
+    4300020: AC Cylinder
+    4300022: Rotator-Smallbox 04
+    4300024: HeavyLaser CBox
+    4300026: HeavyLaserCylinder 01
+    4300028: LowerBinde
+    4300030: UpperLeftA
+    4300032: Left_Shoulder_Cylinder1
+    4300034: Head
+    4300036: Torso Upper Part
+    4300038: Foot_R1
+    4300040: Lower Leg02
+    4300042: Leg_thinger_Cone06
+    4300044: Leg_Cylinder_Top01
+    4300046: Foot_R
+    4300048: Lower Leg01
+    4300050: Plate for leg01
+    4300052: polySurface16
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Down_Arm_Thinger_Minigun
+    13700002: UpperArmTh
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

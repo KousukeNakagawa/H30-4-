@@ -33,6 +33,7 @@ public class GameTextController : MonoBehaviour {
     bool m_PhDface = false;
     /// </summary>
     bool m_scenarioi = false;
+    bool _delete = false;
 
     public bool IsCompleteDisplayText
     {
@@ -44,6 +45,7 @@ public class GameTextController : MonoBehaviour {
     {
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_crt.ScanLineTail = 0;
+        FailedText(0);
     }
 
 
@@ -58,10 +60,15 @@ public class GameTextController : MonoBehaviour {
             if (IsCompleteDisplayText)
             {
                 m_textEndtimer += Time.deltaTime;
-                if (m_textEndtimer > 5)
+                if (m_textEndtimer > 5 && _delete)
                 {
                     m_PhDface = false;
-                    m_Scenarios[m_currentLine] = null;
+                    m_Scenarios[_nowtext] = null;
+                    _delete = false;
+                }
+                else if (m_textEndtimer > 5)
+                {
+                    m_PhDface = false;
                 }
             }
         }
@@ -94,6 +101,7 @@ public class GameTextController : MonoBehaviour {
                 _nowtext = i;
                 m_PhDface = true;
                 m_scenarioi = true;
+                _delete = true;
             }
             else
             {
@@ -130,9 +138,9 @@ public class GameTextController : MonoBehaviour {
     //博士の現場をアナウンスするセリフ
     void GetNextText()
     {
-        m_currentLine = _nowtext;
+        //m_currentLine = _nowtext;
         // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
-        currentText = m_Scenarios[m_currentLine];
+        currentText = m_Scenarios[_nowtext];
 
         // 想定表示時間と現在の時刻をキャッシュ
         timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
