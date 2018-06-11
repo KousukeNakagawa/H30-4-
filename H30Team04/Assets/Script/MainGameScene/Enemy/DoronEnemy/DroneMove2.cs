@@ -46,6 +46,11 @@ public class DroneMove2 : MonoBehaviour
     private float upPrimary;
     private SphereCollider bodySpherer;
 
+    [SerializeField]
+    Light m_light;
+    [SerializeField]
+    float _interval;
+
     // Use this for initialization
     void Start()
     {
@@ -60,6 +65,7 @@ public class DroneMove2 : MonoBehaviour
         goalPos = transform.position.x + sagittalDir * moveArea.x;
         bodySpherer = GetComponent<SphereCollider>();
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
+        StartCoroutine("Blink");
     }
 
     void OnDrawGizmos()
@@ -206,5 +212,14 @@ public class DroneMove2 : MonoBehaviour
     {
         BigEnemyScripts.droneCreate.RemoveDrone(gameObject);
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Remove(gameObject);
+    }
+
+    IEnumerator Blink()
+    {
+        while(true)
+        {
+            m_light.enabled = !m_light.enabled;
+            yield return new WaitForSeconds(_interval);
+        }
     }
 }
