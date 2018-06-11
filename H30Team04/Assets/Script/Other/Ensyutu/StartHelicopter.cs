@@ -24,10 +24,15 @@ public class StartHelicopter : MonoBehaviour {
     private float lerpTime = 0.0f;
     [SerializeField] private float endrotateSpeed = 1.0f;
 
+    public AudioClip kettei;
+    private AudioSource audioSourse;
+
     // Use this for initialization
     void Start () {
+
+        audioSourse = gameObject.AddComponent<AudioSource>();
         //enemyT = GameObject.FindGameObjectWithTag("BigEnemy").transform;
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -52,6 +57,7 @@ public class StartHelicopter : MonoBehaviour {
 
     public void SetScene(string name)
     {
+        audioSourse.PlayOneShot(kettei);
         m_view.SetSceneName(name);
         is_byebye = true;
         Vector3 a = Camera.main.transform.eulerAngles;
