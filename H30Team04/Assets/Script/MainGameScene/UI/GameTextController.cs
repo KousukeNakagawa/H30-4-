@@ -63,7 +63,8 @@ public class GameTextController : MonoBehaviour {
                 if (m_textEndtimer > 5 && _delete)
                 {
                     m_PhDface = false;
-                    m_Scenarios[m_currentLine] = null;
+                    m_Scenarios[_nowtext] = null;
+                    _delete = false;
                 }
                 else if (m_textEndtimer > 5)
                 {
@@ -137,9 +138,9 @@ public class GameTextController : MonoBehaviour {
     //博士の現場をアナウンスするセリフ
     void GetNextText()
     {
-        m_currentLine = _nowtext;
+        //m_currentLine = _nowtext;
         // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
-        currentText = m_Scenarios[m_currentLine];
+        currentText = m_Scenarios[_nowtext];
 
         // 想定表示時間と現在の時刻をキャッシュ
         timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
