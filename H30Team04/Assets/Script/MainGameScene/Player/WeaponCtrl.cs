@@ -69,12 +69,6 @@ public class WeaponCtrl : MonoBehaviour
         if (Input.GetAxis("CameraHorizontal") != 0 || Input.GetAxis("CameraVertical") != 0)
             IsSetup = true;
 
-        //移動入力
-        if (Input.GetAxis("Hor") != 0 || Input.GetAxis("Ver") != 0)
-            IsSetup = false;
-
-        Debug.Log(IsSetup);
-
         if (!laser.activeSelf) laser.SetActive(true);
         if (!UnlockManager.limit[UnlockState.snipe]) return;
         ChangeWeapon();
@@ -87,6 +81,7 @@ public class WeaponCtrl : MonoBehaviour
     void LateUpdate()
     {
         Shooting();
+        laser.SetActive(UnlockManager.limit[UnlockState.laserPointer]);
     }
 
     void ChangeWeapon()
@@ -150,6 +145,8 @@ public class WeaponCtrl : MonoBehaviour
 
         //レーザーの長さ
         if (!isLaserHit) laserLength = rayLength;
+
+
 
         if (IsSetup || Soldier.IsMove)
             LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);

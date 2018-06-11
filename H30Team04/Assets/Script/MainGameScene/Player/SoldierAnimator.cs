@@ -5,6 +5,8 @@ using UnityEngine;
 public class SoldierAnimator : MonoBehaviour
 {
     Animator animator;
+    AudioSource audio;
+    [SerializeField] AudioClip se;
 
     bool isStay = false;
     bool isFront = false;
@@ -15,6 +17,7 @@ public class SoldierAnimator : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
+        audio = gameObject.AddComponent<AudioSource>();
     }
 
     void Update()
@@ -30,11 +33,6 @@ public class SoldierAnimator : MonoBehaviour
         animator.SetBool("Stay", isStay);
         animator.SetBool("SetupBeacon", isSnipe);
         animator.SetBool("SetupSnipe", isBeacon);
-
-        //Debug.Log("Move::" + isMove);
-        //Debug.Log("Stay::" + isStay);
-        //Debug.Log("Beacon::" + isBeacon);
-        //Debug.Log("Snipe::" + isSnipe);
     }
 
     /// <summary> アニメーションの条件処理 </summary>
@@ -53,7 +51,7 @@ public class SoldierAnimator : MonoBehaviour
         else if (!WeaponCtrl.IsSetup)
         {
             isFront = false;
-            isStay = true;
+            isStay = WeaponCtrl.IsSetup;
             isBeacon = false;
             isSnipe = false;
         }
@@ -72,5 +70,11 @@ public class SoldierAnimator : MonoBehaviour
             isBeacon = false;
             isSnipe = true;
         }
+    }
+
+    /// <summary> アニメーションイベント用（歩くSE） </summary>
+    void Step()
+    {
+        audio.PlayOneShot(se);
     }
 }

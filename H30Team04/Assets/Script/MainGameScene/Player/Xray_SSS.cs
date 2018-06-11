@@ -179,6 +179,8 @@ public class Xray_SSS : MonoBehaviour
     /// </summary>
     void Show()
     {
+        XrayArrow.SetActive(UnlockManager.limit[UnlockState.xray]);
+
         //示す射影機の方向
         Vector3 direction = _selectXray.transform.Find("model").position - transform.position;
         ////矢印の始点
