@@ -33,6 +33,7 @@ public class GameTextController : MonoBehaviour {
     bool m_PhDface = false;
     /// </summary>
     bool m_scenarioi = false;
+    bool _delete = false;
 
     public bool IsCompleteDisplayText
     {
@@ -44,6 +45,7 @@ public class GameTextController : MonoBehaviour {
     {
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_crt.ScanLineTail = 0;
+        FailedText(0);
     }
 
 
@@ -58,10 +60,14 @@ public class GameTextController : MonoBehaviour {
             if (IsCompleteDisplayText)
             {
                 m_textEndtimer += Time.deltaTime;
-                if (m_textEndtimer > 5)
+                if (m_textEndtimer > 5 && _delete)
                 {
                     m_PhDface = false;
                     m_Scenarios[m_currentLine] = null;
+                }
+                else if (m_textEndtimer > 5)
+                {
+                    m_PhDface = false;
                 }
             }
         }
@@ -94,6 +100,7 @@ public class GameTextController : MonoBehaviour {
                 _nowtext = i;
                 m_PhDface = true;
                 m_scenarioi = true;
+                _delete = true;
             }
             else
             {
