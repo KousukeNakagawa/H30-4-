@@ -20,6 +20,7 @@ public class CameraManager : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         //開始演出終了時
         if (SEManager.IsEndSE)
         {

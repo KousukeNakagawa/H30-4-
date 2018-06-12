@@ -22,6 +22,7 @@ public class SEManager : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (dirX) SEMove_X();
         else SEMove_Z();
     }

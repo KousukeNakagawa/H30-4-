@@ -25,13 +25,13 @@ public class SniperBullet : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         //地面・ビルと衝突時、自身を消滅
-        if (collider.CompareTag("Field") || collider.CompareTag("Building")) Destroy(snipeBullet);
+        Destroy(snipeBullet);
     }
 
     private void OnCollisionEnter(Collision other)
     {
         //地面・ビルと衝突時、自身を消滅
-        if (other.collider.CompareTag("Field") || other.collider.CompareTag("Building")) Destroy(snipeBullet);
+        Destroy(snipeBullet);
     }
 
     /// <summary>
@@ -52,6 +52,7 @@ public class SniperBullet : MonoBehaviour
     public void Fire(Vector3 direction)
     {
         Start();
+        var speed = (Time.timeScale == 0) ? 0 : this.speed;
         rb.velocity = direction * speed;
     }
 

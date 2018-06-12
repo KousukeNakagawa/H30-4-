@@ -34,14 +34,11 @@ public class BeaconBullet : MonoBehaviour
         //プレイヤー・スナイパーらとの衝突は無視
         if (other.collider.CompareTag("Player") || other.collider.CompareTag("Sniper")) return;
 
-        //エネミーとミサイルに衝突時、自身を破壊する
-        else if (other.collider.CompareTag("BigEnemy") || other.collider.CompareTag("SmallEnemy") || other.collider.CompareTag("Missile")) Destroy(beacon);
-
         //ビル・地面に衝突時、くっつく
         else if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Cling(other);
 
-        audioSourse.PlayOneShot(SE);
-        transform.localScale *= 10;
+        //上記以外と衝突時、自身を破壊する
+        else Destroy(beacon);
     }
 
     /// <summary>
@@ -62,6 +59,7 @@ public class BeaconBullet : MonoBehaviour
     public void Fire(Vector3 direction)
     {
         Start();
+        var speed = (Time.timeScale == 0) ? 0 : this.speed;
         rb.velocity = direction * speed;
     }
 
@@ -79,6 +77,9 @@ public class BeaconBullet : MonoBehaviour
 
         //当たったオブジェクトの子になる
         transform.parent = other.transform;
+
+        audioSourse.PlayOneShot(SE);
+        transform.localScale *= 10;
     }
 
     /// <summary>

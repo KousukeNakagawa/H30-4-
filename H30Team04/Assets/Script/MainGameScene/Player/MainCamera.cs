@@ -50,17 +50,17 @@ public class MainCamera : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (!SEManager.IsEndSE) return;
 
         transform.position = player.transform.position - player.transform.forward * dir + Vector3.up * height;
     }
 
-    void LateUpdate()
-    {
-
-        //RotateCameraAngle();
-        //AutoCameraControl();
-    }
+    //void LateUpdate()
+    //{
+    //    //RotateCameraAngle();
+    //    //AutoCameraControl();
+    //}
 
     /// <summary>
     /// ＊壁抜け・床抜け防止

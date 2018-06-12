@@ -76,6 +76,7 @@ public class Xray_SSS : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         Debug.Log(_currentXray);
         //開始演出が終わらなければ動かない
         //if (!_playerBase.GetIsEndSE()) return;

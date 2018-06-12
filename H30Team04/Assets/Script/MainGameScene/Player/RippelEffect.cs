@@ -7,6 +7,7 @@ public class RippelEffect : MonoBehaviour
 {
     [SerializeField, Range(0.1f, 0.5f)] float size = 0.1f;
 
+    ParticleSystem particle;
     ParticleSystemRenderer particleRenderer;
     Material material;
     Color color;
@@ -14,11 +15,19 @@ public class RippelEffect : MonoBehaviour
     void Start()
     {
         material = GetComponent<Renderer>().material;
+        particle = GetComponent<ParticleSystem>();
         particleRenderer = GetComponent<ParticleSystemRenderer>();
     }
 
     void Update()
     {
+        if (Time.timeScale == 0)
+        {
+            particle.Stop();
+            return;
+        }
+        else particle.Play();
+
         ColorChange();
         SizeChange();
     }

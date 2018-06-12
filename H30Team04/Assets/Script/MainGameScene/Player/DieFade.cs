@@ -16,6 +16,7 @@ public class DieFade : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
         ////フェード処理
         //if (Soldier.IsDead) fade.FadeOut();
         //else fade.FadeIn();

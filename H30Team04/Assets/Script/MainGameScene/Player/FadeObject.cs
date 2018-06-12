@@ -62,6 +62,7 @@ public class FadeObject : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         //自由色の登録・更新
         rbg = new float[3] { R, B, G };
 

@@ -68,6 +68,7 @@ public class Soldier : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (!SEManager.IsEndSE) return;
 
         GetInput();

@@ -67,6 +67,7 @@ public class WeaponCtrl : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (!UnlockManager.limit[UnlockState.move]) return;
 
         //回転入力
