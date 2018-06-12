@@ -1154,10 +1154,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af0bd1693d8a96545a85cfa6d3d378da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
+  wheelManager: {fileID: 0}
+  sniper: {fileID: 0}
+  driver: {fileID: 0}
+  endSEPoint: {fileID: 0}
   speed: 2
   power: 20
   rotate: 1.5
   driftRotate: 3
+  brake_power: 5
   residue: 3
 --- !u!120 &120900684062871550
 LineRenderer:

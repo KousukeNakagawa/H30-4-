@@ -198,7 +198,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfbfab3f5026b5549b0110e5881d75ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soldier: {fileID: 0}
   alphaSpeed: 0.01
   limitAlpha: 1
 --- !u!114 &114748605819445748
@@ -212,13 +211,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e1dabce6e1402114e8c7ce186a9c8209, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  recoverySpeed: 3
-  _rotateSpeed: 100
-  aimRotateSpeed: 20
-  maxAngle: 80
-  minAngle: -25
-  hideAngle: 35
-  inverted: 1
+  dir: 2
+  height: 1.5
 --- !u!124 &124414282698872302
 Behaviour:
   m_ObjectHideFlags: 1
