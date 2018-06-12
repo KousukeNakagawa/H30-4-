@@ -28,18 +28,17 @@ public class AttackPlayer : MonoBehaviour {
 
     private void Awake()
     {
-        weekPoints = GameObject.FindGameObjectsWithTag("WeekPoint");
-        target = GameObject.Instantiate(targetPrefab).transform;
-        target.position = weekPoints[selectNum].transform.position;
-        m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
-        transform.LookAt(target);
-        m_gm = m_gamemanager.GetComponent<GameManager>();
+        
         
     }
 
     // Update is called once per frame
     void Update () {
 
+        if(target == null)
+        {
+            SetData();
+        }
         if (m_gm.AttackStateNow() && !is_shot)
         {
             if (Input.GetButtonDown("Select"))
@@ -66,6 +65,16 @@ public class AttackPlayer : MonoBehaviour {
         }
     }
 
+    private void SetData()
+    {
+        weekPoints = GameObject.FindGameObjectsWithTag("WeekPoint");
+        target = GameObject.Instantiate(targetPrefab).transform;
+        target.position = weekPoints[selectNum].transform.position;
+        m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
+        //transform.LookAt(target);
+        m_gm = m_gamemanager.GetComponent<GameManager>();
+    }
+
     public string WeekName
     {
         get { return m_weekText; }
@@ -83,9 +92,12 @@ public class AttackPlayer : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-
-        Fade.ColorChenge(Color.white);
-        Fade.FadeOut();
+        if(other.tag == "Missile")
+        {
+            Fade.ColorChenge(Color.white);
+            Fade.FadeOut();
+        }
+        
     }
 
 

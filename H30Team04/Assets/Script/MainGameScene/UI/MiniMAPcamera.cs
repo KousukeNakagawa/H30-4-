@@ -23,6 +23,8 @@ public class MiniMAPcamera : MonoBehaviour
     Rect _rect = new Rect(0, 0, 1, 1);
     public bool _pose = false;
 
+    public GameManager gm;
+
     // Use this for initialization
     void Start()
     {
@@ -32,6 +34,14 @@ public class MiniMAPcamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(gm.NowState() == GameManager.PhaseState.switchState)
+        {
+            m_Map.SetActive(false);
+            m_Minimap.SetActive(false);
+            this.enabled = false;
+            return;
+        }
+
         if (!_pose)
         {
             m_Map.SetActive(false);

@@ -18,7 +18,7 @@ public class BeaconBullet : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        audioSourse = gameObject.AddComponent<AudioSource>();
+        audioSourse = GetComponent<AudioSource>();
         startPos = rb.position;
         IsChange = false;
     }

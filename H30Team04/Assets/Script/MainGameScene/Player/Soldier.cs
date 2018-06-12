@@ -41,6 +41,7 @@ public class Soldier : MonoBehaviour
     //リスポーン用
     Vector3 startPosition;
     Quaternion startRotation;
+    Quaternion startCameraRotation;
 
     //死亡判定
     //bool _isDead = false;
@@ -58,6 +59,10 @@ public class Soldier : MonoBehaviour
         IsDead = false;
         IsStop = false;
 
+        startPosition = transform.position;
+        startRotation = transform.rotation;
+        startCameraRotation = playerCamera.transform.rotation;
+
         UnlockManager.AllSet(isUnlock);
     }
 
@@ -71,9 +76,9 @@ public class Soldier : MonoBehaviour
         if (Annihilation()) Death(); //３回やられたら死亡
 
         //START:初期位置へワープ（デバック用）
-        if (Input.GetButtonDown("Restart")) IsDead = true;
+        //if (Input.GetButtonDown("Restart")) IsDead = true;
 
-        Respawn();
+        //Respawn();
     }
 
     void FixedUpdate()
@@ -155,24 +160,29 @@ public class Soldier : MonoBehaviour
     /// <summary> リスポーン </summary>
     public void Respawn()
     {
-        if (Annihilation()) return;
-
-        if (IsDead)
-        {
+        //if (Annihilation()) return;
+        //if (IsDead)
+        //{
             //移動を殺す
             rb.velocity = Vector3.zero;
+        residue--; //死亡可能回数の減少
 
-            if (Input.GetButtonDown("Select"))
-            {
-                //初期位置へ
-                transform.position = startPosition;
-                transform.rotation = startRotation;
-                //ビッグエネミーを向く
-                transform.LookAt(BigEnemyScripts.mTransform);
-                residue--; //死亡可能回数の減少
+        if (Annihilation()) return;
+        GameTextController.TextStart(3);
+
+        //if (Input.GetButtonDown("Select"))
+        //{
+        //初期位置へ
+        transform.position = startPosition;
+        transform.rotation = startRotation;
+        playerCamera.transform.rotation = startCameraRotation;
+        //ビッグエネミーを向く
+        //Vector3 targetPos = BigEnemyScripts.mTransform.position;
+        //targetPos.y = transform.position.y;
+        //        transform.LookAt(targetPos);
                 IsDead = false;
-            }
-        }
+           // }
+        //}
     }
 
     /// <summary> 残機０で死亡時 </summary>
@@ -181,11 +191,17 @@ public class Soldier : MonoBehaviour
         return (residue <= 0) ? true : false;
     }
 
+    public int GetResidue()
+    {
+        return residue;
+    }
+
     /// <summary> 死亡処理 </summary>
     void Death()
     {
         //カメラは破壊しない
         Camera.main.transform.parent = null;
-        Destroy(GameObject.FindGameObjectWithTag("Player"));
+        //Destroy(GameObject.FindGameObjectWithTag("Player"));
+        gameObject.SetActive(false);
     }
 }

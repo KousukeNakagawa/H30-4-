@@ -38,6 +38,7 @@ public class DroneCreate : MonoBehaviour
     public void DroneSet()
     {  //ドローンを生成する
         if (drones.Count != 0 || droneCreateTime > 0) return;
+        GameTextController.TextStart(6);
         for (int i = 0; i < droneCount; i++)
         {
             drones.Add(Instantiate(dronePrefab, BigEnemyScripts.droneInstantiatePos.position, Quaternion.identity));

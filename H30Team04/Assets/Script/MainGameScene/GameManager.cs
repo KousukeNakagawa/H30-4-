@@ -39,7 +39,6 @@ public class GameManager : MonoBehaviour {
     GameObject m_enemy;
     CameraController m_CC;
     public GameObject minimap;
-    PlayerBase m_PB;
     private int weeknumber; //敵の弱点の数字
     [SerializeField]
     private int weekcount = 0; //弱点の数
@@ -50,9 +49,18 @@ public class GameManager : MonoBehaviour {
 
 
     private PhaseState phaseState;
-    [SerializeField] 
-    bool test = false;  //必ず消し去るbool型
+
+    bool isxrayzero = false; //射影機をすべて使い終わったか
     public int testnum = 0;
+
+    [SerializeField] private AudioSource[] bgms;
+    private int nowBGM = 0;
+
+    [SerializeField] private GameObject[] lifeIcons;
+    private int oldLife;
+    private Soldier playerScript;
+
+    [SerializeField] private float endXpos = 370;
 
     // Use this for initialization
     void Start () {
@@ -62,12 +70,14 @@ public class GameManager : MonoBehaviour {
         m_player = GameObject.FindGameObjectWithTag("Player");
         m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
         //m_CC = m_camera.transform.parent.parent.GetComponent<CameraController>();
-        m_PB = m_player.GetComponent<PlayerBase>();
         weeknumber = Random.Range(0, weekcount);
         weeknumber = 0; //テスト用
         weekDatas = new List<WeekPointData>();
         m_GameClear.enabled = false;
         m_GameOver.enabled = false;
+        playerScript = m_player.GetComponent<Soldier>();
+        oldLife = playerScript.GetResidue();
+        GameTextController.TextStart(0);
     }
 	
 	// Update is called once per frame
@@ -85,10 +95,21 @@ public class GameManager : MonoBehaviour {
     }
 
 
-        private void PhotoState()
+    private void PhotoState()
     {
-       // GameClear();
+        // GameClear();
         //GameOver();
+        if (oldLife != playerScript.GetResidue())
+        {
+            oldLife = playerScript.GetResidue();
+            lifeIcons[oldLife].SetActive(false);
+        }
+        if (playerScript.Annihilation())
+        {
+            Fade.FadeOut();
+            ChengeWait();
+            
+        }
         PhaseTransition();
     }
 
@@ -98,6 +119,11 @@ public class GameManager : MonoBehaviour {
         //{
         //    m_player.SetActive(false);
         //}
+        if (!Fade.IsFadeOutOrIn() && !Fade.IsFadeEnd())
+        {
+            SetBGM(1);
+            GameTextController.TextStart(8);
+        }
         if (m_switchCam == null)
         {
             //m_attackP.transform.Find("Camera").GetComponent<AudioListener>().enabled = true;
@@ -107,17 +133,29 @@ public class GameManager : MonoBehaviour {
 
     private void PhotoCheckState()
     {
-        if (Input.GetKeyDown(KeyCode.B) || Input.GetButtonDown("WeaponChange"))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("WeaponChange"))
         {
+            GameTextController.TextStart(9);
             phaseState = PhaseState.attackState;
+        }
+        if(BigEnemyScripts.mTransform.position.x >= endXpos)
+        {
+            ChengeWait();
+            BigEnemyScripts.shootingFailure.FailureAction();
         }
     }
 
     public void AttackState()
     {
-        if (Input.GetKeyDown(KeyCode.B) || Input.GetButtonDown("WeaponChange"))
+        if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("WeaponChange"))
         {
             phaseState = PhaseState.PhotoCheckState;
+        }
+        if (BigEnemyScripts.mTransform.position.x >= endXpos)
+        {
+            ChengeWait();
+            BigEnemyScripts.shootingFailure.FailureAction();
+            GameTextController.TextStart(11);
         }
     }
 
@@ -143,10 +181,12 @@ public class GameManager : MonoBehaviour {
     public void GameClear()
     {
         //m_textcontroller.SetNextText(0, 0, true);
+        GameTextController.TextStart(10);
         m_GameClear.enabled = true;
         Time.timeScale = 1;
         //Destroy(m_enemy);
         m_enemy.SetActive(false);
+        SetBGM(2);
         //Time.timeScale = 0;
         //Debug.Log("ゲームクリア");
         gameend = true;
@@ -156,6 +196,7 @@ public class GameManager : MonoBehaviour {
     {
         //m_textcontroller.SetNextText(0, 0, true);
         m_GameOver.enabled = true;
+        SetBGM(3);
         //Time.timeScale = 0;
         // Debug.Log("ゲームオーバー");
         gameend = true;
@@ -163,22 +204,31 @@ public class GameManager : MonoBehaviour {
 
     void PhaseTransition()
     {
-        if (test||BigEnemyScripts.mTransform.position.x > (mapXsize - 1) * MainStageDate.TroutLengthX)
+        if (isxrayzero||BigEnemyScripts.mTransform.position.x > (mapXsize - 0) * MainStageDate.TroutLengthX)
         {
-            m_player.transform.position = m_switchCam.transform.position;
+            GameTextController.TextStart(7);
+            m_player.SetActive(false);
             //Camera.main.gameObject.SetActive(false);
             m_camera.SetActive(false);
             PlDes();
             m_attackP.SetActive(true);
             m_attackP.transform.Find("Camera").GetComponent<AudioListener>().enabled = false;
             minimap.SetActive(false);
+            lifeIcons[0].transform.parent.gameObject.SetActive(false);
             m_switchCam.SetActive(true);
+            UnlockManager.AllSet(false);
             phaseState = PhaseState.switchState;
         }
     }
     public void ChengeWait()
     {
+        BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         phaseState = PhaseState.waitingState;
+    }
+
+    public void XrayZero()
+    {
+        isxrayzero = true;
     }
 
     /// <summary>弱点データの保存</summary>
@@ -265,10 +315,26 @@ public class GameManager : MonoBehaviour {
 
     public void Damege(int i)
     {
-        if (weeknumber == i) {
+        if (weeknumber == i)
+        {
             BigEnemyScripts.breakEffectManager.ChangeType();
             //m_attackP.GetComponent<AttackPlayer>().ClearCamera();
         }
-        else BigEnemyScripts.shootingFailure.FailureAction();
+        else
+        {
+            BigEnemyScripts.shootingFailure.FailureAction();
+            GameTextController.TextStart(11);
+        }
+    }
+
+    private void SetBGM(int n)
+    {
+        if (nowBGM == n) return;
+        foreach(var bgm in bgms)
+        {
+            bgm.enabled = false;
+        }
+        bgms[n].enabled = true;
+        nowBGM = n;
     }
 }

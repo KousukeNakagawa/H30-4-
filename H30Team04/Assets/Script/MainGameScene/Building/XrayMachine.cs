@@ -129,7 +129,12 @@ public class XrayMachine : MonoBehaviour {
             out builhit, m_XrayCamera.farClipPlane, builLayerMask);
 
         //なかったら終了
-        if (!hit) return;
+        if (!hit)
+        {
+            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+            GameTextController.FailedText(12);
+            return;
+        }
 
         //弱点が写っているかどうか
         RaycastHit[] weekpoints
@@ -138,9 +143,19 @@ public class XrayMachine : MonoBehaviour {
             m_XrayCameraObj.transform.forward, Quaternion.identity,m_XrayCamera.farClipPlane, weekLayerMask);
 
         //写っていなかったら終了
-        if (weekpoints.Length < 1) return;
+        if (weekpoints.Length < 1)
+        {
+            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+            GameTextController.FailedText(13);
+            return;
+        }
         //ビルの奥にあっても終了
-        if (builhit.distance < weekpoints[0].distance) return;
+        if (builhit.distance < weekpoints[0].distance)
+        {
+            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+            GameTextController.FailedText(13);
+            return;
+        }
 
         int minusPoint = 0;
 
@@ -150,7 +165,12 @@ public class XrayMachine : MonoBehaviour {
         else { minusPoint = 5; }
 
         //離れすぎの場合、写ってる弱点の数を減らす。0個以下になったら終了
-        if (weekpoints.Length - minusPoint <= 0) return;
+        if (weekpoints.Length - minusPoint <= 0)
+        {
+            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+            GameTextController.FailedText(14);
+            return;
+        }
 
         //List<int> weeknums = new List<int>();
         for(int i = 0;i < weekpoints.Length; i++)
@@ -183,31 +203,36 @@ public class XrayMachine : MonoBehaviour {
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 3.0f);
         }
 
-        GameObject boneObj = weekpoints[0].transform.root.Find("WeekPoints").gameObject;
+        //骨複製、骨がアニメーションする場合はどうしようかな
+        GameObject boneObj = weekpoints[0].transform.parent.parent.gameObject;//.root.Find("WeekPoints").gameObject;
         GameObject bone = Instantiate(boneObj);
         bone.transform.parent = boneObj.transform.parent;
         bone.transform.position = boneObj.transform.position;
         boneObj.transform.position -= Vector3.up * underPos;
         boneObj.transform.tag = "Untagged";
         boneObj.transform.parent = transform.parent;
-        //foreach(Transform child in bone.transform)
-        //{
-        //    if(child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
-        //    child.tag = "Untagged";
-        //}
+        foreach (Transform child in weekpoints[0].transform.parent)
+        {
+            //if (child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
+            child.tag = "Untagged";
+        }
 
         //weeknums.Sort();
         //if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
 
 
-        //レイが当たったビルの幕に撮ったやつを出す(2つついてるやつどうしよっか)
-        builhit.transform.Find("Maku").Find("XrayMaku").gameObject.SetActive(true);
+        //レイが当たったビルの幕に撮ったやつを出す
+        builhit.transform.parent.Find("XrayMaku").gameObject.SetActive(true);
     }
 
     private void SendForManager(List<int> weeknums)
     {
         weeknums.Sort();
-        if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
+        if (gameManager != null)
+        {
+            gameManager.SetWeekPhoto(texnumber, weeknums);
+            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+        }
     }
 
 
@@ -218,6 +243,7 @@ public class XrayMachine : MonoBehaviour {
         {
             Shooting();
             m_XrayCameraObj.transform.position -= Vector3.up * underPos;
+            m_XrayCameraObj.transform.parent = transform.parent;
             xrayOK = false;
             transform.tag = "XlineEnd";
             GameObject flash = Instantiate(flashPrefab);
@@ -243,7 +269,7 @@ public class XrayMachine : MonoBehaviour {
             if (xrayOK) //撮影してない場合
             {
             }
-            else if (m_XrayCameraObj.activeSelf) //撮影している場合
+            else if (saveTime > 0) //撮影している場合
             {
                 int minus = (int)saveTime / 2;
                 if (weekPoints.Count - minus > 0)
@@ -261,7 +287,6 @@ public class XrayMachine : MonoBehaviour {
                     }
                     SendForManager(weeknums);
                 }
-                m_XrayCameraObj.transform.parent = transform.parent;
                 //m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
             }
 

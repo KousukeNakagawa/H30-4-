@@ -27,9 +27,11 @@ public class RoketBullet : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(other.name);
         if (other.tag == "BigEnemy")
         {
             transform.parent.GetComponent<AttackPlayer>().Damege();
+            Destroy(other.gameObject);
             Destroy(gameObject);
         }
     }

@@ -29,7 +29,10 @@ public class ShootingFailure : MonoBehaviour
         if (launchCount > 0)
         {
             launchCount -= Time.deltaTime;
-            if (launchCount <= 0) launchCount = 0;
+            if (launchCount <= 0)
+            {
+                launchCount = 0;
+            }
         }
         if (launchCount == 0)
         {
@@ -48,6 +51,7 @@ public class ShootingFailure : MonoBehaviour
 
         launchCount = launchTime;
         isFailure = true;
+        BigEnemyScripts.shootingPhaseMove.isShooting = false;
     }
 
     private void Launch()

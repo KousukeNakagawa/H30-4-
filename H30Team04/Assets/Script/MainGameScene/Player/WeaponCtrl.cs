@@ -52,6 +52,7 @@ public class WeaponCtrl : MonoBehaviour
         IsSetup = false;
         line = laser.GetComponent<LineRenderer>();
         audioSourse = gameObject.AddComponent<AudioSource>();
+        audioSourse.volume = 0.2f;
 
         for (int i = 0; i < SE.Length; i++)
             playerSE.Add(audios + i, SE[0 + i]);
@@ -99,7 +100,7 @@ public class WeaponCtrl : MonoBehaviour
     /// <summary> レーザーポインターの描画 </summary>
     void Shooting()
     {
-        if (!UnlockManager.limit[UnlockState.beacon]) return;
+        if (!UnlockManager.limit[UnlockState.beacon] || Camera.main == null) return;
 
         var muzzle = (WeaponBeacon) ?
             beaconGun.transform.Find("BeaconMuzzle") : snipeGun.transform.Find("SnipeMuzzle");
@@ -193,6 +194,7 @@ public class WeaponCtrl : MonoBehaviour
         //装備している武器で射撃
         if (WeaponBeacon)
         {
+            GameTextController.TextStart(1);
             weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
             audioSourse.PlayOneShot(playerSE[SEs.fireBeacon]);
         }

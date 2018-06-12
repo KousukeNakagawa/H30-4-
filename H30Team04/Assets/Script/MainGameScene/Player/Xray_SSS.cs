@@ -142,6 +142,7 @@ public class Xray_SSS : MonoBehaviour
         //示す射影機の切替
         if (Input.GetButtonDown("Select"))
         {
+            GameTextController.TextStart(5);
             _isNear = !_isNear;
         }
 
@@ -215,6 +216,7 @@ public class Xray_SSS : MonoBehaviour
     {
         if (Input.GetButtonDown("Shutter")) //選択中の射影機の起動
         {
+            GameTextController.TextStart(4);
             _selectXray.GetComponent<XrayMachine>().XrayPlay();
         }
     }

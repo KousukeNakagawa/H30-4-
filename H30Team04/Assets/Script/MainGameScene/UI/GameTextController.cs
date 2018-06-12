@@ -24,16 +24,17 @@ public class GameTextController : MonoBehaviour {
     private float timeUntilDisplay = 0;     // 表示にかかる時間
     private float timeElapsed = 1;          // 文字列の表示を開始した時間
     private int lastUpdateCharacter = -1;		// 表示中の文
-    private int _nowtext=-1;
+    private static int _nowtext=-1;
 
     int m_currentLine = 0;　　// 現在の行番号
     float m_time = 0;
     float m_textEndtimer = 0;
 
-    bool m_PhDface = false;
+    static bool m_PhDface = false;
     /// </summary>
-    bool m_scenarioi = false;
-    bool _delete = false;
+    static bool m_scenarioi = false;
+    static  bool _delete = false;
+    private static string[] sScenarios;
 
     public bool IsCompleteDisplayText
     {
@@ -43,9 +44,10 @@ public class GameTextController : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        sScenarios = m_Scenarios;
         m_crt = m_PhDcamera.GetComponent<CRT>();
         m_crt.ScanLineTail = 0;
-        FailedText(0);
+        //FailedText(0);
     }
 
 
@@ -63,7 +65,7 @@ public class GameTextController : MonoBehaviour {
                 if (m_textEndtimer > 5 && _delete)
                 {
                     m_PhDface = false;
-                    m_Scenarios[_nowtext] = null;
+                    sScenarios[_nowtext] = null;
                     _delete = false;
                 }
                 else if (m_textEndtimer > 5)
@@ -92,9 +94,9 @@ public class GameTextController : MonoBehaviour {
     /// 特定のアクションが行われたときのはさせのセリフ処理
     /// </summary>
     /// <param name="i"></param>
-    public void TextStart(int i)
+    public static void TextStart(int i)
     {
-        if (m_Scenarios[i] != null)
+        if (sScenarios[i] != null)
         {
             if (!m_PhDface)
             {
@@ -119,7 +121,7 @@ public class GameTextController : MonoBehaviour {
     /// 撮影に失敗したときの博士のセリフ
     /// </summary>
     /// <param name="i"></param>
-    public void FailedText(int i)
+    public static void FailedText(int i)
     {
 
         if (!m_PhDface)
@@ -140,7 +142,7 @@ public class GameTextController : MonoBehaviour {
     {
         //m_currentLine = _nowtext;
         // 現在の行のテキストをuiTextに流し込み、現在の行番号をランダムで追加する
-        currentText = m_Scenarios[_nowtext];
+        currentText = sScenarios[_nowtext];
 
         // 想定表示時間と現在の時刻をキャッシュ
         timeUntilDisplay = currentText.Length * intervalForCharacterDisplay;
