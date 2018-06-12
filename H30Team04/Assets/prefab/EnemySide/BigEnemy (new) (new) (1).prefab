@@ -524,6 +524,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4223190218508802}
+  - component: {fileID: 95244016575051964}
   m_Layer: 15
   m_Name: robot
   m_TagString: Untagged
@@ -2229,7 +2230,6 @@ GameObject:
   - component: {fileID: 65884799669873594}
   - component: {fileID: 114422447832552006}
   - component: {fileID: 114981767031496982}
-  - component: {fileID: 114787057323557058}
   m_Layer: 15
   m_Name: SearchScope
   m_TagString: Untagged
@@ -2476,7 +2476,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1159088452728322}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.6, y: 0, z: 106.2}
+  m_LocalPosition: {x: 31.9, y: 0, z: 106.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4483357847279574}
@@ -7241,6 +7241,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &95244016575051964
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1250848291462428}
+  m_Enabled: 1
+  m_Avatar: {fileID: 9000000, guid: 136136a51b35b9a4aba2bcbb7cd1c9a5, type: 3}
+  m_Controller: {fileID: 9100000, guid: da45b970601db39479e1e0b2dc344f77, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!95 &95437020408522458
 Animator:
   serializedVersion: 3
@@ -7370,6 +7387,7 @@ MonoBehaviour:
   isWalk: 0
   moveSpeed: 0
   isStep: 0
+  born_Animator: {fileID: 95244016575051964}
 --- !u!114 &114330085309653090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -7515,18 +7533,6 @@ MonoBehaviour:
   feets:
   - {fileID: 1625964891308424}
   - {fileID: 1342269452927244}
---- !u!114 &114787057323557058
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1904907241188144}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa520801df5857a4a98dc2f0bb5e82c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  searchRange: 30
 --- !u!114 &114838973746979730
 MonoBehaviour:
   m_ObjectHideFlags: 1
