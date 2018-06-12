@@ -5,18 +5,35 @@ using UnityEngine;
 /// <summary> レーザーポインターの命中エフェクト </summary>
 public class RippelEffect : MonoBehaviour
 {
+    [SerializeField, Range(0.1f, 0.5f)] float size = 0.1f;
+
+    ParticleSystemRenderer particleRenderer;
     Material material;
     Color color;
 
     void Start()
     {
         material = GetComponent<Renderer>().material;
+        particleRenderer = GetComponent<ParticleSystemRenderer>();
     }
 
     void Update()
     {
-        //装備中の武器によって色を変える
+        ColorChange();
+        SizeChange();
+    }
+
+    /// <summary> 装備中の武器によって色を変える </summary>
+    void ColorChange()
+    {
         color = (WeaponCtrl.WeaponBeacon) ? Color.blue : Color.red;
         material.SetColor("_TintColor", color);
+    }
+
+    /// <summary> 地面を映すとき小さくなる </summary>
+    void SizeChange()
+    {
+        var size = (WeaponCtrl.IsFloorHit) ? this.size : 1;
+        particleRenderer.maxParticleSize = size;
     }
 }

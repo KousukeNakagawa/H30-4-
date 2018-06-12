@@ -189,6 +189,7 @@ public class TutorialManager : MonoBehaviour
         {
             UnlockManager.Unlock(UnlockState.move);
             UnlockManager.Unlock(UnlockState.beacon);
+            UnlockManager.Unlock(UnlockState.laserPointer);
 
             BeaconPhase();
         }
@@ -196,6 +197,7 @@ public class TutorialManager : MonoBehaviour
         if (textCtrl.CurrebtLine == stopNum[1])
         {
             UnlockManager.Unlock(UnlockState.move);
+            UnlockManager.Unlock(UnlockState.laserPointer);
             UnlockManager.Unlock(UnlockState.beacon);
             UnlockManager.Unlock(UnlockState.snipe);
             SnipePhase();

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SniperBullet : MonoBehaviour
 {
     [SerializeField] GameObject snipeBullet;
-    [SerializeField] [Range(1, 300)] float speed = 100; //弾速
+    [SerializeField] [Range(0, 300)] float speed = 100; //弾速
     [SerializeField] [Range(5, 300)] static float rangeDistance = 100; //射程距離
 
     Rigidbody rb;

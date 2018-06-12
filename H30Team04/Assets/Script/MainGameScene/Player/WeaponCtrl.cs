@@ -13,7 +13,7 @@ public class WeaponCtrl : MonoBehaviour
     LineRenderer line;
 
     //レーザーポインターの幅
-    [SerializeField, Range(0.1f, 1)] float laserWide = 0.1f;
+    [SerializeField, Range(0.01f, 0.1f)] float laserWide = 0.1f;
 
     //着弾点エフェクトを浮かす値
     [SerializeField, Range(0, 3)] float effectPos = 0.1f;
@@ -32,6 +32,9 @@ public class WeaponCtrl : MonoBehaviour
 
     /// <summary> 武器を構えているか </summary>
     public static bool IsSetup { get; private set; }
+
+    /// <summary> 地面に向かっているか </summary>
+    public static bool IsFloorHit { get; private set; }
 
     AudioSource audioSourse;
     [SerializeField]
@@ -147,8 +150,6 @@ public class WeaponCtrl : MonoBehaviour
         //レーザーの長さ
         if (!isLaserHit) laserLength = rayLength;
 
-
-
         if (IsSetup || Soldier.IsMove)
             LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);
         else
@@ -171,6 +172,9 @@ public class WeaponCtrl : MonoBehaviour
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
+
+            if (hit.collider.CompareTag("Field")) IsFloorHit = true;
+            else IsFloorHit = false;
         }
         else
         {
@@ -189,12 +193,12 @@ public class WeaponCtrl : MonoBehaviour
         var weapon = (WeaponBeacon) ? Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
         //発射位置
-        weapon.transform.position = muzzle.position + muzzle.forward;
+        weapon.transform.position = muzzle.position - Vector3.up * 0.2f + Vector3.forward * 0.2f;
 
         //装備している武器で射撃
         if (WeaponBeacon)
         {
-            GameTextController.TextStart(1);
+            //GameTextController.TextStart(1);
             weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
             audioSourse.PlayOneShot(playerSE[SEs.fireBeacon]);
         }

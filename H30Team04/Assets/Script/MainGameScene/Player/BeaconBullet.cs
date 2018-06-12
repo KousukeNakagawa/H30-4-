@@ -5,7 +5,7 @@ using UnityEngine;
 public class BeaconBullet : MonoBehaviour
 {
     [SerializeField] GameObject beacon;
-    [SerializeField] [Range(1, 300)] float speed = 50; //弾速
+    [SerializeField] [Range(0, 300)] float speed = 50; //弾速
     [SerializeField] [Range(5, 100)] static float rangeDistance = 50; //射程距離
     [SerializeField, Range(10, 300)] float extinctionTime = 10; //消滅時間（秒）
     AudioSource audioSourse;
@@ -41,6 +41,7 @@ public class BeaconBullet : MonoBehaviour
         else if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Cling(other);
 
         audioSourse.PlayOneShot(SE);
+        transform.localScale *= 10;
     }
 
     /// <summary>
