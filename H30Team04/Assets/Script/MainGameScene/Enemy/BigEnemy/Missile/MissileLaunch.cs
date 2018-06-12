@@ -17,20 +17,14 @@ public class MissileLaunch : MonoBehaviour
     [Tooltip("初期角度の設定")] public Vector3[] instantiateAngles;
     [Tooltip("ミサイルを撃つ場所")] public Transform[] missileLaunchPos;
     [Tooltip("複数ミサイルを出す場合の間隔")] public float launchCount = 0.5f;
-    // Use this for initialization
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isLaunch) return;
-        if (launchTime < Time.time)
+        if (!isLaunch || Time.timeScale == 0) return;
+        if (launchTime < Time.time && !BigEnemyScripts.shootingPhaseMove.isShooting)
         {  //ミサイルを発射する
             Launch();
-            //BigEnemyScripts.missileGroupManager.MissileSet();
-            //isLaunch = false;
         }
     }
 
@@ -51,7 +45,7 @@ public class MissileLaunch : MonoBehaviour
     {
         for (int i = 0; i < missileCount; i++)
         {
-            yield return null;
+            yield return new WaitForSeconds(Time.deltaTime);
             BigEnemyScripts.bigEnemyAnimatorManager.Launch();
             if (!BigEnemyScripts.shootingPhaseMove.isShooting)
             {

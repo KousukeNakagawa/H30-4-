@@ -15,13 +15,10 @@ public class BigEnemyAudioManager : MonoBehaviour {
 
     private bool previousIsStep;
 
-	// Use this for initialization
-	void Awake () {
-    }
-	
 	// Update is called once per frame
 	void Update () {
-		if (BigEnemyScripts.bigEnemyAnimatorManager.isStep && !previousIsStep)
+        if (Time.timeScale == 0) return;
+        if (BigEnemyScripts.bigEnemyAnimatorManager.isStep && !previousIsStep)
         {
             Play(BigEnemyAudioType.Step);
         }
@@ -43,6 +40,6 @@ public class BigEnemyAudioManager : MonoBehaviour {
     public void Play(BigEnemyAudioType type,Transform target = null)
     {
         Transform t = target ?? BigEnemyScripts.mTransform;
-        AudioSource.PlayClipAtPoint(audios[(int)type], t.position);
+        AudioSource.PlayClipAtPoint(audios[(int)type], t.position,3.0f);
     }
 }

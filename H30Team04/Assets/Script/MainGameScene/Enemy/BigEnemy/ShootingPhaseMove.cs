@@ -26,7 +26,7 @@ public class ShootingPhaseMove : MonoBehaviour
         //{
         //    ShootingPhaseSet();
         //}
-        if (!isShooting) return;
+        if (!isShooting || Time.timeScale == 0) return;
         transform.Translate(moveSpeed * Time.deltaTime, 0, 0, Space.Self);
 
     }
@@ -59,6 +59,6 @@ public class ShootingPhaseMove : MonoBehaviour
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
-        //BigEnemyScripts.shootingFailure.FailureAction();
+        BigEnemyScripts.shootingFailure.FailureAction();
     }
 }

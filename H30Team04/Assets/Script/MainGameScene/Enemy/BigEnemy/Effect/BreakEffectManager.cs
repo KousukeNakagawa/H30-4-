@@ -34,7 +34,7 @@ public class BreakEffectManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (countTime == 0) return;
+        if (countTime == 0 || Time.timeScale == 0) return;
         if (countTime < Time.time)
         {
             effectType++;

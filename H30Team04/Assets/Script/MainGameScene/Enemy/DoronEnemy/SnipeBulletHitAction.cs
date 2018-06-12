@@ -20,6 +20,7 @@ public class SnipeBulletHitAction : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (!moveScript.enabled)
         {  //墜落処理
             m_rigid.AddTorque(crashVel, ForceMode.Force);

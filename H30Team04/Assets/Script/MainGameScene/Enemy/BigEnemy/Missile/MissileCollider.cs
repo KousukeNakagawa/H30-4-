@@ -19,6 +19,7 @@ public class MissileCollider : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (transform.position.y < -2)
         {  //地面より下に入ったら強制的に消す
             Destroy(transform.parent.gameObject);
@@ -29,25 +30,39 @@ public class MissileCollider : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Field") || other.CompareTag("SnipeBullet") 
+        if (other.CompareTag("Field")
             || other.CompareTag("Building") || other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))
         {
-            //ミサイル破壊
-            Destroy(transform.parent.gameObject);
-            Vector3 exPos = explosionPos.position;
-            if (other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))  //1発だけカメラに当たるミサイルの場合
-            {
-                exPos = other.transform.position + new Vector3(-3f, -1f, 0);
-            }
-            //爆発追加
-            if (exPos == Vector3.zero) exPos = transform.position;
-            GameObject ex = Instantiate(explosion, exPos, Quaternion.identity);
-            Destroy(ex, 3.0f);
-            isHit = true;
+            HitDestroy(other);
         }
-        else if (other.CompareTag("Beacon")/* || other.tag.Contains("Xline")*/)
+        else if (other.CompareTag("Beacon"))
         {
             Destroy(other.gameObject);
+        }
+        HitCheck();
+    }
+
+    private void HitDestroy(Collider other)
+    {
+        //ミサイル破壊
+        Destroy(transform.parent.gameObject);
+        Vector3 exPos = explosionPos.position;
+        if (other.transform.Equals(BigEnemyScripts.shootingFailure.targetPos))  //1発だけカメラに当たるミサイルの場合
+        {
+            exPos = other.transform.position + new Vector3(-3f, -1f, 0);
+        }
+        //爆発追加
+        if (exPos == Vector3.zero) exPos = transform.position;
+        GameObject ex = Instantiate(explosion, exPos, Quaternion.identity);
+        Destroy(ex, 3.0f);
+        isHit = true;
+    }
+
+    void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("SnipeBullet"))
+        {
+            HitDestroy(other.collider);
         }
         HitCheck();
     }

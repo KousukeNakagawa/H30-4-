@@ -63,6 +63,7 @@ public class BigEnemyScripts : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         foreach (Transform child in transform)
         {
             if (localPoses.ContainsKey(child)) child.localPosition = localPoses[child];

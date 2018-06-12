@@ -29,19 +29,24 @@ public class MissileMove2 : MonoBehaviour
     [HideInInspector] public int velocity = 1;
     [SerializeField,Range(0.0f,1.0f)] private float initialRate = 0.05f;
 
-    // Use this for initialization
-    void Start()
+    void Awake()
     {
-        rigid = GetComponent<Rigidbody>();
         initialTime = Time.time + initialCount;
         targetPos = (targetPos == Vector3.zero) ? BigEnemyScripts.searchObject.targetPos : targetPos;
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
         primary = transform.rotation;
+    }
+
+    // Use this for initialization
+    void Start()
+    {
+        rigid = GetComponent<Rigidbody>();
         rigid.AddForce(transform.forward * velocity * riseSpeed * 0.5f, ForceMode.Impulse);
         GetComponent<AudioSource>().Play();
     }
     void Update()
     {  //状態の更新やカウンター処理などはこっちで行う
+        if (Time.timeScale == 0) return;
         switch (state)
         {
             case StateType.Initial:

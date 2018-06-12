@@ -14,6 +14,7 @@ public class BigEnemyMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (BigEnemyScripts.searchObject.isSearch)
         {  //探索範囲に標的が入った後、1回だけ行う
             Vector3 endDir = TurnAngleSet(BigEnemyScripts.searchObject.targetPos);

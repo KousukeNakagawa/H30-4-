@@ -15,6 +15,7 @@ public class BigEnemyEffectManager : MonoBehaviour
 
     void Update()
     {
+        if (Time.timeScale == 0) return;
         Direction dir = BigEnemyScripts.bigEnemyEffect.direction_;
         if (dir != previous && dir != Direction.None)
         {

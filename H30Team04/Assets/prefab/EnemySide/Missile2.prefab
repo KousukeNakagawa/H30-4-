@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 114548012756669556}
   - component: {fileID: 96838463941139900}
   - component: {fileID: 82299076966025140}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Missile2
   m_TagString: Missile
   m_Icon: {fileID: 0}
@@ -38,7 +38,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4295247820232658}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: ExplosionPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -57,7 +57,7 @@ GameObject:
   - component: {fileID: 136512309981200682}
   - component: {fileID: 23461102759336580}
   - component: {fileID: 114707329576432890}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Model
   m_TagString: Missile
   m_Icon: {fileID: 0}

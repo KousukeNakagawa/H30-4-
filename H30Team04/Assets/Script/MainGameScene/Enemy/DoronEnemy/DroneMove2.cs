@@ -27,6 +27,7 @@ public class DroneMove2 : MonoBehaviour
     [Tooltip("Xに進む分割数")] public int XFraction = 5;
     [Tooltip("ロボットへ戻るときの移動速度")] public float returnSpeed = 20.0f;
     [Tooltip("見つけた時の追尾時間")] public float searchFollowTime = 10.0f;
+    [Tooltip("見つけた時の追尾速度")] public float searchFollowSpeed = 3.5f;
     [HideInInspector] public Transform followObj = null;
     [Tooltip("ドローン出現時、上昇する速度"), SerializeField] private float flyUpSpeed = 1.0f;
     [SerializeField,Tooltip("上昇する距離")] private float upDistance = 10.0f;
@@ -77,7 +78,7 @@ public class DroneMove2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //print(droneState);
+        if (Time.timeScale == 0) return;
         switch (droneState)
         {
             case DroneState.Start:
@@ -135,7 +136,7 @@ public class DroneMove2 : MonoBehaviour
                         followCount -= Time.deltaTime;
                         Vector2 followDir = new Vector2(followObj.position.x - transform.position.x,
                             followObj.position.z - transform.position.z).normalized;
-                        transform.Translate(new Vector3(followDir.x, 0, followDir.y) * Time.deltaTime * moveSpeed);
+                        transform.Translate(new Vector3(followDir.x, 0, followDir.y) * Time.deltaTime * searchFollowSpeed);
                         return;
                     }
                 }

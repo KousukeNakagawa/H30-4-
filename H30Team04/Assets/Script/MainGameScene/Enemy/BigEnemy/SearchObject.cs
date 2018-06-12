@@ -24,21 +24,10 @@ public class SearchObject : MonoBehaviour
         {"Xline", 4 },
     };
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, searchsqrMagnitude);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 
     void OnTriggerStay(Collider other)

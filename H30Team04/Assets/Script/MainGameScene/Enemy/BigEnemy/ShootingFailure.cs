@@ -25,7 +25,7 @@ public class ShootingFailure : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isFailure) return;
+        if (!isFailure || Time.timeScale == 0) return;
         if (launchCount > 0)
         {
             launchCount -= Time.deltaTime;
@@ -43,12 +43,10 @@ public class ShootingFailure : MonoBehaviour
 
     public void FailureAction()
     {
-        BigEnemyScripts.bigEnemyAnimatorManager.LaunchStart();
-        targetPos.gameObject.SetActive(true);
         if (!BigEnemyScripts.shootingPhaseMove.isShooting) return;
 
-        BigEnemyScripts.bigEnemyAnimatorManager.Launch();
-
+        BigEnemyScripts.bigEnemyAnimatorManager.AnimatorReset();
+        targetPos.gameObject.SetActive(true);
         launchCount = launchTime;
         isFailure = true;
         BigEnemyScripts.shootingPhaseMove.isShooting = false;

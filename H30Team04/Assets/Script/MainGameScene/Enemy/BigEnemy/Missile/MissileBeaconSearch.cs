@@ -14,6 +14,7 @@ public class MissileBeaconSearch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
         if (BigEnemyScripts.missileLaunch.isMissile)
         {
             if (!BigEnemyScripts.missileLaunch.isLaunch) return;

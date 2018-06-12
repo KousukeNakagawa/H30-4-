@@ -13,6 +13,7 @@ public class DestinationArrive : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Time.timeScale == 0) return;
         Vector3 targetPos = BigEnemyScripts.searchObject.targetPos;
         if (targetPos != Vector3.zero)
         {

@@ -17,11 +17,6 @@ public class DroneAudioPlay : MonoBehaviour {
         m_audio = GetComponent<AudioSource>();
 	}
 	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     public void Play(AudioType type,bool isLoop)
     {
         m_audio.Stop();

@@ -57,6 +57,7 @@ public class DroneMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
         switch (droneState)
         {
             case DroneState.FlyUp:
