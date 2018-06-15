@@ -18,11 +18,11 @@ public class BigEnemyAudioManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Time.timeScale == 0) return;
-        if (BigEnemyScripts.bigEnemyAnimatorManager.isStep && !previousIsStep)
-        {
-            Play(BigEnemyAudioType.Step);
-        }
-        previousIsStep = BigEnemyScripts.bigEnemyAnimatorManager.isStep;
+        //if (BigEnemyScripts.bigEnemyAnimatorManager.isStep && !previousIsStep)
+        //{
+        //    Play(BigEnemyAudioType.Step, BigEnemyScripts.bigEnemyEffectManager.feets[(int)BigEnemyScripts.bigEnemyEffect.direction_ - 1].transform);
+        //}
+        //previousIsStep = BigEnemyScripts.bigEnemyAnimatorManager.isStep;
 	}
 
     public void CreateSound(BigEnemyAudioType type,Transform trans)

@@ -26,11 +26,6 @@ public class BreakEffectManager : MonoBehaviour
 
     private BreakEffectType effectType;
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -59,6 +54,7 @@ public class BreakEffectManager : MonoBehaviour
                 ExplosionEnd();
                 Time.timeScale = 0.35f;
                 countTime = Time.time + lightEndTime;
+                BigEnemyScripts.breakRobotoManager.BreakRobotAction();
                 breakLight.gameObject.SetActive(true);
                 break;
             case BreakEffectType.Explosion:
