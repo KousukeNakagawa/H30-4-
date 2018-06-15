@@ -15,8 +15,8 @@ public class Soldier : MonoBehaviour
     //上下角度範囲
     [SerializeField, Range(0, 80)] float maxAngle = 80;
     [SerializeField, Range(0, -80)] float minAngle = -25;
-    //プレイヤーを透過する角度
-    [SerializeField, Range(0, 90)] float hideAngle = 35;
+    ////プレイヤーを透過する角度
+    //[SerializeField, Range(0, 90)] float hideAngle = 35;
 
     //カメラ反転のON/OFF
     [SerializeField] bool inverted = false;
@@ -27,8 +27,6 @@ public class Soldier : MonoBehaviour
     float Hor;
     float Ver;
     Vector3 angle;
-
-    bool isWeaponBeacon = true;
 
     //死亡可能回数
     [SerializeField] int residue = 3;
@@ -102,7 +100,7 @@ public class Soldier : MonoBehaviour
     /// <summary> 移動処理 </summary>
     void Move()
     {
-        if (!UnlockManager.limit[UnlockState.move]) return;
+        if (!UnlockManager.Limiter[UnlockState.move]) return;
 
         var speed = (IsStop) ? 0 : this.speed;
 
@@ -110,34 +108,32 @@ public class Soldier : MonoBehaviour
         rb.velocity = move * speed * Time.deltaTime;
 
         IsMove = (rb.velocity != Vector3.zero);
-        //if (Ver != 0 || Hor != 0) audioSourse.PlayOneShot(SE);
     }
 
     /// <summary> 回転処理 </summary>
     void Rotation()
     {
-        if (!UnlockManager.limit[UnlockState.move]) return;
+        if (!UnlockManager.Limiter[UnlockState.move]) return;
         //カメラ反転の対応
         float changer = (inverted) ? 1 : -1;
         //AIM時の対応
         float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
 
-        //プレイヤーの回転
-        transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
+        if (!Xray_SSS.IsShutterChance)
+        {
+            //プレイヤーの回転
+            transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
+            //カメラとライフルの回転
+            playerCamera.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
 
-        //カメラとライフルの回転
-        playerCamera.transform.eulerAngles += new Vector3(angle.y * changer, angle.x) * rotateSpeed * Time.deltaTime;
-        //playerCamera.transform.forward = transform.forward;
+            //-180＜上下の動き＜180に変更
+            float angleX = (180 <= playerCamera.transform.eulerAngles.x) ?
+                playerCamera.transform.eulerAngles.x - 360 : playerCamera.transform.eulerAngles.x;
 
-        //-180＜上下の動き＜180に変更
-        float angleX = (180 <= playerCamera.transform.eulerAngles.x) ?
-            playerCamera.transform.eulerAngles.x - 360 : playerCamera.transform.eulerAngles.x;
-
-        //上下の制限
-        playerCamera.transform.eulerAngles =
-            new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
-
-        //playerCamera.transform.position = transform.position - transform.forward * 2 + Vector3.up * 1.5f;
+            //上下の制限
+            playerCamera.transform.eulerAngles =
+                new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
+        }
 
         //プレイヤーの透過
         //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
@@ -146,16 +142,10 @@ public class Soldier : MonoBehaviour
     /// <summary> 操作入力の取得 </summary>
     void GetInput()
     {
-        if (!UnlockManager.limit[UnlockState.move]) return;
+        if (!UnlockManager.Limiter[UnlockState.move]) return;
         Hor = Input.GetAxis("Hor");
         Ver = Input.GetAxis("Ver");
         angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
-    }
-
-    /// <summary> 装備中の武器の取得 </summary>
-    public bool GetWeapon()
-    {
-        return isWeaponBeacon;
     }
 
     /// <summary> リスポーン </summary>
@@ -164,8 +154,8 @@ public class Soldier : MonoBehaviour
         //if (Annihilation()) return;
         //if (IsDead)
         //{
-            //移動を殺す
-            rb.velocity = Vector3.zero;
+        //移動を殺す
+        rb.velocity = Vector3.zero;
         residue--; //死亡可能回数の減少
 
         if (Annihilation()) return;
@@ -181,8 +171,8 @@ public class Soldier : MonoBehaviour
         //Vector3 targetPos = BigEnemyScripts.mTransform.position;
         //targetPos.y = transform.position.y;
         //        transform.LookAt(targetPos);
-                IsDead = false;
-           // }
+        IsDead = false;
+        // }
         //}
     }
 

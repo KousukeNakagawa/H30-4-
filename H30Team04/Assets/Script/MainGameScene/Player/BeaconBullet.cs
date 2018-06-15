@@ -7,7 +7,6 @@ public class BeaconBullet : MonoBehaviour
     [SerializeField] GameObject beacon;
     [SerializeField] [Range(0, 300)] float speed = 50; //弾速
     [SerializeField] [Range(5, 100)] static float rangeDistance = 50; //射程距離
-    [SerializeField, Range(10, 300)] float extinctionTime = 10; //消滅時間（秒）
     AudioSource audioSourse;
     [SerializeField] AudioClip SE;
 
@@ -26,7 +25,6 @@ public class BeaconBullet : MonoBehaviour
     void Update()
     {
         OverRange(); //射程外消滅処理
-        Extinction(); //時間消滅処理
     }
 
     void OnCollisionEnter(Collision other)
@@ -80,20 +78,6 @@ public class BeaconBullet : MonoBehaviour
 
         audioSourse.PlayOneShot(SE);
         transform.localScale *= 10;
-    }
-
-    /// <summary>
-    /// 時間消滅処理
-    /// </summary>
-    void Extinction()
-    {
-        if (!IsChange) return;
-
-        //消滅時間をカウント
-        extinctionTime -= Time.deltaTime;
-
-        //消滅時間になったら消滅
-        if (extinctionTime <= 0) Destroy(beacon);
     }
 
     /// <summary>

@@ -8,6 +8,11 @@ public class MainCamera : MonoBehaviour
     [SerializeField, Range(0, 10), Tooltip("プレイヤーとの距離")] float dir = 2;
     [SerializeField, Range(0, 10), Tooltip("カメラの高さ")] float height = 1.5f;
 
+    Vector3 startAngles;
+
+    bool current;
+    bool old;
+
     //PlayerBase playerBase;
     //Transform root;
     //List<Renderer> renderers = new List<Renderer>();
@@ -33,6 +38,7 @@ public class MainCamera : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
+        startAngles = transform.eulerAngles;
         //playerBase = player.GetComponent<PlayerBase>();
         ////Projectionの情報
         //root = transform.root;
@@ -53,7 +59,8 @@ public class MainCamera : MonoBehaviour
         if (Time.timeScale == 0) return;
         if (!SEManager.IsEndSE) return;
 
-        transform.position = player.transform.position - player.transform.forward * dir + Vector3.up * height;
+
+        ShutterChance();
     }
 
     //void LateUpdate()
@@ -61,6 +68,24 @@ public class MainCamera : MonoBehaviour
     //    //RotateCameraAngle();
     //    //AutoCameraControl();
     //}
+
+    void ShutterChance()
+    {
+        current = Xray_SSS.IsShutterChance;
+
+        if (Xray_SSS.IsShutterChance)
+        {
+            transform.position = (Xray_SSS.ShutterPos);
+            transform.LookAt(Xray_SSS.ShutterAngle);
+        }
+        else
+        {
+            transform.position = player.transform.position - player.transform.forward * dir + Vector3.up * height;
+            if (current != old) transform.LookAt(player.transform.position + Vector3.up);
+        }
+
+        old = current;
+    }
 
     /// <summary>
     /// ＊壁抜け・床抜け防止

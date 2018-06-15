@@ -54,9 +54,10 @@ public class WeaponCtrl : MonoBehaviour
         WeaponBeacon = true;
         IsSetup = false;
         line = laser.GetComponent<LineRenderer>();
+
         audioSourse = gameObject.AddComponent<AudioSource>();
         audioSourse.volume = 0.2f;
-
+        //SEの読込
         for (int i = 0; i < SE.Length; i++)
             playerSE.Add(audios + i, SE[0 + i]);
 
@@ -68,34 +69,33 @@ public class WeaponCtrl : MonoBehaviour
     void Update()
     {
         if (Time.timeScale == 0) return;
-        if (!UnlockManager.limit[UnlockState.move]) return;
+        WeaponSet();
+        if (!UnlockManager.Limiter[UnlockState.move]) return;
 
         //回転入力
         if (Input.GetAxis("CameraHorizontal") != 0 || Input.GetAxis("CameraVertical") != 0)
             IsSetup = true;
 
         if (!laser.activeSelf) laser.SetActive(true);
-        if (!UnlockManager.limit[UnlockState.snipe]) return;
-        ChangeWeapon();
-        WeaponSet();
 
-        //音を鳴らす処理
-        //audioSourse.PlayOneShot(audioClip[0]);
+        ChangeWeapon();
     }
 
     void LateUpdate()
     {
         Shooting();
-        laser.SetActive(UnlockManager.limit[UnlockState.laserPointer]);
+        laser.SetActive(UnlockManager.Limiter[UnlockState.laserPointer]);
     }
 
+    /// <summary> 武器の変更処理 </summary>
     void ChangeWeapon()
     {
-        if (!UnlockManager.limit[UnlockState.snipe]) return;
-        //武器の切替
+        if (!UnlockManager.Limiter[UnlockState.snipe]) return;
         if (Input.GetButtonDown("WeaponChange"))
         {
+            //武器変更SE
             audioSourse.PlayOneShot(playerSE[SEs.change]);
+            //武器の変更
             WeaponBeacon = !WeaponBeacon;
             IsSetup = true;
         }
@@ -104,13 +104,13 @@ public class WeaponCtrl : MonoBehaviour
     /// <summary> レーザーポインターの描画 </summary>
     void Shooting()
     {
-        if (!UnlockManager.limit[UnlockState.beacon] || Camera.main == null) return;
+        if (!UnlockManager.Limiter[UnlockState.beacon] || Camera.main == null) return;
 
-        var muzzle = (WeaponBeacon) ?
+        var rayMuzzle = (WeaponBeacon) ?
             beaconGun.transform.Find("BeaconMuzzle") : snipeGun.transform.Find("SnipeMuzzle");
 
         //発射位置・方向
-        var ray = new Ray(muzzle.position, Camera.main.transform.forward);
+        var ray = new Ray(rayMuzzle.position, Camera.main.transform.forward);
 
         //武器によって長さが変わる
         var rayLength = (WeaponBeacon) ?
@@ -140,7 +140,7 @@ public class WeaponCtrl : MonoBehaviour
         }
 
         var fireMuzzle = (WeaponBeacon) ?
-            muzzle : snipeGun.transform.Find("FireMuzzle");
+            rayMuzzle : snipeGun.transform.Find("FireMuzzle");
 
         //射撃可能なら射撃
         if (Input.GetButtonDown("Fire") && isFire && (IsSetup || Soldier.IsMove)) Fire(ray, fireMuzzle);
@@ -162,10 +162,7 @@ public class WeaponCtrl : MonoBehaviour
             //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
             if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
                 hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper") /*|| hit.collider.CompareTag("GoalPoin")*/)
-            {
-                return;
-            }
+                hit.collider.CompareTag("Sniper") /*|| hit.collider.CompareTag("GoalPoin")*/) return;
 
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
