@@ -53,18 +53,25 @@ public class SearchObject : MonoBehaviour
             SetTurnVel(target);
             targetPos = target.transform.position;
             isSearch = true;
-            if (!searchTarget.tag.Contains("Xline")) BigEnemyScripts.missileLaunch.isMissile = false;
-            else BigEnemyScripts.missileLaunch.isMissile = true;
+            if (searchTarget.CompareTag("Xline"))
+            {
+                BigEnemyScripts.missileLaunch.isMissile = true;
+            }
         }
     }
 
     public void MissileTargetChange(GameObject target)
     {
-        if (!BigEnemyScripts.missileLaunch.isLaunch) return;
-        if (searchTarget == null || priority[target.tag] < priority[searchTarget.tag])
+        //多重対策と射影機の優先順位を下げる
+        if (BigEnemyScripts.missileLaunch.isMissile && (searchTarget != null && !searchTarget.Equals(target)))
+            BigEnemyScripts.missileLaunch.isMissile = false;
+        if (BigEnemyScripts.missileLaunch.isLaunch)
         {
-            searchTarget = target;
-            targetPos = target.transform.position;
+            if (searchTarget == null || priority[target.tag] < priority[searchTarget.tag])
+            {
+                searchTarget = target;
+                targetPos = target.transform.position;
+            }
         }
     }
 
@@ -78,7 +85,6 @@ public class SearchObject : MonoBehaviour
             new Vector2(target.transform.position.x - BigEnemyScripts.mTransform.position.x,
             target.transform.position.z - BigEnemyScripts.mTransform.position.z).normalized);
         turnVel = dot / Mathf.Abs(dot) * -1;
-        //print(Mathf.Sign(delta) + ":" + -turnVel);
     }
 
     public void SetTurnVelGoDefenseLine()

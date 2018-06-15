@@ -24,7 +24,6 @@ public class BigEnemyMove : MonoBehaviour
 
         if (isTurn)
         {
-            //print(Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)));
             if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
             //if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= 1f)
             {  //回転を終了する

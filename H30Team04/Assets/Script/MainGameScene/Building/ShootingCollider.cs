@@ -20,9 +20,9 @@ public class ShootingCollider : MonoBehaviour {
             this.enabled = false;
             return;
         }
-		if(gm.NowState() == GameManager.PhaseState.switchState)
-        {
-            m_coll.enabled = true;
-        }
+		//if(gm.NowState() == GameManager.PhaseState.switchState)
+  //      {
+  //          m_coll.enabled = true;
+  //      }
 	}
 }
