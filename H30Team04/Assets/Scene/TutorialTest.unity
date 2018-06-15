@@ -178,6 +178,11 @@ Prefab:
       propertyPath: m_maincamera
       value: 
       objectReference: {fileID: 937070445}
+    - target: {fileID: 114745437230682250, guid: 5c69ff18bf3943c49aa5d8e7a81bda28,
+        type: 2}
+      propertyPath: isUnlock
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 5c69ff18bf3943c49aa5d8e7a81bda28, type: 2}
   m_IsPrefabParent: 0
