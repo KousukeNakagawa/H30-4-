@@ -54,6 +54,8 @@ public class GameTextController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
+        if (Time.timeScale == 0) return;
+
         if (m_PhDface)
         {
             m_panel.SetActive(true);
@@ -79,13 +81,14 @@ public class GameTextController : MonoBehaviour {
             currentText = " ";
             ClosePhDface(0.0f);
         }
+
         // クリックから経過した時間が想定表示時間の何%か確認し、表示文字数を出す
         int displayCharacterCount = (int)(Mathf.Clamp01((Time.time - timeElapsed) / timeUntilDisplay) * currentText.Length);
 
         // 表示文字数が前回の表示文字数と異なるならテキストを更新する
         if (displayCharacterCount != lastUpdateCharacter)
         {
-            m_uiText.text = currentText;
+            m_uiText.text = currentText.Substring(0, displayCharacterCount);
             lastUpdateCharacter = displayCharacterCount;
         }
     }
@@ -104,6 +107,7 @@ public class GameTextController : MonoBehaviour {
                 m_PhDface = true;
                 m_scenarioi = true;
                 _delete = true;
+
             }
             else
             {
@@ -150,6 +154,8 @@ public class GameTextController : MonoBehaviour {
 
         // 文字カウントを初期化
         lastUpdateCharacter = -1;
+
+
     }
 
     //博士の枠を出す
