@@ -33,7 +33,7 @@ public class WeekTextManager : MonoBehaviour {
     {
         for (int i = 0; i < weekTexts.Count; i++)
         {
-            weekTexts[i].SetText("?%");
+            weekTexts[i].SetText("0%");
         }
     }
 }

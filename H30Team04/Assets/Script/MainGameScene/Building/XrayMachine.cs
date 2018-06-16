@@ -31,6 +31,8 @@ public class XrayMachine : MonoBehaviour {
     RectTransform m_minimap_rect;
     [SerializeField] float y;
 
+    private GameObject m_checkIcon;
+
     // Use this for initialization
     void Start () {
         m_XrayCameraObj = transform.Find("XrayCamera").gameObject;
@@ -43,6 +45,9 @@ public class XrayMachine : MonoBehaviour {
         _minimapCS = m_MinimapCamera.GetComponent<MiniMAPcamera>();
         m_minimap_rect = minimapIcon.GetComponent<RectTransform>();
         //saveTime = 10.0f;
+
+        m_checkIcon = transform.Find("checkicon").Find("icon").gameObject;
+        m_checkIcon.SetActive(false);
 
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
@@ -172,6 +177,8 @@ public class XrayMachine : MonoBehaviour {
             return;
         }
 
+        List<GameObject> hitWeak = new List<GameObject>();
+
         //List<int> weeknums = new List<int>();
         for(int i = 0;i < weekpoints.Length; i++)
         {
@@ -193,7 +200,8 @@ public class XrayMachine : MonoBehaviour {
                 if(weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
                     //weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
-                    weekPoints.Add(weekpoints[i].transform.gameObject);
+                    //weekPoints.Add(weekpoints[i].transform.gameObject);
+                    hitWeak.Add(weekpoints[i].transform.gameObject);
                 }
                 else  //対象の弱点に当たらない場合
                 {
@@ -203,19 +211,50 @@ public class XrayMachine : MonoBehaviour {
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 3.0f);
         }
 
-        //骨複製、骨がアニメーションする場合はどうしようかな
-        GameObject boneObj = weekpoints[0].transform.parent.parent.gameObject;//.root.Find("WeekPoints").gameObject;
-        GameObject bone = Instantiate(boneObj);
-        bone.transform.parent = boneObj.transform.parent;
-        bone.transform.position = boneObj.transform.position;
-        boneObj.transform.position -= Vector3.up * underPos;
-        boneObj.transform.tag = "Untagged";
-        boneObj.transform.parent = transform.parent;
-        foreach (Transform child in weekpoints[0].transform.parent)
+        ////骨複製、骨がアニメーションする場合はどうしようかな
+        //GameObject boneObj = weekpoints[0].transform.parent.parent.gameObject;//.root.Find("WeekPoints").gameObject;
+        //GameObject bone = Instantiate(boneObj);
+        //bone.transform.parent = boneObj.transform.parent;
+        //bone.transform.position = boneObj.transform.position;
+        //boneObj.transform.position -= Vector3.up * underPos;
+        //boneObj.transform.tag = "Untagged";
+        //boneObj.transform.parent = transform.parent;
+        //foreach (Transform child in weekpoints[0].transform.parent)
+        //{
+        //    //if (child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
+        //    child.tag = "Untagged";
+        //}
+
+        //骨の元取得
+        GameObject boneParent = weekpoints[0].transform.root.Find("WeekPoints").gameObject;
+        //骨の複製
+        GameObject cloneBone = Instantiate(boneParent,boneParent.transform.position,boneParent.transform.rotation);
+        cloneBone.transform.position -= Vector3.up * underPos;
+        cloneBone.transform.parent = transform.parent;
+        //複製した骨のアニメを停止
+        cloneBone.transform.Find("Body/robot").gameObject.GetComponent<Animator>().enabled = false;
+
+        //複製した骨の全子供取得
+        List<GameObject> boneChilds = GetAllChildren.GetAll(cloneBone);
+        foreach(GameObject child in boneChilds)
         {
-            //if (child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
+            //弱点じゃなかったら終わり
+            if (child.tag != "WeekPoint") continue;
+
+            //弱点のタグを変更し、ナンバー取得
             child.tag = "Untagged";
+            int cnum = child.GetComponent<WeekPoint>().GetWeekNumber;
+
+            //カメラからのレイが当たった弱点と同じ弱点を探す
+            foreach(GameObject hitPoint in hitWeak)
+            {
+                if(hitPoint.GetComponent<WeekPoint>().GetWeekNumber == cnum)
+                {
+                    weekPoints.Add(child);
+                }
+            }
         }
+        
 
         //weeknums.Sort();
         //if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
@@ -251,6 +290,9 @@ public class XrayMachine : MonoBehaviour {
             flash.transform.localPosition = new Vector3(0, 5, 0);
             flash.transform.eulerAngles = transform.eulerAngles;
             XrayMachines.RemoveObj(gameObject);
+            m_checkIcon.SetActive(true);
+            transform.Find("MapIcon").gameObject.SetActive(false);
+            GetComponent<AudioSource>().Play();
         }
     }
 

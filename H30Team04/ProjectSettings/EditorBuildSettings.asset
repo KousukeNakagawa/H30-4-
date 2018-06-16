@@ -17,9 +17,6 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scene/prototype.unity
     guid: 0c2cb37dedf53db43abca714caa1bc4e
-  - enabled: 0
-    path: Assets/Scene/GameUItest2.unity
-    guid: 1756745b7424f874db6be871bf99b638
   - enabled: 1
     path: Assets/Scene/beta.unity
     guid: f9f98afa3df86914ca217bb556d5b1ec
