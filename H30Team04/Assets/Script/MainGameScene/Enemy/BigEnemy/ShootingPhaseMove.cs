@@ -56,6 +56,7 @@ public class ShootingPhaseMove : MonoBehaviour
         pos.z = targetPos.z;
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
+        BigEnemyScripts.bigEnemyAnimatorManager.ShootingMove();
 #if UNITY_EDITOR
         BigEnemyScripts.breakEffectManager.ChangeType();
 #endif

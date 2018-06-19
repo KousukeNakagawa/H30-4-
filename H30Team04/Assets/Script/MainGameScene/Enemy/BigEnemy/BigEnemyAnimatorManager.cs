@@ -95,4 +95,9 @@ public class BigEnemyAnimatorManager : MonoBehaviour
         m_animator.SetTrigger("LaunchEnd");
         born_Animator.SetTrigger("LaunchEnd");
     }
+
+    public void ShootingMove()
+    {
+        m_animator.SetTrigger("ShootingMove");
+    }
 }

@@ -21,7 +21,7 @@ public class BigEnemyEffectManager : MonoBehaviour
         {
             StartCoroutine(RunEffectCreate(dir));
             BigEnemyScripts.bigEnemyEffect.direction_ = Direction.None;
-            print((int)dir);
+            //print((int)dir);
             BigEnemyScripts.bigEnemyAudioManager.Play(BigEnemyAudioType.Step, feets[(int)dir].transform);
         }
         previous = dir;

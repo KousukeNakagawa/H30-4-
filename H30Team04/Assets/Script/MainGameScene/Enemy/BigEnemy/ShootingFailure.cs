@@ -16,13 +16,6 @@ public class ShootingFailure : MonoBehaviour
 
     public Transform[] launchPos;  //肩
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (!isFailure || Time.timeScale == 0) return;
@@ -72,10 +65,6 @@ public class ShootingFailure : MonoBehaviour
                 move2.riseCount = Random.Range(1.5f, 3f);
                 move2.rotationCount = Random.Range(2.5f, 5f);
             }
-            //else
-            //{
-            //    mm.GetComponentInChildren<MeshRenderer>().material.color = Color.red;
-            //}
             move2.targetPos = target;
         }
     }

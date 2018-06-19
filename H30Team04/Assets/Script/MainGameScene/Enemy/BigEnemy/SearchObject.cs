@@ -13,7 +13,7 @@ public class SearchObject : MonoBehaviour
 
     //  この範囲内にプレイヤーまたは射影機が入っているかの数値　　1.5マス分離れたらにしたかったけど、高さあったからとりあえず２
     //private float searchsqrMagnitude = (MainStageDate.TroutLengthX * 2.0f) * (MainStageDate.TroutLengthX * 2.0f);
-    [SerializeField] private float searchsqrMagnitude = MainStageDate.TroutLengthX * 2;
+    [SerializeField] private float searchMagnitude = MainStageDate.TroutLengthX * 2;
 
     //優先順位
     private Dictionary<string, int> priority = new Dictionary<string, int>
@@ -27,7 +27,7 @@ public class SearchObject : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, searchsqrMagnitude);
+        Gizmos.DrawWireSphere(transform.position, searchMagnitude);
     }
 
     void OnTriggerStay(Collider other)
@@ -36,7 +36,7 @@ public class SearchObject : MonoBehaviour
         //射影機だけ距離も条件に追加
         if ((other.CompareTag("Player")
             || (other.tag.Contains("Xline") && Vector2.Distance(other.transform.position.ToTopView(),
-            BigEnemyScripts.mTransform.position.ToTopView()) < searchsqrMagnitude) ||
+            BigEnemyScripts.mTransform.position.ToTopView()) < searchMagnitude) ||
             other.CompareTag("Beacon")))
         {
             //予備動作中ならミサイルのターゲットを変更するメソッドへ
