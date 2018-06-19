@@ -54,7 +54,7 @@ public class SelectSentaku : MonoBehaviour
                 break;
             case SelectMove.Right:
                 transform.position = new Vector3(m_Right_xPos, 393, 0);
-                transform.localScale = new Vector3(1.8f, 1, 1);
+                transform.localScale = new Vector3(2.0f, 1, 1);
                 m_titletext.fontStyle = FontStyle.Bold;
                 break;
         }

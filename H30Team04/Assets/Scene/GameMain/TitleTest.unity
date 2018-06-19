@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
@@ -326,6 +326,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gameObj: {fileID: 1957793803}
   gameObj2: {fileID: 1964269854}
+  gameObjText: {fileID: 0}
+  gameObj2Text: {fileID: 0}
+  gameObjOutline: {fileID: 0}
+  gameObj2Outline: {fileID: 0}
+  kettei: {fileID: 0}
+  select: {fileID: 0}
 --- !u!4 &404396138
 Transform:
   m_ObjectHideFlags: 0
