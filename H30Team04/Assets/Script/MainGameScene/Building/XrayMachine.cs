@@ -90,7 +90,7 @@ public class XrayMachine : MonoBehaviour {
             }
         }
 
-        
+        if (!xrayOK) return;
 
         minimapIcon.rectTransform.rotation = Quaternion.Euler(90, 0, y);
         minimapArrow.rectTransform.rotation = Quaternion.Euler(90, 0, y);
@@ -293,6 +293,8 @@ public class XrayMachine : MonoBehaviour {
             m_checkIcon.SetActive(true);
             transform.Find("MapIcon").gameObject.SetActive(false);
             GetComponent<AudioSource>().Play();
+            minimapIcon.enabled = false;
+            minimapArrow.enabled = false;
         }
     }
 
@@ -332,6 +334,8 @@ public class XrayMachine : MonoBehaviour {
                 //m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
             }
 
+            minimapIcon.enabled = false;
+            minimapArrow.enabled = false;
             XrayMachines.RemoveObj(gameObject);
             Destroy(gameObject);
 
@@ -352,7 +356,6 @@ public class XrayMachine : MonoBehaviour {
     {
         DeadProcessing(other.transform.tag);
     }
-
 
 
 

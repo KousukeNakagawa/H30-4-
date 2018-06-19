@@ -294,7 +294,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletSpeed: 1
-  bulletAccel: 1.01
+  bulletAccel: 1.02
 --- !u!114 &114943254971433238
 MonoBehaviour:
   m_ObjectHideFlags: 1

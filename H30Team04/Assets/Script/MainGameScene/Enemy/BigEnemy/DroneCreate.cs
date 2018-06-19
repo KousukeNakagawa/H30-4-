@@ -38,7 +38,7 @@ public class DroneCreate : MonoBehaviour
 
     public void DroneSet()
     {  //ドローンを生成する
-        if (drones.Count != 0 || droneCreateTime > 0) return;
+        if (drones.Count != 0 || droneCreateTime > 0 || dronePrefab == null) return;
         //GameTextController.TextStart(6);
         for (int i = 0; i < droneCount; i++)
         {
