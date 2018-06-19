@@ -53,17 +53,11 @@ public class Soldier : MonoBehaviour
     List<Renderer> renderers = new List<Renderer>();
     float invincibleAlpha = 1;
 
-    //死亡判定
-    //bool _isDead = false;
-
     public static bool IsDead { get; private set; }
     public static bool IsStop { get; set; }
 
     /// <summary> 移動しているかどうか（アニメーション用） </summary>
     public static bool IsMove { get; private set; }
-
-    /// <summary> カメラが射影機目線になる直前のアングルを保管 </summary>
-    public static Vector3 BackUpAngle { get; private set; }
 
     void Start()
     {
@@ -142,6 +136,7 @@ public class Soldier : MonoBehaviour
         //AIM時の対応
         float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
 
+        //LT押していない間
         if (!MainCamera.IsMove)
         {
             //プレイヤーの回転
@@ -157,12 +152,7 @@ public class Soldier : MonoBehaviour
             //上下の制限
             playerCamera.transform.eulerAngles =
                 new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
-
-            BackUpAngle = playerCamera.transform.eulerAngles;
         }
-
-        Debug.Log(BackUpAngle);
-
         //プレイヤーの透過
         //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));
     }

@@ -7,10 +7,13 @@ public class MainCamera : MonoBehaviour
     GameObject player;
     [SerializeField, Range(0, 10), Tooltip("プレイヤーとの距離")] float dir = 2;
     [SerializeField, Range(0, 10), Tooltip("カメラの高さ")] float height = 1.5f;
-    [SerializeField, Range(1, 5), Tooltip("射影機へ視点移動時の速度")] float speed = 2;
+    [SerializeField, Range(0.01f, 0.5f), Tooltip("射影機へ視点移動時の速度")] float leap = 0.1f;
+    float backupLeap;
+    float speed = 0;
 
     Vector3 basePos;
     Vector3 startAngles;
+    Vector3 backUpAngle;
 
     //現在と過去のフラグ（射影機目線用）
     bool current, old;
@@ -23,6 +26,7 @@ public class MainCamera : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         startAngles = transform.eulerAngles;
         IsMove = false;
+        backupLeap = leap;
     }
 
     //void Update()
@@ -47,19 +51,23 @@ public class MainCamera : MonoBehaviour
     /// <summary> 選択中の射影機目線になる </summary>
     void ShutterChance()
     {
-        current = Xray_SSS.IsShutterChance;
+        current = IsMove;
 
-        UnlockManager.Unlock(UnlockState.xray);
+        UnlockManager.Unlock(UnlockState.xray); //後で消す
 
         if (Xray_SSS.IsShutterChance)
         {
+            leap += backupLeap;
             //選択中の射影機へ移動
             var distance = (Xray_SSS.ShutterPos - transform.position);
-            transform.position += distance.normalized * speed;
+            transform.position = Vector3.Lerp(transform.position, Xray_SSS.ShutterPos, (speed + leap) * Time.deltaTime);
 
             //ある程度近くなったら強制到達
-            if (Mathf.Abs(distance.sqrMagnitude) <= 1)
+            if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
+            {
                 transform.position = (Xray_SSS.ShutterPos);
+                leap = backupLeap;
+            }
 
             //移動しつつ射影機の角度になる
             transform.LookAt(Xray_SSS.ShutterAngle);
@@ -69,18 +77,27 @@ public class MainCamera : MonoBehaviour
         {
             if (IsMove)
             {
+                leap += backupLeap;
                 //プレイヤーの後ろ (basePos) へ戻る
                 var distance = (basePos - transform.position);
-                transform.position += distance.normalized * 1;
+                transform.position = Vector3.Lerp(transform.position, basePos, (speed + leap) * Time.deltaTime);
 
                 //ある程度近くなったら強制到達
-                if (Mathf.Abs(distance.sqrMagnitude) <= 1)
+                if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
+                {
                     transform.position = basePos;
+                    leap = backupLeap;
+                }
 
                 //移動しつつ射影機の角度になる
+                transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
             }
-            //戻った瞬間
-            //if (current != old) transform.LookAt(player.transform.position + Vector3.up);
+            //プレイヤーに追従させる処理
+            else transform.position = basePos;
+
+            //元の位置に戻った瞬間
+            if (!current && old)
+                transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
         }
 
         //プレイヤーの後ろにいない間 true
