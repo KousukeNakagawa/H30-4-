@@ -128,7 +128,7 @@ public class WeaponCtrl : MonoBehaviour
             snipeCoolTime -= Time.deltaTime;
             if (snipeCoolTime <= reloadTime && !isreload)
             {
-                audioSourse.PlayOneShot(playerSE[SEs.reload]);
+                audioSourse.PlayOneShot(playerSE[SEs.reload], 0.5f);
                 isreload = true;
             }
             if (snipeCoolTime <= 0)

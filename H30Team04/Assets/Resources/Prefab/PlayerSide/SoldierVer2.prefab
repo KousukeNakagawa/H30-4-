@@ -778,7 +778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1629060078956258
 GameObject:
   m_ObjectHideFlags: 1
@@ -1365,7 +1365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1989746613084668
 GameObject:
   m_ObjectHideFlags: 1
@@ -2655,8 +2655,8 @@ MeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: ea4db98c722c9d343bc6630fab8da03a, type: 3}
-  - {fileID: 2100002, guid: ea4db98c722c9d343bc6630fab8da03a, type: 3}
+  - {fileID: 2100000, guid: 1da767993f6d3ad4e9d3ab713e88d09b, type: 2}
+  - {fileID: 2100000, guid: 3cd5fe344bc49af4ea990d2e00e09b36, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2824,10 +2824,14 @@ MonoBehaviour:
   aimRotateSpeed: 20
   maxAngle: 60
   minAngle: -25
-  hideAngle: 35
+  body: {fileID: 1811453451099684}
+  beacon: {fileID: 1965433985474904}
+  snipe: {fileID: 1627910251371414}
+  invincibleTime: 10
+  fade: 2
   inverted: 1
   residue: 3
-  isUnlock: 1
+  isUnlock: 0
   SE: {fileID: 8300000, guid: cf2dc4ae44528284d83bb1de17e815ae, type: 3}
 --- !u!114 &114765120528075112
 MonoBehaviour:
@@ -3086,8 +3090,8 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 792b57393eb656242a77bfe4bf684ff4, type: 3}
-  - {fileID: 2100002, guid: 792b57393eb656242a77bfe4bf684ff4, type: 3}
+  - {fileID: 2100000, guid: 5b4ee6bace9743c4d86843219f99fa18, type: 2}
+  - {fileID: 2100000, guid: 5f28fbbbb72089a448fe65d9d5293c9f, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

@@ -10,7 +10,7 @@ public class DieFade : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        fade = _image.GetComponent<FadeObject>();
+        //fade = _image.GetComponent<FadeObject>();
     }
 
     // Update is called once per frame

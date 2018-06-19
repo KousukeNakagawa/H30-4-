@@ -12,17 +12,11 @@ public class Xray_SSS : MonoBehaviour
     [SerializeField] MainCamera m_maincamera;
     [SerializeField] GameObject markwe;
 
-    //開始演出終了フラグ取得
-    //GameObject _player;
-    //PlayerBase _playerBase;
-
     //射影機取得用
     GameObject[] _XrayMachines;
-
     //射影機との距離を取得し、値をいじるため
     Dictionary<GameObject, float>
         _Xrays = new Dictionary<GameObject, float>();
-
     //ソートするため
     List<KeyValuePair<GameObject, float>>
         _sortXrays = new List<KeyValuePair<GameObject, float>>();
@@ -36,29 +30,31 @@ public class Xray_SSS : MonoBehaviour
     //射影機の選択切替フラグ
     bool _isNear = true;
 
-    /// <summary> 撮影状態か </summary>
+    /// <summary> 射影機目線になるか </summary>
     public static bool IsShutterChance { get; private set; }
     public static Vector3 ShutterPos;
     public static Vector3 ShutterAngle;
 
     void Start()
     {
-        //_player = GameObject.FindGameObjectWithTag("Player");
-        //_playerBase = _player.GetComponent<PlayerBase>();
         IsShutterChance = false;
-
         Serch();
     }
 
     void Update()
     {
         if (Time.timeScale == 0) return;
+
+        XrayArrow.SetActive(UnlockManager.Limiter[UnlockState.xray]);
+
         if (!UnlockManager.Limiter[UnlockState.xray]) return;
-        //開始演出が終わらなければ動かない
-        //if (!_playerBase.GetIsEndSE()) return;
+
 
         //射影機が無くなったら矢印を消す
-        if (_XrayMachines.Length < 1) Destroy(XrayArrow);
+        if (_XrayMachines.Length < 1)
+        {
+            Destroy(XrayArrow);
+        }
         else
         {
             XraysUpdate();
@@ -84,6 +80,7 @@ public class Xray_SSS : MonoBehaviour
 
             _Xrays.Add(machine, distance);
         }
+
         DistanceUpdate();
     }
 
@@ -119,7 +116,7 @@ public class Xray_SSS : MonoBehaviour
         _selectXray = _currentXray;
 
         //射影機らとの距離順番が変わってしまった時の処理
-        if (_currentXray != _oldXray && !Input.GetButtonDown("Select"))
+        if (_currentXray != _oldXray && !Input.GetButtonDown("Select") && !XrayMachines.DeadOrAlive(_selectXray))
         {
             _isNear = !_isNear;
             _selectXray = _oldXray;
@@ -148,8 +145,6 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 矢印の描画 </summary>
     void Show()
     {
-        XrayArrow.SetActive(UnlockManager.Limiter[UnlockState.xray]);
-
         //示す射影機の方向
         Vector3 direction = _selectXray.transform.position - transform.position;
         ////矢印の始点
@@ -171,7 +166,7 @@ public class Xray_SSS : MonoBehaviour
 
     void Marker()
     {
-        Vector3 m_target = _selectXray.transform.Find("model").position;
+        Vector3 m_target = _selectXray.transform.position;
 
         markwe.transform.position = new Vector3(m_target.x, m_target.y + 5, m_target.z);
         markwe.transform.LookAt(m_maincamera.transform.transform.position);
@@ -181,17 +176,13 @@ public class Xray_SSS : MonoBehaviour
     void Shutter()
     {
         //射影機目線になる
-        if (Input.GetAxis("ShutterChance") > 0)
-        {
-            IsShutterChance = true;
+        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && XrayMachines.DeadOrAlive(_selectXray));
 
-            if (Input.GetButtonDown("Shutter"))
-            {
-                GameTextController.TextStart(4);
-                _selectXray.GetComponent<XrayMachine>().XrayPlay();
-            }
+        if (Input.GetButtonDown("Shutter"))
+        {
+            //GameTextController.TextStart(4);
+            _selectXray.GetComponent<XrayMachine>().XrayPlay();
         }
-        else IsShutterChance = false;
     }
 
     /// <summary> 射影機との距離の更新 </summary>
@@ -210,6 +201,14 @@ public class Xray_SSS : MonoBehaviour
         Serch();
     }
 
+    /// <summary> 選択中の射影機の取得 </summary>
+    public GameObject GetTarget()
+    {
+        return _selectXray;
+    }
+
+    #region カス
+
     ///// <summary>
     ///// 射影機の方向を指す矢印の描画
     ///// </summary>
@@ -224,9 +223,5 @@ public class Xray_SSS : MonoBehaviour
     //    _arrow.endWidth = (isSharp) ? 0 : width;
     //}
 
-    /// <summary> 選択中の射影機の取得 </summary>
-    public GameObject GetTarget()
-    {
-        return _selectXray;
-    }
+    #endregion
 }

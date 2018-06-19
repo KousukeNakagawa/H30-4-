@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class XrayMachines : MonoBehaviour {
-
-
+public class XrayMachines : MonoBehaviour
+{
     public static List<GameObject> xrayMachineObjects;
-	// Use this for initialization
-	void Awake () {
+ 
+    // Use this for initialization
+    void Awake()
+    {
         xrayMachineObjects = new List<GameObject>();
         GameObject[] machines = GameObject.FindGameObjectsWithTag("Xline");
         foreach (GameObject machine in machines)
@@ -19,11 +20,12 @@ public class XrayMachines : MonoBehaviour {
             //Debug.Log(machine.transform.position);
         }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 
     public static void RemoveObj(GameObject obj)
     {
@@ -44,5 +46,11 @@ public class XrayMachines : MonoBehaviour {
         {
             //Debug.Log(machine);
         }
+    }
+
+    /// <summary> 存在しているか </summary>
+    public static bool DeadOrAlive(GameObject obj)
+    {
+        return (xrayMachineObjects.Contains(obj));
     }
 }
