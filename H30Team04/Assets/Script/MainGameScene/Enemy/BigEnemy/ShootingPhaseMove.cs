@@ -1,18 +1,17 @@
-﻿using System.Collections;
+﻿//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootingPhaseMove : MonoBehaviour
 {
-    [SerializeField] private MonoBehaviour[] scripts;
-    [SerializeField] private Behaviour[] contents;
+    [Tooltip("射撃フェーズ時に停止しないBehaviour"),SerializeField] private MonoBehaviour[] scripts;
+    [Tooltip("射撃フェーズ時に停止するBehaviour"),SerializeField] private Behaviour[] contents;
     [Header("Y座標は関係ありません")]
     [SerializeField, Tooltip("射撃フェーズでの目標座標")] private Vector3 targetPos;
     [Tooltip("射撃フェーズでの移動スピード")] public float moveSpeed = 1.0f;
     [HideInInspector] public List<GameObject> makebyRobot = new List<GameObject>();
 
     [HideInInspector] public bool isShooting;
-    [SerializeField, Tooltip("走るエフェクト")] private GameObject runEffect;
 
     // Update is called once per frame
     void Update()

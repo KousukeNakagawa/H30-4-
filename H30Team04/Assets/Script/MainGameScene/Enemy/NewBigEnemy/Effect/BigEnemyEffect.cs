@@ -12,7 +12,6 @@ namespace NewBigEnemy
             Left,
             None
         }
-        [HideInInspector] public int runEffectNum;
         [HideInInspector] public Direction m_direction = Direction.None;
     }
 }

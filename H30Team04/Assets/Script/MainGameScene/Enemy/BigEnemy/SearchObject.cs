@@ -13,7 +13,8 @@ public class SearchObject : MonoBehaviour
 
     //  この範囲内にプレイヤーまたは射影機が入っているかの数値　　1.5マス分離れたらにしたかったけど、高さあったからとりあえず２
     //private float searchsqrMagnitude = (MainStageDate.TroutLengthX * 2.0f) * (MainStageDate.TroutLengthX * 2.0f);
-    [SerializeField] private float searchMagnitude = MainStageDate.TroutLengthX * 2;
+    [Range(10, 45), Tooltip("射影機を探索する範囲（赤い円）"), SerializeField] private float searchXlineMagnitude = MainStageDate.TroutLengthX * 2;
+    [Range(10, 45), Tooltip("プレイヤーを探索する範囲（青い円）"), SerializeField] private float searchPlayerMagnitude = MainStageDate.TroutLengthX * 2 * 1.25f;
 
     //優先順位
     private Dictionary<string, int> priority = new Dictionary<string, int>
@@ -27,17 +28,20 @@ public class SearchObject : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, searchMagnitude);
+        Gizmos.DrawWireSphere(transform.position, searchXlineMagnitude);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawWireSphere(transform.position, searchPlayerMagnitude);
     }
 
     void OnTriggerStay(Collider other)
     {
         if (dontSearchTime > 0) return;
+        float searchmag = (other.CompareTag("Player")) ? searchPlayerMagnitude : searchXlineMagnitude;
         //射影機だけ距離も条件に追加
-        if ((other.CompareTag("Player")
-            || (other.tag.Contains("Xline") && Vector2.Distance(other.transform.position.ToTopView(),
-            BigEnemyScripts.mTransform.position.ToTopView()) < searchMagnitude) ||
-            other.CompareTag("Beacon")))
+        if (((other.CompareTag("Player")
+            || other.tag.Contains("Xline")) && Vector2.Distance(other.transform.position.ToTopView(),
+            BigEnemyScripts.mTransform.position.ToTopView()) < searchmag) ||
+            other.CompareTag("Beacon"))
         {
             //予備動作中ならミサイルのターゲットを変更するメソッドへ
             if (!BigEnemyScripts.missileLaunch.isMissile) SetTarget(other.gameObject);

@@ -1,17 +1,13 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class BigEnemyEffectManager : MonoBehaviour
 {
     [Tooltip("走る際のエフェクト")] public ParticleSystem runEffect;
-    public GameObject[] feets;
+    [Header("右、左の順番で入れる")]
+    [Tooltip("巨大ロボの足")]public GameObject[] feets;
     private Direction previous;
-
-    // Use this for initialization
-    void Start()
-    {
-    }
 
     void Update()
     {

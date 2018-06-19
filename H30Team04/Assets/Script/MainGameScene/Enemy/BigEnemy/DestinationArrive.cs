@@ -1,10 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class DestinationArrive : MonoBehaviour {
 
-    [SerializeField] private float targetMagnitudeRange = 5.0f;
+    [Tooltip("目的地との距離"),SerializeField] private float targetMagnitudeRange = 5.0f;
 
 	// Update is called once per frame
 	void Update () {

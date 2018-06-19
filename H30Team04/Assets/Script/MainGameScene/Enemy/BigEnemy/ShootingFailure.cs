@@ -10,7 +10,7 @@ public class ShootingFailure : MonoBehaviour
     [Tooltip("ミサイルの本数")] public int missileCount = 6;
     [Tooltip("ミサイルの当たる範囲")] public float missileRange = 15.0f;
 
-    [SerializeField] private float launchTime = 0.5f;
+    [Tooltip("射撃失敗時に発射するまでの時間"),SerializeField] private float launchTime = 0.5f;
     private float launchCount = int.MinValue;
     private bool isFailure = false;
 

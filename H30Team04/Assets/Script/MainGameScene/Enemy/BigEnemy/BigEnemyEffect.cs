@@ -10,17 +10,6 @@ public enum Direction
 }
 
 public class BigEnemyEffect : MonoBehaviour {
-
-    public int runEffectNum = 0;
+    //public int runEffectNum = 0;
     public Direction direction_ = Direction.None;
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 }

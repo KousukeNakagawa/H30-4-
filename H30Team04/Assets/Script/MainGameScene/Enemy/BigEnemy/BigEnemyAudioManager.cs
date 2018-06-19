@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿//using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,31 +8,38 @@ public enum BigEnemyAudioType
     Explosion,
 }
 
-public class BigEnemyAudioManager : MonoBehaviour {
+public class BigEnemyAudioManager : MonoBehaviour
+{
+    [Header("BigEnemyAudioTypeと順番を合わせてください")]
+    [Tooltip("巨大ロボが再生する音声"), SerializeField] private List<AudioClip> audios;
+    [Space(20)]
+    [Tooltip("空のオーディオソース"), SerializeField] private GameObject emptyAudio;
+    [Tooltip("巨大ロボについているオーディオソース"), SerializeField] private AudioSource m_audio;
 
-    [SerializeField] private List<AudioClip> audios;
-    [SerializeField] private GameObject emptyAudio;
-
-	// Update is called once per frame
-	void Update () {
-        if (Time.timeScale == 0) return;
-	}
-
-    public void CreateSound(BigEnemyAudioType type,Transform trans)
+    public void CreateSound(BigEnemyAudioType type, Transform trans)
     {
-        CreateSound(audios[(int)type],trans.position);
+        CreateSound(audios[(int)type], trans.position);
     }
 
-    public void CreateSound(AudioClip clip,Vector3 pos)
+    public void CreateSound(AudioClip clip, Vector3 pos)
     {
         GameObject audio = Instantiate(emptyAudio, pos, Quaternion.identity);
         audio.GetComponent<AudioSource>().clip = clip;
         audio.GetComponent<AudioSource>().Play();
     }
 
-    public void Play(BigEnemyAudioType type,Transform target = null)
+    public void Play(BigEnemyAudioType type, Transform target = null)
     {
         Transform t = target ?? BigEnemyScripts.mTransform;
-        AudioSource.PlayClipAtPoint(audios[(int)type], t.position,3.0f);
+        switch (type)
+        {
+            case BigEnemyAudioType.Explosion:
+                AudioSource.PlayClipAtPoint(audios[(int)type], t.position, 3.0f);
+                break;
+            default:
+                m_audio.clip = audios[(int)type];
+                m_audio.Play();
+                break;
+        }
     }
 }

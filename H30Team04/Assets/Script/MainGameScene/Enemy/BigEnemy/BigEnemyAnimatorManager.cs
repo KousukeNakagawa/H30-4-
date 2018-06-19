@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//using System.Collections;
+//using System.Collections.Generic;
 using UnityEngine;
 
 public class BigEnemyAnimatorManager : MonoBehaviour
@@ -10,7 +10,7 @@ public class BigEnemyAnimatorManager : MonoBehaviour
     [HideInInspector] public bool isWalk = false;
     [HideInInspector] public float moveSpeed = 0.0f;
     [HideInInspector] public bool isStep;
-    [SerializeField] private Animator born_Animator;
+    [Tooltip("骨組みのアニメーター"),SerializeField] private Animator born_Animator;
 
     private int dir = 1;
 
