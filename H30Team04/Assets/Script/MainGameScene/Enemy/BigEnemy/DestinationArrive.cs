@@ -17,6 +17,7 @@ public class DestinationArrive : MonoBehaviour {
             {
                 BigEnemyScripts.searchObject.ResetTarget();
                 BigEnemyScripts.bigEnemyMove.SetGoDefenseLine();
+                BigEnemyScripts.bigEnemyAnimatorManager.isDash = false;
             }
         }
 	}

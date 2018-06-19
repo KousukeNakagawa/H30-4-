@@ -235,6 +235,7 @@ GameObject:
   - component: {fileID: 20573267200985152}
   - component: {fileID: 124602786534849830}
   - component: {fileID: 65526848464645102}
+  - component: {fileID: 81769088826523846}
   m_Layer: 15
   m_Name: TestCamera
   m_TagString: Untagged
@@ -20088,6 +20089,13 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.108880095, y: 0.23618385, z: 1.150453}
   m_Center: {x: -0.16780889, y: -1.3771917, z: 2.7948813}
+--- !u!81 &81769088826523846
+AudioListener:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1056821402852190}
+  m_Enabled: 0
 --- !u!82 &82968418117147486
 AudioSource:
   m_ObjectHideFlags: 1
@@ -20178,7 +20186,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 136136a51b35b9a4aba2bcbb7cd1c9a5, type: 3}
   m_Controller: {fileID: 9100000, guid: a5ea38bfcd5da1c4cbdcf07b8ec1d140, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -20195,7 +20203,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 136136a51b35b9a4aba2bcbb7cd1c9a5, type: 3}
   m_Controller: {fileID: 9100000, guid: a5ea38bfcd5da1c4cbdcf07b8ec1d140, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
@@ -20315,6 +20323,8 @@ MonoBehaviour:
   moveSpeed: 0
   isStep: 0
   born_Animator: {fileID: 95244016575051964}
+  isDash: 0
+  dashSpeed: 2.5
 --- !u!114 &114330085309653090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -20430,6 +20440,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   xSpeed: 9.5
   turnSpeed: 40
+  isDefense: 0
 --- !u!114 &114684669219231928
 MonoBehaviour:
   m_ObjectHideFlags: 1

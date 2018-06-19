@@ -360,8 +360,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1126260942532714}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -1.03, y: 5.44, z: -0}
+  m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 1.8009262, y: 0, z: 96}
   m_LocalScale: {x: 1, y: 4, z: 1}
   m_Children:
   - {fileID: 4457130843283778}
@@ -840,7 +840,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0.811
+      value: 0.789
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -881,10 +881,10 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7c8bfd94fe300d94395adb737ce68a06, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -920,7 +920,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0.803
+      value: 0.945
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1087,6 +1087,7 @@ MonoBehaviour:
   targetPos: {x: 0, y: 0, z: 0}
   velocity: 1
   initialRate: 0.02
+  fire_audio: {fileID: 82679145262196624}
 --- !u!114 &114707329576432890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1201,7 +1202,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: 2113160977
+  randomSeed: -1280933412
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -4562,7 +4563,7 @@ ParticleSystem:
   moveWithTransform: 1
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 2
-  randomSeed: -1736829234
+  randomSeed: 1486954405
   InitialModule:
     serializedVersion: 3
     enabled: 1

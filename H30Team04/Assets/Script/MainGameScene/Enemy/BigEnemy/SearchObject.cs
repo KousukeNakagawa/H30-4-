@@ -61,6 +61,7 @@ public class SearchObject : MonoBehaviour
             {
                 BigEnemyScripts.missileLaunch.isMissile = true;
             }
+            BigEnemyScripts.bigEnemyMove.isDefense = false;
         }
     }
 

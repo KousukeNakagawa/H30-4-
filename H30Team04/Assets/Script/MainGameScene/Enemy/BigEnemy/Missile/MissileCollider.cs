@@ -5,10 +5,10 @@ using UnityEngine;
 public class MissileCollider : MonoBehaviour
 {
 
-    private static List<MissileCollider> isHits = new List<MissileCollider>();
+    public static List<MissileCollider> isHits = new List<MissileCollider>();  //全てのミサイルが当たったか
     private bool isHit = false;
-    [SerializeField] private Transform explosionPos;
-    public GameObject explosion;
+    [Tooltip("爆発位置"),SerializeField] private Transform explosionPos;
+    [Tooltip("爆発のプレファブ")]public GameObject explosion;
 
     // Use this for initialization
     void Awake()

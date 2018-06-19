@@ -30,7 +30,7 @@ public class MissileLaunch : MonoBehaviour
 
     public void LaunchSet()
     {
-        if (isLaunch) return;
+        if (MissileCollider.isHits.Count != 0) return;
         isLaunch = true;
         launchTime = Time.time + launchSense;
         BigEnemyScripts.bigEnemyAnimatorManager.LaunchStart();

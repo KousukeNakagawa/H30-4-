@@ -28,6 +28,7 @@ public class MissileMove2 : MonoBehaviour
     private float initialTime;  //初期動作のカウント
     [HideInInspector] public int velocity = 1;
     [SerializeField,Range(0.0f,1.0f)] private float initialRate = 0.05f;
+    [Tooltip("ファイアの音声"),SerializeField] private AudioSource fire_audio;
 
     void Awake()
     {
@@ -54,6 +55,7 @@ public class MissileMove2 : MonoBehaviour
                 {
                     state++;
                     riseTime = Time.time + riseCount;
+                    fire_audio.Play();
                 }
                 break;
             case StateType.Rise:  //上昇
@@ -101,6 +103,7 @@ public class MissileMove2 : MonoBehaviour
                 break;
             case StateType.Fall:  //落下
                 rigid.AddForce(transform.forward * riseSpeed);
+                transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
                 break;
         }
     }

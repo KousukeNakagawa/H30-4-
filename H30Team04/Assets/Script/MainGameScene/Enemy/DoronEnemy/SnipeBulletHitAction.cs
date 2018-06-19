@@ -43,6 +43,7 @@ public class SnipeBulletHitAction : MonoBehaviour
         //爆発音再生
         children.Add(b);
         crashVel = new Vector3(Random.Range(-360.0f, 360.0f), 0, Random.Range(-360.0f, 360.0f)).normalized;
+        GetComponent<DroneAudioPlay>().Stop();
     }
 
     void OnTriggerEnter(Collider other)

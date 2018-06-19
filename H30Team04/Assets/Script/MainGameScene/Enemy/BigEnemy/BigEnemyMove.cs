@@ -10,6 +10,7 @@ public class BigEnemyMove : MonoBehaviour
     private Vector3 turnDir;  //回転している間の現在の角度
     private Vector3 turnEndDir;  //回転し終わった後の角度
     [HideInInspector] public bool isTurn { get; private set; }  //回転しているか
+    [HideInInspector] public bool isDefense = false;
 
     // Update is called once per frame
     void Update()
@@ -24,11 +25,12 @@ public class BigEnemyMove : MonoBehaviour
 
         if (isTurn)
         {
-            if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime)
+            if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime * BigEnemyScripts.bigEnemyAnimatorManager.animatorSpeed)
             //if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= 1f)
             {  //回転を終了する
                 isTurn = false;
                 BigEnemyScripts.droneCreate.DroneSet();
+                if (!isDefense) BigEnemyScripts.bigEnemyAnimatorManager.isDash = true;
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
             }
             else
@@ -79,5 +81,6 @@ public class BigEnemyMove : MonoBehaviour
         isTurn = true;
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         turnEndDir = Vector3.zero;
+        isDefense = true;
     }
 }

@@ -13,6 +13,16 @@ public class BigEnemyAnimatorManager : MonoBehaviour
     [Tooltip("骨組みのアニメーター"),SerializeField] private Animator born_Animator;
 
     private int dir = 1;
+    [HideInInspector] public bool isDash = false;
+    [Range(1.0f,5.0f),Tooltip("ダッシュ時のスピード"),SerializeField] private float dashSpeed = 2.0f;
+
+    public float animatorSpeed
+    {
+        get
+        {
+            return m_animator.speed;
+        }
+    }
 
     // Use this for initialization
     void Start()
@@ -36,7 +46,7 @@ public class BigEnemyAnimatorManager : MonoBehaviour
             m_animator.speed = 0.4f;
             born_Animator.speed = 0.4f;
         }
-        else
+        else if (!isDash)
         {
             m_animator.speed = 1.0f;
             born_Animator.speed = 1.0f;
@@ -58,11 +68,20 @@ public class BigEnemyAnimatorManager : MonoBehaviour
 
     public void WalkStart()
     {  //歩き行動を開始する
+        m_animator.speed = (isDash) ? dashSpeed : 1.0f;
+        born_Animator.speed = (isDash) ? dashSpeed : 1.0f;
+  
         if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk") ||
             born_Animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk")) return;
         m_animator.SetTrigger("WalkStart");
         born_Animator.SetTrigger("WalkStart");
         dir = 1;
+    }
+
+    public void SpeedChange(float speed)
+    {
+        m_animator.speed = speed;
+        born_Animator.speed = speed;
     }
 
     public void WalkStop()

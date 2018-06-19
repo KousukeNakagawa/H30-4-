@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum Direction
 {
@@ -10,6 +8,5 @@ public enum Direction
 }
 
 public class BigEnemyEffect : MonoBehaviour {
-    //public int runEffectNum = 0;
     public Direction direction_ = Direction.None;
 }
