@@ -10,8 +10,8 @@ public class XlinePhoto : MonoBehaviour {
     private Image[] m_wepons;
     [SerializeField]
     AttackPlayer m_AP;
-    //[SerializeField]
-    //private Transform[] m_imagepos;
+    [SerializeField]
+    private Transform[] m_imagepos;
     //[SerializeField]
     //WeaponCtrl m_fireCtrl;
     public GameObject gm;
@@ -71,19 +71,19 @@ public class XlinePhoto : MonoBehaviour {
             m_wepons[1].enabled = true;
             if (!WeaponCtrl.WeaponBeacon)
             {
-                //m_wepons[0].transform.position = m_imagepos[0].position;
-                //m_wepons[1].transform.position = m_imagepos[1].position;
+                m_wepons[0].transform.position = m_imagepos[0].position;
+                m_wepons[1].transform.position = m_imagepos[1].position;
+                m_wepons[0].GetComponent<RectTransform>().sizeDelta = new Vector2(150, 50);
+                m_wepons[1].GetComponent<RectTransform>().sizeDelta = new Vector2(100, 40);
                 m_wepons[1].transform.SetAsFirstSibling();
-                m_wepons[0].color = new Color(1, 0, 0, 1);
-                m_wepons[1].color = new Color(1, 1, 1, 0.5f);
             }
             else
             {
-                //m_wepons[1].transform.position = m_imagepos[0].position;
-                //m_wepons[0].transform.position = m_imagepos[1].position;
+                m_wepons[1].transform.position = m_imagepos[0].position;
+                m_wepons[0].transform.position = m_imagepos[1].position;
+                m_wepons[1].GetComponent<RectTransform>().sizeDelta = new Vector2(150, 50);
+                m_wepons[0].GetComponent<RectTransform>().sizeDelta = new Vector2(100, 40);
                 m_wepons[0].transform.SetAsFirstSibling();
-                m_wepons[1].color = new Color(1, 0, 0, 1);
-                m_wepons[0].color = new Color(1, 1, 1, 0.5f);
             }
         }
         else
