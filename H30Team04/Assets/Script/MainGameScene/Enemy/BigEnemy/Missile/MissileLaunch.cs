@@ -30,12 +30,13 @@ public class MissileLaunch : MonoBehaviour
 
     public void LaunchSet()
     {
+        if (isLaunch) return;
         isLaunch = true;
         launchTime = Time.time + launchSense;
         BigEnemyScripts.bigEnemyAnimatorManager.LaunchStart();
     }
 
-    public void Launch()
+    private void Launch()
     {
         StartCoroutine(LaunchWait());
         isLaunch = false;
