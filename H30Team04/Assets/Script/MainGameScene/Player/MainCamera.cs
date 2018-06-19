@@ -17,6 +17,7 @@ public class MainCamera : MonoBehaviour
 
     //現在と過去のフラグ（射影機目線用）
     bool current, old;
+    bool cur, ol;
 
     /// <summary> 射影機へ移動中か </summary>
     public static bool IsMove { get; private set; }
@@ -52,6 +53,7 @@ public class MainCamera : MonoBehaviour
     void ShutterChance()
     {
         current = IsMove;
+        cur = Xray_SSS.IsShutterChance;
 
         UnlockManager.Unlock(UnlockState.xray); //後で消す
 
@@ -100,9 +102,11 @@ public class MainCamera : MonoBehaviour
                 transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
         }
 
+        if (cur != ol) leap = backupLeap;
+
         //プレイヤーの後ろにいない間 true
         IsMove = (transform.position != basePos);
-
+        ol = cur;
         old = current;
     }
 

@@ -101,7 +101,7 @@ public class Xray_SSS : MonoBehaviour
         if (_Xrays.Count >= 2) _Xray2 = _sortXrays[1].Key;
 
         //射影機の切替
-        if (Input.GetButtonDown("Select"))
+        if (Input.GetButtonDown("Select") && !IsShutterChance)
         {
             //GameTextController.TextStart(5);
             _isNear = !_isNear;
