@@ -18,6 +18,7 @@ public class XlinePhoto : MonoBehaviour {
     GameObject XPhots;
     GameObject m_Sight;
     GameObject m_textBackImage;
+    GameObject m_Rod;
     GameManager m_gamemanager;
     //GameObject Arrows;
     public int m_FlyerCount;
@@ -50,9 +51,11 @@ public class XlinePhoto : MonoBehaviour {
         weektexts = weektextparent.GetComponent<WeekTextManager>();
         m_Sight = transform.Find("attackUI").transform.Find("sight").gameObject;
         m_textBackImage = transform.Find("attackUI").transform.Find("Image").gameObject;
+        m_Rod = transform.Find("attackUI").transform.Find("Rod").gameObject;
         XPhots.SetActive(false);
         m_Sight.SetActive(false);
         m_textBackImage.SetActive(false);
+        m_Rod.SetActive(false);
         weektextparent.SetActive(false);
     }
 	
@@ -69,6 +72,7 @@ public class XlinePhoto : MonoBehaviour {
         {
             m_wepons[0].enabled = true;
             m_wepons[1].enabled = true;
+            m_wepons[2].enabled = true;
             if (!WeaponCtrl.WeaponBeacon)
             {
                 m_wepons[0].transform.position = m_imagepos[0].position;
@@ -90,6 +94,7 @@ public class XlinePhoto : MonoBehaviour {
         {
             m_wepons[0].enabled = false;
             m_wepons[1].enabled = false;
+            m_wepons[2].enabled = false;
         }
     }
 
@@ -97,6 +102,7 @@ public class XlinePhoto : MonoBehaviour {
     {
         if (m_gamemanager.PhotoCheckStateNow())
         {
+            m_Rod.SetActive(false);
             m_Sight.SetActive(false);
             m_textBackImage.SetActive(false);
             m_text.text = " ";
@@ -133,6 +139,7 @@ public class XlinePhoto : MonoBehaviour {
             XPhots.SetActive(false);
             weektextparent.SetActive(false);
             m_Sight.SetActive(true);
+            m_Rod.SetActive(true);
             m_textBackImage.SetActive(true);
         }
         else if(m_gamemanager.NowState() == GameManager.PhaseState.waitingState)
@@ -142,6 +149,7 @@ public class XlinePhoto : MonoBehaviour {
             weektextparent.SetActive(false);
             m_Sight.SetActive(false);
             m_textBackImage.SetActive(false);
+            m_Rod.SetActive(false);
             m_text.text = " ";
         }
         else
