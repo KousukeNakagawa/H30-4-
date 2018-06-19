@@ -71,7 +71,7 @@ GameObject:
   - component: {fileID: 222840206731741522}
   - component: {fileID: 114169779683296040}
   m_Layer: 5
-  m_Name: GameObject
+  m_Name: Rod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -113,7 +113,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: 37caf864c494fba4b936b34105a9f54c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 992418c8db487f84394e5c2b2297922a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
