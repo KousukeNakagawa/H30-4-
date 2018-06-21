@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour {
     public enum PhaseState
     {
         photoState,
+        endState,
         switchState,
         PhotoCheckState,
         attackState,
@@ -31,6 +32,7 @@ public class GameManager : MonoBehaviour {
     private List<WeekPointData> weekDatas;
     public Image m_GameClear;
     public Image m_GameOver;
+    public GameObject m_endCam;
     public GameObject m_switchCam;
     public GameObject m_attackP;
     public TextController m_textcontroller;
@@ -78,6 +80,7 @@ public class GameManager : MonoBehaviour {
         playerScript = m_player.GetComponent<Soldier>();
         oldLife = playerScript.GetResidue();
         GameTextController.TextStart(0);
+        UnlockManager.AllSet(true);
     }
 	
 	// Update is called once per frame
@@ -85,6 +88,7 @@ public class GameManager : MonoBehaviour {
         switch (phaseState)
         {
             case PhaseState.photoState: PhotoState(); break;
+            case PhaseState.endState: EndState(); break;
             case PhaseState.switchState: SwitchState(); break;
             case PhaseState.PhotoCheckState: PhotoCheckState(); break;
             case PhaseState.attackState: AttackState(); break;
@@ -113,6 +117,17 @@ public class GameManager : MonoBehaviour {
         PhaseTransition();
     }
 
+    private void EndState()
+    {
+        if (BigEnemyScripts.mTransform.position.x > (mapXsize - 0) * MainStageDate.TroutLengthX)
+        {
+            GameTextController.TextStart(7);
+            m_endCam.SetActive(false);
+            m_switchCam.SetActive(true);
+            phaseState = PhaseState.switchState;
+        }
+    }
+
     private void SwitchState()
     {
         //if (Fade.IsFadeOutOrIn() && Fade.IsFadeEnd())
@@ -121,6 +136,8 @@ public class GameManager : MonoBehaviour {
         //}
         if (!Fade.IsFadeOutOrIn() && !Fade.IsFadeEnd())
         {
+            //m_attackP.SetActive(true);
+            //m_attackP.transform.Find("Camera").GetComponent<AudioListener>().enabled = false;
             SetBGM(1);
             GameTextController.TextStart(8);
         }
@@ -206,18 +223,21 @@ public class GameManager : MonoBehaviour {
     {
         if (isxrayzero||BigEnemyScripts.mTransform.position.x > (mapXsize - 0) * MainStageDate.TroutLengthX)
         {
-            GameTextController.TextStart(7);
+            GameTextController.TextStart(15);
             m_player.SetActive(false);
             //Camera.main.gameObject.SetActive(false);
             m_camera.SetActive(false);
             PlDes();
-            m_attackP.SetActive(true);
-            m_attackP.transform.Find("Camera").GetComponent<AudioListener>().enabled = false;
+
+            Vector3 enemyPos = BigEnemyScripts.mTransform.position;
+            enemyPos.x = (mapXsize * MainStageDate.TroutLengthX) - (0.5f * MainStageDate.TroutLengthX);
+            BigEnemyScripts.mTransform.position = enemyPos;
+
             minimap.SetActive(false);
             lifeIcons[0].transform.parent.gameObject.SetActive(false);
-            m_switchCam.SetActive(true);
+            m_endCam.SetActive(true);
             UnlockManager.AllSet(false);
-            phaseState = PhaseState.switchState;
+            phaseState = PhaseState.endState;
         }
     }
     public void ChengeWait()

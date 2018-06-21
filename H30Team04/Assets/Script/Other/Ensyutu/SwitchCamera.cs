@@ -38,9 +38,10 @@ public class SwitchCamera : MonoBehaviour {
                 angle.y += 180;
                 transform.eulerAngles = angle;
                 GetComponent<FollowCamera>().enabled = true;
-                target.Find("Camera").GetComponent<AudioListener>().enabled = true;
+                //target.Find("Camera").GetComponent<AudioListener>().enabled = true;
                 GetComponent<AudioListener>().enabled = false;
                 //GameObject.FindGameObjectWithTag("Player").SetActive(false);
+                target.gameObject.SetActive(true);
                 Fade.FadeIn();
             }
         }

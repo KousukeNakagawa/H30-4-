@@ -9,14 +9,11 @@ EditorBuildSettings:
     path: Assets/Scene/GameStart1.unity
     guid: ce5b58f325c1edc4faee156ac6ef175e
   - enabled: 0
-    path: Assets/Scene/GameStart2.unity
-    guid: 180c9996e840e614296a6551b30adabf
-  - enabled: 0
-    path: Assets/Scene/alpha.unity
-    guid: e7d87e7633d939749ab4b79c1451c145
-  - enabled: 0
-    path: Assets/Scene/prototype.unity
-    guid: 0c2cb37dedf53db43abca714caa1bc4e
-  - enabled: 1
     path: Assets/Scene/beta.unity
     guid: f9f98afa3df86914ca217bb556d5b1ec
+  - enabled: 1
+    path: Assets/Scene/GamePlay.unity
+    guid: cdaa54e1c67887144916918487eef2c8
+  - enabled: 1
+    path: Assets/Scene/startDemo.unity
+    guid: 5e6703b18ce170d46a02d62d327e5f1b

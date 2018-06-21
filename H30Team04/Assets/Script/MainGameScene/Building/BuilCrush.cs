@@ -43,7 +43,7 @@ public class BuilCrush : MonoBehaviour {
     {
         if (collision.transform.tag == "BigEnemy")
         {
-            GameTextController.TextStart(2);
+            if(ScecnManager.NowSceneName() == "GamePlay")GameTextController.TextStart(2);
             isCrush = true;
             GetComponent<Collider>().enabled = false;
             currentSmoke = Instantiate(crashSmoke, transform.Find("builunder").position, Quaternion.identity);

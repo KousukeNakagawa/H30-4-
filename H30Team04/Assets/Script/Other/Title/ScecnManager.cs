@@ -9,4 +9,9 @@ public static class ScecnManager{
     {
         SceneManager.LoadScene(name);
     }
+
+    public static string NowSceneName()
+    {
+        return SceneManager.GetActiveScene().name;
+    }
 }
