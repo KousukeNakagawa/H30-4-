@@ -116,7 +116,7 @@ public class Xray_SSS : MonoBehaviour
         _selectXray = _currentXray;
 
         //射影機らとの距離順番が変わってしまった時の処理
-        if (_currentXray != _oldXray && !Input.GetButtonDown("Select") && !XrayMachines.DeadOrAlive(_selectXray))
+        if (_currentXray != _oldXray && !Input.GetButtonDown("Select") /*&& !XrayMachines.DeadOrAlive(_selectXray)*/)
         {
             _isNear = !_isNear;
             _selectXray = _oldXray;

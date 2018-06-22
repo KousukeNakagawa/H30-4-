@@ -30,18 +30,9 @@ public class MainCamera : MonoBehaviour
         backupLeap = leap;
     }
 
-    //void Update()
-    //{
-    //    if (Time.timeScale == 0) return;
-    //    if (!SEManager.IsEndSE) return;
-
-
-    //    ShutterChance();
-    //}
-
     void LateUpdate()
     {
-        //if (Time.timeScale == 0) return;
+        if (Time.timeScale == 0) return;
         if (!SEManager.IsEndSE) return;
 
         basePos = player.transform.position - player.transform.forward * dir + Vector3.up * height;

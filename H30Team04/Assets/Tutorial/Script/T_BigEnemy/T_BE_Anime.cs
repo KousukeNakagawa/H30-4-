@@ -5,17 +5,15 @@ using UnityEngine;
 public class T_BE_Anime : MonoBehaviour
 {
     Animator animator;
-    bool isMove = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        animator.SetBool("WalkStart", isMove);
-        animator.SetBool("WalkStop", !isMove);
+        animator.SetBool("IsAdvance", T_BE_Move.IsAdvance);
     }
 
     void Update()
     {
-        isMove = true;
+
     }
 }

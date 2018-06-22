@@ -53,6 +53,8 @@ public class Soldier : MonoBehaviour
     List<Renderer> renderers = new List<Renderer>();
     float invincibleAlpha = 1;
 
+    public static Transform Transform_ { get; private set; }
+
     public static bool IsDead { get; private set; }
     public static bool IsStop { get; set; }
 
@@ -66,6 +68,7 @@ public class Soldier : MonoBehaviour
         audioSourse.spatialBlend = 0.8f;
         IsDead = false;
         IsStop = false;
+        Transform_ = transform;
 
         startPosition = transform.position;
         startRotation = transform.rotation;

@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class T_BE_Move : MonoBehaviour
 {
-    [SerializeField, Range(0, 5)] float speed = 1;
+    [SerializeField, Range(0, 30), Tooltip("基本速度")] float speed = 1;
+    [SerializeField, Range(30, 70), Tooltip("速度補正値")] float powerModify = 60;
+    float backupSpeed;
+    Rigidbody rb;
 
-    void Start()
+    /// <summary> 動く状態か </summary>
+    public static bool IsAdvance { get; private set; }
+
+    void Awake()
     {
-
+        rb = GetComponent<Rigidbody>();
+        IsAdvance = true;
+        backupSpeed = speed;
     }
 
     void Update()
@@ -20,14 +28,26 @@ public class T_BE_Move : MonoBehaviour
     /// <summary> 前進処理 </summary>
     void Advance()
     {
-        var force = T_BE_Serch.Forward * speed * Time.deltaTime;
-        transform.Translate(force);
+        if (!IsAdvance) return;
+
+        //両足が地面についていたら動きを止める
+        if (TBEFL.IsHitGround && TBEFR.IsHitGround)
+        {
+            speed = backupSpeed;
+            return;
+        }
+        //速度補正計算 (基本速度を毎フレーム下げる値) 
+        var power = backupSpeed / powerModify;
+        //どちらかの足が浮いているとき (歩いているとき) 
+        if (TBEFL.IsHitGround != TBEFR.IsHitGround) speed -= power;
+        if (speed <= 0) speed = 0;
+
+        transform.Translate(0, 0, speed * Time.deltaTime);
     }
 
     /// <summary> 進行方向変更処理 </summary>
     void Look()
     {
-        if (T_BE_Serch.Forward != transform.forward)
-            transform.LookAt(T_BE_Serch.Forward);
+        transform.LookAt(Soldier.Transform_);
     }
 }
