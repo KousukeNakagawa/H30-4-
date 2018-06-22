@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class XrayMachine : MonoBehaviour {
+public class XrayMachine : MonoBehaviour
+{
 
     private bool xrayOK = true;
     private GameObject m_XrayCameraObj;
@@ -34,7 +35,8 @@ public class XrayMachine : MonoBehaviour {
     private GameObject m_checkIcon;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         m_XrayCameraObj = transform.Find("XrayCamera").gameObject;
         m_XrayCamera = m_XrayCameraObj.GetComponent<Camera>();
         m_XrayCamera.targetTexture = Resources.Load("Texture/RenderTextures/XrayCamera" + texnumber) as RenderTexture;
@@ -51,10 +53,10 @@ public class XrayMachine : MonoBehaviour {
 
         GameObject gamemanagerObj = GameObject.Find("GameManager");
 
-        if(gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
+        if (gamemanagerObj != null) gameManager = gamemanagerObj.GetComponent<GameManager>();
 
-       // UIがはみ出ないようにする
-      _canvasRect = ((RectTransform)minimapArrow.canvas.transform).rect;
+        // UIがはみ出ないようにする
+        _canvasRect = ((RectTransform)minimapArrow.canvas.transform).rect;
         _canvasRect.Set(
            _canvasRect.x + minimapArrow.rectTransform.rect.width * 0.5f,
             _canvasRect.y + minimapArrow.rectTransform.rect.height * 0.5f,
@@ -62,9 +64,10 @@ public class XrayMachine : MonoBehaviour {
             _canvasRect.height - minimapArrow.rectTransform.rect.height
         );
     }
-	
-	// Update is called once per frame
-	void Update () {
+
+    // Update is called once per frame
+    void Update()
+    {
         //if (Input.GetKeyDown(KeyCode.U))
         //{
         //    Shooting();
@@ -72,9 +75,9 @@ public class XrayMachine : MonoBehaviour {
         if (!xrayOK && saveTime > 0)
         {
             saveTime -= Time.deltaTime;
-            if(saveTime <= 0) //指定時間守り切ったとき、守れなかったときは下記OnCollisionEnterへ
+            if (saveTime <= 0) //指定時間守り切ったとき、守れなかったときは下記OnCollisionEnterへ
             {
-                if(weekPoints.Count != 0)
+                if (weekPoints.Count != 0)
                 {
                     List<int> weeknums = new List<int>();
                     for (int i = 0; i < weekPoints.Count; i++)
@@ -84,7 +87,7 @@ public class XrayMachine : MonoBehaviour {
                     }
                     SendForManager(weeknums);
                 }
-                
+
                 //m_XrayCameraObj.SetActive(false); //使ったカメラは非表示に
 
             }
@@ -145,7 +148,7 @@ public class XrayMachine : MonoBehaviour {
         RaycastHit[] weekpoints
             = Physics.BoxCastAll(m_XrayCameraObj.transform.position,
             new Vector3(4, m_XrayCameraObj.transform.position.y, 4),
-            m_XrayCameraObj.transform.forward, Quaternion.identity,m_XrayCamera.farClipPlane, weekLayerMask);
+            m_XrayCameraObj.transform.forward, Quaternion.identity, m_XrayCamera.farClipPlane, weekLayerMask);
 
         //写っていなかったら終了
         if (weekpoints.Length < 1)
@@ -180,9 +183,9 @@ public class XrayMachine : MonoBehaviour {
         List<GameObject> hitWeak = new List<GameObject>();
 
         //List<int> weeknums = new List<int>();
-        for(int i = 0;i < weekpoints.Length; i++)
+        for (int i = 0; i < weekpoints.Length; i++)
         {
-            if(weekpoints.Length - minusPoint <= i)
+            if (weekpoints.Length - minusPoint <= i)
             {
                 //weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
                 continue;
@@ -193,11 +196,11 @@ public class XrayMachine : MonoBehaviour {
             Vector3 raystartpos = (Mathf.Abs(m_XrayCameraObj.transform.forward.x) > Mathf.Abs(m_XrayCameraObj.transform.forward.z)) ?
                 new Vector3(m_XrayCameraObj.transform.position.x, weekpoints[i].transform.position.y, weekpoints[i].transform.position.z) :
                 new Vector3(weekpoints[i].transform.position.x, weekpoints[i].transform.position.y, m_XrayCameraObj.transform.position.z);
-            Ray ray = new Ray(raystartpos,weekpoints[i].transform.position - raystartpos);
+            Ray ray = new Ray(raystartpos, weekpoints[i].transform.position - raystartpos);
             //スタート位置からレイを飛ばして弱点に当たるかどうか
-            if(Physics.Raycast(ray, out weekhit, m_XrayCamera.farClipPlane, weekLayerMask))
+            if (Physics.Raycast(ray, out weekhit, m_XrayCamera.farClipPlane, weekLayerMask))
             {
-                if(weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
+                if (weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
                     //weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
                     //weekPoints.Add(weekpoints[i].transform.gameObject);
@@ -228,7 +231,7 @@ public class XrayMachine : MonoBehaviour {
         //骨の元取得
         GameObject boneParent = weekpoints[0].transform.root.Find("WeekPoints").gameObject;
         //骨の複製
-        GameObject cloneBone = Instantiate(boneParent,boneParent.transform.position,boneParent.transform.rotation);
+        GameObject cloneBone = Instantiate(boneParent, boneParent.transform.position, boneParent.transform.rotation);
         cloneBone.transform.position -= Vector3.up * underPos;
         cloneBone.transform.parent = transform.parent;
         //複製した骨のアニメを停止
@@ -236,7 +239,7 @@ public class XrayMachine : MonoBehaviour {
 
         //複製した骨の全子供取得
         List<GameObject> boneChilds = GetAllChildren.GetAll(cloneBone);
-        foreach(GameObject child in boneChilds)
+        foreach (GameObject child in boneChilds)
         {
             //弱点じゃなかったら終わり
             if (child.tag != "WeekPoint") continue;
@@ -246,15 +249,15 @@ public class XrayMachine : MonoBehaviour {
             int cnum = child.GetComponent<WeekPoint>().GetWeekNumber;
 
             //カメラからのレイが当たった弱点と同じ弱点を探す
-            foreach(GameObject hitPoint in hitWeak)
+            foreach (GameObject hitPoint in hitWeak)
             {
-                if(hitPoint.GetComponent<WeekPoint>().GetWeekNumber == cnum)
+                if (hitPoint.GetComponent<WeekPoint>().GetWeekNumber == cnum)
                 {
                     weekPoints.Add(child);
                 }
             }
         }
-        
+
 
         //weeknums.Sort();
         //if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
@@ -283,18 +286,34 @@ public class XrayMachine : MonoBehaviour {
             Shooting();
             m_XrayCameraObj.transform.position -= Vector3.up * underPos;
             m_XrayCameraObj.transform.parent = transform.parent;
-            xrayOK = false;
-            transform.tag = "XlineEnd";
+
             GameObject flash = Instantiate(flashPrefab);
             flash.transform.parent = transform;
             flash.transform.localPosition = new Vector3(0, 5, 0);
             flash.transform.eulerAngles = transform.eulerAngles;
-            XrayMachines.RemoveObj(gameObject);
             m_checkIcon.SetActive(true);
-            transform.Find("MapIcon").gameObject.SetActive(false);
             GetComponent<AudioSource>().Play();
             minimapIcon.enabled = false;
             minimapArrow.enabled = false;
+            transform.tag = "XlineEnd";
+            xrayOK = false;
+            transform.Find("MapIcon").gameObject.SetActive(false);
+
+            // LTボタンを押していない間
+            if (!Xray_SSS.IsShutterChance)
+            {
+                XrayMachines.RemoveObj(gameObject);
+            }
+        }
+    }
+
+    /// <summary> 射影機移動して撮影して終わるのはLTを離したときにする </summary>
+    public void XrayPlaySupport()
+    {
+        //自身の tag が変わっていて、まだ忘れられていないなら
+        if (transform.CompareTag("XlineEnd") && XrayMachines.xrayMachineObjects.Contains(gameObject))
+        {
+            XrayMachines.RemoveObj(gameObject);
         }
     }
 

@@ -35,6 +35,8 @@ public class Xray_SSS : MonoBehaviour
     public static Vector3 ShutterPos;
     public static Vector3 ShutterAngle;
 
+    public static bool IsShutter { get; set; }
+
     void Start()
     {
         IsShutterChance = false;
@@ -103,7 +105,7 @@ public class Xray_SSS : MonoBehaviour
         //射影機の切替
         if (Input.GetButtonDown("Select") && !IsShutterChance)
         {
-            //GameTextController.TextStart(5);
+            GameTextController.TextStart(5);
             _isNear = !_isNear;
         }
 
@@ -189,9 +191,11 @@ public class Xray_SSS : MonoBehaviour
 
         if (Input.GetButtonDown("Shutter"))
         {
-            //GameTextController.TextStart(4);
+            GameTextController.TextStart(4);
             _selectXray.GetComponent<XrayMachine>().XrayPlay();
         }
+
+        if (Input.GetAxis("ShutterChance") <= 0) _selectXray.GetComponent<XrayMachine>().XrayPlaySupport();
     }
 
     /// <summary> 射影機との距離の更新 </summary>
