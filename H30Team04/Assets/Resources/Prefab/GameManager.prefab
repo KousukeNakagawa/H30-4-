@@ -20,6 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4831063734498004}
   - component: {fileID: 114672786520629606}
+  - component: {fileID: 114789040375358544}
+  - component: {fileID: 114406108193153010}
+  - component: {fileID: 114306966020686524}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -40,6 +43,38 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &114306966020686524
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279281800405514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 184c6c99d13b1f749aa79ec02dd28c74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseUI: {fileID: 0}
+  pauseUI2: {fileID: 0}
+  pausing: 0
+  ignoreGameObjects: []
+--- !u!114 &114406108193153010
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279281800405514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2048df975a50ddc4bb9489509ce59039, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Map: {fileID: 0}
+  Control: {fileID: 0}
+  Title: {fileID: 0}
+  mapwindow: {fileID: 0}
+  ControlWindow: {fileID: 0}
+  TitleWindow: {fileID: 0}
 --- !u!114 &114672786520629606
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -51,9 +86,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 686db4f4a071e2d4da453940b056cede, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Player: {fileID: 0}
-  m_Enemy: {fileID: 0}
-  m_MiniMap: {fileID: 0}
-  cameraH: 10
-  redLine: 0
-  test: 0
+  m_GameClear: {fileID: 0}
+  m_GameOver: {fileID: 0}
+  m_switchCam: {fileID: 0}
+  m_attackP: {fileID: 0}
+  m_textcontroller: {fileID: 0}
+  m_camera: {fileID: 0}
+  minimap: {fileID: 0}
+  weekcount: 6
+  mapXsize: 23
+  testnum: 0
+  bgms: []
+  lifeIcons: []
+  endXpos: 370
+--- !u!114 &114789040375358544
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279281800405514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e99f4ed94885434c8edac382960a785, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  propertyWindow: {fileID: 0}
+  m_miniMapCamera: {fileID: 0}

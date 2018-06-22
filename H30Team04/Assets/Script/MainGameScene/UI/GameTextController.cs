@@ -55,7 +55,7 @@ public class GameTextController : MonoBehaviour {
     void Update()
     {
         if (Time.timeScale == 0) return;
-
+        Debug.Log(m_crt.ScanLineTail);
         if (m_PhDface)
         {
             m_panel.SetActive(true);
@@ -111,16 +111,7 @@ public class GameTextController : MonoBehaviour {
                 _delete = true;
 
             }
-            else
-            {
-                return;
-            }
         }
-        else
-        {
-            return;
-        }
-            
     }
 
     /// <summary>
@@ -135,10 +126,6 @@ public class GameTextController : MonoBehaviour {
             _nowtext = i;
             m_PhDface = true;
             m_scenarioi = true;
-        }
-        else
-        {
-            return;
         }
 
     }
