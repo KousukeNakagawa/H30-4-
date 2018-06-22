@@ -12,9 +12,12 @@ public class BuilCrush : MonoBehaviour {
     public GameObject crashSmoke;
     private GameObject currentSmoke;
 
+    private AudioSource m_audio;
+
     // Use this for initialization
     void Start () {
         startPos = transform.position;
+        m_audio = GetComponent<AudioSource>();
 	}
 	
 	// Update is called once per frame
@@ -44,6 +47,7 @@ public class BuilCrush : MonoBehaviour {
         if (collision.transform.tag == "BigEnemy")
         {
             if(ScecnManager.NowSceneName() == "GamePlay")GameTextController.TextStart(2);
+            if (m_audio != null) m_audio.Play();
             isCrush = true;
             GetComponent<Collider>().enabled = false;
             currentSmoke = Instantiate(crashSmoke, transform.Find("builunder").position, Quaternion.identity);

@@ -27,6 +27,8 @@ public class EnsyutuCamera : MonoBehaviour {
     public AudioClip beaconSound, shotSound;
     private AudioSource m_audio;
 
+    public Animator beaconAnim;
+
 
 	// Use this for initialization
 	void Start () {
@@ -81,6 +83,7 @@ public class EnsyutuCamera : MonoBehaviour {
             {
                 if(nowInt == 2)
                 {
+                    beaconAnim.Play("beaconAnim");
                     m_audio.PlayOneShot(beaconSound);
                 }
                 nowInt++;

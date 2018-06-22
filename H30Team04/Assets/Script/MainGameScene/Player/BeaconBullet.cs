@@ -77,7 +77,7 @@ public class BeaconBullet : MonoBehaviour
         transform.parent = other.transform;
 
         audioSourse.PlayOneShot(SE);
-        transform.localScale *= 10;
+        //transform.localScale *= 10;
     }
 
     /// <summary>

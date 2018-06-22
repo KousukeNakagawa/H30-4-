@@ -25,7 +25,7 @@ public class SniperBullet : MonoBehaviour
     void OnTriggerEnter(Collider collider)
     {
         //地面・ビルと衝突時、自身を消滅
-        Destroy(snipeBullet);
+        if (collider.CompareTag("Building") || collider.CompareTag("Field")) Destroy(snipeBullet);
     }
 
     private void OnCollisionEnter(Collision other)

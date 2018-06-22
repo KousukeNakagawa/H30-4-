@@ -69,10 +69,12 @@ public class GameTextController : MonoBehaviour {
                     m_PhDface = false;
                     sScenarios[_nowtext] = null;
                     _delete = false;
+                    m_textEndtimer = 0;
                 }
                 else if (m_textEndtimer > 5)
                 {
                     m_PhDface = false;
+                    m_textEndtimer = 0;
                 }
             }
         }
@@ -186,7 +188,6 @@ public class GameTextController : MonoBehaviour {
             m_time = i;
             m_panel.SetActive(false);
             m_rawImage.SetActive(false);
-            m_textEndtimer = 0;
         }
     }
 }
