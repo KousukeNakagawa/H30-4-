@@ -16,6 +16,8 @@ public class WindowDisplay : MonoBehaviour  {
     private GameObject ControlWindow;
     [SerializeField]
     private GameObject TitleWindow;
+    [SerializeField]
+    private GameObject propertyWindow;
 
     // Use this for initialization
     void Start()
@@ -26,6 +28,16 @@ public class WindowDisplay : MonoBehaviour  {
     // Update is called once per frame
     void Update()
     {
+        //　ステータスウインドウのオン・オフ
+        if (Input.GetButtonDown("Restart"))
+        {
+            propertyWindow.SetActive(!propertyWindow.activeSelf);
+            Map.SetActive(false);
+        }
+        if (Input.GetButtonDown("Cancel"))
+        {
+            propertyWindow.SetActive(false);
+        }
         if (!Map.activeSelf)
         {
             mapwindow.SetActive(true);

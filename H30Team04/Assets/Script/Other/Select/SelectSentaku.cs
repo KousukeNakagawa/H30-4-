@@ -34,7 +34,7 @@ public class SelectSentaku : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        selectMove = SelectMove.Left;
+        //selectMove = SelectMove.Left;
     }
 
     // Update is called once per frame
@@ -57,6 +57,13 @@ public class SelectSentaku : MonoBehaviour
                 transform.localScale = new Vector3(2.7f, 1, 1);
                 m_titletext.fontStyle = FontStyle.Bold;
                 break;
+        }
+        if(Input.GetButtonDown("Restart")&&!Map.activeSelf)
+        {
+            selectMove = SelectMove.Left;
+            Control.SetActive(true);
+            Title.SetActive(true);
+
         }
         if (Input.GetButtonDown("LockAt") && selectMove == SelectMove.Left)
         {
