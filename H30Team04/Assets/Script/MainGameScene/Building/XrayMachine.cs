@@ -376,6 +376,10 @@ public class XrayMachine : MonoBehaviour
         DeadProcessing(other.transform.tag);
     }
 
-
+    /// <summary> テキストナンバー </summary>
+    public string GetTextNum()
+    {
+        return texnumber;
+    }
 
 }

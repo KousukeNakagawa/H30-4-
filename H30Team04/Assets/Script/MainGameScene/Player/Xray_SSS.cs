@@ -35,7 +35,10 @@ public class Xray_SSS : MonoBehaviour
     public static Vector3 ShutterPos;
     public static Vector3 ShutterAngle;
 
-    public static bool IsShutter { get; set; }
+    [Header("Checkを付けると距離補正をしっかり行います")]
+    public bool IsSearchMode = true;
+
+    bool currentSelectXrayState, oldSelectXrayState;
 
     void Start()
     {
@@ -89,51 +92,40 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機の選択 </summary>
     void Select()
     {
+        //初回のみの処理
+        _oldXray = _oldXray ?? _sortXrays[0].Key;
+
         if (_XrayMachines.Length < 1)
         {
             markwe.SetActive(false);
             return;
         }
-        //初回のみの処理
-        _oldXray = _oldXray ?? _sortXrays[0].Key;
+
+        // 選択中の射影機が存在しているかを取得・更新
+        currentSelectXrayState = XrayMachines.DeadOrAlive(_selectXray);
 
         //一番近い射影機の取得
         if (_sortXrays.Count != 0) _Xray1 = _sortXrays[0].Key;
         //射影機が二つ以上あるなら二番目に近い射影機の取得
         if (_Xrays.Count >= 2) _Xray2 = _sortXrays[1].Key;
 
-        //射影機の切替
+        // Bボタンを押した瞬間
         if (Input.GetButtonDown("Select") && !IsShutterChance)
         {
             GameTextController.TextStart(5);
+            // 対象を切り替える
             _isNear = !_isNear;
         }
+        // 選択中の射影機が消失、前フレームは生きていたら
+        // 何もしない
+        if (!currentSelectXrayState && oldSelectXrayState) { }
 
         //一番近い射影機を示す
         if (_isNear) _currentXray = _Xray1;
         //二番目に近い射影機を示す
         else if (_Xrays.Count >= 2) _currentXray = _Xray2;
 
-        //矢印の示す射影機の更新
-        _selectXray = _currentXray;
-
-        //射影機らとの距離順番が変わってしまった時の処理
-        if (_currentXray != _oldXray && !Input.GetButtonDown("Select"))
-        {
-            // お願いシンデレラ
-            if (!XrayMachines.DeadOrAlive(_selectXray))
-            {
-                _isNear = !_isNear;
-                _selectXray = _oldXray;
-            }
-            else
-            {
-                _isNear = !_isNear;
-                _selectXray = _oldXray;
-            }
-        }
-        //前フレームの情報を取得
-        else _oldXray = _currentXray;
+        SelectSupport();
 
         #region 射影機が破壊される直前に遺言を貰いたい…
 
@@ -146,11 +138,59 @@ public class Xray_SSS : MonoBehaviour
 
         #endregion
 
-        ShutterPos = _selectXray.transform.Find("ShutterPos").position;
-        ShutterAngle = ShutterPos + _selectXray.transform.Find("ShutterPos").forward;
-
         Marker();
         Show();
+    }
+
+    /*** 切り替わった対象を戻す処理 ***/
+    /*** 意図的に切り替えたなら無視する ***/
+    /// <summary> 射影機選択の補助 </summary>
+    void SelectSupport()
+    {
+        //矢印の示す射影機の更新
+        _selectXray = _currentXray;
+
+        //Debug.Log("current::" + _Xray1.GetComponent<XrayMachine>().GetTextNum() +
+        //    "///old::" + _Xray2.GetComponent<XrayMachine>().GetTextNum() +
+        //    "///select::" + _selectXray.GetComponent<XrayMachine>().GetTextNum() + "///一番近い::" + _isNear);
+
+        // 切替ボタンを押していないのに 示している射影機が切り替わった瞬間
+        if (!Input.GetButtonDown("Select") && _currentXray != _oldXray)
+        {
+            // 切り替わる前に戻す
+            //_isNear = !_isNear;
+            // 切り替わる前の射影機を示し続ける
+            _selectXray = _oldXray;
+        }
+        // 切り替わっていないなら
+        // 前フレーム示していた射影機を更新
+        else _oldXray = _currentXray;
+
+        // 選択中の射影機が消失している & 前フレームは存在していた <= 意図的に切り替える条件
+        // 選択中の射影機が存在している & 前フレームは消失していた <= 無視させたい条件
+        // 無視させたい条件中に 示している射影機が切り替わった瞬間
+        if ((currentSelectXrayState || !oldSelectXrayState) && _currentXray != _oldXray)
+        {
+            //切り替わる前に戻す
+            _isNear = !_isNear;
+            //切り替わる前の射影機を示し続ける
+            _selectXray = _oldXray;
+        }
+        //切り替わっていないなら
+        else
+        {
+            // 前フレーム示していた射影機を更新
+            _oldXray = _currentXray;
+        }
+        // 選択中の射影機の前フレームの状態を更新
+        oldSelectXrayState = currentSelectXrayState;
+    }
+
+    /// <summary> 選択中の射影機の「ShutterPos」情報のセッティング </summary>
+    void SetSelectXray()
+    {
+        ShutterPos = _selectXray.transform.Find("ShutterPos").position;
+        ShutterAngle = ShutterPos + _selectXray.transform.Find("ShutterPos").forward;
     }
 
     /// <summary> 矢印の描画 </summary>
@@ -195,6 +235,7 @@ public class Xray_SSS : MonoBehaviour
             _selectXray.GetComponent<XrayMachine>().XrayPlay();
         }
 
+        // 視点移動中は保持している射影機を消さない処理
         if (Input.GetAxis("ShutterChance") <= 0) _selectXray.GetComponent<XrayMachine>().XrayPlaySupport();
     }
 
