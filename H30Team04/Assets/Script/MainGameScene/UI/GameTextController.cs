@@ -10,7 +10,7 @@ public class GameTextController : MonoBehaviour {
     [SerializeField]
     GameObject m_PhDcamera;
     [SerializeField]
-    string[] m_Scenarios;
+    [Multiline]string[] m_Scenarios;
     public Text m_uiText;
     [SerializeField]
     private GameObject m_panel;
@@ -55,7 +55,6 @@ public class GameTextController : MonoBehaviour {
     void Update()
     {
         if (Time.timeScale == 0) return;
-        Debug.Log(m_crt.ScanLineTail);
         if (m_PhDface)
         {
             m_panel.SetActive(true);
