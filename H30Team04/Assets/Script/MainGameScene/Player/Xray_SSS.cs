@@ -135,6 +135,8 @@ public class Xray_SSS : MonoBehaviour
 
         #endregion
 
+        SetSelectXray();
+
         Marker();
         Show();
     }
