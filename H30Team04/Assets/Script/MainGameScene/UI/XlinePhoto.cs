@@ -70,7 +70,7 @@ public class XlinePhoto : MonoBehaviour {
             m_wepons[2].enabled = false;
             m_lifes[0].transform.parent.gameObject.SetActive(false);
         }
-        else
+        else if(!m_miniMapCamera._pose && m_gamemanager.NowState() == GameManager.PhaseState.photoState)
         {
             m_lifes[0].transform.parent.gameObject.SetActive(true);
         }
