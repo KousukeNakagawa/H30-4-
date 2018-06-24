@@ -7092,7 +7092,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
+  near clip plane: 0.01
   far clip plane: 1000
   field of view: 60
   orthographic: 0
@@ -7364,6 +7364,7 @@ MonoBehaviour:
     type: 2}
   fireRightPos: {x: 0.1, y: 0, z: 0}
   m_week_name: {fileID: 0}
+  m_Interval: 0.2
 --- !u!124 &124772513652301646
 Behaviour:
   m_ObjectHideFlags: 1
@@ -7480,8 +7481,8 @@ SkinnedMeshRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_Materials:
-  - {fileID: 2100000, guid: 66ea94a0b8bcfd24a9ad5c07fb27e614, type: 3}
-  - {fileID: 2100002, guid: 66ea94a0b8bcfd24a9ad5c07fb27e614, type: 3}
+  - {fileID: 2100000, guid: 5b4ee6bace9743c4d86843219f99fa18, type: 2}
+  - {fileID: 2100000, guid: e1c13c69230efd44fa06af1f9ccf4c34, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

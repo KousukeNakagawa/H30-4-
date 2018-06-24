@@ -16,6 +16,8 @@ public class AttackPlayer : MonoBehaviour {
     [SerializeField] private GameObject targetPrefab;
     [SerializeField] private Vector3 fireRightPos;
     [SerializeField] private Text m_week_name;
+    [SerializeField, Range(0.1f, 1.0f), Tooltip("スティック移動のインターバル")] private float m_Interval = 0.5f;
+    private float intervalTime = 1.0f;
     private string m_weekText;
 
     private bool is_shot = false;
@@ -23,12 +25,14 @@ public class AttackPlayer : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        //weekPoints = GameObject.FindGameObjectsWithTag("WeekPoint");
+        //Debug.Log(weekPoints.Length);
+        //m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
 
     }
 
     private void Awake()
     {
-        
         
     }
 
@@ -39,15 +43,25 @@ public class AttackPlayer : MonoBehaviour {
         {
             SetData();
         }
-        if (m_gm.AttackStateNow() && !is_shot)
+        else if (m_gm.AttackStateNow() && !is_shot)
         {
-            if (Input.GetButtonDown("Select"))
+            if (Input.GetButtonDown("Select") || Input.GetAxisRaw("Hor") > 0.7f && intervalTime > m_Interval)
             {
                 selectNum++;
                 if (selectNum >= weekPoints.Length) selectNum = 0;
                 m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
                 //m_week_name.text = m_weekText;
+                intervalTime = 0.0f;
             }
+            else if (Input.GetAxisRaw("Hor") < -0.7f && intervalTime > m_Interval)
+            {
+                selectNum--;
+                if (selectNum < 0) selectNum = weekPoints.Length - 1;
+                m_weekText = weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekName();
+                //m_week_name.text = m_weekText;
+                intervalTime = 0.0f;
+            }
+            intervalTime += Time.deltaTime;
             target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
             transform.LookAt(target);
 

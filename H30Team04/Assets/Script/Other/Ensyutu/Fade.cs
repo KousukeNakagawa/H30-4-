@@ -53,8 +53,6 @@ public class Fade : MonoBehaviour
 
     public static void FadeOut(float fadespeed = 2.0f)
     {
-        Debug.Log(fadeEnd + "///" + m_Fade);
-
         if (!fadeEnd || m_Fade) return;
         m_Fade = true;
         fadeEnd = false;

@@ -10,7 +10,7 @@ public class StartText : MonoBehaviour {
     [SerializeField]
     GameObject m_PhDcamera;
     [SerializeField]
-    string[] m_Scenarios;
+    [Multiline] string[] m_Scenarios;
     public Text m_uiText;
     [SerializeField]
     private GameObject m_panel;
@@ -59,10 +59,10 @@ public class StartText : MonoBehaviour {
     {
         if (Time.timeScale == 0) return;
 
-        if(Fade.IsFadeEnd() && Fade.IsFadeOutOrIn())
-        {
-            ScecnManager.SceneChange("GamePlay");
-        }
+        //if(Fade.IsFadeEnd() && Fade.IsFadeOutOrIn())
+        //{
+        //    ScecnManager.SceneChange("GamePlay");
+        //}
 
         if (m_PhDface)
         {
@@ -84,7 +84,7 @@ public class StartText : MonoBehaviour {
                 }
             }
         }
-        else if (!m_PhDface && _nowtext == 5)
+        else if (!m_PhDface && _nowtext == m_Scenarios.Length - 1)
         {
             yoinTime += Time.deltaTime;
             if (yoinTime < yoin) return;
@@ -109,7 +109,7 @@ public class StartText : MonoBehaviour {
     /// <param name="i"></param>
     public static void TextStart(int i)
     {
-        if (sScenarios[i] != null && !m_PhDface)
+        if (sScenarios[i] != null)// && !m_PhDface)
         {
             //if (!m_PhDface)
             //{
@@ -199,7 +199,7 @@ public class StartText : MonoBehaviour {
             m_rawImage.SetActive(false);
             m_textEndtimer = 0;
 
-            Fade.FadeOut();
+            //Fade.FadeOut();
             
         }
     }

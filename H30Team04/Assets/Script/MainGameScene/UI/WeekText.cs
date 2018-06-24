@@ -20,5 +20,11 @@ public class WeekText : MonoBehaviour {
     public void SetText(string text)
     {
         probabilityText.text = text;
+
+        //bool isHide = (text != "0%");
+        //foreach (Transform child in transform)
+        //{
+        //    child.gameObject.SetActive(isHide);
+        //}
     }
 }
