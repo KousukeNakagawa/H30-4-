@@ -22,6 +22,7 @@ public class Soldier : MonoBehaviour
     [SerializeField, Range(0, 10)] float invincibleTime = 3;
     [SerializeField, Range(1, 10)] float fade = 2;
     float backupInvincibleTime;
+    /// <summary> 無敵状態かどうか </summary>
     bool isInvincible = false;
     bool invincibleFade = false;
     ////プレイヤーを透過する角度
@@ -88,6 +89,9 @@ public class Soldier : MonoBehaviour
         if (Time.timeScale == 0) return;
         if (!SEManager.IsEndSE) return;
 
+        // LT押している間は無敵
+        isInvincible = Xray_SSS.IsShutterChance;
+
         GetInput();
         Rotation();
         Invincible();
@@ -95,13 +99,14 @@ public class Soldier : MonoBehaviour
         if (Annihilation()) Death(); //３回やられたら死亡
 
         //START:初期位置へワープ（デバック用）
-        if (Input.GetButtonDown("Restart")) Respawn();
+        if (Input.GetButtonDown("Restart")) Damage();
 
         //Respawn();
     }
 
     void FixedUpdate()
     {
+        if (Time.timeScale == 0) return;
         if (IsStop) rb.velocity = Vector3.zero;
 
         Move();
@@ -109,12 +114,12 @@ public class Soldier : MonoBehaviour
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.collider.CompareTag("BigEnemy")) Respawn();
+        if (other.collider.CompareTag("BigEnemy")) Damage();
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Missile")) Respawn();
+        if (other.CompareTag("Missile")) Damage();
     }
 
     /// <summary> 移動処理 </summary>
@@ -169,39 +174,24 @@ public class Soldier : MonoBehaviour
         angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
     }
 
-    /// <summary> リスポーン </summary>
-    public void Respawn()
+    /// <summary> ダメージ処理 </summary>
+    public void Damage()
     {
+        // 無敵状態ならスルー
         if (isInvincible) return;
 
-        //if (Annihilation()) return;
-        //if (IsDead)
-        //{
-        //移動を殺す
+        // 移動を殺す
         rb.velocity = Vector3.zero;
-        residue--; //死亡可能回数の減少
+        // 残機を減らす
+        residue--;
 
+        //残機がなくなったら終わり
         if (Annihilation()) return;
-        //GameTextController.TextStart(3);
-
-        //if (Input.GetButtonDown("Select"))
-        //{
-        //初期位置へ
-        //transform.position = startPosition;
-        //transform.rotation = startRotation;
-        //playerCamera.transform.rotation = startCameraRotation;
-        //ビッグエネミーを向く
-        //Vector3 targetPos = BigEnemyScripts.mTransform.position;
-        //targetPos.y = transform.position.y;
-        //        transform.LookAt(targetPos);
+        // 死亡処理
         IsDead = false;
 
+        // 無敵状態になる
         isInvincible = true;
-
-        Invincible(Xray_SSS.IsShutterChance);
-
-        // }
-        //}
     }
 
     /// <summary> 無敵処理 </summary>
@@ -210,45 +200,28 @@ public class Soldier : MonoBehaviour
         //無敵状態じゃなかったら無視
         if (!isInvincible) return;
 
+        // カウントダウン
         invincibleTime -= Time.deltaTime;
+
+        // 無敵時間終了時処理
         if (invincibleTime <= 0)
         {
             invincibleAlpha = 1;
             invincibleTime = backupInvincibleTime;
+            // 無敵状態解除
             isInvincible = false;
         }
 
+        // 透明度
         if (invincibleAlpha <= 0) invincibleFade = true;
         if (invincibleAlpha >= 1) invincibleFade = false;
         invincibleAlpha = (invincibleFade) ?
             invincibleAlpha += fade * Time.deltaTime : invincibleAlpha -= fade * Time.deltaTime;
 
+        // プレイヤーの点滅
         foreach (var rend in renderers)
             foreach (var material in rend.materials)
                 material.color = new Color(1, 1, 1, invincibleAlpha);
-    }
-
-    /// <summary> 射影機目線中は無敵 </summary>
-    void Invincible(bool on)
-    {
-        if (!on)
-        {
-            invincibleAlpha = 1;
-            isInvincible = false;
-        }
-
-        if (on)
-        {
-            if (invincibleAlpha <= 0) invincibleFade = true;
-            if (invincibleAlpha >= 1) invincibleFade = false;
-
-            invincibleAlpha = (invincibleFade) ?
-                invincibleAlpha += fade * Time.deltaTime : invincibleAlpha -= fade * Time.deltaTime;
-
-            foreach (var rend in renderers)
-                foreach (var material in rend.materials)
-                    material.color = new Color(1, 1, 1, invincibleAlpha);
-        }
     }
 
     /// <summary> 残機０で死亡時 </summary>
