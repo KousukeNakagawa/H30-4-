@@ -198,6 +198,8 @@ public class Soldier : MonoBehaviour
 
         isInvincible = true;
 
+        Invincible(Xray_SSS.IsShutterChance);
+
         // }
         //}
     }
@@ -224,6 +226,29 @@ public class Soldier : MonoBehaviour
         foreach (var rend in renderers)
             foreach (var material in rend.materials)
                 material.color = new Color(1, 1, 1, invincibleAlpha);
+    }
+
+    /// <summary> 射影機目線中は無敵 </summary>
+    void Invincible(bool on)
+    {
+        if (!on)
+        {
+            invincibleAlpha = 1;
+            isInvincible = false;
+        }
+
+        if (on)
+        {
+            if (invincibleAlpha <= 0) invincibleFade = true;
+            if (invincibleAlpha >= 1) invincibleFade = false;
+
+            invincibleAlpha = (invincibleFade) ?
+                invincibleAlpha += fade * Time.deltaTime : invincibleAlpha -= fade * Time.deltaTime;
+
+            foreach (var rend in renderers)
+                foreach (var material in rend.materials)
+                    material.color = new Color(1, 1, 1, invincibleAlpha);
+        }
     }
 
     /// <summary> 残機０で死亡時 </summary>

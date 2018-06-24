@@ -12,32 +12,29 @@ public class Xray_SSS : MonoBehaviour
     [SerializeField] MainCamera m_maincamera;
     [SerializeField] GameObject markwe;
 
-    //射影機取得用
+    /// <summary> 全射影機取得用 </summary>
     GameObject[] _XrayMachines;
-    //射影機との距離を取得し、値をいじるため
+    /// <summary> 距離を被りなく取得するための辞書 </summary>
     Dictionary<GameObject, float>
         _Xrays = new Dictionary<GameObject, float>();
-    //ソートするため
+    /// <summary> 距離をソートするためのリスト </summary>
     List<KeyValuePair<GameObject, float>>
         _sortXrays = new List<KeyValuePair<GameObject, float>>();
 
     //現在指している射影機・前フレーム指していた射影機
     //一番近い射影機・二番目に近い射影機
     GameObject _currentXray, _oldXray, _Xray1, _Xray2;
-    //選択している射影機
+    /// <summary> 選択中の射影機 </summary>
     GameObject _selectXray;
-
-    //射影機の選択切替フラグ
+    /// <summary> 射影機の切替フラグ </summary>
     bool _isNear = true;
-
     /// <summary> 射影機目線になるか </summary>
     public static bool IsShutterChance { get; private set; }
+    /// <summary> 射影機目線になるときの位置 </summary>
     public static Vector3 ShutterPos;
+    /// <summary> 射影機目線になるときの向き </summary>
     public static Vector3 ShutterAngle;
-
-    [Header("Checkを付けると距離補正をしっかり行います")]
-    public bool IsSearchMode = true;
-
+    /// <summary> 現在選択中の射影機の生存確認用 </summary>
     bool currentSelectXrayState, oldSelectXrayState;
 
     void Start()
