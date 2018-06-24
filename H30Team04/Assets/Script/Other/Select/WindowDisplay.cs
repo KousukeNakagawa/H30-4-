@@ -18,6 +18,8 @@ public class WindowDisplay : MonoBehaviour  {
     private GameObject TitleWindow;
     [SerializeField]
     private GameObject propertyWindow;
+    [SerializeField]
+    private MiniMAPcamera m_miniMapCamera;
 
     // Use this for initialization
     void Start()
@@ -33,10 +35,12 @@ public class WindowDisplay : MonoBehaviour  {
         {
             propertyWindow.SetActive(!propertyWindow.activeSelf);
             Map.SetActive(false);
+            m_miniMapCamera._pose = !m_miniMapCamera._pose;
         }
-        if (Input.GetButtonDown("Cancel"))
+        if (Input.GetButtonDown("Cancel")&& m_miniMapCamera.Pose)
         {
             propertyWindow.SetActive(false);
+            m_miniMapCamera._pose = !m_miniMapCamera._pose;
         }
         if (!Map.activeSelf)
         {

@@ -12,15 +12,14 @@ public class XlinePhoto : MonoBehaviour {
     AttackPlayer m_AP;
     [SerializeField]
     private Transform[] m_imagepos;
-    //[SerializeField]
-    //WeaponCtrl m_fireCtrl;
+    [SerializeField]
+    private MiniMAPcamera m_miniMapCamera;
     public GameObject gm;
     GameObject XPhots;
     GameObject m_Sight;
     GameObject m_textBackImage;
     GameObject m_Rod;
     GameManager m_gamemanager;
-    //GameObject Arrows;
     public int m_FlyerCount;
     bool m_IsChange;
     private int currentSelectStageIndex;
@@ -64,6 +63,17 @@ public class XlinePhoto : MonoBehaviour {
         UpdateSelect();
         ViewPhotos();
         WeponChoiceNow();
+        if (m_miniMapCamera._pose)
+        {
+            m_wepons[0].enabled = false;
+            m_wepons[1].enabled = false;
+            m_wepons[2].enabled = false;
+            m_lifes[0].transform.parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            m_lifes[0].transform.parent.gameObject.SetActive(true);
+        }
 	}
 
     void WeponChoiceNow()
@@ -182,24 +192,6 @@ public class XlinePhoto : MonoBehaviour {
          m_FlyerCount++;
     }
 
-    /// <summary>
-    /// これを呼ぶと残機UIが減らせる
-    /// </summary>
-    public void Life()
-    {
-        m_lifes[_lifecount -1].SetActive(false);
-        _lifecount--;
-        if (_lifecount <= 0) m_gamemanager.GameOver();
-    }
-
-    /// <summary>
-    /// 今の残機数を取得できる(0～2)
-    /// </summary>
-    /// <returns></returns>
-    //public int LifeCounter()
-    //{
-    //    return _lifecount;
-    //}
 
     public void UIdelete()
     {

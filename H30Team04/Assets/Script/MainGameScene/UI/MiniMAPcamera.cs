@@ -42,7 +42,7 @@ public class MiniMAPcamera : MonoBehaviour
             return;
         }
 
-        if (!_pose)
+        if (!_pose && Time.timeScale==1)
         {
             m_Map.SetActive(false);
             m_Minimap.SetActive(true);
