@@ -28,7 +28,7 @@ public class Xray_SSS : MonoBehaviour
     GameObject _selectXray;
     /// <summary> 射影機の切替フラグ </summary>
     bool _isNear = true;
-    /// <summary> 射影機目線になるか </summary>
+    /// <summary> 射影機目線か </summary>
     public static bool IsShutterChance { get; private set; }
     /// <summary> 射影機目線になるときの位置 </summary>
     public static Vector3 ShutterPos;
@@ -106,8 +106,9 @@ public class Xray_SSS : MonoBehaviour
         if (_Xrays.Count >= 2) _Xray2 = _sortXrays[1].Key;
 
         // Bボタンを押した瞬間
-        if (Input.GetButtonDown("Select") && !IsShutterChance)
+        if (Input.GetButtonDown("Select"))
         {
+            if (IsShutterChance) return;
             GameTextController.TextStart(5);
             // 対象を切り替える
             _isNear = !_isNear;
@@ -147,37 +148,44 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機選択の補助 </summary>
     void SelectSupport()
     {
+        //// 残り１以下になったら
+        //if (_sortXrays.Count < 2)
+        //{
+        //    _selectXray = _sortXrays[0].Key;
+        //    return;
+        //}
+
         //矢印の示す射影機の更新
         _selectXray = _currentXray;
 
-        ////Debug.Log("current::" + _Xray1.GetComponent<XrayMachine>().GetTextNum() +
-        ////    "///old::" + _Xray2.GetComponent<XrayMachine>().GetTextNum() +
-        ////    "///select::" + _selectXray.GetComponent<XrayMachine>().GetTextNum() + "///一番近い::" + _isNear);
+        //Debug.Log("current::" + _Xray1.GetComponent<XrayMachine>().GetTextNum() +
+        //    "///old::" + _Xray2.GetComponent<XrayMachine>().GetTextNum() +
+        //    "///select::" + _selectXray.GetComponent<XrayMachine>().GetTextNum() + "///一番近い::" + _isNear);
 
-        //// 切替ボタンを押していないのに 示している射影機が切り替わった瞬間
-        //if (!Input.GetButtonDown("Select") && _currentXray != _oldXray)
-        //{
-        //    // 切り替わる前に戻す
-        //    //_isNear = !_isNear;
-        //    // 切り替わる前の射影機を示し続ける
-        //    _selectXray = _oldXray;
-        //}
-        //// 切り替わっていないなら
-        //// 前フレーム示していた射影機を更新
-        //else _oldXray = _currentXray;
+        // 切替ボタンを押していないのに 示している射影機が切り替わった瞬間
+        if (!Input.GetButtonDown("Select") && _currentXray != _oldXray)
+        {
+            // 切り替わる前に戻す
+            //_isNear = !_isNear;
+            // 切り替わる前の射影機を示し続ける
+            _selectXray = _oldXray;
+        }
+        // 切り替わっていないなら
+        // 前フレーム示していた射影機を更新
+        else _oldXray = _currentXray;
 
-        //// 選択中の射影機が消失している & 前フレームは存在していた <= 意図的に切り替える条件
-        //// 選択中の射影機が存在している & 前フレームは消失していた <= 無視させたい条件
-        //// 無視させたい条件中に 示している射影機が切り替わった瞬間
-        //if ((currentSelectXrayState || !oldSelectXrayState) && _currentXray != _oldXray)
-        //{
-        //    //切り替わる前に戻す
-        //    _isNear = !_isNear;
-        //    //切り替わる前の射影機を示し続ける
-        //    _selectXray = _oldXray;
-        //}
-        ////切り替わっていないなら
-        //else
+        // 選択中の射影機が消失している & 前フレームは存在していた <= 意図的に切り替える条件
+        // 選択中の射影機が存在している & 前フレームは消失していた <= 無視させたい条件
+        // 無視させたい条件中に 示している射影機が切り替わった瞬間
+        if ((currentSelectXrayState || !oldSelectXrayState) && _currentXray != _oldXray)
+        {
+            //切り替わる前に戻す
+            _isNear = !_isNear;
+            //切り替わる前の射影機を示し続ける
+            _selectXray = _oldXray;
+        }
+        //切り替わっていないなら
+        else
         {
             // 前フレーム示していた射影機を更新
             _oldXray = _currentXray;
@@ -193,22 +201,10 @@ public class Xray_SSS : MonoBehaviour
         ShutterAngle = ShutterPos + _selectXray.transform.Find("ShutterPos").forward;
     }
 
-    /// <summary> 射影機が残り１機になった時の処理 </summary>
-    void LastSearch()
-    {
-        // 残り１以下になったら
-        if (_sortXrays.Count < 2)
-            _selectXray = _sortXrays[0].Key;
-    }
-
     /// <summary> 再検索 </summary>
     void Research()
     {
-        if (!_selectXray.CompareTag("Xline"))
-        {
-            _isNear = !_isNear;
-            Debug.Log("on");
-        }
+        if (!_selectXray.CompareTag("Xline")) _isNear = !_isNear;
     }
 
     /// <summary> 矢印の描画 </summary>
@@ -251,10 +247,13 @@ public class Xray_SSS : MonoBehaviour
         {
             GameTextController.TextStart(4);
             _selectXray.GetComponent<XrayMachine>().XrayPlay();
+            // 一番近いものを見る
+            _isNear = true;
         }
 
         // 視点移動中は保持している射影機を消さない処理
-        if (Input.GetAxis("ShutterChance") <= 0) _selectXray.GetComponent<XrayMachine>().XrayPlaySupport();
+        if (Input.GetAxis("ShutterChance") <= 0)
+            _selectXray.GetComponent<XrayMachine>().XrayPlaySupport();
     }
 
     /// <summary> 射影機との距離の更新 </summary>

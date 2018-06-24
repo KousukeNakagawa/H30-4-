@@ -48,6 +48,8 @@ public class MainCamera : MonoBehaviour
 
         UnlockManager.Unlock(UnlockState.xray); //後で消す
 
+        if (cur != ol) leap = backupLeap;
+
         if (Xray_SSS.IsShutterChance)
         {
             leap += backupLeap;
@@ -59,7 +61,7 @@ public class MainCamera : MonoBehaviour
             if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
             {
                 transform.position = (Xray_SSS.ShutterPos);
-                leap = backupLeap;
+                //leap = backupLeap;
             }
 
             //移動しつつ射影機の角度になる
@@ -79,7 +81,7 @@ public class MainCamera : MonoBehaviour
                 if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
                 {
                     transform.position = basePos;
-                    leap = backupLeap;
+                    //leap = backupLeap;
                 }
 
                 //移動しつつ射影機の角度になる
@@ -99,6 +101,12 @@ public class MainCamera : MonoBehaviour
         IsMove = (transform.position != basePos);
         ol = cur;
         old = current;
+    }
+
+    /// <summary> カメラが定位置にあり LTも押していない (カメラが戻ってきたか) </summary>
+    public static bool IsComeBackCamera()
+    {
+        return (!IsMove && !Xray_SSS.IsShutterChance);
     }
 
     /// <summary> 壁抜け・床抜け防止処理 </summary>
