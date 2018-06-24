@@ -19,9 +19,16 @@ public class Soldier : MonoBehaviour
     [SerializeField, Tooltip("ビーコンガン")] GameObject beacon;
     [SerializeField, Tooltip("スナイパーライフル")] GameObject snipe;
     List<GameObject> bodys = new List<GameObject>();
+    /// <summary> 無敵時間 </summary>
     [SerializeField, Range(0, 10)] float invincibleTime = 3;
-    [SerializeField, Range(1, 10)] float fade = 2;
-    float backupInvincibleTime;
+    /// <summary> 無敵時のフェード速度 </summary>
+    [SerializeField, Range(1, 10)] float fadeSpeed = 2;
+    /// <summary> 最大無敵時間 </summary>
+    float maxInvincibleTime;
+
+    /// <summary> ダメージを受けているか </summary>
+    bool isDamage = false;
+
     /// <summary> 無敵状態かどうか </summary>
     bool isInvincible = false;
     bool invincibleFade = false;
@@ -52,6 +59,7 @@ public class Soldier : MonoBehaviour
     Quaternion startCameraRotation;
 
     List<Renderer> renderers = new List<Renderer>();
+    /// <summary> 無敵状態時の透明度 </summary>
     float invincibleAlpha = 1;
 
     public static Transform Transform_ { get; private set; }
@@ -76,7 +84,7 @@ public class Soldier : MonoBehaviour
         startCameraRotation = playerCamera.transform.rotation;
 
         UnlockManager.AllSet(isUnlock);
-        backupInvincibleTime = invincibleTime;
+        maxInvincibleTime = invincibleTime;
 
         foreach (var sniper in body.GetComponentsInChildren<SkinnedMeshRenderer>()) renderers.Add(sniper);
         //ライフルのメッシュの取得
@@ -89,8 +97,8 @@ public class Soldier : MonoBehaviour
         if (Time.timeScale == 0) return;
         if (!SEManager.IsEndSE) return;
 
-        // LT押している間は無敵
-        isInvincible = Xray_SSS.IsShutterChance;
+        // LT押している間 or 被弾時は無敵
+        isInvincible = (Xray_SSS.IsShutterChance || isDamage);
 
         GetInput();
         Rotation();
@@ -190,15 +198,15 @@ public class Soldier : MonoBehaviour
         // 死亡処理
         IsDead = false;
 
-        // 無敵状態になる
-        isInvincible = true;
+        // 被ダメージ状態になる
+        isDamage = true;
     }
 
     /// <summary> 無敵処理 </summary>
     void Invincible()
     {
         //無敵状態じゃなかったら無視
-        if (!isInvincible) return;
+        if (!isDamage) return;
 
         // カウントダウン
         invincibleTime -= Time.deltaTime;
@@ -207,20 +215,20 @@ public class Soldier : MonoBehaviour
         if (invincibleTime <= 0)
         {
             invincibleAlpha = 1;
-            invincibleTime = backupInvincibleTime;
+            invincibleTime = maxInvincibleTime;
             // 無敵状態解除
-            isInvincible = false;
+            isDamage = false;
         }
 
-        // 透明度
+        // 透明度の変化
         if (invincibleAlpha <= 0) invincibleFade = true;
         if (invincibleAlpha >= 1) invincibleFade = false;
         invincibleAlpha = (invincibleFade) ?
-            invincibleAlpha += fade * Time.deltaTime : invincibleAlpha -= fade * Time.deltaTime;
+            invincibleAlpha += fadeSpeed * Time.deltaTime : invincibleAlpha -= fadeSpeed * Time.deltaTime;
 
         // プレイヤーの点滅
-        foreach (var rend in renderers)
-            foreach (var material in rend.materials)
+        foreach (var renderer in renderers)
+            foreach (var material in renderer.materials)
                 material.color = new Color(1, 1, 1, invincibleAlpha);
     }
 

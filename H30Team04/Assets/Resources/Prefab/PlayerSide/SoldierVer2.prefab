@@ -2830,7 +2830,7 @@ MonoBehaviour:
   beacon: {fileID: 1965433985474904}
   snipe: {fileID: 1627910251371414}
   invincibleTime: 10
-  fade: 2
+  fadeSpeed: 2
   inverted: 1
   residue: 3
   isUnlock: 0
