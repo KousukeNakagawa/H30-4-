@@ -18,6 +18,7 @@ TagManager:
   - Sniper
   - Canvas2
   - GoalPoin
+  - AviationLight
   layers:
   - Default
   - TransparentFX

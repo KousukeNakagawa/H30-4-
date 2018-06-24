@@ -30,8 +30,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private List<WeekPointData> weekDatas;
-    public Image m_GameClear;
-    public Image m_GameOver;
+    public GameObject m_GameClear;
+    public GameObject m_GameOver;
     public GameObject m_endCam;
     public GameObject m_switchCam;
     public GameObject m_attackP;
@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
     private int mapXsize = 0; //マップのx方向のマスの数
 
     private bool gameend = false;
+    private bool overflash = false, clearflash = false;
 
 
     private PhaseState phaseState;
@@ -60,9 +61,13 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] private GameObject[] lifeIcons;
     private int oldLife;
+    private int _frame = 0;
     private Soldier playerScript;
 
     [SerializeField] private float endXpos = 370;
+
+    Vector3 _overScale,_clearScale;
+    float _overtime = 0,_cleartime=0;
 
     // Use this for initialization
     void Start () {
@@ -75,12 +80,16 @@ public class GameManager : MonoBehaviour {
         weeknumber = Random.Range(0, weekcount);
         weeknumber = 0; //テスト用
         weekDatas = new List<WeekPointData>();
-        m_GameClear.enabled = false;
-        m_GameOver.enabled = false;
+        m_GameClear.SetActive(false);
+        m_GameOver.SetActive(false);
         playerScript = m_player.GetComponent<Soldier>();
         oldLife = playerScript.GetResidue();
         GameTextController.TextStart(0);
         UnlockManager.AllSet(true);
+        _overScale = m_GameOver.transform.localScale;
+        _clearScale = m_GameClear.transform.localScale;
+        _overtime = Time.time;
+        _cleartime = Time.time;
     }
 	
 	// Update is called once per frame
@@ -95,7 +104,21 @@ public class GameManager : MonoBehaviour {
             case PhaseState.waitingState: WaitState(); break;
         }
 
-        
+        if (overflash)
+        {
+            m_GameOver.SetActive(true);
+            iTween.ScaleTo(m_GameOver, iTween.Hash("x", 1, "y", 1, "z", 1, "time", 6));
+            _overScale = m_GameOver.transform.localScale;
+            Invoke("OverFlash", 5f);
+        }
+
+        if (clearflash)
+        {
+            m_GameClear.SetActive(true);
+            iTween.ScaleTo(m_GameClear, iTween.Hash("x", 1, "y", 1, "z", 1, "time", 6));
+            _clearScale = m_GameClear.transform.localScale;
+            Invoke("ClearFlash", 5f);
+        }
     }
 
 
@@ -197,25 +220,20 @@ public class GameManager : MonoBehaviour {
 
     public void GameClear()
     {
-        //m_textcontroller.SetNextText(0, 0, true);
+        clearflash = true;
         GameTextController.TextStart(10);
-        m_GameClear.enabled = true;
+       // m_GameClear.SetActive(true);
         Time.timeScale = 1;
-        //Destroy(m_enemy);
         m_enemy.SetActive(false);
         SetBGM(2);
-        //Time.timeScale = 0;
-        //Debug.Log("ゲームクリア");
         gameend = true;
     }
 
     public void GameOver()
     {
-        //m_textcontroller.SetNextText(0, 0, true);
-        m_GameOver.enabled = true;
+      //  m_GameOver.SetActive(true);
+        overflash = true;
         SetBGM(3);
-        //Time.timeScale = 0;
-        // Debug.Log("ゲームオーバー");
         gameend = true;
     }
 
@@ -356,5 +374,25 @@ public class GameManager : MonoBehaviour {
         }
         bgms[n].enabled = true;
         nowBGM = n;
+    }
+
+    void OverFlash()
+    {
+        if (Time.time > _overtime)
+        {
+            m_GameOver.GetComponent<Image>().enabled = !m_GameOver.GetComponent<Image>().enabled;
+
+            _overtime += 0.8f;
+        }
+    }
+
+    void ClearFlash()
+    {
+        if (Time.time > _cleartime)
+        {
+            m_GameClear.GetComponent<Image>().enabled = !m_GameClear.GetComponent<Image>().enabled;
+
+            _cleartime += 1.5f;
+        }
     }
 }
