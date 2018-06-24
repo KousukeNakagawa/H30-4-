@@ -43,7 +43,7 @@ public class Soldier : MonoBehaviour
     [SerializeField] bool isUnlock = true;
 
     AudioSource audioSourse;
-    [SerializeField] AudioClip SE;
+    //[SerializeField] AudioClip SE;
 
     //リスポーン用
     Vector3 startPosition;

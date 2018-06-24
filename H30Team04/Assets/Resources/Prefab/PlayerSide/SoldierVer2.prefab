@@ -2767,7 +2767,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd041ee19e5ed574ab03f694209f2066, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  se: {fileID: 8300000, guid: b5847a2ef5c085e4ca5cba85ce0c714d, type: 3}
+  se: {fileID: 8300000, guid: 00b954ebb63f2a7469034fb5e1df5948, type: 3}
+  firstPich: 1
+  nextPitch: 3
 --- !u!114 &114347762702366028
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2832,7 +2834,6 @@ MonoBehaviour:
   inverted: 1
   residue: 3
   isUnlock: 0
-  SE: {fileID: 8300000, guid: b5847a2ef5c085e4ca5cba85ce0c714d, type: 3}
 --- !u!114 &114765120528075112
 MonoBehaviour:
   m_ObjectHideFlags: 1

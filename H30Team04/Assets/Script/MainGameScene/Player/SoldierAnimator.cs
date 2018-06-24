@@ -7,6 +7,8 @@ public class SoldierAnimator : MonoBehaviour
     Animator animator;
     AudioSource audio;
     [SerializeField] AudioClip se;
+    [SerializeField, Range(0.1f, 3)] float firstPich;
+    [SerializeField, Range(0.1f, 3)] float nextPitch;
 
     bool isStay = false;
     bool isFront = false;
@@ -74,8 +76,16 @@ public class SoldierAnimator : MonoBehaviour
     }
 
     /// <summary> アニメーションイベント用（歩くSE） </summary>
-    void Step()
+    void FirstStep()
     {
+        audio.pitch = firstPich;
+        audio.PlayOneShot(se);
+    }
+
+    /// <summary> アニメーションイベント用（歩くSE） </summary>
+    void NextStep()
+    {
+        audio.pitch = nextPitch;
         audio.PlayOneShot(se);
     }
 }
