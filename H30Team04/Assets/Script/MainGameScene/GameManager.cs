@@ -65,6 +65,7 @@ public class GameManager : MonoBehaviour {
     private Soldier playerScript;
 
     [SerializeField] private float endXpos = 370;
+    [SerializeField] Text m_PushA;
 
     Vector3 _overScale,_clearScale;
     float _overtime = 0,_cleartime=0;
@@ -90,6 +91,7 @@ public class GameManager : MonoBehaviour {
         _clearScale = m_GameClear.transform.localScale;
         _overtime = Time.time;
         _cleartime = Time.time;
+        m_PushA.gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -378,21 +380,37 @@ public class GameManager : MonoBehaviour {
 
     void OverFlash()
     {
+        m_PushA.gameObject.SetActive(true);
         if (Time.time > _overtime)
         {
-            m_GameOver.GetComponent<Image>().enabled = !m_GameOver.GetComponent<Image>().enabled;
-
-            _overtime += 0.8f;
+            float alpha = m_PushA.GetComponent<CanvasRenderer>().GetAlpha();
+            if (alpha == 1.0f)
+            {
+                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(0.0f);
+            }
+            else
+            {
+                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            }
+            _overtime += 1;
         }
     }
 
     void ClearFlash()
     {
-        if (Time.time > _cleartime)
+        m_PushA.gameObject.SetActive(true);
+        if (Time.time > _overtime)
         {
-            m_GameClear.GetComponent<Image>().enabled = !m_GameClear.GetComponent<Image>().enabled;
-
-            _cleartime += 1.5f;
+            float alpha = m_PushA.GetComponent<CanvasRenderer>().GetAlpha();
+            if (alpha == 1.0f)
+            {
+                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(0.0f);
+            }
+            else
+            {
+                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
+            }
+            _cleartime += 1;
         }
     }
 }
