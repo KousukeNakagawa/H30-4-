@@ -11,12 +11,13 @@ public class SnipeBulletHitAction : MonoBehaviour
 
     private List<GameObject> children = new List<GameObject>();
     private Vector3 crashVel;
+    private bool isDead = false;
 
     // Update is called once per frame
     void Update()
     {
         if (Time.timeScale == 0) return;
-        if (!moveScript.enabled)
+        if (isDead)
         {  //墜落処理
             m_rigid.AddTorque(crashVel, ForceMode.Force);
             if (transform.position.y < 0)
@@ -39,18 +40,15 @@ public class SnipeBulletHitAction : MonoBehaviour
         children.Add(b);
         crashVel = new Vector3(Random.Range(-360.0f, 360.0f), 0, Random.Range(-360.0f, 360.0f)).normalized;
         GetComponent<DroneAudioPlay>().Stop();
+        isDead = true;
     }
-
-    //void OnTriggerEnter(Collider other)
-    //{
-    //    HitCheck(other);
-    //}
 
     void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Field"))
+        if (isDead)
         {
             Destroy(gameObject);
+            return;
         }
         HitCheck(other.collider);
     }
