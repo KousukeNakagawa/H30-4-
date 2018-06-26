@@ -24,6 +24,10 @@ public class TextController : MonoBehaviour
     private Text m_uiText;
     [SerializeField]
     private GameObject m_panel;
+    [SerializeField]
+    AudioClip se;
+    AudioSource m_audio;
+    int _audio = 0;
     CRT m_crt;
 
     [SerializeField]
@@ -54,6 +58,7 @@ public class TextController : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        m_audio = GetComponent<AudioSource>();
         switch (m_tutorialState)
         {
             case tutorialState.Tutorial: TutorialState(); break;
@@ -95,6 +100,11 @@ public class TextController : MonoBehaviour
     {
         if (m_PhDface)
         {
+            if (_audio == 0)
+            {
+                m_audio.PlayOneShot(se);
+                _audio++;
+            }
             m_panel.SetActive(true);
             m_scenarioi = true;
             if (IsCompleteDisplayText)
@@ -128,6 +138,7 @@ public class TextController : MonoBehaviour
         else
         {
             currentText = " ";
+            _audio = 0;
         }
 
         // クリックから経過した時間が想定表示時間の何%か確認し、表示文字数を出す
