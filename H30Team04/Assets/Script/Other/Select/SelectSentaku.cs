@@ -24,6 +24,8 @@ public class SelectSentaku : MonoBehaviour
     public float m_Center_xPos;
     public float m_Right_xPos;
 
+    float _Ypos= 669;
+
     private enum SelectMove
     {
         Right,
@@ -43,17 +45,17 @@ public class SelectSentaku : MonoBehaviour
         switch (selectMove)
         {
             case SelectMove.Left:
-                transform.position = new Vector3(m_Left_xPos, 390, 0);
+                transform.position = new Vector2(m_Left_xPos, _Ypos);
                 transform.localScale = new Vector3(1, 1, 1);
                 m_maptext.fontStyle = FontStyle.Bold;
                 break;
             case SelectMove.Center:
-                transform.position = new Vector3(m_Center_xPos, 390, 0);
-                transform.localScale = new Vector3(1.85f, 1, 1);
+                transform.position = new Vector2(m_Center_xPos, _Ypos);
+                transform.localScale = new Vector3(1f, 1, 1);
                 m_controltext.fontStyle = FontStyle.Bold;
                 break;
             case SelectMove.Right:
-                transform.position = new Vector3(m_Right_xPos, 390, 0);
+                transform.position = new Vector2(m_Right_xPos, _Ypos);
                 transform.localScale = new Vector3(2.7f, 1, 1);
                 m_titletext.fontStyle = FontStyle.Bold;
                 break;

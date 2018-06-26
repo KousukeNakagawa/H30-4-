@@ -16,10 +16,10 @@ public class ButtonEvent : MonoBehaviour
 
     void Update()
     {
-     if(Input.GetMouseButton(0))
-        {
-            EventSystem.current.SetSelectedGameObject(firstButton);
-        }
+     //if(Input.GetMouseButton(0))
+     //   {
+     //       EventSystem.current.SetSelectedGameObject(firstButton);
+     //   }
     }
     //　ステータスウインドウを非アクティブにする
     public void DisableWindow()

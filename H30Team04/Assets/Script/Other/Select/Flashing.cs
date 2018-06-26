@@ -11,50 +11,60 @@ public class Flashing : MonoBehaviour {
     [SerializeField]
     public GameObject gameObj2;
 
-    public Text gameObjText;
-    public Text gameObj2Text;
-
     private int plusminus = -1;
     private float alpha = 1.0f;
     private GameObject selectedObj;
+
+    RectTransform m_RectTransform;
 
     // Use this for initialization
     void Start () {
         selectedObj = gameObj;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        if (EventSystem.current.currentSelectedGameObject == gameObj)
-        {
-            if (selectedObj != EventSystem.current.currentSelectedGameObject)
-            {            
-                gameObj2Text.color = new Color(gameObj2Text.color.r, gameObj2Text.color.g, gameObj2Text.color.b, 1);
-                selectedObj = EventSystem.current.currentSelectedGameObject;
-                plusminus = -1;
-                alpha = 1;
-            }
-            alpha += Time.deltaTime * plusminus;
-            if (alpha >= 1 || alpha <= 0) plusminus *= -1;
-            alpha = Mathf.Clamp(alpha, 0, 1);
 
-            gameObjText.color = new Color(gameObjText.color.r, gameObjText.color.g, gameObjText.color.b, alpha);
-        }
-        else
-        {
-            if (selectedObj != EventSystem.current.currentSelectedGameObject)
-            {
-              
-                gameObjText.color = new Color(gameObjText.color.r, gameObjText.color.g, gameObjText.color.b, 1);
-               
-                selectedObj = EventSystem.current.currentSelectedGameObject;
-                plusminus = -1;
-                alpha = 1;
-            }
-            alpha += Time.deltaTime * plusminus;
-            if (alpha >= 1 || alpha <= 0) plusminus *= -1;
-            alpha = Mathf.Clamp(alpha, 0, 1);
-            gameObj2Text.color = new Color(gameObj2Text.color.r, gameObj2Text.color.g, gameObj2Text.color.b, alpha);
-        }
+    void Awake()
+    {
+        m_RectTransform = GetComponent<RectTransform>();
     }
+
+
+
+
+    // Update is called once per frame
+    void Update () {
+    //       if (EventSystem.current.currentSelectedGameObject == gameObj)
+    //       {
+    //           if (selectedObj != EventSystem.current.currentSelectedGameObject)
+    //           {
+    //               selectedObj = EventSystem.current.currentSelectedGameObject;
+    //               transform.position = gameObj.transform.position;
+    //           }
+    //       }
+    //       else
+    //       {
+    //           if (selectedObj != EventSystem.current.currentSelectedGameObject)
+    //           {
+
+    //               selectedObj = EventSystem.current.currentSelectedGameObject;
+    //               transform.position = gameObj2.transform.position;
+    //           }
+    //       }
+      }
+    void LateUpdate()
+    {
+        // EventSystemに今選択されているオブジェクトを教えてもらう
+        GameObject selectedObject =
+            EventSystem.current.currentSelectedGameObject;
+
+        // 何も選択されていなかったら何もしない
+        if (selectedObject == null)
+        {
+            return;
+        }
+
+        // 選択されているオブジェクトの場所にカーソルを表示する
+        m_RectTransform.anchoredPosition =
+            selectedObject.GetComponent<RectTransform>().anchoredPosition;
+    }
+
 }

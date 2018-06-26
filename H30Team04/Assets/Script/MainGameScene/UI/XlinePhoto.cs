@@ -63,14 +63,14 @@ public class XlinePhoto : MonoBehaviour {
         UpdateSelect();
         ViewPhotos();
         WeponChoiceNow();
-        if (m_miniMapCamera._pose)
+        if (m_miniMapCamera._pose || !m_gamemanager.PhotoStateNow())
         {
             m_wepons[0].enabled = false;
             m_wepons[1].enabled = false;
             m_wepons[2].enabled = false;
             m_lifes[0].transform.parent.gameObject.SetActive(false);
         }
-        else if(!m_miniMapCamera._pose && m_gamemanager.NowState() == GameManager.PhaseState.photoState)
+        else 
         {
             m_lifes[0].transform.parent.gameObject.SetActive(true);
         }

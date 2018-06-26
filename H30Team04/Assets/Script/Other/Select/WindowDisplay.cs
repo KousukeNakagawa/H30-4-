@@ -20,11 +20,14 @@ public class WindowDisplay : MonoBehaviour  {
     private GameObject propertyWindow;
     [SerializeField]
     private MiniMAPcamera m_miniMapCamera;
+    [SerializeField]
+    AudioClip on;
+    private AudioSource m_audio;
 
     // Use this for initialization
     void Start()
     {
-
+        m_audio = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -36,6 +39,7 @@ public class WindowDisplay : MonoBehaviour  {
             propertyWindow.SetActive(!propertyWindow.activeSelf);
             Map.SetActive(false);
             m_miniMapCamera._pose = !m_miniMapCamera._pose;
+            m_audio.PlayOneShot(on);
         }
         if (Input.GetButtonDown("Cancel")&& m_miniMapCamera.Pose)
         {
