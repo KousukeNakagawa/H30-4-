@@ -34,7 +34,7 @@ public class MiniMAPcamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gm.NowState() == GameManager.PhaseState.switchState)
+        if(gm.NowState() == GameManager.PhaseState.endState)
         {
             m_Map.SetActive(false);
             m_Minimap.SetActive(false);

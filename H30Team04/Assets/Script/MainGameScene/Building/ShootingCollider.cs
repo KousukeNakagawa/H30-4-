@@ -7,6 +7,8 @@ public class ShootingCollider : MonoBehaviour {
     private Collider m_coll;
     public GameManager gm;
 
+    private bool isColliderOn = false;
+
 	// Use this for initialization
 	void Start () {
         m_coll = GetComponent<Collider>();
@@ -20,9 +22,24 @@ public class ShootingCollider : MonoBehaviour {
             this.enabled = false;
             return;
         }
-		//if(gm.NowState() == GameManager.PhaseState.switchState)
-  //      {
-  //          m_coll.enabled = true;
-  //      }
-	}
+        if(gm != null)
+        {
+            if (gm.NowState() == GameManager.PhaseState.switchState)
+            {
+                m_coll.enabled = true;
+            }
+        }
+        else
+        {
+            if (isColliderOn)
+            {
+                m_coll.enabled = true;
+            }
+        }
+    }
+
+    public void ColliderOn()
+    {
+        isColliderOn = true;
+    }
 }

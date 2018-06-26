@@ -78,7 +78,7 @@ public class GameManager : MonoBehaviour {
         m_enemy = GameObject.FindGameObjectWithTag("BigEnemy").transform.root.gameObject;
         //m_CC = m_camera.transform.parent.parent.GetComponent<CameraController>();
         weeknumber = Random.Range(0, weekcount);
-        weeknumber = 0; //テスト用
+        //weeknumber = 0; //テスト用
         weekDatas = new List<WeekPointData>();
         m_GameClear.SetActive(false);
         m_GameOver.SetActive(false);

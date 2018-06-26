@@ -118,5 +118,6 @@ public class BigEnemyAnimatorManager : MonoBehaviour
     public void ShootingMove()
     {
         m_animator.SetTrigger("ShootingMove");
+        born_Animator.SetTrigger("ShootingMove");
     }
 }

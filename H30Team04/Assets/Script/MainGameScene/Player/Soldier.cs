@@ -107,7 +107,7 @@ public class Soldier : MonoBehaviour
         if (Annihilation()) Death(); //３回やられたら死亡
 
         //START:初期位置へワープ（デバック用）
-        if (Input.GetButtonDown("Restart")) Damage();
+        //if (Input.GetButtonDown("Restart")) Damage();
 
         //Respawn();
     }
@@ -192,6 +192,7 @@ public class Soldier : MonoBehaviour
         rb.velocity = Vector3.zero;
         // 残機を減らす
         residue--;
+        GameTextController.TextStart(3);
 
         //残機がなくなったら終わり
         if (Annihilation()) return;

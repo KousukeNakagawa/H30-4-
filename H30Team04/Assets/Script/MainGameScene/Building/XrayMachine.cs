@@ -331,6 +331,7 @@ public class XrayMachine : MonoBehaviour
         {
             if (xrayOK) //撮影してない場合
             {
+                GameTextController.FailedText(16);
             }
             else if (saveTime > 0) //撮影している場合
             {

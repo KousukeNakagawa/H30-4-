@@ -145,10 +145,6 @@ public class StartText : MonoBehaviour {
             m_PhDface = true;
             m_scenarioi = true;
         }
-        else
-        {
-            return;
-        }
 
     }
 

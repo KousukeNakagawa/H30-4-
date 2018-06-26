@@ -56,7 +56,7 @@ public class WeaponCtrl : MonoBehaviour
         line = laser.GetComponent<LineRenderer>();
 
         audioSourse = gameObject.AddComponent<AudioSource>();
-        audioSourse.volume = 0.2f;
+        //audioSourse.volume = 0.2f;
         //SEの読込
         for (int i = 0; i < SE.Length; i++)
             playerSE.Add(audios + i, SE[0 + i]);
@@ -198,12 +198,12 @@ public class WeaponCtrl : MonoBehaviour
         {
             //GameTextController.TextStart(1);
             weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
-            audioSourse.PlayOneShot(playerSE[SEs.fireBeacon]);
+            audioSourse.PlayOneShot(playerSE[SEs.fireBeacon],0.5f);
         }
         else
         {
             weapon.GetComponent<SniperBullet>().Fire(ray.direction);
-            audioSourse.PlayOneShot(playerSE[SEs.fireSnipe]);
+            audioSourse.PlayOneShot(playerSE[SEs.fireSnipe], 0.5f);
             isSnipeFire = false;
         }
     }
