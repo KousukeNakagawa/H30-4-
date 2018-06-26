@@ -17,6 +17,11 @@ public class BreakBuilManager : MonoBehaviour
     void Start()
     {
         m_rigids = GetComponentsInChildren<Rigidbody>();
+        Array.ForEach(m_rigids, (f) => 
+        {
+            var bre = f.GetComponent<BreakBuildDestroy>();
+            if (bre != null) bre.enabled = false;
+        });
     }
 
     void OnDrawGizmos()
@@ -32,12 +37,18 @@ public class BreakBuilManager : MonoBehaviour
         Rigidbody[] rigids = Array.FindAll(m_rigids, (c) => Vector3.Distance(c.transform.position, position) < distance);
         Array.ForEach(rigids, (c) => c.AddExplosionForce(power, position, range));
         Array.ForEach(rigids, (c) => c.AddTorque(UnityEngine.Random.insideUnitSphere * power / 15.0f, ForceMode.Force));
+        foreach (var r in m_rigids)
+        {
+            var bre = r.GetComponent<BreakBuildDestroy>();
+            if (bre != null) bre.enabled = true;
+            else Destroy(r.gameObject, 4f);
+        }
     }
 
-    void OnCollisionEnter(Collision other)
+    public void BreakAction(Collision other,Vector3 size)
     {
-        if (!other.collider.CompareTag("BigEnemy")) return;
-        GetComponent<Collider>().enabled = false;
+        Array.ForEach(GetComponentsInChildren<MeshRenderer>(), (MeshRenderer m) => m.enabled = true);
+        //GetComponent<Collider>().enabled = false;
         float distance = float.MaxValue;
         Vector3 hit = new Vector3();
         foreach (var c in other.contacts)
@@ -54,7 +65,8 @@ public class BreakBuilManager : MonoBehaviour
         Break(hit, 10.0f, 10.0f);
         hitp = hit;
         GameObject g = Instantiate(crashSmoke, transform.position, Quaternion.identity);
+        var shape = g.GetComponent<ParticleSystem>().shape;
+        shape.scale = new Vector3(size.x / 8.0f * 1.2f, size.z / 8.0f * 1.2f, 1);
         Destroy(gameObject);
-        //Array.ForEach(m_rigids, (f) => Destroy(f.gameObject, 5f));
     }
 }

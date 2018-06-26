@@ -155,6 +155,7 @@ public class DroneMove2 : MonoBehaviour
                 droneState++;
                 velocity = Vector3.forward;
                 m_collider.enabled = false;
+                bodySpherer.enabled = false;
                 GetComponent<DroneAudioPlay>().Stop();
             }
             else
