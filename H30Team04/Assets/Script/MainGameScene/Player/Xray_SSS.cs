@@ -240,8 +240,8 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機の起動 </summary>
     void Shutter()
     {
-        //射影機目線になる
-        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && XrayMachines.DeadOrAlive(_selectXray));
+        // LTを押している間 選択中の射影機が使用可能な場合 カメラが戻っている最中ではないなら
+        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && XrayMachines.DeadOrAlive(_selectXray) && !MainCamera.IsComeBack);
 
         if (Input.GetButtonDown("Shutter"))
         {

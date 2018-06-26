@@ -7,7 +7,7 @@ public class MainCamera : MonoBehaviour
     GameObject player;
     [SerializeField, Range(0, 10), Tooltip("プレイヤーとの距離")] float dir = 2;
     [SerializeField, Range(0, 10), Tooltip("カメラの高さ")] float height = 1.5f;
-    [SerializeField, Range(0.01f, 0.5f), Tooltip("射影機へ視点移動時の速度")] float leap = 0.1f;
+    [SerializeField, Range(1, 5), Tooltip("射影機へ視点移動時の速度")] float leap = 3;
     float backupLeap;
     float speed = 0;
 
@@ -21,12 +21,15 @@ public class MainCamera : MonoBehaviour
 
     /// <summary> 射影機へ移動中か </summary>
     public static bool IsMove { get; private set; }
+    /// <summary> 射影機からプレイヤーに戻っている最中か </summary>
+    public static bool IsComeBack { get; private set; }
 
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player");
         startAngles = transform.eulerAngles;
         IsMove = false;
+        IsComeBack = false;
         backupLeap = leap;
     }
 
@@ -50,6 +53,9 @@ public class MainCamera : MonoBehaviour
 
         if (cur != ol) leap = backupLeap;
 
+        // 基本 false
+        IsComeBack = false;
+
         if (Xray_SSS.IsShutterChance)
         {
             leap += backupLeap;
@@ -72,6 +78,8 @@ public class MainCamera : MonoBehaviour
         {
             if (IsMove)
             {
+                IsComeBack = true;
+
                 leap += backupLeap;
                 //プレイヤーの後ろ (basePos) へ戻る
                 var distance = (basePos - transform.position);

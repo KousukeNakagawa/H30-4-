@@ -9,11 +9,13 @@ public class TBEFR : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+        // 地面についたら true
         if (other.CompareTag("Field")) IsHitGround = true;
     }
 
     void OnTriggerExit(Collider other)
     {
+        // 地面から離れたら false
         if (other.CompareTag("Field")) IsHitGround = false;
     }
 }
