@@ -10,7 +10,7 @@ public class BuilCrush : MonoBehaviour {
     private Vector3 startPos;
     public float downSpeed = 2.0f;
     public GameObject crashSmoke;
-    private GameObject currentSmoke;
+    private GameObject currentSmoke = null;
 
     private AudioSource m_audio;
 
@@ -26,6 +26,9 @@ public class BuilCrush : MonoBehaviour {
         {
             if(transform.position.y < -MainStageDate.BuildingHeight * builsize)
             {
+                if (currentSmoke != null)
+                    currentSmoke.GetComponent<ParticleSystem>().Stop(false, ParticleSystemStopBehavior.StopEmitting);
+                Destroy(currentSmoke, 2.5f);
                 Destroy(gameObject);
             }
             Vector3 newPos = startPos;
@@ -55,12 +58,5 @@ public class BuilCrush : MonoBehaviour {
             ParticleSystem.ShapeModule shape = currentSmoke.GetComponent<ParticleSystem>().shape;
             shape.scale = new Vector3(size.x / 8.0f * 1.2f, size.z / 8.0f * 1.2f, 1);
         }
-    }
-
-    void OnDestroy()
-    {
-        if (currentSmoke == null) return;
-        currentSmoke.GetComponent<ParticleSystem>().Stop(false, ParticleSystemStopBehavior.StopEmitting);
-        Destroy(currentSmoke, 2.5f);
     }
 }

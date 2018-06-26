@@ -12,7 +12,6 @@ public class BigEnemyMove : MonoBehaviour
     [HideInInspector] public bool isTurn { get; private set; }  //回転しているか
     [HideInInspector] public bool isDefense = false;
 
-    // Update is called once per frame
     void Update()
     {
         if (Time.timeScale == 0) return;
@@ -25,10 +24,11 @@ public class BigEnemyMove : MonoBehaviour
 
         if (isTurn)
         {
-            if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime * BigEnemyScripts.bigEnemyAnimatorManager.animatorSpeed)
-            //if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= 1f)
+            if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime * 2.5f)
             {  //回転を終了する
                 isTurn = false;
+                turnDir.y = turnEndDir.y;
+                BigEnemyScripts.mTransform.rotation = Quaternion.Euler(turnDir);
                 BigEnemyScripts.droneCreate.DroneSet();
                 if (!isDefense) BigEnemyScripts.bigEnemyAnimatorManager.isDash = true;
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
@@ -62,7 +62,7 @@ public class BigEnemyMove : MonoBehaviour
 
     private float GetDirction(Vector3 self, Vector3 target)
     {  //selfからtargetまでの角度を取得する
-        Vector2 dirVec2 = new Vector2(target.x - self.x, target.z - self.z).normalized;
+        Vector2 dirVec2 = (target.ToTopView() - self.ToTopView()).normalized;
         float dir = Mathf.Atan2(-dirVec2.y, dirVec2.x);
         return dir;
     }
@@ -71,7 +71,6 @@ public class BigEnemyMove : MonoBehaviour
     {  //回転を開始する
         turnEndDir = endDir.GetUnityVector3();
         turnDir = BigEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
-        //print(turnEndDir.y + ":" + turnDir.y);
         isTurn = true;
     }
 

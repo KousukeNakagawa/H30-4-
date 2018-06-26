@@ -32,7 +32,7 @@ public class MissileMove2 : MonoBehaviour
 
     void Awake()
     {
-        initialTime = Time.time + initialCount;
+        initialTime =initialCount;
         targetPos = (targetPos == Vector3.zero) ? BigEnemyScripts.searchObject.targetPos : targetPos;
         BigEnemyScripts.shootingPhaseMove.makebyRobot.Add(gameObject);
         primary = transform.rotation;
@@ -45,67 +45,76 @@ public class MissileMove2 : MonoBehaviour
         rigid.AddForce(transform.forward * velocity * riseSpeed * 0.5f, ForceMode.Impulse);
         GetComponent<AudioSource>().Play();
     }
-    void Update()
-    {  //状態の更新やカウンター処理などはこっちで行う
-        if (Time.timeScale == 0) return;
+    // Update is called once per frame
+    void FixedUpdate()
+    {  //全ての処理をFixedUpdateで行う
         switch (state)
         {
-            case StateType.Initial:
-                if (initialTime < Time.time)
-                {
-                    state++;
-                    riseTime = Time.time + riseCount;
-                    fire_audio.Play();
-                }
+            case StateType.Initial:  //準備
+                InitialAction();
                 break;
             case StateType.Rise:  //上昇
-                if (riseTime < Time.time)
-                {
-                    state++; //状態更新
-                    primary = transform.rotation;
-                }
+                RiseAction();
                 break;
             case StateType.Rotation:  //回転
-                rate = rate + Time.deltaTime * (1 / rotationCount);
-                if (rate >= 1.0f)
-                {
-                    state++;  //状態更新
-                    rigid.velocity = Vector3.zero;
-                    rigid.useGravity = false;
-                    rigid.AddForce((targetPos - transform.position).normalized * riseSpeed,
-                        ForceMode.VelocityChange);
-                }
+                RotationAction();
                 break;
             case StateType.Fall:  //落下
+                FallAction();
                 break;
         }
     }
 
-    // Update is called once per frame
-    void FixedUpdate()
-    {  //移動、回転系統の処理はこっちで行う
-        switch (state)
+    private void InitialAction()
+    {
+        if (initialTime <= 0)
         {
-            case StateType.Initial:
-                rigid.AddForce(transform.forward * velocity * riseSpeed * 0.5f,ForceMode.Acceleration);
-                rigid.AddForce(-Physics.gravity);
-                transform.rotation = Quaternion.Slerp(transform.rotation,
-                    Quaternion.Euler(-90.0f, transform.eulerAngles.y, transform.eulerAngles.z), initialRate);
-                break;
-            case StateType.Rise:  //上昇
-                rigid.AddForce(transform.forward * velocity * riseSpeed);
-                break;
-            case StateType.Rotation:  //回転
-                rigid.AddForce(-Physics.gravity * 0.5f);
-                transform.Translate(0, 0, Time.deltaTime * TransSpeed, Space.Self);
-                Vector3 dir = Vector3.Slerp(primary.eulerAngles, Quaternion.LookRotation(targetPos - transform.position).eulerAngles.GetUnityVector3(), rate);
-                transform.rotation = Quaternion.Euler(dir);
-                break;
-            case StateType.Fall:  //落下
-                rigid.AddForce(transform.forward * riseSpeed);
-                transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
-                break;
+            state++;
+            riseTime = riseCount;
+            fire_audio.Play();
         }
+        initialTime -= Time.fixedDeltaTime;
+
+        rigid.AddForce(transform.forward * velocity * riseSpeed * 0.5f, ForceMode.Acceleration);
+        rigid.AddForce(-Physics.gravity);
+        transform.rotation = Quaternion.Slerp(transform.rotation,
+            Quaternion.Euler(-90.0f, transform.eulerAngles.y, transform.eulerAngles.z), initialRate);
+    }
+
+    private void RiseAction()
+    {
+        if (riseTime <= 0)
+        {
+            state++; //状態更新
+            primary = transform.rotation;
+        }
+        riseTime -= Time.fixedDeltaTime;
+
+        rigid.AddForce(transform.forward * velocity * riseSpeed);
+    }
+
+    private void RotationAction()
+    {
+        rate = rate + Time.fixedDeltaTime * (1 / rotationCount);
+        if (rate >= 1.0f)
+        {
+            state++;  //状態更新
+            rigid.velocity = Vector3.zero;
+            rigid.useGravity = false;
+            rigid.AddForce((targetPos - transform.position).normalized * riseSpeed,
+                ForceMode.VelocityChange);
+        }
+
+        rigid.AddForce(-Physics.gravity * 0.5f);
+        transform.Translate(0, 0, Time.fixedDeltaTime * TransSpeed, Space.Self);
+        Vector3 dir = Vector3.Slerp(primary.eulerAngles, Quaternion.LookRotation(targetPos - transform.position).eulerAngles.GetUnityVector3(), rate);
+        transform.rotation = Quaternion.Euler(dir);
+    }
+
+    private void FallAction()
+    {
+        rigid.AddForce(transform.forward * riseSpeed);
+        transform.rotation = Quaternion.LookRotation(targetPos - transform.position);
     }
 
     void OnDestroy()

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class BigEnemyAnimatorManager : MonoBehaviour
 {
-
     private Animator m_animator;
     private float speed = 0.0f;
     [HideInInspector] public bool isWalk = false;
@@ -46,10 +45,10 @@ public class BigEnemyAnimatorManager : MonoBehaviour
             m_animator.speed = 0.4f;
             born_Animator.speed = 0.4f;
         }
-        else if (!isDash)
+        else
         {
-            m_animator.speed = 1.0f;
-            born_Animator.speed = 1.0f;
+            m_animator.speed = (isDash) ? dashSpeed : 1.0f;
+            born_Animator.speed = (isDash) ? dashSpeed : 1.0f;
         }
     }
 
@@ -67,10 +66,7 @@ public class BigEnemyAnimatorManager : MonoBehaviour
     }
 
     public void WalkStart()
-    {  //歩き行動を開始する
-        m_animator.speed = (isDash) ? dashSpeed : 1.0f;
-        born_Animator.speed = (isDash) ? dashSpeed : 1.0f;
-  
+    {  //歩き行動を開始する 
         if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk") ||
             born_Animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk")) return;
         m_animator.SetTrigger("WalkStart");

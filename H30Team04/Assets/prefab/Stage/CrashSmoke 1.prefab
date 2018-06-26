@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 198819419157388356}
   - component: {fileID: 199099009655226002}
   m_Layer: 0
-  m_Name: CrashSmoke
+  m_Name: CrashSmoke 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -35,7 +35,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1249282699738438}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 71.65579, y: 0, z: 82.77264}
+  m_LocalPosition: {x: 74.239, y: 0, z: 101.076035}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -51,8 +51,8 @@ ParticleSystem:
   lengthInSec: 5
   simulationSpeed: 1
   stopAction: 0
-  looping: 1
-  prewarm: 1
+  looping: 0
+  prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
   autoRandomSeed: 1
@@ -101,7 +101,7 @@ ParticleSystem:
   moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
-  randomSeed: 1576857203
+  randomSeed: 2049958723
   InitialModule:
     serializedVersion: 3
     enabled: 1
@@ -149,8 +149,8 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1.2
-      minScalar: 1
+      scalar: 1.75
+      minScalar: 1.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -189,9 +189,9 @@ ParticleSystem:
         m_RotationOrder: 4
     startColor:
       serializedVersion: 2
-      minMaxState: 0
-      minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      minMaxState: 2
+      minColor: {r: 0.24482758, g: 0.24482758, b: 0.24482758, a: 1}
+      maxColor: {r: 0.67241377, g: 0.67241377, b: 0.67241377, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -253,8 +253,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 4.5
-      minScalar: 4
+      scalar: 6.5
+      minScalar: 5.5
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -753,7 +753,13 @@ ParticleSystem:
         serializedVersion: 2
         m_Curve:
         - serializedVersion: 2
-          time: 0.4962883
+          time: 0
+          value: 0.7171052
+          inSlope: 0
+          outSlope: 0
+          tangentMode: 0
+        - serializedVersion: 2
+          time: 0.8989067
           value: 1
           inSlope: -2
           outSlope: -2

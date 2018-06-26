@@ -12,11 +12,6 @@ public class SnipeBulletHitAction : MonoBehaviour
     private List<GameObject> children = new List<GameObject>();
     private Vector3 crashVel;
 
-    // Use this for initialization
-    void Start()
-    {
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -46,10 +41,10 @@ public class SnipeBulletHitAction : MonoBehaviour
         GetComponent<DroneAudioPlay>().Stop();
     }
 
-    void OnTriggerEnter(Collider other)
-    {
-        HitCheck(other);
-    }
+    //void OnTriggerEnter(Collider other)
+    //{
+    //    HitCheck(other);
+    //}
 
     void OnCollisionEnter(Collision other)
     {

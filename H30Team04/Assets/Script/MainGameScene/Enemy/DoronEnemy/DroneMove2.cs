@@ -57,9 +57,8 @@ public class DroneMove2 : MonoBehaviour
     {
         followCount = searchFollowTime;
         primaryPos = transform.position;
-        onceTargetPos = new Vector2(BigEnemyScripts.droneSearchStartPos.position.x,
-            BigEnemyScripts.droneSearchStartPos.position.z);
-        Vector2 dir = (onceTargetPos - new Vector2(primaryPos.x,primaryPos.z)).normalized;
+        onceTargetPos = BigEnemyScripts.droneSearchStartPos.position.ToTopView();
+        Vector2 dir = (onceTargetPos - primaryPos.ToTopView()).normalized;
         velocity = new Vector3(dir.x, 0, dir.y);
         if (droneDirection == DroneDirection.Advance) sagittalDir = 1;
         else sagittalDir = -1;
@@ -78,126 +77,154 @@ public class DroneMove2 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale == 0) return;
         switch (droneState)
         {
             case DroneState.Start:
-                transform.Translate(velocity * moveSpeed * Time.deltaTime);
-                if ((onceTargetPos - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
-                {
-                    droneState++;
-                    velocity = Vector3.up;
-                    upPrimary = transform.position.y + upDistance;
-                }
+                StartAction();
                 break;
             case DroneState.FlyUp:
-                if (upPrimary < transform.position.y)
-                {
-                    droneState++;
-                    isGo = true;
-                    onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
-                        transform.position.z + LRdir * (moveArea.y / 2));
-                    Vector2 dir = (onceTargetPos - new Vector2(transform.position.x, transform.position.z));
-                    velocity = new Vector3(dir.x, 0, dir.y).normalized;
-                }
-                else
-                {
-                    transform.Translate(velocity * moveSpeed * Time.deltaTime);
-                }
+                FlyUpAction();
                 break;
             case DroneState.Initialize:
-                if ((onceTargetPos - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
-                {
-                    droneState++;
-                    isGo = true;
-                    onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
-                        transform.position.z);
-                    velocity = new Vector3(sagittalDir, 0, 1).normalized;
-                    bodySpherer.enabled = true;
-                    m_collider.enabled = true;
-                }
-                else
-                {
-                    transform.Translate(velocity * moveSpeed * Time.deltaTime);
-                }
+                InitializeAction();
                 break;
             case DroneState.Search:
-                if (followObj != null)
-                {
-                    if (followCount < 0)
-                    {
-                        droneState++;
-                        velocity = Vector3.forward;
-                        m_collider.enabled = false;
-                        GetComponent<DroneAudioPlay>().Stop();
-                    }
-                    else
-                    {
-                        followCount -= Time.deltaTime;
-                        Vector2 followDir = new Vector2(followObj.position.x - transform.position.x,
-                            followObj.position.z - transform.position.z).normalized;
-                        transform.Translate(new Vector3(followDir.x, 0, followDir.y) * Time.deltaTime * searchFollowSpeed);
-                        return;
-                    }
-                }
-                if (Mathf.Abs(Mathf.Abs(goalPos) - Mathf.Abs(transform.position.x)) <= 1f)
-                {
-                    droneState++;
-                    velocity = Vector3.forward;
-                    m_collider.enabled = false;
-                    bodySpherer.enabled = false;
-                    return;
-                }
-
-                if ((onceTargetPos - new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
-                {
-                    isGo = !isGo;
-                    if (!isGo)  //次進む方向は左右
-                    {
-                        LRdir = -LRdir;
-                        onceTargetPos = new Vector2(transform.position.x, transform.position.z + moveArea.y * LRdir);
-                    }
-                    else  //次進む方向は前
-                    {
-                        onceTargetPos = new Vector2(transform.position.x + sagittalDir * moveArea.x / XFraction,
-                            transform.position.z);
-                    }
-                }
-                else
-                {
-                    if (isGo) transform.Translate(velocity.x * moveSpeed * Time.deltaTime, 0, 0);
-                    else transform.Translate(0, 0, velocity.z * LRdir * moveSpeed * Time.deltaTime);
-                }
+                SearchAction();
                 break;
             case DroneState.Return:
-                transform.Translate(velocity * returnSpeed * Time.deltaTime, Space.Self);
-                if ((new Vector2(BigEnemyScripts.droneSearchStartPos.position.x, BigEnemyScripts.droneSearchStartPos.position.z) -
-                    new Vector2(transform.position.x, transform.position.z)).sqrMagnitude <= 0.1f)
-                {
-                    transform.parent = BigEnemyScripts.mTransform;
-                    velocity = Vector3.down;
-                    droneState++;
-                    startEndVel = -1;
-                    transform.localRotation = Quaternion.identity;
-                }
-                else
-                {
-                    Vector3 dir = BigEnemyScripts.droneSearchStartPos.position - transform.position;
-                    transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
-                }
+                ReturnAction();
                 break;
             case DroneState.End:
-                transform.Translate(velocity * moveSpeed * Time.deltaTime);
-                if (Mathf.Abs(BigEnemyScripts.droneSearchStartPos.position.y
-                       - transform.position.y) <= 1f)
-                {
-                    velocity = Vector3.left;
-                    if ((new Vector2(transform.localPosition.x, transform.localPosition.z)).sqrMagnitude <= 3f)
-                    {
-                        Destroy(gameObject, 0.5f);
-                    }
-                }
+                EndAction();
                 break;
+        }
+    }
+
+    private void StartAction()
+    {
+        transform.Translate(velocity * moveSpeed * Time.deltaTime);
+        if ((onceTargetPos - transform.position.ToTopView()).sqrMagnitude <= 5f)
+        {
+            droneState++;
+            velocity = Vector3.up;
+            upPrimary = transform.position.y + upDistance;
+        }
+    }
+
+    private void FlyUpAction()
+    {
+        if (upPrimary < transform.position.y)
+        {
+            droneState++;
+            isGo = true;
+            onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
+                transform.position.z + LRdir * (moveArea.y / 2));
+            Vector2 dir = (onceTargetPos - transform.position.ToTopView());
+            velocity = new Vector3(dir.x, 0, dir.y).normalized;
+        }
+        else
+        {
+            transform.Translate(velocity * moveSpeed * Time.deltaTime);
+        }
+    }
+
+    private void InitializeAction()
+    {
+        if ((onceTargetPos - transform.position.ToTopView()).sqrMagnitude <= 5f)
+        {
+            droneState++;
+            isGo = true;
+            onceTargetPos = new Vector2(transform.position.x + sagittalDir * (moveArea.x / XFraction),
+                transform.position.z);
+            velocity = new Vector3(sagittalDir, 0, 1).normalized;
+            bodySpherer.enabled = true;
+            m_collider.enabled = true;
+        }
+        else
+        {
+            transform.Translate(velocity * moveSpeed * Time.deltaTime);
+        }
+    }
+
+    private void SearchAction()
+    {
+        if (followObj != null)
+        {
+            if (followCount < 0)
+            {
+                droneState++;
+                velocity = Vector3.forward;
+                m_collider.enabled = false;
+                GetComponent<DroneAudioPlay>().Stop();
+            }
+            else
+            {
+                followCount -= Time.deltaTime;
+                Vector2 followDir = (followObj.position.ToTopView() - transform.position.ToTopView()).normalized;
+                transform.Translate(new Vector3(followDir.x, 0, followDir.y) * Time.deltaTime * searchFollowSpeed);
+                return;
+            }
+        }
+        if (Mathf.Abs(Mathf.Abs(goalPos) - Mathf.Abs(transform.position.x)) <= 5f)
+        {
+            droneState++;
+            velocity = Vector3.forward;
+            m_collider.enabled = false;
+            bodySpherer.enabled = false;
+            return;
+        }
+
+        if ((onceTargetPos - transform.position.ToTopView()).sqrMagnitude <= 5f)
+        {
+            isGo = !isGo;
+            if (!isGo)  //次進む方向は左右
+            {
+                LRdir = -LRdir;
+                onceTargetPos = new Vector2(transform.position.x, transform.position.z + moveArea.y * LRdir);
+            }
+            else  //次進む方向は前
+            {
+                onceTargetPos = new Vector2(transform.position.x + sagittalDir * moveArea.x / XFraction,
+                    transform.position.z);
+            }
+        }
+        else
+        {
+            if (isGo) transform.Translate(velocity.x * moveSpeed * Time.deltaTime, 0, 0);
+            else transform.Translate(0, 0, velocity.z * LRdir * moveSpeed * Time.deltaTime);
+        }
+    }
+
+    private void ReturnAction()
+    {
+        transform.Translate(velocity * returnSpeed * Time.deltaTime, Space.Self);
+        if ((BigEnemyScripts.droneSearchStartPos.position.ToTopView() -
+            transform.position.ToTopView()).sqrMagnitude <= 5f)
+        {
+            transform.parent = BigEnemyScripts.mTransform;
+            velocity = Vector3.down;
+            droneState++;
+            startEndVel = -1;
+            transform.localRotation = Quaternion.identity;
+        }
+        else
+        {
+            Vector3 dir = BigEnemyScripts.droneSearchStartPos.position - transform.position;
+            transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0, dir.z));
+        }
+    }
+
+    private void EndAction()
+    {
+        transform.Translate(velocity * moveSpeed * Time.deltaTime);
+        if (Mathf.Abs(BigEnemyScripts.droneSearchStartPos.position.y
+               - transform.position.y) <= 1f)
+        {
+            velocity = Vector3.left;
+            if (transform.localPosition.ToTopView().sqrMagnitude <= 5f)
+            {
+                Destroy(gameObject, 0.5f);
+            }
         }
     }
 
