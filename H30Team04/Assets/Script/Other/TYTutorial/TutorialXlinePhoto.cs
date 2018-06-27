@@ -134,7 +134,7 @@ public class TutorialXlinePhoto : MonoBehaviour {
                 float l_positionX = currentSelectStageIndex * 1280;
                 XPhots.GetComponent<XPhotos>().MoveTargetPositionX(-l_positionX);
                 m_IsChange = true;
-                weektexts.AllQuestion();
+                //weektexts.AllQuestion();
             }
             else if (Mathf.Abs(inputHorizontal) <= Margin && m_IsChange)
             {

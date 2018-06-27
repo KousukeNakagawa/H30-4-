@@ -21,14 +21,23 @@ public class BuilCrush : MonoBehaviour {
     void Start () {
         startPos = transform.position;
         m_audio = GetComponent<AudioSource>();
-        Array.ForEach(breakBuild.GetComponentsInChildren<MeshRenderer>(), (MeshRenderer f) => f.enabled = false);
-	}
+        if(breakBuild != null)
+        {
+            Array.ForEach(breakBuild.GetComponentsInChildren<MeshRenderer>(), (MeshRenderer f) => f.enabled = false);
+            Array.ForEach(breakBuild.GetComponentsInChildren<MeshCollider>(), (MeshCollider f) => f.enabled = false);
+        }
+        
+    }
 	
 	// Update is called once per frame
 	void Update () {
         if (Time.timeScale == 0) return;
         m_size = GetComponent<BoxCollider>().size;
-        breakBuild.transform.localScale = new Vector3(m_size.x / 8f, m_size.y / 16f, m_size.z / 8f);
+        if (breakBuild != null)
+        {
+            breakBuild.transform.localScale = new Vector3(m_size.x / 8f, m_size.y / 16f, m_size.z / 8f);
+        }
+        
         if (isCrush)
         {
             if(transform.position.y < -MainStageDate.BuildingHeight * builsize)
@@ -64,7 +73,14 @@ public class BuilCrush : MonoBehaviour {
             //Vector3 size = GetComponent<BoxCollider>().size;
             //ParticleSystem.ShapeModule shape = currentSmoke.GetComponent<ParticleSystem>().shape;
             //shape.scale = new Vector3(size.x / 8.0f * 1.2f, size.z / 8.0f * 1.2f, 1);
-            breakBuild.GetComponent<BreakBuilManager>().BreakAction(other,m_size);
+            if (breakBuild != null)
+            {
+                breakBuild.GetComponent<BreakBuilManager>().BreakAction(other, m_size);
+            }
+            else
+            {
+                isCrush = true;
+            }
             gameObject.SetActive(false);
         }
     }

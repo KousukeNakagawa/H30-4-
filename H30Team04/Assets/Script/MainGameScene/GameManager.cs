@@ -70,6 +70,11 @@ public class GameManager : MonoBehaviour {
     Vector3 _overScale,_clearScale;
     float _overtime = 0,_cleartime=0;
 
+    public GameObject limitTimerObj;
+    private Text limitText;
+
+    [SerializeField] private float limit = 30.0f;
+
     // Use this for initialization
     void Start () {
         m_attackP.SetActive(false);
@@ -92,6 +97,9 @@ public class GameManager : MonoBehaviour {
         _overtime = Time.time;
         _cleartime = Time.time;
         m_PushA.gameObject.SetActive(false);
+        limitText = limitTimerObj.transform.Find("Text").GetComponent<Text>();
+        limitText.text = ((int)Mathf.Ceil(limit)).ToString();
+        limitTimerObj.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -144,6 +152,7 @@ public class GameManager : MonoBehaviour {
 
     private void EndState()
     {
+        BigEnemyScripts.shootingPhaseMove.moveSpeed = 2;
         if (BigEnemyScripts.mTransform.position.x > (mapXsize - 0) * MainStageDate.TroutLengthX)
         {
             GameTextController.TextStart(7);
@@ -155,6 +164,7 @@ public class GameManager : MonoBehaviour {
 
     private void SwitchState()
     {
+        BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         //if (Fade.IsFadeOutOrIn() && Fade.IsFadeEnd())
         //{
         //    m_player.SetActive(false);
@@ -175,11 +185,6 @@ public class GameManager : MonoBehaviour {
 
     private void PhotoCheckState()
     {
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("WeaponChange"))
-        {
-            GameTextController.TextStart(9);
-            phaseState = PhaseState.attackState;
-        }
         if(BigEnemyScripts.mTransform.position.x >= endXpos)
         {
             ChengeWait();
@@ -189,16 +194,16 @@ public class GameManager : MonoBehaviour {
 
     public void AttackState()
     {
-        if (Input.GetKeyDown(KeyCode.Q) || Input.GetButtonDown("WeaponChange"))
-        {
-            phaseState = PhaseState.PhotoCheckState;
-        }
-        if (BigEnemyScripts.mTransform.position.x >= endXpos)
+        limitText.text = ((int)Mathf.Ceil(limit)).ToString();
+        if (limit == 0)
         {
             ChengeWait();
             BigEnemyScripts.shootingFailure.FailureAction();
             GameTextController.TextStart(11);
+            return;
         }
+        limit -= Time.deltaTime;
+        if (limit < 0) limit = 0;
     }
 
     public void WaitState()
@@ -264,6 +269,14 @@ public class GameManager : MonoBehaviour {
     {
         BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         phaseState = PhaseState.waitingState;
+        limitTimerObj.SetActive(false);
+    }
+
+    public void ChengeShot()
+    {
+        BigEnemyScripts.shootingPhaseMove.enabled = false;
+        phaseState = PhaseState.attackState;
+        limitTimerObj.SetActive(true);
     }
 
     public void XrayZero()

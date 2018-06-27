@@ -95,6 +95,12 @@ public class AttackPlayer : MonoBehaviour {
         set { m_weekText = value; }
     }
 
+    public int WeekPar
+    {
+        get { return weekPoints[selectNum].GetComponent<WeekPoint>().Par; }
+        //set { m_weekText = value; }
+    }
+
     public void Damege()
     {
         m_gm.Damege(weekPoints[selectNum].GetComponent<WeekPoint>().GetWeekNumber);

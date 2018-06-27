@@ -48,6 +48,7 @@ public class BreakBuilManager : MonoBehaviour
     public void BreakAction(Collision other,Vector3 size)
     {
         Array.ForEach(GetComponentsInChildren<MeshRenderer>(), (MeshRenderer m) => m.enabled = true);
+        Array.ForEach(GetComponentsInChildren<MeshCollider>(), (MeshCollider f) => f.enabled = true);
         //GetComponent<Collider>().enabled = false;
         float distance = float.MaxValue;
         Vector3 hit = new Vector3();

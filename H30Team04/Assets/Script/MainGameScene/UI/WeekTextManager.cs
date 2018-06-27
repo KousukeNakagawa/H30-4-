@@ -23,17 +23,23 @@ public class WeekTextManager : MonoBehaviour {
 
     public void SetTexts(List<GameManager.WeekPointProbability> list)
     {
-        for(int i = 0; i < list.Count; i++)
+        int[] isSets = { 0, 0, 0, 0, 0, 0 };
+        for (int i = 0; i < list.Count; i++)
         {
-            weekTexts[list[i].num].SetText(list[i].probability + "%");
+            isSets[list[i].num] = list[i].probability;
+        }
+
+        for (int i = 0; i < weekTexts.Count; i++)
+        {
+            weekTexts[i].SetText(isSets[i]);
         }
     }
 
-    public void AllQuestion()
-    {
-        for (int i = 0; i < weekTexts.Count; i++)
-        {
-            weekTexts[i].SetText("0%");
-        }
-    }
+    //public void AllQuestion()
+    //{
+    //    for (int i = 0; i < weekTexts.Count; i++)
+    //    {
+    //        weekTexts[i].SetText("0%");
+    //    }
+    //}
 }

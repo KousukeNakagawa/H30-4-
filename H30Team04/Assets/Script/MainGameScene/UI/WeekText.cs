@@ -6,6 +6,10 @@ using UnityEngine.UI;
 public class WeekText : MonoBehaviour {
 
     private Text probabilityText;
+    private int num = 0;
+    private int count = 0;
+
+    public WeekPoint m_Point;
 
     // Use this for initialization
     void Awake () {
@@ -17,14 +21,21 @@ public class WeekText : MonoBehaviour {
 		
 	}
 
-    public void SetText(string text)
+    public void SetText(int n)
     {
-        probabilityText.text = text;
+        num += n;
+        count++;
 
-        //bool isHide = (text != "0%");
-        //foreach (Transform child in transform)
-        //{
-        //    child.gameObject.SetActive(isHide);
-        //}
+        probabilityText.text = (num / count) + "%";
+
+        if (m_Point != null) m_Point.Par = (num / count);
+
+    }
+
+    public void NumReset()
+    {
+        num = 0;
+        count = 0;
+        probabilityText.text = "0%";
     }
 }

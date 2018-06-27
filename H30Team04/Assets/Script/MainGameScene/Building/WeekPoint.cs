@@ -11,9 +11,14 @@ public class WeekPoint : MonoBehaviour {
     private float hideTime = 1.0f;
     private float m_time = 0.0f;
 
+    private int par = 0;
+
+    public int Par { get { return par; } set{ par = value; } }
+
 	// Use this for initialization 
 	void Start () {
         m_model = transform.Find("model").gameObject;
+        Par = 0;
     }
 	
 	// Update is called once per frame
@@ -58,4 +63,5 @@ public class WeekPoint : MonoBehaviour {
     {
          return _week_name;
     }
+    
 }
