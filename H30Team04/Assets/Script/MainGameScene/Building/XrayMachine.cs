@@ -34,6 +34,10 @@ public class XrayMachine : MonoBehaviour
 
     private GameObject m_checkIcon;
 
+
+    private RaycastHit builhit;
+    private RaycastHit[] weekpoints = { };
+
     // Use this for initialization
     void Start()
     {
@@ -94,7 +98,14 @@ public class XrayMachine : MonoBehaviour
         }
 
         if (!xrayOK) return;
+        GetWeak();
+        MiniMapUpdate();
 
+
+    }
+
+    private void MiniMapUpdate()
+    {
         minimapIcon.rectTransform.rotation = Quaternion.Euler(90, 0, y);
         minimapArrow.rectTransform.rotation = Quaternion.Euler(90, 0, y);
 
@@ -124,6 +135,35 @@ public class XrayMachine : MonoBehaviour
             minimapArrow.rectTransform.anchoredPosition = Rect.NormalizedToPoint(_canvasRect, viewport);
         }
     }
+    /// <summary>ビルがあるか</summary>
+    private bool IsBuilHit()
+    {
+        //RaycastHit builhit;
+        bool hit = Physics.Raycast(
+            m_XrayCameraObj.transform.position, m_XrayCameraObj.transform.forward,
+            out builhit, m_XrayCamera.farClipPlane, builLayerMask);
+
+        return hit;
+    }
+    /// <summary>弱点の取得</summary>
+    private void GetWeak()
+    {
+        weekpoints = Physics.BoxCastAll(m_XrayCameraObj.transform.position,
+            new Vector3(4, m_XrayCameraObj.transform.position.y, 4),
+            m_XrayCameraObj.transform.forward, Quaternion.identity, m_XrayCamera.farClipPlane, weekLayerMask);
+    }
+    /// <summary>弱点が映っているか</summary>
+    private bool IsWeakHit()
+    {
+        return (weekpoints.Length >= 1);
+    }
+    /// <summary>弱点がビルの手前にあるか</summary>
+    public bool IsWeakFrontBuil()
+    {
+        if (!IsBuilHit() || !IsWeakHit()) return false;
+        bool result = (builhit.distance > weekpoints[0].distance) ? true : false;
+        return result;
+    }
 
     //撮影
     private void Shooting()
@@ -131,13 +171,13 @@ public class XrayMachine : MonoBehaviour
         //Debug.Log("食らいやがれー");
 
         //ビルがあるかどうか
-        RaycastHit builhit;
-        bool hit = Physics.Raycast(
-            m_XrayCameraObj.transform.position, m_XrayCameraObj.transform.forward,
-            out builhit, m_XrayCamera.farClipPlane, builLayerMask);
+        //RaycastHit builhit;
+        //bool hit = Physics.Raycast(
+        //    m_XrayCameraObj.transform.position, m_XrayCameraObj.transform.forward,
+        //    out builhit, m_XrayCamera.farClipPlane, builLayerMask);
 
         //なかったら終了
-        if (!hit)
+        if (!IsBuilHit())
         {
             if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
             GameTextController.FailedText(12);
@@ -145,51 +185,49 @@ public class XrayMachine : MonoBehaviour
         }
 
         //弱点が写っているかどうか
-        RaycastHit[] weekpoints
-            = Physics.BoxCastAll(m_XrayCameraObj.transform.position,
-            new Vector3(4, m_XrayCameraObj.transform.position.y, 4),
-            m_XrayCameraObj.transform.forward, Quaternion.identity, m_XrayCamera.farClipPlane, weekLayerMask);
 
+
+
+        //if (!IsWeakHit())
+        //{
+        //    if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+        //    GameTextController.FailedText(13);
+        //    return;
+        //}
         //写っていなかったら終了
-        if (weekpoints.Length < 1)
-        {
-            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
-            GameTextController.FailedText(13);
-            return;
-        }
         //ビルの奥にあっても終了
-        if (builhit.distance < weekpoints[0].distance)
+        if (!IsWeakFrontBuil())
         {
             if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
             GameTextController.FailedText(13);
             return;
         }
 
-        int minusPoint = 0;
+        //int minusPoint = 0;
 
-        if (builhit.distance < MainStageDate.TroutLengthX * 5) { } //5マス以内だったら何もしない
-        else if (builhit.distance < MainStageDate.TroutLengthX * 6) { minusPoint = 2; }
-        else if (builhit.distance < MainStageDate.TroutLengthX * 7) { minusPoint = 3; }
-        else { minusPoint = 5; }
+        //if (builhit.distance < MainStageDate.TroutLengthX * 5) { } //5マス以内だったら何もしない
+        //else if (builhit.distance < MainStageDate.TroutLengthX * 6) { minusPoint = 2; }
+        //else if (builhit.distance < MainStageDate.TroutLengthX * 7) { minusPoint = 3; }
+        //else { minusPoint = 5; }
 
-        //離れすぎの場合、写ってる弱点の数を減らす。0個以下になったら終了
-        if (weekpoints.Length - minusPoint <= 0)
-        {
-            if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
-            GameTextController.FailedText(14);
-            return;
-        }
+        ////離れすぎの場合、写ってる弱点の数を減らす。0個以下になったら終了
+        //if (weekpoints.Length - minusPoint <= 0)
+        //{
+        //    if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
+        //    GameTextController.FailedText(14);
+        //    return;
+        //}
 
         List<GameObject> hitWeak = new List<GameObject>();
 
         //List<int> weeknums = new List<int>();
         for (int i = 0; i < weekpoints.Length; i++)
         {
-            if (weekpoints.Length - minusPoint <= i)
-            {
-                //weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
-                continue;
-            }
+            //if (weekpoints.Length - minusPoint <= i)
+            //{
+            //    //weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
+            //    continue;
+            //}
 
             RaycastHit weekhit;
             //向いている方向によってレイのスタート位置を決める
