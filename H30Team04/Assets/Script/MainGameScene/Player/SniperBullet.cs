@@ -31,7 +31,7 @@ public class SniperBullet : MonoBehaviour
     private void OnCollisionEnter(Collision other)
     {
         //地面・ビルと衝突時、自身を消滅
-        if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Destroy(gameObject);
+        if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field") || other.collider.name.Contains("Hide")) Destroy(gameObject);
     }
 
     /// <summary>

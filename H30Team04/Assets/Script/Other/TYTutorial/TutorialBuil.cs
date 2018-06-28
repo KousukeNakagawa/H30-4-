@@ -43,7 +43,6 @@ public class TutorialBuil : MonoBehaviour {
         }
         else if (isCrush && isNoCrush)
         {
-            tmane.ResetState(ResetConditions.BUILCRUSH);
             gameObject.SetActive(false);
             if (currentSmoke == null) return;
             currentSmoke.GetComponent<ParticleSystem>().Stop(false, ParticleSystemStopBehavior.StopEmitting);

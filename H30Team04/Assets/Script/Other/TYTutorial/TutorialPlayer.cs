@@ -104,7 +104,7 @@ public class TutorialPlayer : MonoBehaviour {
     {
         if (other.collider.CompareTag("BigEnemy"))
         {
-            if (!tmane.IsReaded()) return;
+            if (!tmane.IsReaded() || tmane.GetState() != TutorialState_T.BEACON) return;
 
             tmane.ResetState(ResetConditions.PLAYERDEAD);
             GetComponent<Collider>().enabled = false;
@@ -120,7 +120,7 @@ public class TutorialPlayer : MonoBehaviour {
     {
         //if (!UnlockManager.Limiter[UnlockState.move]) return;
 
-        var speed = (IsStop || !tmane.IsReaded() || tmane.GetState() == TutorialState_T.START || tmane.GetState() == TutorialState_T.CAMERA) ? 0 : this.speed;
+        var speed = (IsStop || !tmane.IsReaded() || tmane.GetState() != TutorialState_T.MOVE && tmane.GetState() != TutorialState_T.BEACON) ? 0 : this.speed;
 
         var move = ((transform.forward * Ver) + (transform.right * Hor)).normalized;
         rb.velocity = move * speed * Time.deltaTime;

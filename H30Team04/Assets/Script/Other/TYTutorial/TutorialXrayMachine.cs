@@ -132,7 +132,7 @@ public class TutorialXrayMachine : MonoBehaviour {
         //なかったら終了
         if (!hit)
         {
-            tmane.ResetState(ResetConditions.NOWEAK);
+            //tmane.ResetState(ResetConditions.NOWEAK);
             return;
         }
 
@@ -145,13 +145,13 @@ public class TutorialXrayMachine : MonoBehaviour {
         //写っていなかったら終了
         if (weekpoints.Length < 1)
         {
-            tmane.ResetState(ResetConditions.NOWEAK);
+            //tmane.ResetState(ResetConditions.NOWEAK);
             return;
         }
         //ビルの奥にあっても終了
         if (builhit.distance < weekpoints[0].distance)
         {
-            tmane.ResetState(ResetConditions.NOWEAK);
+            //tmane.ResetState(ResetConditions.NOWEAK);
             return;
         }
 
@@ -165,7 +165,7 @@ public class TutorialXrayMachine : MonoBehaviour {
         //離れすぎの場合、写ってる弱点の数を減らす。0個以下になったら終了
         if (weekpoints.Length - minusPoint <= 0)
         {
-            tmane.ResetState(ResetConditions.NOWEAK);
+            //tmane.ResetState(ResetConditions.NOWEAK);
             return;
         }
 
@@ -319,7 +319,7 @@ public class TutorialXrayMachine : MonoBehaviour {
 
             minimapIcon.enabled = false;
             minimapArrow.enabled = false;
-            tmane.ResetState(ResetConditions.BUILCRUSH);
+            //tmane.ResetState(ResetConditions.BUILCRUSH);
             gameObject.SetActive(false);
 
         }

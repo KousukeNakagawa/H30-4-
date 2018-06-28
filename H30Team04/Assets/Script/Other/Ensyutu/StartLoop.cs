@@ -9,7 +9,7 @@ public class StartLoop : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		
+        if (Time.timeScale < 1) Time.timeScale = 1;
 	}
 	
 	// Update is called once per frame

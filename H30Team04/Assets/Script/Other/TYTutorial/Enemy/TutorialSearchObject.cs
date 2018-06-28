@@ -15,6 +15,8 @@ public class TutorialSearchObject : MonoBehaviour {
     [Range(10, 45), Tooltip("射影機を探索する範囲（赤い円）"), SerializeField] private float searchXlineMagnitude = MainStageDate.TroutLengthX * 2;
     [Range(10, 45), Tooltip("プレイヤーを探索する範囲（青い円）"), SerializeField] private float searchPlayerMagnitude = MainStageDate.TroutLengthX * 2 * 1.25f;
 
+    public GameObject aowaku;
+
     //優先順位
     private Dictionary<string, int> priority = new Dictionary<string, int>
     {
@@ -35,6 +37,10 @@ public class TutorialSearchObject : MonoBehaviour {
     {
         if (searchTarget == null || priority[target.tag] < priority[searchTarget.tag])
         {
+            if ((aowaku.transform.position.ToTopView() - target.transform.position.ToTopView()).sqrMagnitude >= 5 * 5)
+            {
+                return;
+            }
             searchTarget = target;
             SetTurnVel(target);
             targetPos = target.transform.position;

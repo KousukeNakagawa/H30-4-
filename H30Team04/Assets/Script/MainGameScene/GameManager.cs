@@ -185,11 +185,11 @@ public class GameManager : MonoBehaviour {
 
     private void PhotoCheckState()
     {
-        if(BigEnemyScripts.mTransform.position.x >= endXpos)
-        {
-            ChengeWait();
-            BigEnemyScripts.shootingFailure.FailureAction();
-        }
+        //if(BigEnemyScripts.mTransform.position.x >= endXpos)
+        //{
+        //    ChengeWait();
+        //    BigEnemyScripts.shootingFailure.FailureAction();
+        //}
     }
 
     public void AttackState()

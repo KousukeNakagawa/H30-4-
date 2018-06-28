@@ -19,8 +19,8 @@ public class GameTextController : MonoBehaviour {
     CRT m_crt;
     AudioSource m_audio;
     int _audio = 0;
-    [SerializeField]
-    private Animator m_animator;
+    //[SerializeField]
+    //private Animator m_animator;
 
     [SerializeField]
     [Range(0.001f, 0.3f)]
@@ -162,7 +162,7 @@ public class GameTextController : MonoBehaviour {
     //博士の枠を出す
      void OpenPhDface(float i)
     {
-        m_animator.Play("Speak");
+        //m_animator.Play("Speak");
         m_PhDface = true;
             m_time += Time.deltaTime;
                 m_crt.ScanLineTail = m_time;

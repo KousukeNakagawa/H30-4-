@@ -75,7 +75,7 @@ public class EnsyutuCamera : MonoBehaviour {
         }
 
 
-        if (Input.anyKeyDown)
+        if (Input.GetButtonDown("Shutter"))
         {
             if(nowInt < 2)
             {

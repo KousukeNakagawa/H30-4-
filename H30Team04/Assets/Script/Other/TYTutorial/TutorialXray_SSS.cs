@@ -14,6 +14,7 @@ public class TutorialXray_SSS : MonoBehaviour {
 
     public TutorialManager_T tmane;
 
+    public GameObject[] nextXray;
     
     /// <summary> 選択中の射影機 </summary>
     public GameObject _selectXray;
@@ -26,6 +27,8 @@ public class TutorialXray_SSS : MonoBehaviour {
     /// <summary> 現在選択中の射影機の生存確認用 </summary>
     bool currentSelectXrayState, oldSelectXrayState;
 
+    private int pushCount = 0;
+
     void Start()
     {
         IsShutterChance = false;
@@ -35,10 +38,10 @@ public class TutorialXray_SSS : MonoBehaviour {
     {
         if (Time.timeScale == 0) return;
 
-        bool arrowActiv = tmane.GetState() >= TutorialState_T.SHUTTER;
-        if (!tmane.IsReaded()) arrowActiv = false;
+        bool arrowActiv = tmane.GetState() >= TutorialState_T.CURSOR;
+        //if (!tmane.IsReaded()) arrowActiv = false;
         XrayArrow.SetActive(arrowActiv);
-        if (!tmane.IsReaded() || tmane.GetState() < TutorialState_T.SHUTTER) return;
+        //if (!tmane.IsReaded() || tmane.GetState() < TutorialState_T.SHUTTER) return;
 
         Select();
             Shutter();
@@ -48,7 +51,13 @@ public class TutorialXray_SSS : MonoBehaviour {
     /// <summary> 射影機の選択 </summary>
     void Select()
     {
-
+        if (tmane.IsReaded() && tmane.GetState() == TutorialState_T.CURSORCHANGE)
+        {
+            if (Input.GetButtonDown("Select"))
+            {
+                _selectXray = nextXray[1];
+            }
+        }
         SetSelectXray();
 
         Marker();
@@ -96,12 +105,24 @@ public class TutorialXray_SSS : MonoBehaviour {
     /// <summary> 射影機の起動 </summary>
     void Shutter()
     {
+        if (!tmane.IsReaded() || tmane.GetState() !=TutorialState_T.SHUTTER)
+        {
+            IsShutterChance = false;
+            return;
+        }
+
         //射影機目線になる
         IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && XrayMachines.DeadOrAlive(_selectXray));
 
         if (Input.GetButtonDown("Shutter"))
         {
+            //if(pushCount == 0)
+            //{
+            //    pushCount++;
+            //    return;
+            //}
             _selectXray.GetComponent<TutorialXrayMachine>().XrayPlay();
+            _selectXray = nextXray[0];
         }
 
         // 視点移動中は保持している射影機を消さない処理

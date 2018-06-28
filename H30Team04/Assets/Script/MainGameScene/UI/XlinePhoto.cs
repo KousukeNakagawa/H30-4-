@@ -172,6 +172,8 @@ public class XlinePhoto : MonoBehaviour {
         {
 
             XPhots.SetActive(false);
+            XPhotsBack.SetActive(false);
+            XPhotsFront.SetActive(false);
             weektextparent.SetActive(false);
             m_Sight.SetActive(false);
             m_textBackImage.SetActive(false);
@@ -198,6 +200,7 @@ public class XlinePhoto : MonoBehaviour {
         if (m_FlyerCount == 0)
         {
             //一個も取れてないぞいのテキスト
+            GameTextController.TextStart(14);
             m_gamemanager.ChengeShot();
             return;
         }
@@ -224,7 +227,7 @@ public class XlinePhoto : MonoBehaviour {
         }
         else
         {
-            if (Input.anyKeyDown)
+            if (Input.anyKeyDown && !Input.GetButtonDown("Shutter"))
             {
                 GameTextController.TextStart(9);
                 m_gamemanager.ChengeShot();

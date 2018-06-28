@@ -65,12 +65,6 @@ public class TutorialEnemyScripts : MonoBehaviour {
         {
             if (localPoses.ContainsKey(child)) child.localPosition = localPoses[child];
         }
-
-        if (transform.position.x > 85 || transform.position.x < -85 ||
-            transform.position.z > 85 || transform.position.z < -85)
-        {
-            if (tmane.IsReaded()) tmane.ResetState(ResetConditions.ENEMYAWAY);
-        }
     }
 
     public void Restart()

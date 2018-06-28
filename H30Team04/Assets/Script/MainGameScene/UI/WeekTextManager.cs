@@ -35,6 +35,14 @@ public class WeekTextManager : MonoBehaviour {
         }
     }
 
+    public void ResetText()
+    {
+        for (int i = 0; i < weekTexts.Count; i++)
+        {
+            weekTexts[i].NumReset();
+        }
+    }
+
     //public void AllQuestion()
     //{
     //    for (int i = 0; i < weekTexts.Count; i++)

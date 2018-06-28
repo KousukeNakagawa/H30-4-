@@ -16,12 +16,17 @@ public class TutorialBigEnemyMove : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale == 0 || !TutorialEnemyScripts.tmane.IsReaded()) return;
+        if (Time.timeScale == 0 || !TutorialEnemyScripts.tmane.IsReaded() || TutorialEnemyScripts.tmane.GetState() != TutorialState_T.BEACON )
+        {
+            xSpeed = 0;
+            return;
+        }
         if (TutorialEnemyScripts.searchObject.isSearch)
         {  //探索範囲に標的が入った後、1回だけ行う
             Vector3 endDir = TurnAngleSet(TutorialEnemyScripts.searchObject.targetPos);
             SetTurn(endDir);
             TutorialEnemyScripts.searchObject.isSearch = false;
+            xSpeed = 9.5f;
         }
 
         if (isTurn)

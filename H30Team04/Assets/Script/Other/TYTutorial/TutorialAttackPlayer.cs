@@ -61,7 +61,7 @@ public class TutorialAttackPlayer : MonoBehaviour {
             target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
             transform.LookAt(target);
 
-            if (Input.GetButtonDown("Shutter"))
+            if (Input.GetButtonDown("Fire"))
             {
                 //GameObject roket = Instantiate(roketPrefab, transform);
                 roket.SetActive(true);
@@ -87,6 +87,12 @@ public class TutorialAttackPlayer : MonoBehaviour {
     {
         get { return m_weekText; }
         set { m_weekText = value; }
+    }
+
+    public int WeekPar
+    {
+        get { return weekPoints[selectNum].GetComponent<WeekPoint>().Par; }
+        //set { m_weekText = value; }
     }
 
     public void Damege()
