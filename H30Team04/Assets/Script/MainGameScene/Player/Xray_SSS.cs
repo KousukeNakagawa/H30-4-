@@ -37,6 +37,11 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 現在選択中の射影機の生存確認用 </summary>
     bool currentSelectXrayState, oldSelectXrayState;
 
+    bool isLTPermission = true;
+    float currentLt, oldLT;
+    // 押した瞬間を取得用
+    bool downLT = false;
+
     void Start()
     {
         IsShutterChance = false;
@@ -240,8 +245,26 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機の起動 </summary>
     void Shutter()
     {
+        currentLt = Input.GetAxis("ShutterChance");
+
+        // 基本 false 押した瞬間 true
+        if (currentLt > oldLT) downLT = true;
+        // 戻っている間 false
+        if (currentLt < oldLT) downLT = false;
+
+        // 基本 true
+        isLTPermission = true;
+
+        if (IsShutterChance)
+        {
+            // 選択中の射影機が壊された判定になったら
+            if (_selectXray.GetComponent<XrayMachine>().isBreak)
+                // LTを解除する
+                isLTPermission = false;
+        }
+
         // LTを押している間 選択中の射影機が使用可能な場合 カメラが戻っている最中ではないなら
-        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && XrayMachines.DeadOrAlive(_selectXray) && !MainCamera.IsComeBack);
+        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && !MainCamera.IsComeBack && isLTPermission && downLT);
 
         if (Input.GetButtonDown("Shutter"))
         {
@@ -254,6 +277,9 @@ public class Xray_SSS : MonoBehaviour
         // 視点移動中は保持している射影機を消さない処理
         if (Input.GetAxis("ShutterChance") <= 0)
             _selectXray.GetComponent<XrayMachine>().XrayPlaySupport();
+
+        // 前フレームの状態を更新
+        oldLT = currentLt;
     }
 
     /// <summary> 射影機との距離の更新 </summary>

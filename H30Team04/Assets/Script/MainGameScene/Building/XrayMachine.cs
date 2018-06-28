@@ -38,6 +38,9 @@ public class XrayMachine : MonoBehaviour
     private RaycastHit builhit;
     private RaycastHit[] weekpoints = { };
 
+    /// <summary> 壊されたフラグ </summary>
+    public bool isBreak = false;
+
     // Use this for initialization
     void Start()
     {
@@ -101,7 +104,8 @@ public class XrayMachine : MonoBehaviour
         GetWeak();
         MiniMapUpdate();
 
-
+        // その文明を破壊する
+        ReBreak();
     }
 
     private void MiniMapUpdate()
@@ -395,9 +399,23 @@ public class XrayMachine : MonoBehaviour
 
             minimapIcon.enabled = false;
             minimapArrow.enabled = false;
+            // LTボタンを押していない間
+            if (!Xray_SSS.IsShutterChance)
+            {
+                XrayMachines.RemoveObj(gameObject);
+                Destroy(gameObject);
+            }
+            else isBreak = true;
+        }
+    }
+
+    /// <summary> 破壊 </summary>
+    public void ReBreak()
+    {
+        if (XrayMachines.xrayMachineObjects.Contains(gameObject) && isBreak)
+        {
             XrayMachines.RemoveObj(gameObject);
             Destroy(gameObject);
-
         }
     }
 

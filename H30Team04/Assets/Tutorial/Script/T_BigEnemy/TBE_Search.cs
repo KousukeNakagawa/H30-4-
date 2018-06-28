@@ -41,7 +41,8 @@ public class TBE_Search : MonoBehaviour
         // 現在の対象の位置
         Target = target[currentT];
         player = GameObject.FindGameObjectWithTag("Player").transform.position;
-        beacon = GameObject.FindGameObjectWithTag("Beacon").transform.position;
+        if (GameObject.FindGameObjectWithTag("Beacon") != null)
+            beacon = GameObject.FindGameObjectWithTag("Beacon").transform.position;
         // 対象の位置に到達した際の処理
         GoalTarget();
     }
