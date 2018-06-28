@@ -171,6 +171,9 @@ public class Xray_SSS : MonoBehaviour
         XrayArrow = (_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil()) ?
             XrayArrow2 : XrayArrow1;
 
+        XrayArrow2.SetActive(_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
+        XrayArrow1.SetActive(!_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
+
         shutterStringUI.SetActive(_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
 
         XrayArrow.SetActive(UnlockManager.Limiter[UnlockState.xray]);
