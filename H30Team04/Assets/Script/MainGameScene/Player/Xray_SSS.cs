@@ -5,7 +5,9 @@ using System.Linq;
 
 public class Xray_SSS : MonoBehaviour
 {
-    [SerializeField] GameObject XrayArrow;
+    [SerializeField] GameObject XrayArrow1;
+    [SerializeField] GameObject XrayArrow2;
+    GameObject XrayArrow;
     [SerializeField, Range(1, 3), Tooltip("矢印の開始位置")] float arrowOrigin = 1;
     [SerializeField, Range(0.1f, 3), Tooltip("矢印の高さ")] float arrowHeight = 0.1f;
 
@@ -42,6 +44,8 @@ public class Xray_SSS : MonoBehaviour
     // 押した瞬間を取得用
     bool downLT = false;
 
+    [SerializeField] GameObject shutterStringUI;
+
     void Start()
     {
         IsShutterChance = false;
@@ -51,8 +55,6 @@ public class Xray_SSS : MonoBehaviour
     void Update()
     {
         if (Time.timeScale == 0) return;
-
-        XrayArrow.SetActive(UnlockManager.Limiter[UnlockState.xray]);
 
         if (!UnlockManager.Limiter[UnlockState.xray]) return;
 
@@ -162,6 +164,16 @@ public class Xray_SSS : MonoBehaviour
 
         //矢印の示す射影機の更新
         _selectXray = _currentXray;
+
+        XrayArrow = XrayArrow ?? XrayArrow1;
+
+        // 矢印の色のチェンジ
+        XrayArrow = (_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil()) ?
+            XrayArrow2 : XrayArrow1;
+
+        shutterStringUI.SetActive(_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
+
+        XrayArrow.SetActive(UnlockManager.Limiter[UnlockState.xray]);
 
         //Debug.Log("current::" + _Xray1.GetComponent<XrayMachine>().GetTextNum() +
         //    "///old::" + _Xray2.GetComponent<XrayMachine>().GetTextNum() +
@@ -302,6 +314,11 @@ public class Xray_SSS : MonoBehaviour
     public GameObject GetTarget()
     {
         return _selectXray;
+    }
+
+    void DrawShutterUI()
+    {
+
     }
 
     #region カス
