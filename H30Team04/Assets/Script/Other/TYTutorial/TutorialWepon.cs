@@ -52,6 +52,14 @@ public class TutorialWepon : MonoBehaviour {
     SEs audios = SEs.fireBeacon;
     Dictionary<SEs, AudioClip> playerSE = new Dictionary<SEs, AudioClip>();
 
+    /// <summary> ビーコンの角度 </summary>
+    public static Quaternion BeaconFieldAngle { get; private set; }
+    /// <summary> ビーコンの角度 </summary>
+    public static Quaternion BeaconBuildAngle { get; private set; }
+
+    /// <summary> ビーコンの着弾点 </summary>
+    public static Vector3 HitPos { get; private set; }
+
     void Start()
     {
         //初期装備はビーコン
@@ -174,6 +182,10 @@ public class TutorialWepon : MonoBehaviour {
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
 
+            BeaconFieldAngle = Quaternion.LookRotation(hit.normal + new Vector3(90, 0));
+            BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
+            HitPos = hit.point;
+
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
 
@@ -185,6 +197,11 @@ public class TutorialWepon : MonoBehaviour {
             isLaserHit = false;
             rippel.SetActive(false);
         }
+    }
+
+    public static Quaternion BeaconAngle(bool isField = true)
+    {
+        return (isField) ? BeaconFieldAngle : BeaconBuildAngle;
     }
 
     /// <summary> 装備中の武器の使用 </summary>
@@ -203,7 +220,7 @@ public class TutorialWepon : MonoBehaviour {
         if (WeaponBeacon)
         {
             //GameTextController.TextStart(1);
-            weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
+            weapon.GetComponent<TutorialBeacon>().Fire(ray.direction);
             audioSourse.PlayOneShot(playerSE[SEs.fireBeacon], 0.5f);
         }
         else

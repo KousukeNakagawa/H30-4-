@@ -894,7 +894,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4377341597423410}
   - component: {fileID: 33247706898136956}
-  - component: {fileID: 135538276334203076}
   - component: {fileID: 23566200619275028}
   m_Layer: 0
   m_Name: Sphere
@@ -3163,18 +3162,6 @@ MonoBehaviour:
   beacon: {fileID: 1104167910438606}
   speed: 100
   SE: {fileID: 8300000, guid: b1b159cb5442fab41bcd00da06f107df, type: 3}
---- !u!135 &135538276334203076
-SphereCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1975962862815980}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!136 &136652323096903558
 CapsuleCollider:
   m_ObjectHideFlags: 1
