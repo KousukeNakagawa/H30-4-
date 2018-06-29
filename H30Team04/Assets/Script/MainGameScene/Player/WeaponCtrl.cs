@@ -53,6 +53,9 @@ public class WeaponCtrl : MonoBehaviour
     /// <summary> ビーコンの角度 </summary>
     public static Quaternion BeaconBuildAngle { get; private set; }
 
+    /// <summary> ビーコンの着弾点 </summary>
+    public static Vector3 HitPos { get; private set; }
+
     void Start()
     {
         //初期装備はビーコン
@@ -173,8 +176,12 @@ public class WeaponCtrl : MonoBehaviour
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
+
+            Debug.DrawRay(hit.point, hit.normal + new Vector3(0, -90, 0), Color.red * 100);
+
             BeaconFieldAngle = Quaternion.LookRotation(hit.normal + new Vector3(90, 0));
             BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
+            HitPos = hit.point;
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);

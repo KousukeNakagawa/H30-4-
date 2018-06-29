@@ -70,8 +70,11 @@ public class BeaconBullet : MonoBehaviour
         // 角度を変更
         transform.rotation = WeaponCtrl.BeaconAngle(isField);
 
-        //スピードを止める
-        rb.velocity = Vector3.zero;
+        // 位置固定
+        transform.position = WeaponCtrl.HitPos;
+
+        // 動きを止める
+        rb.constraints = RigidbodyConstraints.FreezeAll;
 
         //tagを「BeaconBullet」から「Beacon」へ
         transform.tag = "Beacon";
