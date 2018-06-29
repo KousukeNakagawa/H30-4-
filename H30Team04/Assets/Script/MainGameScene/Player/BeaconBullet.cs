@@ -12,6 +12,7 @@ public class BeaconBullet : MonoBehaviour
 
     Rigidbody rb;
     Vector3 startPos; //初期位置
+    GameObject m_Sphere;
     public bool IsChange { get; private set; } //タグ変化把握用
 
     void Start()
@@ -20,6 +21,8 @@ public class BeaconBullet : MonoBehaviour
         audioSourse = GetComponent<AudioSource>();
         startPos = rb.position;
         IsChange = false;
+        m_Sphere = GameObject.Find("Sphere").gameObject;
+        m_Sphere.SetActive(false);
     }
 
     void Update()
@@ -84,6 +87,7 @@ public class BeaconBullet : MonoBehaviour
         transform.parent = other.transform;
 
         audioSourse.PlayOneShot(SE);
+        m_Sphere.SetActive(true);
     }
 
     /// <summary>

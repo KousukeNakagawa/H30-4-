@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: 82125991930860284}
   m_Layer: 12
   m_Name: BeaconBullet
-  m_TagString: Beacon
+  m_TagString: BeaconBullet
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3160,7 +3160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f02946b36d69c7419fd6fd672c30bb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  beacon: {fileID: 1654255177869170}
+  beacon: {fileID: 1104167910438606}
   speed: 100
   SE: {fileID: 8300000, guid: b1b159cb5442fab41bcd00da06f107df, type: 3}
 --- !u!135 &135538276334203076
