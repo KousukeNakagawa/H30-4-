@@ -19,8 +19,8 @@ public class SearchObject : MonoBehaviour
     //優先順位
     private Dictionary<string, int> priority = new Dictionary<string, int>
     {
-        {"Player",1 },
-        {"Beacon",2 },
+        {"Beacon",1 },
+        {"Player",2 },
         {"XlineEnd",3 },
         {"Xline", 4 },
     };
