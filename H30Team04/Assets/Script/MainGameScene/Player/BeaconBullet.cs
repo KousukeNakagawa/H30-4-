@@ -34,7 +34,8 @@ public class BeaconBullet : MonoBehaviour
     void OnCollisionEnter(Collision other)
     {
         //プレイヤー・スナイパーらとの衝突は無視
-        if (other.collider.CompareTag("Player") || other.collider.CompareTag("Sniper")) return;
+        if (other.collider.CompareTag("Player") || other.collider.CompareTag("Sniper") ||
+            other.collider.CompareTag("BeaconBullet") || other.collider.CompareTag("Beacon")) return;
 
         //ビル・地面に衝突時、くっつく
         else if (other.collider.CompareTag("Building")) Cling(other, false);
@@ -79,19 +80,14 @@ public class BeaconBullet : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeAll;
         //当たったオブジェクトの子になる
         transform.parent = other.transform;
-        if (transform.parent.gameObject.CompareTag("Field") ||
-            transform.parent.gameObject.CompareTag("Building"))
-        {
-            //tagを「BeaconBullet」から「Beacon」へ
-            transform.tag = "Beacon";
-            IsChange = true;
-            // 音を鳴らす
-            audioSourse.PlayOneShot(SE);
+        //tagを「BeaconBullet」から「Beacon」へ
+        transform.tag = "Beacon";
+        IsChange = true;
+        // 音を鳴らす
+        audioSourse.PlayOneShot(SE);
 
-            m_Sphere = m_Sphere ?? GameObject.Find("Sphere").gameObject;
-            m_Sphere.SetActive(true);
-        }
-        else Destroy(beacon);
+        m_Sphere = m_Sphere ?? GameObject.Find("Sphere").gameObject;
+        m_Sphere.SetActive(true);
     }
 
     /// <summary>

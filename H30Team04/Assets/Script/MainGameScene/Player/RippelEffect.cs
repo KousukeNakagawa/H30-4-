@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary> レーザーポインターの命中エフェクト </summary>
 public class RippelEffect : MonoBehaviour
 {
-    [SerializeField, Range(0.1f, 0.5f)] float size = 0.1f;
+    [SerializeField, Range(10, 100)] int nearSizeAmount = 100;
 
     ParticleSystem particle;
     ParticleSystemRenderer particleRenderer;
@@ -42,7 +42,7 @@ public class RippelEffect : MonoBehaviour
     /// <summary> 地面を映すとき小さくなる </summary>
     void SizeChange()
     {
-        var size = (WeaponCtrl.IsFloorHit) ? this.size : 1;
+        var size = WeaponCtrl.RippelDis / nearSizeAmount;
         particleRenderer.maxParticleSize = size;
     }
 }

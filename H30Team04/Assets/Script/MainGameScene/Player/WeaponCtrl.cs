@@ -56,6 +56,9 @@ public class WeaponCtrl : MonoBehaviour
     /// <summary> ビーコンの着弾点 </summary>
     public static Vector3 HitPos { get; private set; }
 
+    /// <summary> 波紋エフェクトとの距離 </summary>
+    public static float RippelDis { get; private set; }
+
     void Start()
     {
         //初期装備はビーコン
@@ -165,25 +168,25 @@ public class WeaponCtrl : MonoBehaviour
         else
             LaserPointer(ray.origin, Vector3.zero, rayColor, laserWide);
 
-        //レイが何かに衝突したら
-        if (Physics.Raycast(ray, out hit, rayLength))
+        if (Physics.Raycast(ray, out hit, rayLength, LayerMask.GetMask("Building", "Enemy", "Xray")))
         {
             //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
-            if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
-                hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper")) return;
+            //if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
+            //    hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
+            //    hit.collider.CompareTag("Untagged")) return;
 
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
 
-            Debug.DrawRay(hit.point, hit.normal * 100, Color.red);
+            // 波紋が近いと小さくする処理
+            RippelDis = Vector3.Distance(transform.position, rippel.transform.position);
 
             BeaconFieldAngle = Quaternion.LookRotation(hit.normal + new Vector3(90, 0));
             BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
 
+            //発射した瞬間の位置
             if (Input.GetButtonDown("Fire")) HitPos = hit.point;
-
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -195,6 +198,7 @@ public class WeaponCtrl : MonoBehaviour
         {
             isLaserHit = false;
             rippel.SetActive(false);
+            HitPos = ray.direction * laserLength;
         }
     }
 
