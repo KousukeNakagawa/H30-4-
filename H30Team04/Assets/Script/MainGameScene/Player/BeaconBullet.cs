@@ -70,24 +70,25 @@ public class BeaconBullet : MonoBehaviour
     /// </summary>
     void Cling(Collision other, bool isField = true)
     {
-        // 角度を変更
-        transform.rotation = WeaponCtrl.BeaconAngle(isField);
-
         // 位置固定
         transform.position = WeaponCtrl.HitPos;
-
+        // 角度を変更
+        transform.rotation = WeaponCtrl.BeaconAngle(isField);
         // 動きを止める
         rb.constraints = RigidbodyConstraints.FreezeAll;
-
-        //tagを「BeaconBullet」から「Beacon」へ
-        transform.tag = "Beacon";
-        IsChange = true;
-
         //当たったオブジェクトの子になる
         transform.parent = other.transform;
-
-        audioSourse.PlayOneShot(SE);
-        m_Sphere.SetActive(true);
+        if (transform.parent.gameObject.CompareTag("Field") ||
+            transform.parent.gameObject.CompareTag("Building"))
+        {
+            //tagを「BeaconBullet」から「Beacon」へ
+            transform.tag = "Beacon";
+            IsChange = true;
+            // 音を鳴らす
+            audioSourse.PlayOneShot(SE);
+            m_Sphere.SetActive(true);
+        }
+        else Destroy(beacon);
     }
 
     /// <summary>

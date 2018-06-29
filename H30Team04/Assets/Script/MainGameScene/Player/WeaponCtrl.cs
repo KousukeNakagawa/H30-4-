@@ -171,17 +171,19 @@ public class WeaponCtrl : MonoBehaviour
             //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
             if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
                 hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper") /*|| hit.collider.CompareTag("GoalPoin")*/) return;
+                hit.collider.CompareTag("Sniper")) return;
 
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
 
-            Debug.DrawRay(hit.point, hit.normal + new Vector3(0, -90, 0), Color.red * 100);
+            Debug.DrawRay(hit.point, hit.normal * 100, Color.red);
 
             BeaconFieldAngle = Quaternion.LookRotation(hit.normal + new Vector3(90, 0));
             BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
-            HitPos = hit.point;
+
+            if (Input.GetButtonDown("Fire")) HitPos = hit.point;
+
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
