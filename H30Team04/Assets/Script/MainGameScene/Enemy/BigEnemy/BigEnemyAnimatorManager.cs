@@ -71,6 +71,7 @@ public class BigEnemyAnimatorManager : MonoBehaviour
             born_Animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk")) return;
         m_animator.SetTrigger("WalkStart");
         born_Animator.SetTrigger("WalkStart");
+        speed = 0;
         dir = 1;
     }
 

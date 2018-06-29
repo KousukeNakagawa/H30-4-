@@ -10,7 +10,7 @@ public class DestinationArrive : MonoBehaviour {
 	void Update () {
         if (Time.timeScale == 0) return;
         Vector3 targetPos = BigEnemyScripts.searchObject.targetPos;
-        if (targetPos != Vector3.zero)
+        if (targetPos != Vector3.zero && !BigEnemyScripts.missileLaunch.isMissile)
         {
             //目的地に到着していたら突進を終了する
             if ((targetPos.ToTopView() - BigEnemyScripts.mTransform.position.ToTopView()).magnitude < targetMagnitudeRange)

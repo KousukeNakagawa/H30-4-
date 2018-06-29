@@ -68,8 +68,8 @@ public class SearchObject : MonoBehaviour
     public void MissileTargetChange(GameObject target)
     {
         //多重対策と射影機の優先順位を下げる
-        if (BigEnemyScripts.missileLaunch.isMissile && (searchTarget != null && !searchTarget.Equals(target)))
-            BigEnemyScripts.missileLaunch.isMissile = false;
+        if (searchTarget != null && searchTarget.Equals(target)) return;
+        else if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.isMissile = false;
         if (BigEnemyScripts.missileLaunch.isLaunch)
         {
             if (searchTarget == null || priority[target.tag] < priority[searchTarget.tag])
