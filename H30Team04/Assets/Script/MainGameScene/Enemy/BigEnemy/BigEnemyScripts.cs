@@ -71,4 +71,9 @@ public class BigEnemyScripts : MonoBehaviour
             if (localPoses.ContainsKey(child)) child.localPosition = localPoses[child];
         }
     }
+
+    void OnDestroy()
+    {
+        MissileCollider.isHits.Clear();
+    }
 }
