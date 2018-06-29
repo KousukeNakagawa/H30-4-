@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour {
     private PhaseState phaseState;
 
     bool isxrayzero = false; //射影機をすべて使い終わったか
+    bool _nextScene=false;
     public int testnum = 0;
 
     [SerializeField] private AudioSource[] bgms;
@@ -72,6 +73,7 @@ public class GameManager : MonoBehaviour {
 
     public GameObject limitTimerObj;
     private Text limitText;
+
 
     [SerializeField] private float limit = 30.0f;
 
@@ -119,7 +121,8 @@ public class GameManager : MonoBehaviour {
             m_GameOver.SetActive(true);
             iTween.ScaleTo(m_GameOver, iTween.Hash("x", 1, "y", 1, "z", 1, "time", 6));
             _overScale = m_GameOver.transform.localScale;
-            Invoke("OverFlash", 5f);
+            Invoke("OverFlash",9f);
+            
         }
 
         if (clearflash)
@@ -127,7 +130,7 @@ public class GameManager : MonoBehaviour {
             m_GameClear.SetActive(true);
             iTween.ScaleTo(m_GameClear, iTween.Hash("x", 1, "y", 1, "z", 1, "time", 6));
             _clearScale = m_GameClear.transform.localScale;
-            Invoke("ClearFlash", 5f);
+            Invoke("ClearFlash",9f);
         }
     }
 
@@ -210,7 +213,7 @@ public class GameManager : MonoBehaviour {
     {
         if (gameend)
         {
-            if (Input.anyKeyDown)
+            if (_nextScene&&Input.anyKeyDown)
             {
                 ScecnManager.SceneChange("GameStart1");
             }
@@ -391,39 +394,37 @@ public class GameManager : MonoBehaviour {
         nowBGM = n;
     }
 
+    //IEnumerator OverFlash()
+    //{
+    //    m_PushA.enabled = true;
+    //    while (true)
+    //    {
+    //        m_PushA.GetComponent<Text>().enabled = !m_PushA.GetComponent<Text>().enabled;
+    //        yield return new WaitForSeconds(1.0f);
+    //    }
+
+    //}
+
+    //IEnumerator ClearFlash()
+    //{
+    //    m_PushA.enabled = true;
+    //    while (true)
+    //    {
+    //        m_PushA.GetComponent<Text>().enabled = !m_PushA.GetComponent<Text>().enabled;
+    //        yield return new WaitForSeconds(1.0f);
+    //    }
+
+    //}
+
     void OverFlash()
     {
         m_PushA.gameObject.SetActive(true);
-        if (Time.time > _overtime)
-        {
-            float alpha = m_PushA.GetComponent<CanvasRenderer>().GetAlpha();
-            if (alpha == 1.0f)
-            {
-                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(0.0f);
-            }
-            else
-            {
-                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            }
-            _overtime += 1;
-        }
+        _nextScene = true;
     }
 
     void ClearFlash()
     {
         m_PushA.gameObject.SetActive(true);
-        if (Time.time > _overtime)
-        {
-            float alpha = m_PushA.GetComponent<CanvasRenderer>().GetAlpha();
-            if (alpha == 1.0f)
-            {
-                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(0.0f);
-            }
-            else
-            {
-                m_PushA.GetComponent<CanvasRenderer>().SetAlpha(1.0f);
-            }
-            _cleartime += 1;
-        }
+        _nextScene = true;
     }
 }
