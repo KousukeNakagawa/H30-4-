@@ -49,7 +49,9 @@ public class WeaponCtrl : MonoBehaviour
     Dictionary<SEs, AudioClip> playerSE = new Dictionary<SEs, AudioClip>();
 
     /// <summary> ビーコンの角度 </summary>
-    public static Quaternion BeaconRotate { get; private set; }
+    public static Quaternion BeaconFieldAngle { get; private set; }
+    /// <summary> ビーコンの角度 </summary>
+    public static Quaternion BeaconBuildAngle { get; private set; }
 
     void Start()
     {
@@ -171,7 +173,8 @@ public class WeaponCtrl : MonoBehaviour
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
-            BeaconRotate = Quaternion.LookRotation(hit.normal);
+            BeaconFieldAngle = Quaternion.LookRotation(hit.normal + new Vector3(90, 0));
+            BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -184,6 +187,11 @@ public class WeaponCtrl : MonoBehaviour
             isLaserHit = false;
             rippel.SetActive(false);
         }
+    }
+
+    public static Quaternion BeaconAngle(bool isField = true)
+    {
+        return (isField) ? BeaconFieldAngle : BeaconBuildAngle;
     }
 
     /// <summary> 装備中の武器の使用 </summary>

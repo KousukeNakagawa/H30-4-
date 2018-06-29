@@ -33,7 +33,8 @@ public class BeaconBullet : MonoBehaviour
         if (other.collider.CompareTag("Player") || other.collider.CompareTag("Sniper")) return;
 
         //ビル・地面に衝突時、くっつく
-        else if (other.collider.CompareTag("Building") || other.collider.CompareTag("Field")) Cling(other);
+        else if (other.collider.CompareTag("Building")) Cling(other, false);
+        else if (other.collider.CompareTag("Field")) Cling(other);
 
         //上記以外と衝突時、自身を破壊する
         else Destroy(beacon);
@@ -64,10 +65,10 @@ public class BeaconBullet : MonoBehaviour
     /// <summary>
     /// 張り付き処理
     /// </summary>
-    void Cling(Collision other)
+    void Cling(Collision other, bool isField = true)
     {
         // 角度を変更
-        transform.rotation = WeaponCtrl.BeaconRotate;
+        transform.rotation = WeaponCtrl.BeaconAngle(isField);
 
         //スピードを止める
         rb.velocity = Vector3.zero;
