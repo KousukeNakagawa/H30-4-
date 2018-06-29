@@ -66,6 +66,9 @@ public class BeaconBullet : MonoBehaviour
     /// </summary>
     void Cling(Collision other)
     {
+        // 角度を変更
+        transform.rotation = WeaponCtrl.BeaconRotate;
+
         //スピードを止める
         rb.velocity = Vector3.zero;
 
@@ -77,7 +80,6 @@ public class BeaconBullet : MonoBehaviour
         transform.parent = other.transform;
 
         audioSourse.PlayOneShot(SE);
-        //transform.localScale *= 10;
     }
 
     /// <summary>
