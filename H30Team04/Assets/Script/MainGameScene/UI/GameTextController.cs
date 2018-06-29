@@ -113,6 +113,7 @@ public class GameTextController : MonoBehaviour {
     /// <param name="i"></param>
     public static void TextStart(int i)
     {
+        //return; //pv用
         if (sScenarios[i] != null)
         {
             if (!m_PhDface)
@@ -132,7 +133,7 @@ public class GameTextController : MonoBehaviour {
     /// <param name="i"></param>
     public static void FailedText(int i)
     {
-
+        //return; //pv用
         if (!m_PhDface)
         {
             _nowtext = i;

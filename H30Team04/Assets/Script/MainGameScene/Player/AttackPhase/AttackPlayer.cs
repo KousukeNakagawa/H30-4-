@@ -65,7 +65,7 @@ public class AttackPlayer : MonoBehaviour {
             target.position = Vector3.Lerp(target.position, weekPoints[selectNum].transform.position, 0.5f);
             transform.LookAt(target);
 
-            if (Input.GetButtonDown("Shutter"))
+            if (Input.GetButtonDown("Fire"))
             {
                 is_shot = true;
                 GameObject roket = Instantiate(roketPrefab,transform);

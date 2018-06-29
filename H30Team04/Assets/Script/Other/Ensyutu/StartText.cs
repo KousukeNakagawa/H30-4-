@@ -109,6 +109,8 @@ public class StartText : MonoBehaviour {
     /// <param name="i"></param>
     public static void TextStart(int i)
     {
+        //return; //pv用
+
         if (sScenarios[i] != null)// && !m_PhDface)
         {
             //if (!m_PhDface)
@@ -138,7 +140,6 @@ public class StartText : MonoBehaviour {
     /// <param name="i"></param>
     public static void FailedText(int i)
     {
-
         if (!m_PhDface)
         {
             _nowtext = i;

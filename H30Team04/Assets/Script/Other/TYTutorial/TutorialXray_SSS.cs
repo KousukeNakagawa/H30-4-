@@ -116,11 +116,12 @@ public class TutorialXray_SSS : MonoBehaviour {
 
         if (Input.GetButtonDown("Shutter"))
         {
-            //if(pushCount == 0)
-            //{
-            //    pushCount++;
-            //    return;
-            //}
+            //テキスト送りと同時に進んでほしくないから苦し紛れ
+            if (pushCount == 0)
+            {
+                pushCount++;
+                return;
+            }
             _selectXray.GetComponent<TutorialXrayMachine>().XrayPlay();
             _selectXray = nextXray[0];
         }

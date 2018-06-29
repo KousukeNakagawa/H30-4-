@@ -14,7 +14,7 @@ public class GameManager : MonoBehaviour {
         waitingState
     }
 
-    const int WEEKBONUS = 10; //弱点部位へのボーナス 
+    const int WEEKBONUS = 50; //弱点部位へのボーナス 
 
     //それぞれの弱点の確立
     public struct WeekPointProbability

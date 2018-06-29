@@ -189,7 +189,7 @@ public class TutorialXlinePhoto : MonoBehaviour {
 
             if (/*Mathf.Abs(*/photoTrans.localPosition.y/*)*/ < 1)
             {
-                photoTrans.localPosition = Vector3.zero;
+                photoTrans.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
                 if (currentSelectStageIndex < m_FlyerCount) weektexts.SetTexts(xrayDatas[currentSelectStageIndex].datas);
                 currentSelectStageIndex++;
             }
