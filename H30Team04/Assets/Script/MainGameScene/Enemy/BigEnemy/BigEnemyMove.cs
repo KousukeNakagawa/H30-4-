@@ -30,8 +30,8 @@ public class BigEnemyMove : MonoBehaviour
                 turnDir.y = turnEndDir.y;
                 BigEnemyScripts.mTransform.rotation = Quaternion.Euler(turnDir);
                 BigEnemyScripts.droneCreate.DroneSet();
-                if (!isDefense) BigEnemyScripts.bigEnemyAnimatorManager.isDash = true;
                 if (BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.missileLaunch.LaunchSet();
+                else if (!isDefense) BigEnemyScripts.bigEnemyAnimatorManager.isDash = true;
             }
             else
             {

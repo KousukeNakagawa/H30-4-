@@ -34,6 +34,7 @@ public class DroneCreate : MonoBehaviour
                 isEnd = false;
             }
         }
+        if (isEnd && !BigEnemyScripts.missileLaunch.isMissile) BigEnemyScripts.bigEnemyAnimatorManager.End();
     }
 
     public void DroneSet()
