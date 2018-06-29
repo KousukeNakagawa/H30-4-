@@ -56,14 +56,17 @@ public class Xray_SSS : MonoBehaviour
     {
         if (Time.timeScale == 0) return;
 
-        if (!UnlockManager.Limiter[UnlockState.xray]) return;
-
         //射影機が無くなったら矢印を消す
         if (_XrayMachines.Length < 1)
         {
+            Destroy(shutterStringUI);
             Destroy(XrayArrow);
         }
-        else
+
+        if (!UnlockManager.Limiter[UnlockState.xray]) return;
+
+        //射影機が無くなったら矢印を消す
+        if (_XrayMachines.Length > 0)
         {
             XraysUpdate();
             Select();
