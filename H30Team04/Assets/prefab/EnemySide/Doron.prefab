@@ -3065,7 +3065,7 @@ MonoBehaviour:
   followObj: {fileID: 0}
   flyUpSpeed: 1
   upDistance: 15
-  m_collider: {fileID: 136722825180330886}
+  searchCollider: {fileID: 136722825180330886}
   snipeBullet: {fileID: 114815875837599508}
   m_light: {fileID: 108620942244769126}
   _interval: 1

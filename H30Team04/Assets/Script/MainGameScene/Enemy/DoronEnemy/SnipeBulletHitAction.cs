@@ -27,7 +27,7 @@ public class SnipeBulletHitAction : MonoBehaviour
 
     public void Hit()
     {  //墜落準備
-        moveScript.m_collider.enabled = false;
+        moveScript.searchCollider.enabled = false;
         moveScript.enabled = false;
         m_rigid.useGravity = true;
         m_rigid.isKinematic = false;

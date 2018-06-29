@@ -38,7 +38,7 @@ public class DroneMove2 : MonoBehaviour
     private Vector3 velocity;
     private int sagittalDir;
     private int LRdir = 1;
-    public Collider m_collider;
+    public Collider searchCollider;
     private bool isGo; //前に進んでいるか（X）
     private float followCount;
     private bool isFirst;  //横移動の時、1回だけ半分移動する
@@ -138,7 +138,7 @@ public class DroneMove2 : MonoBehaviour
                 transform.position.z);
             velocity = new Vector3(sagittalDir, 0, 1).normalized;
             bodySpherer.enabled = true;
-            m_collider.enabled = true;
+            searchCollider.enabled = true;
         }
         else
         {
@@ -154,7 +154,7 @@ public class DroneMove2 : MonoBehaviour
             {
                 droneState++;
                 velocity = Vector3.forward;
-                m_collider.enabled = false;
+                searchCollider.enabled = false;
                 bodySpherer.enabled = false;
                 GetComponent<DroneAudioPlay>().Stop();
             }
@@ -170,7 +170,7 @@ public class DroneMove2 : MonoBehaviour
         {
             droneState++;
             velocity = Vector3.forward;
-            m_collider.enabled = false;
+            searchCollider.enabled = false;
             bodySpherer.enabled = false;
             return;
         }
