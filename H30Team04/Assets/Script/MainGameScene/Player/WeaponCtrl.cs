@@ -48,6 +48,9 @@ public class WeaponCtrl : MonoBehaviour
     SEs audios = SEs.fireBeacon;
     Dictionary<SEs, AudioClip> playerSE = new Dictionary<SEs, AudioClip>();
 
+    /// <summary> ビーコンの角度 </summary>
+    public static Quaternion BeaconRotate { get; private set; }
+
     void Start()
     {
         //初期装備はビーコン
@@ -83,6 +86,7 @@ public class WeaponCtrl : MonoBehaviour
 
     void LateUpdate()
     {
+        if (Time.timeScale == 0) return;
         Shooting();
         laser.SetActive(UnlockManager.Limiter[UnlockState.laserPointer]);
     }
@@ -167,6 +171,7 @@ public class WeaponCtrl : MonoBehaviour
             rippel.SetActive(true);
             rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
             rippel.transform.position = hit.point + hit.normal * effectPos;
+            BeaconRotate = Quaternion.LookRotation(hit.normal);
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -198,7 +203,7 @@ public class WeaponCtrl : MonoBehaviour
         {
             //GameTextController.TextStart(1);
             weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
-            audioSourse.PlayOneShot(playerSE[SEs.fireBeacon],0.5f);
+            audioSourse.PlayOneShot(playerSE[SEs.fireBeacon], 0.5f);
         }
         else
         {
