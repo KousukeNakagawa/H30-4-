@@ -21,7 +21,8 @@ public class BeaconBullet : MonoBehaviour
         audioSourse = GetComponent<AudioSource>();
         startPos = rb.position;
         IsChange = false;
-        m_Sphere = GameObject.Find("Sphere").gameObject;
+        if (GameObject.Find("Sphere") != null)
+            m_Sphere = GameObject.Find("Sphere").gameObject;
         m_Sphere.SetActive(false);
     }
 
@@ -86,6 +87,8 @@ public class BeaconBullet : MonoBehaviour
             IsChange = true;
             // 音を鳴らす
             audioSourse.PlayOneShot(SE);
+
+            m_Sphere = m_Sphere ?? GameObject.Find("Sphere").gameObject;
             m_Sphere.SetActive(true);
         }
         else Destroy(beacon);
