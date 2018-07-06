@@ -71,7 +71,8 @@ public class TutorialManager_T : MonoBehaviour {
     public GameObject xray3;
 
     public GameObject padUIs;
-    
+
+    public GameObject checkText;
 
     private Transform playerStartTrans;
     private Transform enemyStartTrans;
@@ -498,6 +499,7 @@ public class TutorialManager_T : MonoBehaviour {
 
     private void MoveStart()
     {
+        checkText.SetActive(true);
         movePoint.SetActive(true);
 
     }
@@ -603,7 +605,7 @@ public class TutorialManager_T : MonoBehaviour {
         // PlayerReset(); EnemyReset(); BuildingReset();
 
         m_State = TutorialState_T.XRAYEFFECT;
-        nowTextIndex = 21;
+        nowTextIndex = 22;
 
         Shot = false;
 
@@ -675,5 +677,10 @@ public class TutorialManager_T : MonoBehaviour {
         {
             ResetState(ResetConditions.MISSIONFAILD);
         }
+    }
+
+    public int GetTextNum()
+    {
+        return nowTextIndex;
     }
 }

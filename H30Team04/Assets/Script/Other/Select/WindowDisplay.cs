@@ -24,15 +24,23 @@ public class WindowDisplay : MonoBehaviour  {
     AudioClip on;
     private AudioSource m_audio;
 
+    private GameManager m_mane;
+
     // Use this for initialization
     void Start()
     {
         m_audio = GetComponent<AudioSource>();
+        m_mane = GetComponent<GameManager>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_mane.NowState() >= GameManager.PhaseState.endState)
+        {
+            this.enabled = false;
+        }
+
         //　ステータスウインドウのオン・オフ
         if (Input.GetButtonDown("Restart"))
         {

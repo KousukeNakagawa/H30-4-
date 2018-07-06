@@ -20,15 +20,34 @@ public class TutorialMiniMap : MonoBehaviour {
 
     public TutorialManager_T tmane;
 
+    private float nextTime;
+    private float interval = 0.8f;
+
     // Use this for initialization
     void Start()
     {
         m_camera = GetComponent<Camera>();
+        //nextTime = Time.time;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(tmane.GetTextNum() == 2)
+        {
+            if(nextTime == 0)
+            {
+                nextTime = Time.time;
+                return;
+            }
+            if (Time.time > nextTime)
+            {
+                m_Minimap.SetActive(!m_Minimap.activeSelf);
+                nextTime += interval;
+            }
+            return;
+        }
+
         if (tmane.GetState() >= TutorialState_T.SHOTEFFECT)
         {
             m_Minimap.SetActive(false);
