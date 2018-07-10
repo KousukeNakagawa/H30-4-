@@ -41,7 +41,7 @@ public class Hilyouzi : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(KeyCode.Space) || Input.GetButtonDown("Shutter")&&!gameObj.activeSelf)
+        if (Input.GetKey(KeyCode.Space) || Input.GetButtonDown("Restart")&&!gameObj.activeSelf)
         { 
             gameObj.SetActive(true);
             gameObj2.SetActive(true);

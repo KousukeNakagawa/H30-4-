@@ -7,6 +7,8 @@ public class StartLoop : MonoBehaviour {
     public Transform startPos;
     public Transform endPos;
 
+    public Transform camera;
+
     // Use this for initialization
     void Start () {
         if (Time.timeScale < 1) Time.timeScale = 1;
@@ -14,7 +16,7 @@ public class StartLoop : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(endPos.position.x < transform.position.x && Fade.IsFadeEnd())
+		if(endPos.position.x < transform.position.x && camera.parent != null)
         {
             Vector3 returnPos = transform.position;
             returnPos.x = startPos.position.x;
