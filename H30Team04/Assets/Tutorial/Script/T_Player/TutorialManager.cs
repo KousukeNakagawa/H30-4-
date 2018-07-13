@@ -132,7 +132,7 @@ public class TutorialManager : MonoBehaviour
             //プレイヤーが目的地に到達したら
             if (GoalPoint.IsGoal)
             {
-                Soldier.IsStop = true;
+                Soldier.isStop = true;
                 UnlockManager.AllSet(false);
                 textStop = false;
                 textInput = true;
@@ -148,7 +148,7 @@ public class TutorialManager : MonoBehaviour
 
         tutorialObject.lookPoint[0].SetActive(true);
         tutorialObject.lookPoint[1].SetActive(true);
-        Soldier.IsStop = false;
+        Soldier.isStop = false;
 
         //一旦テキストを止めたい番号
         var stopNum = 5;
@@ -164,7 +164,7 @@ public class TutorialManager : MonoBehaviour
 
             if (clear)
             {
-                Soldier.IsStop = true;
+                Soldier.isStop = true;
                 UnlockManager.AllSet(false);
                 textStop = false;
                 textInput = true;
@@ -213,7 +213,7 @@ public class TutorialManager : MonoBehaviour
 
     void BeaconPhase()
     {
-        Soldier.IsStop = false;
+        Soldier.isStop = false;
         tutorialObject.beaconPoint.SetActive(true);
         //一旦テキストを止める
         textStop = true;
@@ -246,10 +246,10 @@ public class TutorialManager : MonoBehaviour
     {
         //ドローンを出現させる
 
-        if (WeaponCtrl.WeaponBeacon /*&&
+        if (WeaponCtrl.IsWeaponBeacon /*&&
             GameObject.FindGameObjectWithTag("SmallEnemy") != null*/) textStop = true;
 
-        if (!WeaponCtrl.WeaponBeacon)
+        if (!WeaponCtrl.IsWeaponBeacon)
         {
             textStop = false;
             textInput = true;
@@ -289,7 +289,7 @@ public class TutorialManager : MonoBehaviour
             //射影機を全て使う
             if (GameObject.FindGameObjectsWithTag("Xline") == null || textInput)
             {
-                Soldier.IsStop = false;
+                Soldier.isStop = false;
                 UnlockManager.AllSet(false);
                 textStop = false;
                 textInput = true;

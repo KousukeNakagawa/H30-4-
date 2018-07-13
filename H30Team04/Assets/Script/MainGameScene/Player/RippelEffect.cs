@@ -35,7 +35,7 @@ public class RippelEffect : MonoBehaviour
     /// <summary> 装備中の武器によって色を変える </summary>
     void ColorChange()
     {
-        color = (WeaponCtrl.WeaponBeacon) ? Color.blue : Color.red;
+        color = (WeaponCtrl.IsWeaponBeacon) ? Color.blue : Color.red;
         material.SetColor("_TintColor", color);
     }
 

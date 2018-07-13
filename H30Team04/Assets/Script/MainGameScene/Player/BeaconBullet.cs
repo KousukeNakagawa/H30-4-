@@ -73,7 +73,7 @@ public class BeaconBullet : MonoBehaviour
     void Cling(Collision other, bool isField = true)
     {
         // 位置固定
-        transform.position = WeaponCtrl.HitPos;
+        transform.position = WeaponCtrl.BeaconHitPos;
         // 角度を変更
         transform.rotation = WeaponCtrl.BeaconAngle(isField);
         // 動きを止める

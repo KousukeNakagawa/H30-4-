@@ -59,7 +59,7 @@ public class SoldierAnimator : MonoBehaviour
             isSnipe = false;
         }
         //ビーコンを装備しているなら
-        else if (WeaponCtrl.WeaponBeacon)
+        else if (WeaponCtrl.IsWeaponBeacon)
         {
             isFront = false;
             isStay = false;

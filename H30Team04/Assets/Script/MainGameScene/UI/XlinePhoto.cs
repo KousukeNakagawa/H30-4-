@@ -95,7 +95,7 @@ public class XlinePhoto : MonoBehaviour {
             m_wepons[0].enabled = true;
             m_wepons[1].enabled = true;
             m_wepons[2].enabled = true;
-            if (!WeaponCtrl.WeaponBeacon)
+            if (!WeaponCtrl.IsWeaponBeacon)
             {
                 m_wepons[0].transform.position = m_imagepos[0].position;
                 m_wepons[1].transform.position = m_imagepos[1].position;
