@@ -86,7 +86,7 @@ public class BreakEffectManager : MonoBehaviour
                 GameObject ex = Instantiate(explosionPrefab, transform.position + new Vector3(Random.Range(-3.0f, -6.0f),
                     Random.Range(-8.0f, 8.0f), Random.Range(-8.0f, 8.0f)), Quaternion.identity, transform);
                 explosions.Add(ex);
-                BigEnemyScripts.bigEnemyAudioManager.Play(BigEnemyAudioType.Explosion,ex.transform);
+                //BigEnemyScripts.bigEnemyAudioManager.Play(BigEnemyAudioType.Explosion,ex.transform);
             }
             yield return new WaitForSeconds(Random.Range(0.1f, 0.2f));
         }

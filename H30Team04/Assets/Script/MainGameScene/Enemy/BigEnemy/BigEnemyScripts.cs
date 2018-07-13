@@ -72,6 +72,7 @@ public class BigEnemyScripts : MonoBehaviour
         }
     }
 
+
     void OnDestroy()
     {
         MissileCollider.isHits.Clear();

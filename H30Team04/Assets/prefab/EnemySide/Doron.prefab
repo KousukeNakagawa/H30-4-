@@ -551,6 +551,7 @@ GameObject:
   - component: {fileID: 114815875837599508}
   - component: {fileID: 54388968085187216}
   - component: {fileID: 114269292212028042}
+  - component: {fileID: 114466323940281554}
   - component: {fileID: 82381671723925836}
   - component: {fileID: 114207491951410266}
   m_Layer: 15
@@ -3050,12 +3051,38 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1366388990044496}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 602b6f45baf113642b42867cca09a165, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   droneDirection: 0
+  moveSpeed: 7.5
+  moveArea: {x: 70, y: 35}
+  XFraction: 5
+  returnSpeed: 15
+  searchFollowTime: 10
+  searchFollowSpeed: 3.5
+  followObj: {fileID: 0}
+  flyUpSpeed: 1
+  upDistance: 15
+  searchCollider: {fileID: 136722825180330886}
+  snipeBullet: {fileID: 114815875837599508}
+  m_light: {fileID: 108620942244769126}
+  _interval: 1
+--- !u!114 &114466323940281554
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1366388990044496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 943d2f7d10aae0e4f976589a24b5f467, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droneDirection: 0
+  droneState: 0
   moveSpeed: 7.5
   moveArea: {x: 70, y: 35}
   XFraction: 5
@@ -3080,7 +3107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86281df284f608544a0975f827956da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  droneMove: {fileID: 114269292212028042}
+  droneMove: {fileID: 114466323940281554}
 --- !u!114 &114815875837599508
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3094,7 +3121,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
   breakSmoke: {fileID: 1149029344498834, guid: 75819b73e66d8774695a111ccecec2d2, type: 2}
-  moveScript: {fileID: 114269292212028042}
+  moveScript: {fileID: 114466323940281554}
   m_rigid: {fileID: 54388968085187216}
 --- !u!135 &135346680170166268
 SphereCollider:

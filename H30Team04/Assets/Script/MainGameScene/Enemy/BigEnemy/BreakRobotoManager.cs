@@ -33,7 +33,7 @@ public class BreakRobotoManager : MonoBehaviour
         Array.ForEach(m_rigids, (c) => c.transform.parent = null);
         Array.ForEach(m_rigids, (c) => c.AddExplosionForce(explosionPower, 
             BigEnemyScripts.mTransform.position + new Vector3(-10.0f, 0f, 0f), explosionRange));
-        Array.ForEach(m_rigids, (c) => c.AddTorque(UnityEngine.Random.insideUnitSphere * rotateSpeed, ForceMode.VelocityChange));
+        //Array.ForEach(m_rigids, (c) => c.AddTorque(UnityEngine.Random.insideUnitSphere * rotateSpeed, ForceMode.VelocityChange));
         isBreak = true;
     }
 }

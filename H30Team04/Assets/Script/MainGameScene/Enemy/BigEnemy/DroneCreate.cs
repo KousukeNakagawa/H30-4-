@@ -29,7 +29,7 @@ public class DroneCreate : MonoBehaviour
         isEnd = true;
         foreach (var drone in drones)
         {
-            if (!drone.GetComponent<DroneMove2>().IsStart)
+            if (!drone.GetComponent<DroneMove3>().IsStart)
             {
                 isEnd = false;
             }
@@ -45,8 +45,8 @@ public class DroneCreate : MonoBehaviour
         {
             drones.Add(Instantiate(dronePrefab, BigEnemyScripts.droneInstantiatePos.position, Quaternion.identity));
         }
-        drones[0].GetComponent<DroneMove2>().droneDirection = DroneMove2.DroneDirection.Advance;
-        drones[1].GetComponent<DroneMove2>().droneDirection = DroneMove2.DroneDirection.Recession;
+        drones[0].GetComponent<DroneMove3>().droneDirection = DroneMove3.DroneDirection.Advance;
+        drones[1].GetComponent<DroneMove3>().droneDirection = DroneMove3.DroneDirection.Recession;
         droneCreateTime = droneCreateCount;
         isEnd = false;
     }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class DroneSeacrch : MonoBehaviour
 {
-    [SerializeField,Tooltip("自分のDroneMove2")] private DroneMove2 droneMove;
+    [SerializeField,Tooltip("自分のDroneMove3")] private DroneMove3 droneMove;
 
     void OnTriggerStay(Collider other)
     {  //探索範囲がプレイヤーと当たったら追従を開始する

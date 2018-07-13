@@ -6,7 +6,7 @@ public class SnipeBulletHitAction : MonoBehaviour
 {
     [Tooltip("爆発のエフェクト")]public GameObject explosion;
     [Tooltip("墜落の際の煙のエフェクト")]public GameObject breakSmoke;
-    [SerializeField,Tooltip("自分のDroneMove2")] private DroneMove2 moveScript;
+    [SerializeField,Tooltip("自分のDroneMove2")] private DroneMove3 moveScript;
     [SerializeField,Tooltip("自分のRigidBody")] private Rigidbody m_rigid;
 
     private List<GameObject> children = new List<GameObject>();
