@@ -46,7 +46,7 @@ public class MainCamera : MonoBehaviour
     /// <summary> 選択中の射影機目線になる </summary>
     void ShutterChance()
     {
-        current = IsMove;
+        current = transform.position != basePos;
         cur = Xray_SSS.IsShutterChance;
 
         UnlockManager.Unlock(UnlockState.xray); //後で消す
@@ -76,15 +76,18 @@ public class MainCamera : MonoBehaviour
         //通常時
         else
         {
+            // プレイヤーの後ろにいない間
             if (IsMove)
             {
-                IsComeBack = true;
 
+                // プレイヤーへ戻る状態にする
+                IsComeBack = true;
+                // 移動速度
                 leap += backupLeap;
+
                 //プレイヤーの後ろ (basePos) へ戻る
                 var distance = (basePos - transform.position);
                 transform.position = Vector3.Lerp(transform.position, basePos, (speed + leap) * Time.deltaTime);
-
                 //ある程度近くなったら強制到達
                 if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
                 {
@@ -95,18 +98,19 @@ public class MainCamera : MonoBehaviour
                 //移動しつつ射影機の角度になる
                 transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
             }
-            //プレイヤーに追従させる処理
-            else transform.position = basePos;
+            //プレイヤーに追従させる処理 下を向いていない時
+            else if (!Soldier.IsDownLook)
+                transform.position = Vector3.Lerp(transform.position, basePos, (speed + leap) * Time.deltaTime);
 
             //元の位置に戻った瞬間
-            if (!current && old)
+            if (current && !old)
                 transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
         }
 
         if (cur != ol) leap = backupLeap;
 
-        //プレイヤーの後ろにいない間 true
-        IsMove = (transform.position != basePos);
+        //プレイヤーの後ろにいない間 かつ下を見ていないなら true
+        IsMove = (transform.position != basePos && !Soldier.IsDownLook);
         ol = cur;
         old = current;
     }

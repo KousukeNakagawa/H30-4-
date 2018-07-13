@@ -36,6 +36,8 @@ public class WeaponCtrl : MonoBehaviour
     /// <summary> 地面に向かっているか </summary>
     public static bool IsFloorHit { get; private set; }
 
+    public static Transform Muzzele { get; private set; }
+
     AudioSource audioSourse;
     [SerializeField]
     AudioClip[] SE = new AudioClip[4];
@@ -103,7 +105,7 @@ public class WeaponCtrl : MonoBehaviour
     void ChangeWeapon()
     {
         if (!UnlockManager.Limiter[UnlockState.snipe]) return;
-        if (Input.GetButtonDown("WeaponChange"))
+        if (Input.GetButtonDown("newWeaponChange"))
         {
             //武器変更SE
             audioSourse.PlayOneShot(playerSE[SEs.change]);
@@ -120,6 +122,7 @@ public class WeaponCtrl : MonoBehaviour
 
         var rayMuzzle = (WeaponBeacon) ?
             beaconGun.transform.Find("BeaconMuzzle") : snipeGun.transform.Find("SnipeMuzzle");
+        Muzzele = snipeGun.transform.Find("SnipeMuzzle");
 
         //発射位置・方向
         var ray = new Ray(rayMuzzle.position, Camera.main.transform.forward);
@@ -155,7 +158,7 @@ public class WeaponCtrl : MonoBehaviour
             rayMuzzle : snipeGun.transform.Find("FireMuzzle");
 
         //射撃可能なら射撃
-        if (Input.GetButtonDown("Fire") && isFire && (IsSetup || Soldier.IsMove)) Fire(ray, fireMuzzle);
+        if (Input.GetAxis("newFire") < 0 && isFire && (IsSetup || Soldier.IsMove)) Fire(ray, fireMuzzle);
 
         //レイの衝突判定用
         RaycastHit hit;
@@ -186,7 +189,7 @@ public class WeaponCtrl : MonoBehaviour
             BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
 
             //発射した瞬間の位置
-            if (Input.GetButtonDown("Fire")) HitPos = hit.point;
+            if (Input.GetAxis("newFire")<0) HitPos = hit.point;
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);

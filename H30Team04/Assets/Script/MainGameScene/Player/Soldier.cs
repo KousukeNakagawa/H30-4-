@@ -26,6 +26,9 @@ public class Soldier : MonoBehaviour
     /// <summary> 最大無敵時間 </summary>
     float maxInvincibleTime;
 
+    /// <summary> 下を向く時のカメラ移動速度 </summary>
+    [SerializeField, Range(1, 10)] float downLookSpeed = 8;
+
     /// <summary> ダメージを受けているか </summary>
     bool isDamage = false;
 
@@ -70,6 +73,11 @@ public class Soldier : MonoBehaviour
     /// <summary> 移動しているかどうか（アニメーション用） </summary>
     public static bool IsMove { get; private set; }
 
+    /// <summary> 下を見ているとき </summary>
+    public static bool IsDownLook { get; private set; }
+    bool oldDownLook;
+    public bool IsComeDown { get; set; }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -105,11 +113,6 @@ public class Soldier : MonoBehaviour
         Invincible();
 
         if (Annihilation()) Death(); //３回やられたら死亡
-
-        //START:初期位置へワープ（デバック用）
-        //if (Input.GetButtonDown("Restart")) Damage();
-
-        //Respawn();
     }
 
     void FixedUpdate()
@@ -167,7 +170,23 @@ public class Soldier : MonoBehaviour
 
             //上下の制限
             playerCamera.transform.eulerAngles =
-                new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle), playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
+                new Vector3(Mathf.Clamp(angleX, -maxAngle, -minAngle),
+                playerCamera.transform.eulerAngles.y, playerCamera.transform.eulerAngles.z);
+
+            // 基本 false
+            IsDownLook = false;
+            if (playerCamera.transform.eulerAngles.x > 10 && playerCamera.transform.eulerAngles.x <= 30)
+            {
+                // この条件下でのみ true
+                IsDownLook = true;
+
+                var pos = transform.position + Vector3.up * 1.5f + transform.forward;
+                // この条件下での カメラの位置補正
+                playerCamera.transform.position =
+                    Vector3.Lerp(playerCamera.transform.position, pos, downLookSpeed * Time.deltaTime);
+            }
+
+            oldDownLook = IsDownLook;
         }
         //プレイヤーの透過
         //playerCamera.GetComponent<MainCamera>().PlayerHide((angleX <= -hideAngle));

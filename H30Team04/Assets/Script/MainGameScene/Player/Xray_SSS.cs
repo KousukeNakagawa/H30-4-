@@ -115,8 +115,8 @@ public class Xray_SSS : MonoBehaviour
         //射影機が二つ以上あるなら二番目に近い射影機の取得
         if (_Xrays.Count >= 2) _Xray2 = _sortXrays[1].Key;
 
-        // Bボタンを押した瞬間
-        if (Input.GetButtonDown("Select"))
+        // Yボタンを押した瞬間
+        if (Input.GetButtonDown("newXrayChange"))
         {
             if (IsShutterChance) return;
             GameTextController.TextStart(5);
@@ -186,10 +186,10 @@ public class Xray_SSS : MonoBehaviour
         //    "///select::" + _selectXray.GetComponent<XrayMachine>().GetTextNum() + "///一番近い::" + _isNear);
 
         // 切替ボタンを押していないのに 示している射影機が切り替わった瞬間
-        if (!Input.GetButtonDown("Select") && _currentXray != _oldXray)
+        if (!Input.GetButtonDown("newXrayChange") && _currentXray != _oldXray)
         {
             // 切り替わる前に戻す
-            //_isNear = !_isNear;
+            _isNear = !_isNear;
             // 切り替わる前の射影機を示し続ける
             _selectXray = _oldXray;
         }
@@ -284,7 +284,7 @@ public class Xray_SSS : MonoBehaviour
         // LTを押している間 選択中の射影機が使用可能な場合 カメラが戻っている最中ではないなら
         IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && !MainCamera.IsComeBack && isLTPermission && downLT);
 
-        if (Input.GetButtonDown("Shutter"))
+        if (Input.GetButtonDown("newShutter"))
         {
             GameTextController.TextStart(4);
             _selectXray.GetComponent<XrayMachine>().XrayPlay();

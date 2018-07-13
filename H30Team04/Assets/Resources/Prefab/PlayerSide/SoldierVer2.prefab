@@ -2891,6 +2891,7 @@ MonoBehaviour:
   snipe: {fileID: 1627910251371414}
   invincibleTime: 10
   fadeSpeed: 2
+  downLookSpeed: 7
   inverted: 1
   residue: 3
   isUnlock: 0
