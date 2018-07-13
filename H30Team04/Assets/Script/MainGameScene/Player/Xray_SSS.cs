@@ -5,71 +5,101 @@ using System.Linq;
 
 public class Xray_SSS : MonoBehaviour
 {
-    [SerializeField] GameObject XrayArrow1;
-    [SerializeField] GameObject XrayArrow2;
+    /*** 必要ゲームオブジェクト ***/
+    /// <summary> 選択中の射影機を示す矢印（通常） </summary>
+    [SerializeField] GameObject blueXrayArrow;
+    /// <summary> 選択中の射影機を示す矢印（ロボ撮影可） </summary>
+    [SerializeField] GameObject yellowXrayArrow;
+    /// <summary> 選択中の射影機を示す矢印 </summary>
     GameObject XrayArrow;
+    /// <summary> カメラ </summary>
+    [SerializeField] MainCamera m_maincamera;
+    /// <summary> マーカー </summary>
+    [SerializeField] GameObject markwe;
+    /// <summary> 撮影UI </summary>
+    [SerializeField] GameObject shutterStringUI;
+
+    /*** 矢印情報 ***/
+    /// <summary> 矢印の始点 </summary>
     [SerializeField, Range(1, 3), Tooltip("矢印の開始位置")] float arrowOrigin = 1;
+    /// <summary> 矢印の高さ </summary>
     [SerializeField, Range(0.1f, 3), Tooltip("矢印の高さ")] float arrowHeight = 0.1f;
 
-    [SerializeField] MainCamera m_maincamera;
-    [SerializeField] GameObject markwe;
+    /*** 射影機情報 ***/
+    /// <summary> 選択中の射影機 </summary>
+    GameObject _selectXray;
+    /// <summary> 現在選択中の射影機 </summary>
+    GameObject _currentXray;
+    /// <summary> 前フレームに選択していた射影機 </summary>
+    GameObject _oldXray;
+    /// <summary> 一番近い射影機 </summary>
+    GameObject _Xray1;
+    /// <summary> 二番目に近い射影機 </summary>
+    GameObject _Xray2;
 
-    /// <summary> 全射影機取得用 </summary>
+    /// <summary> 全射影機取得 </summary>
     GameObject[] _XrayMachines;
-    /// <summary> 距離を被りなく取得するための辞書 </summary>
+    /// <summary> 距離を被りなく取得する</summary>
     Dictionary<GameObject, float>
         _Xrays = new Dictionary<GameObject, float>();
-    /// <summary> 距離をソートするためのリスト </summary>
+    /// <summary> 距離をソートする </summary>
     List<KeyValuePair<GameObject, float>>
         _sortXrays = new List<KeyValuePair<GameObject, float>>();
 
-    //現在指している射影機・前フレーム指していた射影機
-    //一番近い射影機・二番目に近い射影機
-    GameObject _currentXray, _oldXray, _Xray1, _Xray2;
-    /// <summary> 選択中の射影機 </summary>
-    GameObject _selectXray;
-    /// <summary> 射影機の切替フラグ </summary>
-    bool _isNear = true;
-    /// <summary> 射影機目線か </summary>
-    public static bool IsShutterChance { get; private set; }
     /// <summary> 射影機目線になるときの位置 </summary>
     public static Vector3 ShutterPos;
     /// <summary> 射影機目線になるときの向き </summary>
     public static Vector3 ShutterAngle;
+    /// <summary> 射影機の切替フラグ </summary>
+    bool _isNear = true;
     /// <summary> 現在選択中の射影機の生存確認用 </summary>
-    bool currentSelectXrayState, oldSelectXrayState;
-
+    bool currentSelectXrayState;
+    /// <summary> 前フレームに選択していた射影機の生存確認用 </summary>
+    bool oldSelectXrayState;
+    /// <summary> LTを押しているか </summary>
     bool isLTPermission = true;
-    float currentLt, oldLT;
-    // 押した瞬間を取得用
+    /// <summary> 現在のLTの状態 </summary>
+    float currentLt;
+    /// <summary> 前フレームのLTの状態 </summary>
+    float oldLT;
+    /// <summary> LTを押した瞬間を取得するフラグ </summary>
     bool downLT = false;
 
-    [SerializeField] GameObject shutterStringUI;
+    /*** プロパティ ***/
+
+    /// <summary> LTを押しているか </summary>
+    public static bool IsShutterChance { get; private set; }
 
     void Start()
     {
-        IsShutterChance = false;
+        // 初回射影機検索
         Serch();
+        IsShutterChance = false;
     }
 
     void Update()
     {
+        // 一時停止中は何もしない
         if (Time.timeScale == 0) return;
 
-        //射影機が無くなったら矢印を消す
+        // 射影機がなくなったらUIと矢印の削除
         if (_XrayMachines.Length < 1)
         {
             Destroy(shutterStringUI);
             Destroy(XrayArrow);
         }
 
+        // [xray]がアンロックされていないなら何もしない
         if (!UnlockManager.Limiter[UnlockState.xray]) return;
 
         //射影機が無くなったら矢印を消す
         if (_XrayMachines.Length > 0)
         {
+            // 射影機の更新
             XraysUpdate();
+            // 射影機の選択
             Select();
+            // 射影機の起動
             Shutter();
         }
     }
@@ -77,12 +107,12 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機の検索 </summary>
     void Serch()
     {
-        //射影機情報の取得
+        // 全射影機を取得
         _XrayMachines = XrayMachines.xrayMachineObjects.ToArray();
 
         foreach (var machine in _XrayMachines)
         {
-            //自身とプレイヤーとの距離を取得
+            // 自身とそれぞれの射影機との距離
             var distance = Vector3.Distance(transform.position, machine.transform.position);
             distance = Mathf.Round(distance);
 
@@ -91,16 +121,17 @@ public class Xray_SSS : MonoBehaviour
 
             _Xrays.Add(machine, distance);
         }
-
+        // 距離の更新
         DistanceUpdate();
     }
 
     /// <summary> 射影機の選択 </summary>
     void Select()
     {
-        //初回のみの処理
+        // 初回のみ実施
         _oldXray = _oldXray ?? _sortXrays[0].Key;
 
+        // 射影機がなくなったらマーカーの表示を消し、終了
         if (_XrayMachines.Length < 1)
         {
             markwe.SetActive(false);
@@ -132,58 +163,52 @@ public class Xray_SSS : MonoBehaviour
         //二番目に近い射影機を示す
         else if (_Xrays.Count >= 2) _currentXray = _Xray2;
 
+        // 射影機選択の補助
         SelectSupport();
 
-        #region 射影機が破壊される直前に遺言を貰いたい…
-
+        // 選択中の射影機が消えたら
         if (_selectXray.ToString() == "null")
         {
+            // 別の射影機に切り替える
             if (_isNear) _selectXray = _Xray2;
             else _selectXray = _Xray1;
             return;
         }
 
-        #endregion
-
+        // 選択中の射影機の取得
         SetSelectXray();
 
+        // マーカーの処理
         Marker();
+        // 選択中の射影機の矢印の描画
         Show();
-
+        // 選択中の射影機がいなくなったら切り替える処理
         Research();
     }
 
-    /*** 切り替わった対象を戻す処理 ***/
-    /*** 意図的に切り替えたなら無視する ***/
     /// <summary> 射影機選択の補助 </summary>
     void SelectSupport()
     {
-        //// 残り１以下になったら
-        //if (_sortXrays.Count < 2)
-        //{
-        //    _selectXray = _sortXrays[0].Key;
-        //    return;
-        //}
+
+        /*** 切り替わった対象を戻す処理 ***/
+        /*** 意図的に切り替えたなら無視する ***/
 
         //矢印の示す射影機の更新
         _selectXray = _currentXray;
-
-        XrayArrow = XrayArrow ?? XrayArrow1;
+        // 初回のみ実施
+        XrayArrow = XrayArrow ?? blueXrayArrow;
 
         // 矢印の色のチェンジ
         XrayArrow = (_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil()) ?
-            XrayArrow2 : XrayArrow1;
+            yellowXrayArrow : blueXrayArrow;
 
-        XrayArrow2.SetActive(_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
-        XrayArrow1.SetActive(!_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
-
+        // 選択中の射影機が弱点を写したら 黄色にする それ以外は常時青
+        yellowXrayArrow.SetActive(_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
+        blueXrayArrow.SetActive(!_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
+        // UIの表示
         shutterStringUI.SetActive(_selectXray.GetComponent<XrayMachine>().IsWeakFrontBuil());
-
+        // [xray]がアンロックされているなら矢印の描画
         XrayArrow.SetActive(UnlockManager.Limiter[UnlockState.xray]);
-
-        //Debug.Log("current::" + _Xray1.GetComponent<XrayMachine>().GetTextNum() +
-        //    "///old::" + _Xray2.GetComponent<XrayMachine>().GetTextNum() +
-        //    "///select::" + _selectXray.GetComponent<XrayMachine>().GetTextNum() + "///一番近い::" + _isNear);
 
         // 切替ボタンを押していないのに 示している射影機が切り替わった瞬間
         if (!Input.GetButtonDown("newXrayChange") && _currentXray != _oldXray)
@@ -220,6 +245,7 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 選択中の射影機の「ShutterPos」情報のセッティング </summary>
     void SetSelectXray()
     {
+        // 選択中の射影機が持つ「ShutterPos」の位置と角度を取得
         ShutterPos = _selectXray.transform.Find("ShutterPos").position;
         ShutterAngle = ShutterPos + _selectXray.transform.Find("ShutterPos").forward;
     }
@@ -227,6 +253,7 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 再検索 </summary>
     void Research()
     {
+        // 選択中の射影機を起動させたら 切り替える
         if (!_selectXray.CompareTag("Xline")) _isNear = !_isNear;
     }
 
@@ -235,6 +262,7 @@ public class Xray_SSS : MonoBehaviour
     {
         //示す射影機の方向
         Vector3 direction = _selectXray.transform.position - transform.position;
+
         ////矢印の始点
         //Vector3 start = transform.position + direction / 100 * arrow._startPoint + Vector3.up;
         ////矢印の終点
@@ -244,14 +272,17 @@ public class Xray_SSS : MonoBehaviour
         //float depthCalculation = arrow._colorDepth - direction.sqrMagnitude / 10000;
         //float depth = (depthCalculation <= arrow._minDepth) ? arrow._minDepth : depthCalculation;
 
-        Vector3 arrowPos = transform.position + direction.normalized * arrowOrigin + Vector3.up * arrowHeight;
+        // 矢印の位置
+        var arrowPos = transform.position + direction.normalized * arrowOrigin + Vector3.up * arrowHeight;
         XrayArrow.transform.position = arrowPos;
+        // 選択中の射影機を指す
         XrayArrow.transform.LookAt(_selectXray.transform.position);
         XrayArrow.transform.eulerAngles = new Vector3(90, XrayArrow.transform.eulerAngles.y, XrayArrow.transform.eulerAngles.z);
 
         //DrawArrow(start, end, arrow._startColor, arrow._endColor * depth, arrow.width);
     }
 
+    /// <summary> マーカーの描画 </summary>
     void Marker()
     {
         Vector3 m_target = _selectXray.transform.position;
@@ -263,6 +294,7 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機の起動 </summary>
     void Shutter()
     {
+        // LTの状態を更新
         currentLt = Input.GetAxis("ShutterChance");
 
         // 基本 false 押した瞬間 true
@@ -273,6 +305,7 @@ public class Xray_SSS : MonoBehaviour
         // 基本 true
         isLTPermission = true;
 
+        // LTを押したら
         if (IsShutterChance)
         {
             // 選択中の射影機が壊された判定になったら
@@ -284,9 +317,12 @@ public class Xray_SSS : MonoBehaviour
         // LTを押している間 選択中の射影機が使用可能な場合 カメラが戻っている最中ではないなら
         IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && !MainCamera.IsComeBack && isLTPermission && downLT);
 
+        // Xボタンを押したら
         if (Input.GetButtonDown("newShutter"))
         {
+            // 博士のセリフ
             GameTextController.TextStart(4);
+            // 射影機の起動
             _selectXray.GetComponent<XrayMachine>().XrayPlay();
             // 一番近いものを見る
             _isNear = true;
@@ -312,7 +348,9 @@ public class Xray_SSS : MonoBehaviour
     /// <summary> 射影機の情報の更新 </summary>
     void XraysUpdate()
     {
+        // 全消し
         _Xrays.Clear();
+        // 取得
         Serch();
     }
 
@@ -322,6 +360,7 @@ public class Xray_SSS : MonoBehaviour
         return _selectXray;
     }
 
+    /// <summary> UIの描画 </summary>
     void DrawShutterUI()
     {
 
