@@ -108,7 +108,7 @@ public class MainCamera : MonoBehaviour
             }
             // プレイヤーに追従させる処理 下を向いていない時
             else if (!Soldier.IsDownLook)
-                transform.position = Vector3.Lerp(transform.position, basePos, (speed + leap) * Time.deltaTime);
+                transform.position = basePos;
 
             // プレイヤーの後ろに戻った瞬間
             if (transform.position != basePos && !IsNotOldPlayerLook)
