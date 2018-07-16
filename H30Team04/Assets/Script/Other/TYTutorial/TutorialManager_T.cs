@@ -10,11 +10,11 @@ public enum TutorialState_T
     CAMERA,     //カメラ移動
     ROBOT,      //ロボット出現
     BEACON,     //ビーコン誘導
+    SNIPER,     //スナイパー
     CURSOR,     //カーソル説明
-    SHUTTER,    //撮影
     CURSORCHANGE, //カーソル切り替え
     CURSORCHANGEEND, //カーソル切り替え終わり
-    SNIPER,     //スナイパー
+    SHUTTER,    //撮影
     SHOTEFFECT, //射撃フェーズへの移行演出
     XRAYEFFECT,  //レントゲン演出
     XRAYCHECK,  //レントゲン確認
@@ -67,12 +67,12 @@ public class TutorialManager_T : MonoBehaviour {
     public GameObject playerCamera;
 
     public GameObject cursorUI;
+    public GameObject cameraUI;
 
     public GameObject xray3;
 
     public GameObject padUIs;
-
-    public GameObject checkText;
+    public GameObject padUIback;
 
     private Transform playerStartTrans;
     private Transform enemyStartTrans;
@@ -94,12 +94,16 @@ public class TutorialManager_T : MonoBehaviour {
 
     public TutorialXlinePhoto m_photo;
 
-    public bool Shot { get; set; }
-    
+    private bool isOKend = false; //一度クリアしたかどうか
 
-	// Use this for initialization
-	void Start () {
+    public bool Shot { get; set; }
+    public bool RoboTurn { get; set; }
+
+
+    // Use this for initialization
+    void Start () {
         Shot = false;
+        RoboTurn = false;
         m_Audio = GetComponent<AudioSource>();
         playerStartTrans = playerTrans;
         enemyStartTrans = enemyTrans;
@@ -117,9 +121,10 @@ public class TutorialManager_T : MonoBehaviour {
         cutinCameraWaku.SetActive(false);
         attackPlayer.SetActive(false);
         switchCamera.SetActive(false);
-        drone.SetActive(false);
+        //drone.SetActive(false);
         cursorUI.SetActive(false);
         padUIs.SetActive(false);
+        padUIback.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -222,7 +227,6 @@ public class TutorialManager_T : MonoBehaviour {
         {
             case TutorialState_T.CAMERA:CameraStart(); break;
             case TutorialState_T.ROBOT:RobotStart(); break;
-            case TutorialState_T.SNIPER: SniperStart(); break;
             case TutorialState_T.SHOTEFFECT: ShotPhaseStart(); break;
             case TutorialState_T.TRUEEND:TrueEnd();break;
         }
@@ -238,9 +242,10 @@ public class TutorialManager_T : MonoBehaviour {
             case TutorialState_T.MOVE: MoveStart(); break;
             case TutorialState_T.UI: UIStart(); break;
             case TutorialState_T.BEACON: BeaconStart(); break;
+            case TutorialState_T.SNIPER: SniperStart(); break;
             case TutorialState_T.CURSOR: CursorStart(); break;
+            case TutorialState_T.CURSORCHANGE: CursorChangeStart(); break;
             case TutorialState_T.SHUTTER:ShutterStart(); break;
-            case TutorialState_T.CURSORCHANGE:CursorChangeStart(); break;
             case TutorialState_T.CURSORCHANGEEND:CursorChangeEndStart(); break;
             case TutorialState_T.XRAYEFFECT: XrayEffectStart(); break;
             case TutorialState_T.XRAYCHECK: XrayCheckStart(); break;
@@ -252,8 +257,7 @@ public class TutorialManager_T : MonoBehaviour {
         //else Fade.FadeOut(1.0f);
         //isFadeNow = true;
         if (m_State == TutorialState_T.CAMERA || m_State == TutorialState_T.ROBOT
-            || m_State == TutorialState_T.SNIPER || m_State == TutorialState_T.SHOTEFFECT
-            || m_State == TutorialState_T.TRUEEND)
+            || m_State == TutorialState_T.SHOTEFFECT|| m_State == TutorialState_T.TRUEEND )
         {
             Fade.FadeOut(1.0f);
             isFadeNow = true;
@@ -263,6 +267,7 @@ public class TutorialManager_T : MonoBehaviour {
     /// <summary>リセット宣言</summary>
     public void ResetState(ResetConditions condition)
     {
+        if (m_State == TutorialState_T.SNIPER && drone.GetComponent<Rigidbody>().useGravity) return;
         isReseting = true;
         //nowCondition = condition;
         switch (condition)
@@ -281,11 +286,8 @@ public class TutorialManager_T : MonoBehaviour {
         switch (m_State)
         {
             case TutorialState_T.MOVE: PlayerReset(); break;
-            case TutorialState_T.BEACON: PlayerReset();EnemyReset(); BuildingReset(); break;
-            case TutorialState_T.CURSOR: PlayerReset(); EnemyReset(); BuildingReset(); break;
-            case TutorialState_T.SHUTTER: ShutterReset(); break;
+            case TutorialState_T.BEACON: PlayerReset();  break;
             case TutorialState_T.SNIPER: PlayerReset(); break;
-            case TutorialState_T.XRAYCHECK: break;
             case TutorialState_T.SHOT: ShotReset(); break;
         }
         m_TextManager.HidePanel();
@@ -409,7 +411,7 @@ public class TutorialManager_T : MonoBehaviour {
 
     private void BeaconUpdate()
     {
-        if ((enemyTrans.position.ToTopView() - beacon1.transform.position.ToTopView()).sqrMagnitude < 7*7 )
+        if (RoboTurn)//((enemyTrans.position.ToTopView() - beacon1.transform.position.ToTopView()).sqrMagnitude < 7*7 )
         {
             StepClear();
         }
@@ -473,7 +475,16 @@ public class TutorialManager_T : MonoBehaviour {
     {
         if (Input.GetButtonDown("WeaponChange"))
         {
-            StepClear();
+            if (isOKend)
+            {
+                NextState();
+                isOKend = false;
+            }
+            else
+            {
+                StepClear();
+            }
+            
         }
     }
 
@@ -495,11 +506,11 @@ public class TutorialManager_T : MonoBehaviour {
     private void UIStart()
     {
         padUIs.SetActive(true);
+        padUIback.SetActive(true);
     }
 
     private void MoveStart()
     {
-        checkText.SetActive(true);
         movePoint.SetActive(true);
 
     }
@@ -527,26 +538,25 @@ public class TutorialManager_T : MonoBehaviour {
         beacon1.SetActive(true);
     }
 
+    private void SniperStart()
+    {
+        beacon1.SetActive(false);
+        //beacon2.SetActive(false);
+
+        //PlayerReset();
+        //EnemyReset();
+        //BuildingReset();
+
+        //enemyTrans.gameObject.SetActive(false);
+        //drone.SetActive(true);
+        //drone.transform.parent = null;
+    }
+
     private void CursorStart()
     {
-
         //カーソルを説明するUI表示
         cursorUI.SetActive(true);
-    }
-
-    private void ShutterStart()
-    {
-        cutinCamera.SetActive(true);
-        cutinCameraWaku.SetActive(true);
-    }
-
-    /// <summary>射影機失敗時の処理</summary>
-    private void ShutterReset()
-    {
-        PlayerReset(); EnemyReset(); BuildingReset();
-
-        m_State = TutorialState_T.BEACON;
-        nowTextIndex--;
+        cameraUI.SetActive(true);
     }
 
     private void CursorChangeStart()
@@ -557,27 +567,22 @@ public class TutorialManager_T : MonoBehaviour {
     {
     }
 
-    private void SniperStart()
+    private void ShutterStart()
     {
-        beacon1.SetActive(false);
-        //beacon2.SetActive(false);
-
-        PlayerReset();
-        EnemyReset();
-        BuildingReset();
-
-        enemyTrans.gameObject.SetActive(false);
-        drone.SetActive(true);
+        cutinCamera.SetActive(true);
+        cutinCameraWaku.SetActive(true);
     }
 
     private void ShotPhaseStart()
     {
         playerTrans.gameObject.SetActive(false);
         playerCamera.SetActive(false);
-        enemyTrans.gameObject.SetActive(true);
+        //enemyTrans.gameObject.SetActive(true);
+        EnemyReset();
         switchCamera.gameObject.SetActive(true);
         attackPlayer.gameObject.SetActive(true);
         lifeUI.SetActive(false);
+        cameraUI.SetActive(false);
 
         bgms[0].enabled = false;
         bgms[1].enabled = true;
@@ -610,6 +615,7 @@ public class TutorialManager_T : MonoBehaviour {
         Shot = false;
 
         m_photo.RestFilm();
+        isOKend = true;
     }
 
     private void EndStart()
@@ -644,17 +650,17 @@ public class TutorialManager_T : MonoBehaviour {
     //    Fade.FadeOut();
     //}
     /// <summary>建物リセット</summary>
-    private void BuildingReset()
-    {
-        foreach(Transform child in inStageParent)
-        {
-            if (child.gameObject.activeSelf && child.tag == "Building" || m_State > TutorialState_T.SHUTTER && child.tag == "XlineEnd") continue;
+    //private void BuildingReset()
+    //{
+    //    foreach(Transform child in inStageParent)
+    //    {
+    //        if (child.gameObject.activeSelf && child.tag == "Building" || m_State > TutorialState_T.SHUTTER && child.tag == "XlineEnd") continue;
 
-            child.gameObject.SetActive(true);
-            if (child.tag == "XlineEnd" || child.tag == "Xline") child.gameObject.GetComponent<TutorialXrayMachine>().XrayReset();
-            else if(child.tag == "Building") child.gameObject.GetComponent<TutorialBuil>().BuilReset();
-        }
-    }
+    //        child.gameObject.SetActive(true);
+    //        if (child.tag == "XlineEnd" || child.tag == "Xline") child.gameObject.GetComponent<TutorialXrayMachine>().XrayReset();
+    //        else if(child.tag == "Building") child.gameObject.GetComponent<TutorialBuil>().BuilReset();
+    //    }
+    //}
     /// <summary>説明を読み終わったかどうか</summary>
     public bool IsReaded()
     {

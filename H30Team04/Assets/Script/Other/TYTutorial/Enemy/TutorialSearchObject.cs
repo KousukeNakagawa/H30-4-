@@ -46,6 +46,7 @@ public class TutorialSearchObject : MonoBehaviour {
             targetPos = target.transform.position;
             isSearch = true;
             TutorialEnemyScripts.bigEnemyMove.isDefense = false;
+            TutorialEnemyScripts.tmane.RoboTurn = true;
         }
     }
 

@@ -16,6 +16,7 @@ public class TutorialDestinationArrive : MonoBehaviour {
             //目的地に到着していたら突進を終了する
             if ((targetPos.ToTopView() - TutorialEnemyScripts.mTransform.position.ToTopView()).magnitude < targetMagnitudeRange)
             {
+                TutorialEnemyScripts.bigEnemyMove.IsMove = false;
                 TutorialEnemyScripts.searchObject.ResetTarget();
                 TutorialEnemyScripts.bigEnemyMove.SetGoDefenseLine();
                 TutorialEnemyScripts.bigEnemyAnimatorManager.isDash = false;

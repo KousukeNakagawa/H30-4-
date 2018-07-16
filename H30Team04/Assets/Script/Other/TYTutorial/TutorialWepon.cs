@@ -105,7 +105,7 @@ public class TutorialWepon : MonoBehaviour {
     void ChangeWeapon()
     {
         if (!tmane.IsReaded() || tmane.GetState() < TutorialState_T.SNIPER) return;
-        if (Input.GetButtonDown("WeaponChange"))
+        if (Input.GetButtonDown("newWeaponChange"))
         {
             //武器変更SE
             audioSourse.PlayOneShot(playerSE[SEs.change]);
@@ -157,7 +157,7 @@ public class TutorialWepon : MonoBehaviour {
             rayMuzzle : snipeGun.transform.Find("FireMuzzle");
 
         //射撃可能なら射撃
-        if (Input.GetButtonDown("Fire") && isFire && (IsSetup || TutorialPlayer.IsMove)) Fire(ray, fireMuzzle);
+        if (Input.GetAxis("newFire") < 0 && isFire && (IsSetup || TutorialPlayer.IsMove)) Fire(ray, fireMuzzle);
 
         //レイの衝突判定用
         RaycastHit hit;

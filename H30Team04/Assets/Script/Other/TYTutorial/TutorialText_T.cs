@@ -100,7 +100,6 @@ public class TutorialText_T : MonoBehaviour {
     /// <param name="i"></param>
     public void TextStart(int i)
     {
-        Debug.Log("1.5");
         if (sScenarios[i] != null)
         {
             _nowtext = i;

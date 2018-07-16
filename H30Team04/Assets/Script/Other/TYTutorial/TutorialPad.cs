@@ -59,7 +59,7 @@ public class TutorialPad : MonoBehaviour {
         {
             case TutorialState_T.UI:
             case TutorialState_T.ROBOT:
-            case TutorialState_T.SHUTTER:
+            //case TutorialState_T.SHUTTER:
             case TutorialState_T.CURSORCHANGEEND:
                 result = true;
                 break;
@@ -68,18 +68,6 @@ public class TutorialPad : MonoBehaviour {
     }
 
     private bool PadBActive(TutorialState_T state)
-    {
-        bool result = false;
-        switch (state)
-        {
-            case TutorialState_T.CURSORCHANGE:
-                result = true;
-                break;
-        }
-        return result;
-    }
-
-    private bool PadXActive(TutorialState_T state)
     {
         bool result = false;
         switch (state)
@@ -93,12 +81,24 @@ public class TutorialPad : MonoBehaviour {
         return result;
     }
 
+    private bool PadXActive(TutorialState_T state)
+    {
+        bool result = false;
+        switch (state)
+        {
+            case TutorialState_T.SHUTTER:
+                result = true;
+                break;
+        }
+        return result;
+    }
+
     private bool PadYActive(TutorialState_T state)
     {
         bool result = false;
         switch (state)
         {
-            case TutorialState_T.SNIPER:
+            case TutorialState_T.CURSORCHANGE:
             case TutorialState_T.XRAYCHECK:
                 result = true;
                 break;
@@ -123,9 +123,12 @@ public class TutorialPad : MonoBehaviour {
         bool result = false;
         switch (state)
         {
-            case TutorialState_T.MOVE:
+            case TutorialState_T.CAMERA:
             case TutorialState_T.BEACON:
             case TutorialState_T.SHOT:
+            case TutorialState_T.CURSORCHANGE:
+            case TutorialState_T.SNIPER:
+            case TutorialState_T.SHUTTER:
                 result = true;
                 break;
         }
@@ -137,10 +140,8 @@ public class TutorialPad : MonoBehaviour {
         bool result = false;
         switch (state)
         {
-            case TutorialState_T.CAMERA:
+            case TutorialState_T.MOVE:
             case TutorialState_T.BEACON:
-            case TutorialState_T.SHUTTER:
-            case TutorialState_T.CURSORCHANGE:
             case TutorialState_T.SNIPER:
                 result = true;
                 break;

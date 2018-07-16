@@ -37,7 +37,7 @@ public class TutorialBigEnemyAnimator : MonoBehaviour {
     {
         //歩いている時以外処理を行わない
         if (!m_animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk") ||
-            !born_Animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk") || !TutorialEnemyScripts.tmane.IsReaded()) return;
+            !born_Animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk") ) return;
         speed = Mathf.Clamp01(speed + Time.deltaTime * dir);
         m_animator.SetFloat("Speed", speed);
         born_Animator.SetFloat("Speed", speed);
@@ -68,13 +68,12 @@ public class TutorialBigEnemyAnimator : MonoBehaviour {
 
     public void WalkStart()
     {  //歩き行動を開始する
-        m_animator.speed = (isDash) ? dashSpeed : 1.0f;
-        born_Animator.speed = (isDash) ? dashSpeed : 1.0f;
 
         if (m_animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk") ||
             born_Animator.GetCurrentAnimatorStateInfo(0).IsName("WaitToWalk")) return;
         m_animator.SetTrigger("WalkStart");
         born_Animator.SetTrigger("WalkStart");
+        speed = 0;
         dir = 1;
     }
 

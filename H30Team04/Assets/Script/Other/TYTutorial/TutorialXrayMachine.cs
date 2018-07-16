@@ -33,6 +33,8 @@ public class TutorialXrayMachine : MonoBehaviour {
 
     private GameObject m_checkIcon;
 
+    private GameObject targetCurtain;
+
     // Use this for initialization
     void Start()
     {
@@ -67,10 +69,13 @@ public class TutorialXrayMachine : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        //if (Input.GetKeyDown(KeyCode.U))
-        //{
-        //    Shooting();
-        //}
+        if (tmane.GetState() >= TutorialState_T.SHOTEFFECT && tmane.IsReaded()) //枠の役割終了
+        {
+            m_checkIcon.SetActive(false);
+            if(targetCurtain != null) targetCurtain.SetActive(false);
+            this.enabled = false;
+            return;
+        }
         if (!xrayOK && saveTime > 0)
         {
             saveTime -= Time.deltaTime;
@@ -239,7 +244,8 @@ public class TutorialXrayMachine : MonoBehaviour {
 
 
         //レイが当たったビルの幕に撮ったやつを出す
-        builhit.transform.parent.Find("XrayMaku").gameObject.SetActive(true);
+        targetCurtain = builhit.transform.parent.Find("XrayMaku").gameObject;
+        targetCurtain.SetActive(true);
     }
     
 

@@ -53,9 +53,9 @@ public class TutorialXray_SSS : MonoBehaviour {
     {
         if (tmane.IsReaded() && tmane.GetState() == TutorialState_T.CURSORCHANGE)
         {
-            if (Input.GetButtonDown("Select"))
+            if (Input.GetButtonDown("newXrayChange"))
             {
-                _selectXray = nextXray[1];
+                _selectXray = nextXray[0];
             }
         }
         SetSelectXray();
@@ -114,16 +114,16 @@ public class TutorialXray_SSS : MonoBehaviour {
         //射影機目線になる
         IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && XrayMachines.DeadOrAlive(_selectXray));
 
-        if (Input.GetButtonDown("Shutter"))
+        if (IsShutterChance&&Input.GetButtonDown("newShutter"))
         {
             //テキスト送りと同時に進んでほしくないから苦し紛れ
-            if (pushCount == 0)
-            {
-                pushCount++;
-                return;
-            }
+            //if (pushCount == 0)
+            //{
+            //    pushCount++;
+            //    return;
+            //}
             _selectXray.GetComponent<TutorialXrayMachine>().XrayPlay();
-            _selectXray = nextXray[0];
+            _selectXray = nextXray[1];
         }
 
         // 視点移動中は保持している射影機を消さない処理

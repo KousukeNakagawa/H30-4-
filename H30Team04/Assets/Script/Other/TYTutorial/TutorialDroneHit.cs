@@ -11,9 +11,12 @@ public class TutorialDroneHit : MonoBehaviour {
     private List<GameObject> children = new List<GameObject>();
     private Vector3 crashVel;
 
+    private TutorialDroneMove dm;
+
     // Use this for initialization
     void Start()
     {
+        dm = GetComponent<TutorialDroneMove>();
     }
 
     // Update is called once per frame
@@ -59,6 +62,7 @@ public class TutorialDroneHit : MonoBehaviour {
 
     private void HitCheck(Collider other)
     {
+        if (dm.enabled) return;
         if (other.CompareTag("SnipeBullet"))
         {
             Hit();

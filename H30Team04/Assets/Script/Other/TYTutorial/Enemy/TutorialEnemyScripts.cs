@@ -56,6 +56,7 @@ public class TutorialEnemyScripts : MonoBehaviour {
         {
             localPoses[child] = child.localPosition;
         }
+        bigEnemyMove.IsMove = false;
     }
 
     void Update()
@@ -71,7 +72,7 @@ public class TutorialEnemyScripts : MonoBehaviour {
     {
         transform.position = startPosition;
         transform.rotation = startRotat;
-        bigEnemyMove.isTurn = false;
+        bigEnemyMove.IsTurn = false;
         searchObject.ResetTarget();
     }
 }

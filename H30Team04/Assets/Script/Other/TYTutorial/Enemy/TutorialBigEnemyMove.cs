@@ -9,14 +9,16 @@ public class TutorialBigEnemyMove : MonoBehaviour {
 
     private Vector3 turnDir;  //回転している間の現在の角度
     private Vector3 turnEndDir;  //回転し終わった後の角度
-    [HideInInspector] public bool isTurn { get;  set; }  //回転しているか
+    [HideInInspector] public bool IsTurn { get;  set; }  //回転しているか
     [HideInInspector] public bool isDefense = false;
+    public bool IsMove { get; set; }
 
+    public GameObject drone;
 
     // Update is called once per frame
     void Update()
     {
-        if (Time.timeScale == 0 || !TutorialEnemyScripts.tmane.IsReaded() || TutorialEnemyScripts.tmane.GetState() != TutorialState_T.BEACON )
+        if (TutorialEnemyScripts.tmane.GetState() != TutorialState_T.BEACON && TutorialEnemyScripts.tmane.GetState() != TutorialState_T.SNIPER)
         {
             xSpeed = 0;
             return;
@@ -29,12 +31,14 @@ public class TutorialBigEnemyMove : MonoBehaviour {
             xSpeed = 9.5f;
         }
 
-        if (isTurn)
+        if (IsTurn)
         {
             if (Mathf.Abs(turnEndDir.y - turnDir.y) <= turnSpeed * Time.deltaTime * TutorialEnemyScripts.bigEnemyAnimatorManager.animatorSpeed)
             //if (Mathf.Abs(Mathf.DeltaAngle(turnDir.y, turnEndDir.y)) <= 1f)
             {  //回転を終了する
-                isTurn = false;
+                IsTurn = false;
+                drone.SetActive(true);
+                drone.transform.parent = null;
             }
             else
             {
@@ -44,7 +48,7 @@ public class TutorialBigEnemyMove : MonoBehaviour {
                 TutorialEnemyScripts.mTransform.rotation = Quaternion.Euler(turnDir);
             }
         }
-        else
+        else if(IsMove)
         {
             TutorialEnemyScripts.bigEnemyAnimatorManager.WalkStart();
             float speed = TutorialEnemyScripts.bigEnemyAnimatorManager.moveSpeed;
@@ -73,15 +77,17 @@ public class TutorialBigEnemyMove : MonoBehaviour {
         turnEndDir = endDir.GetUnityVector3();
         turnDir = TutorialEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         //print(turnEndDir.y + ":" + turnDir.y);
-        isTurn = true;
+        IsTurn = true;
     }
 
     public void SetGoDefenseLine()
     {  //防衛ラインに向かう
         TutorialEnemyScripts.searchObject.SetTurnVelGoDefenseLine();
-        isTurn = true;
+        IsTurn = true;
         turnDir = TutorialEnemyScripts.mTransform.localEulerAngles.GetUnityVector3();
         turnEndDir = new Vector3(0, 90, 0);
         isDefense = true;
+
+        this.enabled = false;
     }
 }
