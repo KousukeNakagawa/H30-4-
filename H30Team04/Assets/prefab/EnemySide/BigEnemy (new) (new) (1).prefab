@@ -20286,10 +20286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4757fd4c80690b741a526fe54782d54a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 1126260942532714, guid: 0e519cb02915567419094dda61ca6f9e,
+  missilePrefab: {fileID: 1126260942532714, guid: 5d9dd54c04d99ee4cb6e56c61d0f2f94,
     type: 2}
-  explosionPrefab: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
-  targetPos: {fileID: 4391840491850818}
+  explosionPrefab: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d,
+    type: 2}
+  explosionEXPrefab: {fileID: 100010, guid: 031d08f52af1daa4f929b85221519426, type: 2}
+  targetPos: {fileID: 0}
   missileCount: 10
   missileRange: 15
   launchTime: 1.65

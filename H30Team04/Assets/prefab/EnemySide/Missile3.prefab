@@ -86,10 +86,10 @@ GameObject:
   m_Component:
   - component: {fileID: 4237087236186354}
   - component: {fileID: 54582986764196348}
-  - component: {fileID: 114548012756669556}
+  - component: {fileID: 114159436979402184}
   - component: {fileID: 82299076966025140}
   m_Layer: 15
-  m_Name: Missile2
+  m_Name: Missile3
   m_TagString: Missile
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 320989447897055028}
   - component: {fileID: 95907185697799148}
   - component: {fileID: 136596564820840450}
-  - component: {fileID: 114084841728517460}
+  - component: {fileID: 114845939962300278}
   m_Layer: 15
   m_Name: Missile (Launching)
   m_TagString: Missile
@@ -967,20 +967,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114084841728517460
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1857565460584830}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea801d1c71495644790d665d8e49fe2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  explosionPos: {fileID: 4295247820232658}
-  explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
---- !u!114 &114548012756669556
+--- !u!114 &114159436979402184
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -988,18 +975,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1126260942532714}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 050002294d444f1448719d95f50e0096, type: 3}
+  m_Script: {fileID: 11500000, guid: fece669829e44d04d8b5dadfd006ed67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  riseCount: 2
-  rotationCount: 3.5
-  riseSpeed: 15
-  TransSpeed: 4.5
-  initialCount: 2
   targetPos: {x: 0, y: 0, z: 0}
-  velocity: 1
-  initialRate: 0.02
-  fire_audio: {fileID: 82679145262196624}
 --- !u!114 &114707329576432890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1013,6 +992,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPos: {fileID: 4295247820232658}
   explosion: {fileID: 1692811844450732, guid: 9f63017f45031be4aaf99bc7ea9ae69d, type: 2}
+--- !u!114 &114845939962300278
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1857565460584830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9423effae935c3f4884bd560ad7cf9d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  explosionPos: {fileID: 4295247820232658}
+  explosion: {fileID: 0}
 --- !u!123 &123195174382488040
 LensFlare:
   m_ObjectHideFlags: 1

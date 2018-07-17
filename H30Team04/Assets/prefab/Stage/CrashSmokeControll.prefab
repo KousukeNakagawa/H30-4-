@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 82820563444697726}
   - component: {fileID: 114460319694516938}
   m_Layer: 0
-  m_Name: CrashSmoke 1
+  m_Name: CrashSmokeControll
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

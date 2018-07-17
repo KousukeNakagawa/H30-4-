@@ -20,6 +20,8 @@ TagManager:
   - GoalPoin
   - AviationLight
   - BreakBuild
+  - BreakTower
+  - Fire
   layers:
   - Default
   - TransparentFX

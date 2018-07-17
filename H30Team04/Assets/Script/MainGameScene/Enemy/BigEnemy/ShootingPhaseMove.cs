@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class ShootingPhaseMove : MonoBehaviour
 {
-    [Tooltip("射撃フェーズ時に停止しないBehaviour"),SerializeField] private MonoBehaviour[] scripts;
-    [Tooltip("射撃フェーズ時に停止するBehaviour"),SerializeField] private Behaviour[] contents;
+    [Tooltip("射撃フェーズ時に停止しないBehaviour"), SerializeField] private MonoBehaviour[] scripts;
+    [Tooltip("射撃フェーズ時に停止するBehaviour"), SerializeField] private Behaviour[] contents;
     [Header("Y座標は関係ありません")]
     [SerializeField, Tooltip("射撃フェーズでの目標座標")] private Vector3 targetPos;
     [Tooltip("射撃フェーズでの移動スピード")] public float moveSpeed = 1.0f;
@@ -19,7 +19,8 @@ public class ShootingPhaseMove : MonoBehaviour
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Tab))
         {
-            ShootingPhaseSet();
+            if (!isShooting) ShootingPhaseSet();
+            else BigEnemyScripts.shootingFailure.FailureAction();
         }
 #endif
         if (!isShooting || Time.timeScale == 0) return;
@@ -56,8 +57,5 @@ public class ShootingPhaseMove : MonoBehaviour
         transform.position = pos;
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
         BigEnemyScripts.bigEnemyAnimatorManager.ShootingMove();
-#if UNITY_EDITOR
-        BigEnemyScripts.breakEffectManager.ChangeType();
-#endif
     }
 }
