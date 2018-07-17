@@ -167,14 +167,14 @@ public class WeaponCtrl : MonoBehaviour
         var laserRay = new Ray(rayMuzzle.position, Camera.main.transform.forward);
         // 武器ごとのレーザーポインターの長さ（射程）
         var rayLength = (IsWeaponBeacon) ?
-            BeaconBullet.GetRangeDistance() : SniperBullet.GetRangeDistance();
+            BeaconBullet.RangeDistance_ : SniperBullet.RangeDistance_;
         // 描画させるレーザーポインターの長さ
         var length = (IsSetup || Soldier.IsMove) ? laserRay.direction * laserLength : Vector3.zero;
         // レーザーポインターの色
         var rayColor = (IsWeaponBeacon) ? Color.blue : Color.red;
 
         // 武器を使用できるかのフラグ
-        var isFire = (IsWeaponBeacon) ? true : isSnipeFire;
+        var isFire = isSnipeFire;
         // 弾の射出位置
         var fireMuzzle = (IsWeaponBeacon) ?
             rayMuzzle : snipeGun.transform.Find("FireMuzzle");
@@ -264,8 +264,7 @@ public class WeaponCtrl : MonoBehaviour
             Instantiate(beaconBullet) : Instantiate(snipeBullet);
 
         // 射出位置
-        weapon.transform.position =
-            muzzle.position - Vector3.up * 0.2f + Vector3.forward * 0.2f;
+        weapon.transform.position = muzzle.position;
 
         /*** 装備している武器を使用 ***/
         // ビーコン
@@ -274,6 +273,7 @@ public class WeaponCtrl : MonoBehaviour
             //GameTextController.TextStart(1);
             weapon.GetComponent<BeaconBullet>().Fire(ray.direction);
             audioSourse.PlayOneShot(playerSE[WeaponSE.fireBeacon], 0.5f);
+            isSnipeFire = false;
         }
         // スナイパーライフル
         else

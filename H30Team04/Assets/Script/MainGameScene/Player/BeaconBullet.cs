@@ -4,27 +4,40 @@ using UnityEngine;
 
 public class BeaconBullet : MonoBehaviour
 {
-    [SerializeField] GameObject beacon;
-    [SerializeField] [Range(0, 300)] float speed = 50; //弾速
-    [SerializeField] [Range(5, 100)] static float rangeDistance = 50; //射程距離
-    AudioSource audioSourse;
-    [SerializeField] AudioClip SE;
+    /// <summary> 着弾音 </summary>
+    [SerializeField] AudioClip clingSE;
+    /// <summary> 弾速 </summary>
+    [SerializeField] [Range(0, 300)] float speed = 50;
 
+    /// <summary> 音 </summary>
+    AudioSource audioSourse;
+    /// <summary> リジッドボディ </summary>
     Rigidbody rb;
-    Vector3 startPos; //初期位置
+    /// <summary> 発射位置 </summary>
+    Vector3 origin_;
+
+    /// <summary> 光玉 </summary>
     GameObject m_Sphere;
-    private Renderer _renderer;
-    public bool IsChange { get; private set; } //タグ変化把握用
+    /// <summary> レンダラー </summary>
+    Renderer _renderer;
+
+    /// <summary> 射程距離 </summary>
+    public static float RangeDistance_ { get { return 50; } }
 
     void Start()
     {
+        // コンポーネント
         rb = GetComponent<Rigidbody>();
         audioSourse = GetComponent<AudioSource>();
-        startPos = rb.position;
-        IsChange = false;
+        // 発射位置の取得
+        origin_ = rb.position;
+
+        // 光玉の検索・取得
         if (GameObject.Find("Sphere") != null)
             m_Sphere = GameObject.Find("Sphere").gameObject;
         m_Sphere.SetActive(false);
+
+        // 光玉の設定
         _renderer = transform.Find("Sphere").gameObject.GetComponent<Renderer>();
         _renderer.material.EnableKeyword("_EMISSION"); //キーワードの有効化を忘れずに
         _renderer.material.SetColor("_EmissionColor", new Color(50, 0, 0)); //赤色に光らせたい
@@ -32,7 +45,8 @@ public class BeaconBullet : MonoBehaviour
 
     void Update()
     {
-        OverRange(); //射程外消滅処理
+        // 射程距離消滅
+        OverRange();
     }
 
     void OnCollisionEnter(Collision other)
@@ -46,34 +60,30 @@ public class BeaconBullet : MonoBehaviour
         else if (other.collider.CompareTag("Field")) Cling(other);
 
         //上記以外と衝突時、自身を破壊する
-        else Destroy(beacon);
+        else Destroy(gameObject);
     }
 
-    /// <summary>
-    /// 射程外消滅処理
-    /// </summary>
+    /// <summary> 射程外消滅 </summary>
     void OverRange()
     {
-        //飛距離
-        Vector3 FlyDistance = rb.position - startPos;
+        // 飛距離
+        Vector3 FlyDistance = rb.position - origin_;
 
-        //飛距離が射程距離を超えたら消滅
-        if (FlyDistance.magnitude > rangeDistance) Destroy(beacon);
+        // 飛距離が射程距離を超えたら消滅
+        if (FlyDistance.magnitude > RangeDistance_) Destroy(gameObject);
     }
 
-    /// <summary>
-    /// ビーコンの発射
-    /// </summary>
+    /// <summary> ビーコンの発射 </summary>
     public void Fire(Vector3 direction)
     {
+        // 一度のみ
         Start();
+        // 一時停止中は速度０
         var speed = (Time.timeScale == 0) ? 0 : this.speed;
         rb.velocity = direction * speed;
     }
 
-    /// <summary>
-    /// 張り付き処理
-    /// </summary>
+    /// <summary> 着弾 </summary>
     void Cling(Collision other, bool isField = true)
     {
         // 位置固定
@@ -86,22 +96,21 @@ public class BeaconBullet : MonoBehaviour
         transform.parent = other.transform;
         //tagを「BeaconBullet」から「Beacon」へ
         transform.tag = "Beacon";
-        IsChange = true;
         // 音を鳴らす
-        audioSourse.PlayOneShot(SE);
+        audioSourse.PlayOneShot(clingSE);
 
+        // 光玉の再検索
         m_Sphere = m_Sphere ?? GameObject.Find("Sphere").gameObject;
         m_Sphere.SetActive(true);
     }
 
-    /// <summary>
-    /// 射程距離のゲッター
-    /// </summary>
+    /// <summary> 弾速 </summary>
     public static float GetRangeDistance()
     {
-        return rangeDistance;
+        return RangeDistance_;
     }
 
+    /// <summary> 赤く光らせる </summary>
     void OnTriggerStay(Collider other)
     {
         string layerName = LayerMask.LayerToName(other.gameObject.layer);
@@ -111,13 +120,4 @@ public class BeaconBullet : MonoBehaviour
             _renderer.material.SetColor("_EmissionColor", new Color(0, 17, 50)); //赤色に光らせたい
         }
     }
-
-    /// <summary>
-    /// ビーコン・ビーコンバレットが一つもなければ発射許可
-    /// </summary>
-    //public bool IsFireOK()
-    //{
-    //    return (!GameObject.FindGameObjectWithTag("Beacon") &&
-    //        !GameObject.FindGameObjectWithTag("BeaconBullet")) ? true : false;
-    //}
 }

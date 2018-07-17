@@ -13,6 +13,8 @@ public class Soldier : MonoBehaviour
     [SerializeField, Tooltip("ビーコンガン")] GameObject beacon;
     /// <summary> スナイパーライフル </summary>
     [SerializeField, Tooltip("スナイパーライフル")] GameObject snipe;
+    /// <summary> スナイパーライフル </summary>
+    [SerializeField, Tooltip("FPS視点位置")] GameObject fpsPos;
 
     /// <summary> 無敵時に透明になるモデルを管理 </summary>
     List<Renderer> renderers = new List<Renderer>();
@@ -192,18 +194,16 @@ public class Soldier : MonoBehaviour
             // 基本 false
             IsDownLook = false;
             // カメラの上下回転が10～30度になると
-            if (playerCamera.transform.eulerAngles.x > 10 && playerCamera.transform.eulerAngles.x <= 30)
+            if (playerCamera.transform.eulerAngles.x > 5 && playerCamera.transform.eulerAngles.x <= -minAngle * 1.5f)
             {
                 // この条件時のみ true
                 IsDownLook = true;
                 // 位置
-                var pos = transform.position + Vector3.up * 1.5f + transform.forward;
+                var pos = fpsPos.transform.position;
                 // カメラを移動させる
-                playerCamera.transform.position =
-                    Vector3.Lerp(playerCamera.transform.position, pos, downLookSpeed * Time.deltaTime);
+                playerCamera.transform.position = pos;
+                //Vector3.Lerp(playerCamera.transform.position, pos, downLookSpeed * Time.deltaTime);
             }
-
-            print(IsDownLook);
         }
     }
 
