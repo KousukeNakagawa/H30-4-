@@ -77,6 +77,9 @@ public class Soldier : MonoBehaviour
     /// <summary> 下を見ているとき </summary>
     public static bool IsDownLook { get; private set; }
 
+    [SerializeField]
+    GlitchFx m_glitcFX;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -91,6 +94,9 @@ public class Soldier : MonoBehaviour
         foreach (var sniper in body.GetComponentsInChildren<SkinnedMeshRenderer>()) renderers.Add(sniper);
         foreach (var rifle in beacon.GetComponentsInChildren<MeshRenderer>()) renderers.Add(rifle);
         foreach (var rifle in snipe.GetComponentsInChildren<MeshRenderer>()) renderers.Add(rifle);
+
+        //ノイズのActiveをfalseに
+        m_glitcFX.enabled = false;
     }
 
     void Update()
@@ -237,11 +243,15 @@ public class Soldier : MonoBehaviour
         // 被弾フラグが立っていないなら何もしない
         if (!isDamage) return;
 
+        //ノイズのActiveをtrueに
+        m_glitcFX.enabled = true;
         // 無敵時間のカウントダウン
         invincibleTime -= Time.deltaTime;
         // 無敵時間終了時処理
         if (invincibleTime <= 0)
         {
+            //ノイズのActiveをfalseに
+            m_glitcFX.enabled = false;
             // 透明解除
             invincibleAlpha = 1;
             // 無敵時間のリセット
