@@ -33,7 +33,7 @@ public class TiteleText : MonoBehaviour
             }
             nextTime += interval;
         }
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Shutter"))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("Restart"))
         {
             Destroy(textObj);
         }
