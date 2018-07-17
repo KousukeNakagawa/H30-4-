@@ -13,6 +13,7 @@ public class BeaconBullet : MonoBehaviour
     Rigidbody rb;
     Vector3 startPos; //初期位置
     GameObject m_Sphere;
+    private Renderer _renderer;
     public bool IsChange { get; private set; } //タグ変化把握用
 
     void Start()
@@ -24,6 +25,9 @@ public class BeaconBullet : MonoBehaviour
         if (GameObject.Find("Sphere") != null)
             m_Sphere = GameObject.Find("Sphere").gameObject;
         m_Sphere.SetActive(false);
+        _renderer = transform.Find("Sphere").gameObject.GetComponent<Renderer>();
+        _renderer.material.EnableKeyword("_EMISSION"); //キーワードの有効化を忘れずに
+        _renderer.material.SetColor("_EmissionColor", new Color(50, 0, 0)); //赤色に光らせたい
     }
 
     void Update()
@@ -96,6 +100,16 @@ public class BeaconBullet : MonoBehaviour
     public static float GetRangeDistance()
     {
         return rangeDistance;
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        string layerName = LayerMask.LayerToName(other.gameObject.layer);
+
+        if (layerName == "Ignore Raycast")
+        {
+            _renderer.material.SetColor("_EmissionColor", new Color(0, 17, 50)); //赤色に光らせたい
+        }
     }
 
     /// <summary>
