@@ -18,8 +18,10 @@ public class XrayMachine : MonoBehaviour
     [SerializeField] private float saveTime = 10.0f;
     [SerializeField] private float underPos = 100.0f;
     [SerializeField] private GameObject flashPrefab;
+    [SerializeField] private GameObject photoPrefab;
+    public Transform ssParent;
 
-    private List<GameObject> weekPoints;
+    private List<GameObject> weekPoints; //コピーした弱点
 
     [SerializeField] Image minimapIcon;
     [SerializeField] Image minimapArrow;
@@ -36,7 +38,7 @@ public class XrayMachine : MonoBehaviour
 
 
     private RaycastHit builhit;
-    private RaycastHit[] weekpoints = { };
+    private RaycastHit[] weekpoints = { }; //実際の弱点
 
     /// <summary> 壊されたフラグ </summary>
     public bool isBreak = false;
@@ -79,7 +81,7 @@ public class XrayMachine : MonoBehaviour
         //{
         //    Shooting();
         //}
-        if (!xrayOK && saveTime > 0)
+        if (!xrayOK && saveTime >= 0)
         {
             saveTime -= Time.deltaTime;
             if (saveTime <= 0) //指定時間守り切ったとき、守れなかったときは下記OnCollisionEnterへ
@@ -175,11 +177,6 @@ public class XrayMachine : MonoBehaviour
         //Debug.Log("食らいやがれー");
 
         //ビルがあるかどうか
-        //RaycastHit builhit;
-        //bool hit = Physics.Raycast(
-        //    m_XrayCameraObj.transform.position, m_XrayCameraObj.transform.forward,
-        //    out builhit, m_XrayCamera.farClipPlane, builLayerMask);
-
         //なかったら終了
         if (!IsBuilHit())
         {
@@ -190,14 +187,7 @@ public class XrayMachine : MonoBehaviour
 
         //弱点が写っているかどうか
 
-
-
-        //if (!IsWeakHit())
-        //{
-        //    if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
-        //    GameTextController.FailedText(13);
-        //    return;
-        //}
+        
         //写っていなかったら終了
         //ビルの奥にあっても終了
         if (!IsWeakFrontBuil())
@@ -206,32 +196,13 @@ public class XrayMachine : MonoBehaviour
             GameTextController.FailedText(13);
             return;
         }
-
-        //int minusPoint = 0;
-
-        //if (builhit.distance < MainStageDate.TroutLengthX * 5) { } //5マス以内だったら何もしない
-        //else if (builhit.distance < MainStageDate.TroutLengthX * 6) { minusPoint = 2; }
-        //else if (builhit.distance < MainStageDate.TroutLengthX * 7) { minusPoint = 3; }
-        //else { minusPoint = 5; }
-
-        ////離れすぎの場合、写ってる弱点の数を減らす。0個以下になったら終了
-        //if (weekpoints.Length - minusPoint <= 0)
-        //{
-        //    if (XrayMachines.xrayMachineObjects.Count <= 1) gameManager.XrayZero();
-        //    GameTextController.FailedText(14);
-        //    return;
-        //}
+        
 
         List<GameObject> hitWeak = new List<GameObject>();
 
         //List<int> weeknums = new List<int>();
         for (int i = 0; i < weekpoints.Length; i++)
         {
-            //if (weekpoints.Length - minusPoint <= i)
-            //{
-            //    //weekpoints[i].transform.GetComponent<WeekPoint>().HideObject();
-            //    continue;
-            //}
 
             RaycastHit weekhit;
             //向いている方向によってレイのスタート位置を決める
@@ -244,8 +215,6 @@ public class XrayMachine : MonoBehaviour
             {
                 if (weekhit.transform.position == weekpoints[i].transform.position) //対象の弱点に当たった場合
                 {
-                    //weeknums.Add(weekpoints[i].transform.GetComponent<WeekPoint>().GetWeekNumber);
-                    //weekPoints.Add(weekpoints[i].transform.gameObject);
                     hitWeak.Add(weekpoints[i].transform.gameObject);
                 }
                 else  //対象の弱点に当たらない場合
@@ -255,20 +224,7 @@ public class XrayMachine : MonoBehaviour
             }
             Debug.DrawRay(ray.origin, ray.direction, Color.red, 3.0f);
         }
-
-        ////骨複製、骨がアニメーションする場合はどうしようかな
-        //GameObject boneObj = weekpoints[0].transform.parent.parent.gameObject;//.root.Find("WeekPoints").gameObject;
-        //GameObject bone = Instantiate(boneObj);
-        //bone.transform.parent = boneObj.transform.parent;
-        //bone.transform.position = boneObj.transform.position;
-        //boneObj.transform.position -= Vector3.up * underPos;
-        //boneObj.transform.tag = "Untagged";
-        //boneObj.transform.parent = transform.parent;
-        //foreach (Transform child in weekpoints[0].transform.parent)
-        //{
-        //    //if (child.tag == "WeekPoint" && child.Find("model").gameObject.activeSelf) weekPoints.Add(child.gameObject);
-        //    child.tag = "Untagged";
-        //}
+        
 
         //骨の元取得
         GameObject boneParent = weekpoints[0].transform.root.Find("WeekPoints").gameObject;
@@ -299,10 +255,7 @@ public class XrayMachine : MonoBehaviour
                 }
             }
         }
-
-
-        //weeknums.Sort();
-        //if (gameManager != null) gameManager.SetWeekPhoto(texnumber, weeknums);
+        
 
 
         //レイが当たったビルの幕に撮ったやつを出す
@@ -333,6 +286,11 @@ public class XrayMachine : MonoBehaviour
             flash.transform.parent = transform;
             flash.transform.localPosition = new Vector3(0, 5, 0);
             flash.transform.eulerAngles = transform.eulerAngles;
+
+            GameObject photo = Instantiate(photoPrefab, ssParent);
+            photo.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
+            photo.GetComponent<ScreenShotMove>().SetXrayPhoto(texnumber, weekPoints.Count > 0);
+
             m_checkIcon.SetActive(true);
             GetComponent<AudioSource>().Play();
             minimapIcon.enabled = false;
