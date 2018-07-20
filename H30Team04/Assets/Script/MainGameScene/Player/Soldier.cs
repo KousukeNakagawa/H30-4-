@@ -76,6 +76,9 @@ public class Soldier : MonoBehaviour
     /// <summary> 移動しているかどうか（アニメーション用） </summary>
     public static bool IsMove { get; private set; }
 
+    /// <summary> 回転しているか </summary>
+    public static bool IsRotate { get; private set; }
+
     /// <summary> 下を見ているとき </summary>
     public static bool IsDownLook { get; private set; }
 
@@ -216,6 +219,8 @@ public class Soldier : MonoBehaviour
         Ver = Input.GetAxis("Ver");
         // 上下左右回転の入力の取得
         angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
+
+        IsRotate = (angle != Vector3.zero);
     }
 
     /// <summary> 残機減少処理 </summary>

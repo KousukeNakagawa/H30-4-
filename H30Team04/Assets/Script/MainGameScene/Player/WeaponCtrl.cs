@@ -30,9 +30,8 @@ public class WeaponCtrl : MonoBehaviour
     [SerializeField] GameObject rippel;
     /// <summary> レーザーポインター </summary>
     [SerializeField] GameObject laser;
-
-    /// <summary> ラインレンダラー </summary>
-    LineRenderer line;
+    GameObject laserB;
+    GameObject laserR;
 
     /*** 情報 ***/
     /// <summary> レーザーポインターの幅 </summary>
@@ -91,13 +90,14 @@ public class WeaponCtrl : MonoBehaviour
 
     void Start()
     {
+        laserB = laser.transform.Find("LineB").gameObject;
+        laserR = laser.transform.Find("LineR").gameObject;
+
         // ビーコンを初期装備にする
         IsWeaponBeacon = true;
         IsSetup = false;
         backupCoolTime = snipeCoolTime;
         reloadTime = snipeCoolTime / 2;
-
-        line = laser.GetComponent<LineRenderer>();
 
         audioSourse = gameObject.AddComponent<AudioSource>();
         //audioSourse.volume = 0.2f;
@@ -122,6 +122,11 @@ public class WeaponCtrl : MonoBehaviour
 
         // 武器の変更処理
         ChangeWeapon();
+
+        // レーザーポインターの描画のオンオフ
+        laser.SetActive(IsSetup);
+        laserB.SetActive(IsWeaponBeacon);
+        laserR.SetActive(!IsWeaponBeacon);
     }
 
     void LateUpdate()
@@ -131,8 +136,6 @@ public class WeaponCtrl : MonoBehaviour
 
         // レーザーポインターの描画
         Shooting();
-        // レーザーポインターの描画のオンオフ
-        laser.SetActive(UnlockManager.Limiter[UnlockState.laserPointer]);
     }
 
     /// <summary> 武器の変更処理 </summary>
@@ -169,7 +172,8 @@ public class WeaponCtrl : MonoBehaviour
         var rayLength = (IsWeaponBeacon) ?
             BeaconBullet.RangeDistance_ : SniperBullet.RangeDistance_;
         // 描画させるレーザーポインターの長さ
-        var length = (IsSetup || Soldier.IsMove) ? laserRay.direction * laserLength : Vector3.zero;
+        var length = (IsSetup || Soldier.IsMove) ?
+            laserRay.direction * laserLength : Vector3.zero;
         // レーザーポインターの色
         var rayColor = (IsWeaponBeacon) ? Color.blue : Color.red;
 
@@ -207,7 +211,8 @@ public class WeaponCtrl : MonoBehaviour
         //レーザーの長さ
         if (!isLaserHit) laserLength = rayLength;
         // レーザーポインターの描画
-        LaserPointer(laserRay.origin, length, rayColor, laserWide);
+        //LaserPointer(laserRay.origin, length, rayColor, laserWide);
+        DrawLine(laserRay.origin, length);
 
         // Rayがビルや地面・敵・射影機に衝突したら
         if (Physics.Raycast(laserRay, out hit, rayLength, LayerMask.GetMask("Building", "Enemy", "Xray")))
@@ -215,8 +220,7 @@ public class WeaponCtrl : MonoBehaviour
             // 着弾点エフェクトの表示
             rippel.SetActive(true);
             // 着弾点エフェクトの角度と位置の指定
-            rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
-            rippel.transform.position = hit.point + hit.normal * effectPos;
+            AimEffect.AimMotion(hit.normal, hit.point);
             // 着弾点エフェクトが近いと着弾点エフェクトを小さくする処理
             RippelDis = Vector3.Distance(transform.position, rippel.transform.position);
 
@@ -296,27 +300,27 @@ public class WeaponCtrl : MonoBehaviour
         if (beforBullet != null) Destroy(beforBullet);
     }
 
-    /// <summary> 予測線の描画 </summary>
-    void LaserPointer(Vector3 p1, Vector3 p2, Color c1, float width)
-    {
-        // 始点
-        line.SetPosition(0, p1);
-        // 終点
-        line.SetPosition(1, p1 + p2);
-        // 開始色
-        line.startColor = c1;
-        // 末端色
-        line.endColor = c1;
-        // 開始幅
-        line.startWidth = width;
-        // 末端幅
-        line.endWidth = width;
-    }
-
     /// <summary> 装備中の武器の描画オンオフ </summary>
     void WeaponSetActive()
     {
         beaconGun.SetActive(IsWeaponBeacon);
         snipeGun.SetActive(!IsWeaponBeacon);
+    }
+
+    /// <summary> レーザーポインターの描画 </summary>
+    void DrawLine(Vector3 muzzle, Vector3 length)
+    {
+        // 幅調節用
+        var line = (IsWeaponBeacon) ?
+            laserB.transform.Find("line") : laserR.transform.Find("line");
+
+        // 始点
+        laser.transform.position = muzzle;
+        // 向き
+        laser.transform.LookAt(muzzle + length);
+        laser.transform.eulerAngles = new Vector3(laser.transform.eulerAngles.x + 90,
+            laser.transform.eulerAngles.y, laser.transform.eulerAngles.z);
+        // レーザーのスケール値調整
+        line.transform.localScale = new Vector3(laserWide, 1);
     }
 }
