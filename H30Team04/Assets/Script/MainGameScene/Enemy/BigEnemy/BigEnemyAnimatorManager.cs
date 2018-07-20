@@ -116,6 +116,11 @@ public class BigEnemyAnimatorManager : MonoBehaviour
     {
         m_animator.SetTrigger("ShootingMove");
         born_Animator.SetTrigger("ShootingMove");
+        m_animator.speed = 1.0f;
+        born_Animator.speed = 1.0f;
+        speed = 1.0f;
+        m_animator.SetFloat("Speed", speed);
+        born_Animator.SetFloat("Speed", speed);
     }
 
     public void End()

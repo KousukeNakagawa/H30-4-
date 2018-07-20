@@ -16,7 +16,7 @@ public class TowerBreak : MonoBehaviour {
     [SerializeField] private BoxCollider box;
     private static BoxCollider _Box;
 
-    private static bool isBreak;
+    public static bool isBreak { get; private set; }
     private bool previous;
 
     void Awake()

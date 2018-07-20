@@ -6,6 +6,7 @@ public class MissileMove3 : MonoBehaviour {
 
     private Rigidbody m_rigid;
     public Vector3 targetPos;
+    public float deadTime = 3.0f;
 
     private static List<GameObject> failureMissiles = new List<GameObject>();
 
@@ -25,4 +26,9 @@ public class MissileMove3 : MonoBehaviour {
 	void FixedUpdate () {
         m_rigid.AddForce(transform.forward * Time.deltaTime * 10.0f,ForceMode.Impulse);
 	}
+
+    void Update()
+    {
+        if (TowerBreak.isBreak) Destroy(gameObject, deadTime);
+    }
 }
