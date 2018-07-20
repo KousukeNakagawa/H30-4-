@@ -119,6 +119,7 @@ public class BigEnemyAnimatorManager : MonoBehaviour
         m_animator.speed = 1.0f;
         born_Animator.speed = 1.0f;
         speed = 1.0f;
+        isDash = false;
         m_animator.SetFloat("Speed", speed);
         born_Animator.SetFloat("Speed", speed);
     }

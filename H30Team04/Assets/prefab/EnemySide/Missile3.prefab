@@ -979,6 +979,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetPos: {x: 0, y: 0, z: 0}
+  deadTime: 6
+  m_audio: {fileID: 82299076966025140}
 --- !u!114 &114707329576432890
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1005,6 +1007,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   explosionPos: {fileID: 4295247820232658}
   explosion: {fileID: 0}
+  explosionEX: {fileID: 0}
 --- !u!123 &123195174382488040
 LensFlare:
   m_ObjectHideFlags: 1

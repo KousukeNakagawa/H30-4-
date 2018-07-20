@@ -242,7 +242,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1057995119988210
 GameObject:
   m_ObjectHideFlags: 1
@@ -5409,8 +5409,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4254533222254512}
   - component: {fileID: 95437020408522458}
-  - component: {fileID: 114838973746979730}
   - component: {fileID: 114317040428831364}
+  - component: {fileID: 114838973746979730}
   m_Layer: 15
   m_Name: robot
   m_TagString: Untagged
@@ -7332,13 +7332,13 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1056821402852190}
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 40, y: 19.78, z: 0}
+  m_LocalRotation: {x: -0.120367125, y: 0.7781791, z: 0.12475289, w: 0.6036437}
+  m_LocalPosition: {x: -21, y: 17.36, z: 11.26}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4004438246259162}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: -19.845001, y: 104.789, z: -2.237}
 --- !u!4 &4393600516433646
 Transform:
   m_ObjectHideFlags: 1
@@ -20346,6 +20346,10 @@ MonoBehaviour:
   - {fileID: 114252282030262484}
   - {fileID: 114597858001035426}
   - {fileID: 114845395805155798}
+  - {fileID: 114838973746979730}
+  - {fileID: 114317040428831364}
+  - {fileID: 114684669219231928}
+  - {fileID: 114750965552351640}
   contents: []
   targetPos: {x: 40, y: 100, z: 40}
   moveSpeed: 0.8

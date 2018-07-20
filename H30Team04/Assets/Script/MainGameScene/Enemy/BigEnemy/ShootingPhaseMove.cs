@@ -16,6 +16,7 @@ public class ShootingPhaseMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //デバッグ用
 #if UNITY_EDITOR
         if (Input.GetKeyDown(KeyCode.Tab))
         {
@@ -30,8 +31,9 @@ public class ShootingPhaseMove : MonoBehaviour
 
     public void ShootingPhaseSet()
     {
-        //射撃フェーズへ移動
+        //全てのスクリプトを取得
         List<MonoBehaviour> scs = new List<MonoBehaviour>(GetComponentsInChildren<MonoBehaviour>());
+        //例外は消す
         foreach (var script in scripts)
         {
             scs.RemoveAll((f => f.Equals(script)));
@@ -41,6 +43,7 @@ public class ShootingPhaseMove : MonoBehaviour
         {
             script.enabled = false;
         }
+        //他のものを止める
         foreach (var com in contents)
         {
             com.enabled = false;
@@ -50,12 +53,17 @@ public class ShootingPhaseMove : MonoBehaviour
         {
             Destroy(make);
         }
+        //射撃フェーズへ移行する
         isShooting = true;
+        //座標を取得
         Vector3 pos = transform.position;
+        //座標を移動する
         pos.x = targetPos.x - MainStageDate.TroutLengthX;
         pos.z = targetPos.z;
         transform.position = pos;
+        //TargetPosの方向へ向く
         BigEnemyScripts.mTransform.rotation = Quaternion.Euler(BigEnemyScripts.bigEnemyMove.TurnAngleSet(targetPos));
+        //アニメーションを射撃フェーズへ移行する
         BigEnemyScripts.bigEnemyAnimatorManager.ShootingMove();
     }
 }

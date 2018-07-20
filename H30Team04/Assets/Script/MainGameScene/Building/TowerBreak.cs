@@ -16,6 +16,8 @@ public class TowerBreak : MonoBehaviour {
     [SerializeField] private BoxCollider box;
     private static BoxCollider _Box;
 
+    private static AudioSource m_audio;
+
     public static bool isBreak { get; private set; }
     private bool previous;
 
@@ -25,6 +27,7 @@ public class TowerBreak : MonoBehaviour {
         _BreakTower = breakTower;
         _Tower = tower;
         _Box = box;
+        m_audio = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -41,12 +44,16 @@ public class TowerBreak : MonoBehaviour {
         _BreakTower.SetActive(true);
         _Animator.SetTrigger("Break");
         isBreak = true;
+        //m_audio.Play();
+        Fade.ColorChenge(Color.white);
+        Fade.FadeOut();
     }
 
     private void BoxDisble()
     {
         _Box.enabled = false;
     }
+
     void OnCollisionEnter(Collision other)
     {
         if (other.collider.CompareTag("Missile") && BigEnemyScripts.shootingPhaseMove.isShooting)
