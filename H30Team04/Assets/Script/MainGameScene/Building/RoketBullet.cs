@@ -6,11 +6,9 @@ public class RoketBullet : MonoBehaviour {
 
     [Header("弾速"), SerializeField] private float bulletSpeed = 1.0f;
     [Header("加速度"), SerializeField, Range(1.0f, 1.5f)] private float bulletAccel = 1.0f;
-    //private GameObject target;
 
     // Use this for initialization
     void Start () {
-        //Destroy(gameObject, 10.0f);//テスト中限界位置まで飛んでいくから
     }
 	
 	// Update is called once per frame
@@ -21,7 +19,6 @@ public class RoketBullet : MonoBehaviour {
 
     public void SetTarget(GameObject tar)
     {
-        //target = tar;
         transform.LookAt(tar.transform);
     }
 

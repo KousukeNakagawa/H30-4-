@@ -58,8 +58,8 @@ public class XlinePhoto : MonoBehaviour {
         photos = new List<GameObject>();
         weektextparent = transform.Find("Probabilitys").gameObject;
         weektexts = weektextparent.GetComponent<WeekTextManager>();
-        m_Sight = transform.Find("attackUI").transform.Find("sight").gameObject;
-        m_textBackImage = transform.Find("attackUI").transform.Find("Image").gameObject;
+        m_Sight = transform.Find("attackUI")/*.transform.Find("sights")*/.gameObject;
+        m_textBackImage = transform.Find("attackUI").transform.Find("wakus").gameObject;
         m_Rod = transform.Find("attackUI").transform.Find("Rod").gameObject;
         XPhots.SetActive(false);
         XPhotsBack.SetActive(false);

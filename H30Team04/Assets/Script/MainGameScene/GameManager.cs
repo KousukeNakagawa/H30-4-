@@ -65,7 +65,7 @@ public class GameManager : MonoBehaviour {
     private int _frame = 0;
     private Soldier playerScript;
 
-    [SerializeField] private float endXpos = 370;
+    [SerializeField] private Transform enemyEndPos;
     [SerializeField] Text m_PushA;
 
     Vector3 _overScale,_clearScale;
@@ -155,19 +155,19 @@ public class GameManager : MonoBehaviour {
 
     private void EndState()
     {
-        BigEnemyScripts.shootingPhaseMove.moveSpeed = 2;
         if (BigEnemyScripts.mTransform.position.x > (mapXsize - 0) * MainStageDate.TroutLengthX)
         {
             GameTextController.TextStart(7);
             m_endCam.SetActive(false);
             m_switchCam.SetActive(true);
             phaseState = PhaseState.switchState;
+            BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         }
     }
 
     private void SwitchState()
     {
-        BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
+        //BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         //if (Fade.IsFadeOutOrIn() && Fade.IsFadeEnd())
         //{
         //    m_player.SetActive(false);
@@ -200,7 +200,10 @@ public class GameManager : MonoBehaviour {
         limitText.text = ((int)Mathf.Ceil(limit)).ToString();
         if (limit == 0)
         {
+            BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
             ChengeWait();
+            BigEnemyScripts.mTransform.position = enemyEndPos.position;
+            m_attackP.GetComponent<AttackPlayer>().EndEffect(false);
             BigEnemyScripts.shootingFailure.FailureAction();
             GameTextController.TextStart(11);
             return;
@@ -266,20 +269,21 @@ public class GameManager : MonoBehaviour {
             m_endCam.SetActive(true);
             UnlockManager.AllSet(false);
             phaseState = PhaseState.endState;
+            BigEnemyScripts.shootingPhaseMove.moveSpeed = 2.0f;
         }
     }
     public void ChengeWait()
     {
-        BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         phaseState = PhaseState.waitingState;
         limitTimerObj.SetActive(false);
     }
 
     public void ChengeShot()
     {
-        BigEnemyScripts.shootingPhaseMove.enabled = false;
+        //BigEnemyScripts.shootingPhaseMove.enabled = false;
         phaseState = PhaseState.attackState;
         limitTimerObj.SetActive(true);
+        BigEnemyScripts.shootingPhaseMove.moveSpeed = 9.5f;
     }
 
     public void XrayZero()
@@ -371,15 +375,19 @@ public class GameManager : MonoBehaviour {
 
     public void Damege(int i)
     {
+        BigEnemyScripts.shootingPhaseMove.moveSpeed = 0;
         if (weeknumber == i)
         {
             BigEnemyScripts.breakEffectManager.ChangeType();
-            //m_attackP.GetComponent<AttackPlayer>().ClearCamera();
+            m_attackP.GetComponent<AttackPlayer>().EndEffect(true);
         }
         else
         {
+            BigEnemyScripts.mTransform.position = enemyEndPos.position;
+            m_attackP.GetComponent<AttackPlayer>().EndEffect(false);
             BigEnemyScripts.shootingFailure.FailureAction();
             GameTextController.TextStart(11);
+
         }
     }
 

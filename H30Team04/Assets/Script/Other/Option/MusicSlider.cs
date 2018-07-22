@@ -15,16 +15,16 @@ public class MusicSlider : MonoBehaviour
 
     public void masterVol(Slider slider)
     {
-        mixer.SetFloat("Master", slider.value);
+        mixer.SetFloat("Master", slider.value * 10);
     }
 
     public void BGMVol(Slider slider1)
     {
-        mixer.SetFloat("BGM", slider1.value);
+        mixer.SetFloat("BGM", slider1.value * 10);
     }
     public void SEVol(Slider slider2)
     {
-        mixer.SetFloat("SE", slider2.value);
+        mixer.SetFloat("SE", slider2.value * 10);
     }
 
     void Start()

@@ -28,6 +28,7 @@ public class TowerBreak : MonoBehaviour {
         _Tower = tower;
         _Box = box;
         m_audio = GetComponent<AudioSource>();
+        isBreak = false;
     }
 
     void Update()
@@ -46,7 +47,7 @@ public class TowerBreak : MonoBehaviour {
         isBreak = true;
         //m_audio.Play();
         Fade.ColorChenge(Color.white);
-        Fade.FadeOut();
+        Fade.FadeOut(5.0f);
     }
 
     private void BoxDisble()

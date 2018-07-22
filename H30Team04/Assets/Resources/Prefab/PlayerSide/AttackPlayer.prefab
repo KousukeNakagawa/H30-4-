@@ -4311,8 +4311,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1668176543116796}
-  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 396.347, y: 20.620003, z: -105}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 773.64703, y: 20.620003, z: -105}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4765713072627844}
@@ -7284,7 +7284,7 @@ BoxCollider:
   m_GameObject: {fileID: 1668176543116796}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 10, y: 2, z: 10}
   m_Center: {x: 0, y: 0, z: 0}
@@ -7358,13 +7358,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_gamemanager: {fileID: 0}
-  roketPrefab: {fileID: 1612901841123162, guid: 824af64ddcefcdd40874fe8f28bf4039,
+  zoomCamera: {fileID: 0}
+  zoomXoffset: 25
+  rocketPrefab: {fileID: 1612901841123162, guid: 824af64ddcefcdd40874fe8f28bf4039,
     type: 2}
   targetPrefab: {fileID: 1711738781603312, guid: a468a275272f3fa47825c9e285958ba1,
     type: 2}
   fireRightPos: {x: 0.1, y: 0, z: 0}
-  m_week_name: {fileID: 0}
   m_Interval: 0.2
+  overCamera: {fileID: 0}
+  clearCamera: {fileID: 0}
 --- !u!124 &124772513652301646
 Behaviour:
   m_ObjectHideFlags: 1

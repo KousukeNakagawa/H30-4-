@@ -32,12 +32,14 @@ public class Hilyouzi : MonoBehaviour
     private int plusminus = -1;
     private float alpha = 1.0f;
     private GameObject selectedObj;
+    public GameObject selectOpObj;
 
     private AudioSource m_Audio;
     public AudioClip kettei;
     public AudioClip select;
     public void Push()
     {
+        EventSystem.current.SetSelectedGameObject(selectOpObj);
         op = true;
     }
     public void noPush()
