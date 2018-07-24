@@ -63,16 +63,21 @@ public class AimEffect : MonoBehaviour
     /// <summary> 標準のモーション </summary>
     public static void AimMotion(Vector3 angle, Vector3 pos)
     {
+        if (Xray_SSS.IsShutterChance) return;
+
+        // プレイヤーが動いていない プレイヤーが回転していない カメラが戻っている最中じゃない
+        var notUpdateFlag = (!Soldier.IsMove && !Soldier.IsRotate && !MainCamera.IsComeBack);
+
         // スケール値
         var scale = Mathf.Cos(Time.time / power_) / modify_ + minMotionScale_;
 
         // スケール（プレイヤーの動きが止まったら縮小する）
-        transform_.localScale = (!Soldier.IsMove && !Soldier.IsRotate) ?
+        transform_.localScale = (notUpdateFlag) ?
              Vector3.Lerp(transform_.localScale, Vector3.one * reductionScale_, scaleLerpSpeed_) :
         Vector3.Lerp(transform_.localScale, new Vector3(scale, scale) / scaleLate_, scaleLerpSpeed_);
 
         // プレイヤーが動いている間 下記のモーションを実行
-        if (!Soldier.IsMove && !Soldier.IsRotate) return;
+        if (notUpdateFlag) return;
 
         // 位置
         transform_.position = pos + angle;

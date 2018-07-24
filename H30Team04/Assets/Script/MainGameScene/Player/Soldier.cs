@@ -81,6 +81,7 @@ public class Soldier : MonoBehaviour
 
     /// <summary> 下を見ているとき </summary>
     public static bool IsDownLook { get; private set; }
+    public static Vector3 FpsPos_ { get; private set; }
 
     [SerializeField]
     GlitchFx m_glitcFX;
@@ -176,8 +177,10 @@ public class Soldier : MonoBehaviour
         // カメラ回転速度（LB押している間はゆっくり）
         float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
 
+        FpsPos_ = fpsPos.transform.position;
+
         // カメラがプレイヤーの後ろにいる間
-        if (!MainCamera.IsNotPlayerBack)
+        if (!Xray_SSS.IsShutterChance)
         {
             // プレイヤーの回転
             transform.eulerAngles += new Vector3(0, angle.x) * rotateSpeed * Time.deltaTime;
@@ -201,11 +204,9 @@ public class Soldier : MonoBehaviour
             {
                 // この条件時のみ true
                 IsDownLook = true;
-                // 位置
-                var pos = fpsPos.transform.position;
-                // カメラを移動させる
-                playerCamera.transform.position = pos;
-                //Vector3.Lerp(playerCamera.transform.position, pos, downLookSpeed * Time.deltaTime);
+                //// カメラを移動させる
+                playerCamera.transform.position = FpsPos_;
+                ////Vector3.Lerp(playerCamera.transform.position, pos, downLookSpeed * Time.deltaTime);
             }
         }
     }

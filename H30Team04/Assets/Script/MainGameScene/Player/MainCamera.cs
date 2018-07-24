@@ -19,10 +19,12 @@ public class MainCamera : MonoBehaviour
     /// <summary> 視点移動速度補間の初期値 </summary>
     float backupLeap;
     /// <summary> 視点移動速度 </summary>
-    float speed = 0;
+    float speed_ = 0;
 
     /// <summary> プレイヤーの後方位置 </summary>
-    Vector3 basePos;
+    Vector3 playerBack;
+    /// <summary> カメラの角度バックアップ </summary>
+    Vector3 backupAngle_;
     /// <summary> 前フレームにプレイヤーの後方位置にいなかったか </summary>
     bool IsNotOldPlayerLook;
     /// <summary> 前フレームは射影機目線だったか </summary>
@@ -35,12 +37,16 @@ public class MainCamera : MonoBehaviour
     /// <summary> 射影機からプレイヤーに戻っている最中か </summary>
     public static bool IsComeBack { get; private set; }
 
+    /// <summary> 指定された位置にいるか </summary>
+    bool isReturnPosition;
+    /// <summary> いるべき位置 </summary>
+    Vector3 basePosition_;
+
     void Start()
     {
         // プレイヤーの取得
         player = GameObject.FindGameObjectWithTag("Player");
         IsNotPlayerBack = false;
-        IsComeBack = false;
         backupLeap = leap;
     }
 
@@ -50,37 +56,25 @@ public class MainCamera : MonoBehaviour
         if (Time.timeScale == 0) return;
         //if (!SEManager.IsEndSE) return;
 
-        // 基本位置の指定（プレイヤーの後ろ）
-        basePos = player.transform.position - player.transform.forward * dir + Vector3.up * height;
+        // プレイヤーの後ろの位置を取得
+        playerBack = player.transform.position - player.transform.forward * dir + Vector3.up * height;
+        // 基本の位置を決める
+        basePosition_ = (Soldier.IsDownLook) ? Soldier.FpsPos_ : playerBack;
 
         // 射影機目線処理
-        ShutterChance();
+        CameraMove();
     }
 
-    /// <summary> 選択中の射影機目線になる </summary>
-    void ShutterChance()
+    /// <summary> カメラの移動処理 </summary>
+    void CameraMove()
     {
-        // 基本 false（基本プレイヤーの後ろにいるため）
-        IsComeBack = false;
+        // 射影機目線になれるか（LTを押していない時 カメラが基本位置に戻っている最中なら）
+        IsComeBack = (IsNotPlayerBack && !Xray_SSS.IsShutterChance);
 
         // LTを押している間
         if (Xray_SSS.IsShutterChance)
         {
-            // カメラから選択中の射影機までの距離
-            var distance = (Xray_SSS.ShutterPos - transform.position);
-
-            // 補間処理
-            leap += backupLeap;
-            // 選択中の射影機へ移動
-            transform.position = Vector3.Lerp(transform.position, Xray_SSS.ShutterPos, (speed + leap) * Time.deltaTime);
-
-            // ある程度選択中の射影機と近くなったら
-            if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
-                // 強制到達
-                transform.position = (Xray_SSS.ShutterPos);
-
-            // 選択中の射影機の角度になる
-            transform.LookAt(Xray_SSS.ShutterAngle);
+            ShutterMode();
         }
         // 通常時
         else
@@ -88,46 +82,93 @@ public class MainCamera : MonoBehaviour
             // プレイヤーの後ろにいない間
             if (IsNotPlayerBack)
             {
-                // カメラの位置からプレイヤーの後ろまでの距離
-                var distance = (basePos - transform.position);
-
-                // 戻るフラグを立てる
-                IsComeBack = true;
-                // 補間処理
-                leap += backupLeap;
-                // プレイヤーの後ろへ移動
-                transform.position = Vector3.Lerp(transform.position, basePos, (speed + leap) * Time.deltaTime);
-
-                // ある程度近くなったら
-                if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
-                    // 強制到達
-                    transform.position = basePos;
-
-                // プレイヤーの進行方向の角度になる
-                transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
+                ReturnBasePosition();
             }
             // プレイヤーに追従させる処理 下を向いていない時
             else if (!Soldier.IsDownLook)
-                transform.position = basePos;
+                transform.position = basePosition_;
 
             // プレイヤーの後ろに戻った瞬間
-            if (transform.position != basePos && !IsNotOldPlayerLook)
+            if (transform.position != basePosition_ && !IsNotOldPlayerLook)
                 // プレイヤーの進行方向を見る
-                transform.LookAt(player.transform.position + player.transform.forward + Vector3.up);
+                transform.LookAt(backupAngle_);
         }
 
-        // 現在と前フレームで LTの入力が異なった瞬間
+        // 現在と前フレームでLTの入力が異なった瞬間
         if (Xray_SSS.IsShutterChance != IsOldXrayLook)
-            // 補間を初期値へ
+        {
+            // 補間値を初期値へ
             leap = backupLeap;
+        }
+
+        // LTを押していないとき 前フレームもLTを押していなかった時
+        if (!Xray_SSS.IsShutterChance && !IsOldXrayLook)
+        {
+            //角度のバックアップ
+            backupAngle_ = transform.forward + transform.position;
+        }
 
         /*** 前フレームの更新 ***/
         // プレイヤーの後ろにいない間 かつ下を見ていないか
-        IsNotPlayerBack = (transform.position != basePos && !Soldier.IsDownLook);
+        IsNotPlayerBack = transform.position != basePosition_;
         // LTを押しているか
         IsOldXrayLook = Xray_SSS.IsShutterChance;
         // プレイヤーの後方にいないか
-        IsNotOldPlayerLook = transform.position != basePos;
+        IsNotOldPlayerLook = transform.position != basePosition_;
+    }
+
+    /// <summary> 射影機目線処理 </summary>
+    void ShutterMode()
+    {
+        /*** 移動処理 ***/
+        // 加速
+        leap += backupLeap;
+        // 移動速度
+        var speed = (speed_ + leap) * Time.deltaTime;
+        // 選択中の射影機へ移動する
+        transform.position = Vector3.Lerp(transform.position, Xray_SSS.ShutterPos, speed);
+
+        /*** 角度処理 ***/
+        transform.LookAt(Xray_SSS.ShutterAngle);
+
+        /*** 到達処理 ***/
+        // 現在の位置と選択中の射影機の位置までの距離
+        var distance = (Xray_SSS.ShutterPos - transform.position);
+        // 選択中の射影機にある程度近づいたら
+        if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
+        {
+            // 強制到達
+            transform.position = Xray_SSS.ShutterPos;
+        }
+    }
+
+    /// <summary> 基本位置に戻る処理 </summary>
+    void ReturnBasePosition()
+    {
+        // 戻る位置
+        var returnPosition = (Soldier.IsDownLook) ? Soldier.FpsPos_ : playerBack;
+
+        /*** 移動処理 ***/
+        // 加速
+        leap += backupLeap;
+        // 移動速度
+        var speed = (speed_ + leap) * Time.deltaTime;
+        // 基本位置へ移動する
+        transform.position = Vector3.Lerp(transform.position, returnPosition, speed);
+
+        /*** 角度処理 ***/
+        // 移動する前の角度に戻る
+        transform.LookAt(backupAngle_);
+
+        /*** 到達処理 ***/
+        // 現在の位置と基本位置の位置までの距離
+        var distance = (returnPosition - transform.position);
+        // 基本位置にある程度近づいたら
+        if (Mathf.Abs(distance.sqrMagnitude) <= 0.01f)
+        {
+            // 強制到達
+            transform.position = returnPosition;
+        }
     }
 
     /// <summary> カメラが定位置にあり LTも押していない (カメラが戻ってきたか) </summary>
@@ -135,22 +176,4 @@ public class MainCamera : MonoBehaviour
     {
         return (!IsNotPlayerBack && !Xray_SSS.IsShutterChance);
     }
-
-    ///// <summary> 壁抜け・床抜け防止処理 </summary>
-    //void AutoCameraControl()
-    //{
-    //    //if (player == null) return;
-
-    //    //RaycastHit hit;
-
-    //    ////プレイヤーの位置からカメラにレイを飛ばし、ビルと床に衝突したら
-    //    //if (Physics.Linecast(root.position + Vector3.up, transform.position, out hit, LayerMask.GetMask("Building")))
-    //    //    //レイの当たった場所がカメラの位置へ
-    //    //    transform.position =
-    //    //        Vector3.Lerp(transform.position, hit.point, recoverySpeed * Time.deltaTime);
-
-    //    ////当たっていなければ本来の位置へ戻る
-    //    //else transform.localPosition =
-    //    //       Vector3.Lerp(transform.localPosition, startPos, recoverySpeed * Time.deltaTime);
-    //}
 }

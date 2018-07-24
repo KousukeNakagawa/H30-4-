@@ -315,7 +315,8 @@ public class Xray_SSS : MonoBehaviour
         }
 
         // LTを押している間 選択中の射影機が使用可能な場合 カメラが戻っている最中ではないなら
-        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && !MainCamera.IsComeBack && isLTPermission && downLT);
+        IsShutterChance = (Input.GetAxis("ShutterChance") > 0 && 
+            !MainCamera.IsComeBack && isLTPermission && downLT);
 
         // Xボタンを押したら
         if (Input.GetButtonDown("newShutter"))
