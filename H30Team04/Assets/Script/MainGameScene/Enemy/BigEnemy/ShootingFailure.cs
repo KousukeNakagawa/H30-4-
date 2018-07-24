@@ -58,15 +58,10 @@ public class ShootingFailure : MonoBehaviour
                 Quaternion.Euler(-90.0f + Random.Range(-15.0f, 15.0f), Random.Range(-7.5f, 7.5f), 0f));
             mm.GetComponentInChildren<MissileCollider2>().explosion = explosionPrefab;
             if (i == 0) mm.GetComponentInChildren<MissileCollider2>().explosionEX = explosionEXPrefab;
-            //MissileMove2 move2 = mm.GetComponent<MissileMove2>();
             MissileMove3 move3 = mm.GetComponent<MissileMove3>();
             if (i < missileCount - 1)
             {
                 target += rand;
-                //move2.riseSpeed = Random.Range(17.5f, 22.5f);
-                //move2.TransSpeed = Random.Range(7.5f, 12.5f);
-                //move2.riseCount = Random.Range(1.5f, 3f);
-                //move2.rotationCount = Random.Range(2.5f, 5f);
             }
             move3.targetPos = target;
         }

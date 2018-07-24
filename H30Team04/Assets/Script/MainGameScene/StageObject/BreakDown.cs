@@ -10,7 +10,6 @@ public class BreakDown : MonoBehaviour
     private bool isHit = false;
     [SerializeField,Range(0.0f,6.0f)] private float dropdownPower = 3.0f;
     public float deleteTime = 2.0f;
-    private float deleteCount;
 
     // Use this for initialization
     void Start()
@@ -28,14 +27,6 @@ public class BreakDown : MonoBehaviour
         {
             gameObject.layer = LayerMask.NameToLayer("StageObject");
         }
-        if (deleteCount > 0)
-        {
-            deleteCount -= Time.deltaTime;
-            if (deleteCount <= 0)
-            {
-                Destroy(gameObject);
-            }
-        }
     }
 
     void OnCollisionEnter(Collision other)
@@ -52,6 +43,6 @@ public class BreakDown : MonoBehaviour
         m_rigid.useGravity = true;
         m_rigid.AddForce(dir * torquePower, ForceMode.VelocityChange);
         isHit = true;
-        deleteCount = deleteTime;
+        Destroy(gameObject, deleteTime);
     }
 }

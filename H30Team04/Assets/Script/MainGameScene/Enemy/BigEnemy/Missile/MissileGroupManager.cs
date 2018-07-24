@@ -52,9 +52,4 @@ public class MissileGroupManager : MonoBehaviour
             MissileList.RemoveAt(num);
         }
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-    }
 }

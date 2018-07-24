@@ -11,6 +11,7 @@ public class ShootingPhaseMove : MonoBehaviour
     [Tooltip("射撃フェーズでの移動スピード")] public float moveSpeed = 1.0f;
     [HideInInspector] public List<GameObject> makebyRobot = new List<GameObject>();
 
+    //射撃フェーズに移行しているか
     [HideInInspector] public bool isShooting;
 
     // Update is called once per frame

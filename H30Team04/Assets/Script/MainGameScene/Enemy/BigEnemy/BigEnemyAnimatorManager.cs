@@ -4,30 +4,32 @@ using UnityEngine;
 
 public class BigEnemyAnimatorManager : MonoBehaviour
 {
+    //アニメーター
     private Animator m_animator;
+    //骨のアニメーター
+    [Tooltip("骨組みのアニメーター"), SerializeField] private Animator born_Animator;
+    //ブレンド用のスピード
     private float speed = 0.0f;
+    //歩いているか
     [HideInInspector] public bool isWalk = false;
+    //動くスピード
     [HideInInspector] public float moveSpeed = 0.0f;
+    //足が地面についたか
     [HideInInspector] public bool isStep;
-    [Tooltip("骨組みのアニメーター"),SerializeField] private Animator born_Animator;
 
+    //speedを上げるか下げるか
     private int dir = 1;
+    //ダッシュをしているか
     [HideInInspector] public bool isDash = false;
     [Range(1.0f,5.0f),Tooltip("ダッシュ時のスピード"),SerializeField] private float dashSpeed = 2.0f;
-
-    public float animatorSpeed
-    {
-        get
-        {
-            return m_animator.speed;
-        }
-    }
 
     // Use this for initialization
     void Start()
     {
+        //初期化
         m_animator = GetComponent<Animator>();
         AnimatorInitialize();
+        //最初は歩きモーション
         WalkStart();
     }
 
@@ -104,6 +106,7 @@ public class BigEnemyAnimatorManager : MonoBehaviour
     {
         m_animator.SetTrigger("LaunchLoop");
         born_Animator.SetTrigger("LaunchLoop");
+        
     }
 
     public void LaunchEnd()
