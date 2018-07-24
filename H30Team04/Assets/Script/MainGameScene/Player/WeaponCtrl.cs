@@ -124,7 +124,7 @@ public class WeaponCtrl : MonoBehaviour
         ChangeWeapon();
 
         // レーザーポインターの描画のオンオフ
-        laser.SetActive(IsSetup);
+        laser.SetActive((IsSetup || Soldier.IsMove) && !Xray_SSS.IsShutterChance);
         laserB.SetActive(IsWeaponBeacon);
         laserR.SetActive(!IsWeaponBeacon);
     }
@@ -214,11 +214,14 @@ public class WeaponCtrl : MonoBehaviour
         //LaserPointer(laserRay.origin, length, rayColor, laserWide);
         DrawLine(laserRay.origin, length);
 
+        var rayif = (Physics.Raycast(laserRay, out hit, rayLength, LayerMask.GetMask("Building", "Enemy", "Xray")));
+
+        // リップルの描画オンオフ
+        rippel.SetActive(rayif && !Xray_SSS.IsShutterChance);
+
         // Rayがビルや地面・敵・射影機に衝突したら
-        if (Physics.Raycast(laserRay, out hit, rayLength, LayerMask.GetMask("Building", "Enemy", "Xray")))
+        if (rayif)
         {
-            // 着弾点エフェクトの表示
-            rippel.SetActive(true);
             // 着弾点エフェクトの角度と位置の指定
             AimEffect.AimMotion(hit.normal, hit.point);
             // 着弾点エフェクトが近いと着弾点エフェクトを小さくする処理
@@ -244,8 +247,6 @@ public class WeaponCtrl : MonoBehaviour
         {
             // レーザーポインターの衝突フラグを折る
             isLaserHit = false;
-            // 着弾点エフェクトの表示を消す
-            rippel.SetActive(false);
             // ビーコンの着弾位置を虚空に（レーザーポインターの終点）
             BeaconHitPos = laserRay.direction * laserLength;
         }

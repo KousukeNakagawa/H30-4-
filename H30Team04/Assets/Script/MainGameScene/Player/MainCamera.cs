@@ -14,7 +14,7 @@ public class MainCamera : MonoBehaviour
     /// <summary> カメラの高さ </summary>
     [SerializeField, Range(0, 10), Tooltip("カメラの高さ")] float height = 1.5f;
     /// <summary> 視点移動速度補間 </summary>
-    [SerializeField, Range(1, 5), Tooltip("射影機へ視点移動時の速度")] float leap = 3;
+    [SerializeField, Range(1, 15), Tooltip("射影機へ視点移動時の速度")] float leap = 3;
 
     /// <summary> 視点移動速度補間の初期値 </summary>
     float backupLeap;
@@ -91,14 +91,14 @@ public class MainCamera : MonoBehaviour
             // プレイヤーの後ろに戻った瞬間
             if (transform.position != basePosition_ && !IsNotOldPlayerLook)
                 // プレイヤーの進行方向を見る
-                transform.LookAt(backupAngle_);
+                transform.LookAt(transform.position + player.transform.forward + Vector3.up * 0.1f);
         }
 
         // 現在と前フレームでLTの入力が異なった瞬間
         if (Xray_SSS.IsShutterChance != IsOldXrayLook)
         {
             // 補間値を初期値へ
-            leap = backupLeap;
+            //leap = backupLeap;
         }
 
         // LTを押していないとき 前フレームもLTを押していなかった時
@@ -121,12 +121,8 @@ public class MainCamera : MonoBehaviour
     void ShutterMode()
     {
         /*** 移動処理 ***/
-        // 加速
-        leap += backupLeap;
-        // 移動速度
-        var speed = (speed_ + leap) * Time.deltaTime;
         // 選択中の射影機へ移動する
-        transform.position = Vector3.Lerp(transform.position, Xray_SSS.ShutterPos, speed);
+        transform.position = Vector3.Lerp(transform.position, Xray_SSS.ShutterPos, leap * Time.deltaTime);
 
         /*** 角度処理 ***/
         transform.LookAt(Xray_SSS.ShutterAngle);
@@ -149,16 +145,12 @@ public class MainCamera : MonoBehaviour
         var returnPosition = (Soldier.IsDownLook) ? Soldier.FpsPos_ : playerBack;
 
         /*** 移動処理 ***/
-        // 加速
-        leap += backupLeap;
-        // 移動速度
-        var speed = (speed_ + leap) * Time.deltaTime;
         // 基本位置へ移動する
-        transform.position = Vector3.Lerp(transform.position, returnPosition, speed);
+        transform.position = Vector3.Lerp(transform.position, returnPosition, leap);
 
         /*** 角度処理 ***/
         // 移動する前の角度に戻る
-        transform.LookAt(backupAngle_);
+        transform.LookAt(transform.position + player.transform.forward + Vector3.up * 0.1f);
 
         /*** 到達処理 ***/
         // 現在の位置と基本位置の位置までの距離
