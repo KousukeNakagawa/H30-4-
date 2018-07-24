@@ -17,7 +17,7 @@ public class TutorialXlinePhoto : MonoBehaviour {
     GameObject XPhotsBack;
     GameObject XPhotsFront;
     GameObject m_Sight;
-    GameObject m_textBackImage;
+    //GameObject m_textBackImage;
     GameObject m_Rod;
 
     public int m_FlyerCount;
@@ -62,11 +62,11 @@ public class TutorialXlinePhoto : MonoBehaviour {
         xrayDatas = new List<GameManager.WeekPointData>();
         weektextparent = transform.Find("Probabilitys").gameObject;
         weektexts = weektextparent.GetComponent<WeekTextManager>();
-        m_Sight = transform.Find("attackUI").transform.Find("sight").gameObject;
-        m_textBackImage = transform.Find("attackUI").transform.Find("Image").gameObject;
+        m_Sight = transform.Find("attackUI").transform/*.Find("sight")*/.gameObject;
+        //m_textBackImage = transform.Find("attackUI").transform.Find("Image").gameObject;
         m_Rod = transform.Find("attackUI").transform.Find("Rod").gameObject;
         m_Sight.SetActive(false);
-        m_textBackImage.SetActive(false);
+        //m_textBackImage.SetActive(false);
         m_Rod.SetActive(false);
         XPhotsBack.SetActive(false);
         XPhotsFront.SetActive(false);
@@ -139,7 +139,7 @@ public class TutorialXlinePhoto : MonoBehaviour {
                 XPhotsFront.SetActive(false);
                 weektextparent.SetActive(false);
                 m_Sight.SetActive(false);
-                m_textBackImage.SetActive(false);
+                //m_textBackImage.SetActive(false);
                 m_Rod.SetActive(false);
                 m_text.text = " ";
                 m_par.text = " ";
@@ -154,7 +154,7 @@ public class TutorialXlinePhoto : MonoBehaviour {
                 weektextparent.SetActive(false);
                 m_Sight.SetActive(true);
                 m_Rod.SetActive(true);
-                m_textBackImage.SetActive(true);
+                //m_textBackImage.SetActive(true);
             }
             
         }
@@ -164,7 +164,7 @@ public class TutorialXlinePhoto : MonoBehaviour {
     {
         m_Rod.SetActive(false);
         m_Sight.SetActive(false);
-        m_textBackImage.SetActive(false);
+        //m_textBackImage.SetActive(false);
         XPhotsFront.SetActive(true);
         m_text.text = " ";
         if (m_FlyerCount == 0)

@@ -19,7 +19,7 @@ public class TutorialPlayerAni : MonoBehaviour {
     void Start()
     {
         animator = GetComponent<Animator>();
-        audio = gameObject.AddComponent<AudioSource>();
+        audio = gameObject.GetComponent<AudioSource>();
     }
 
     void Update()

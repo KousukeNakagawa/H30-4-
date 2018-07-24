@@ -56,7 +56,7 @@ public class SoldierAnimator : MonoBehaviour
     {
         // コンポーネント
         animator_ = GetComponent<Animator>();
-        audio_ = gameObject.AddComponent<AudioSource>();
+        audio_ = gameObject.GetComponent<AudioSource>();
 
         // モーションのステートパターンの構築
         motions_ = new Dictionary<PAType, bool>()

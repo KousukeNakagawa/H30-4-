@@ -99,7 +99,7 @@ public class WeaponCtrl : MonoBehaviour
         backupCoolTime = snipeCoolTime;
         reloadTime = snipeCoolTime / 2;
 
-        audioSourse = gameObject.AddComponent<AudioSource>();
+        audioSourse = gameObject.GetComponent<AudioSource>();
         //audioSourse.volume = 0.2f;
         // SEの取得
         for (int i = 0; i < SEs.Length; i++)

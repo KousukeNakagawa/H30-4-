@@ -33,7 +33,6 @@ public class TutorialPlayer : MonoBehaviour {
     Vector3 angle;
     
     AudioSource audioSourse;
-    [SerializeField] AudioClip SE;
 
     //リスポーン用
     Vector3 startPosition;
@@ -50,6 +49,7 @@ public class TutorialPlayer : MonoBehaviour {
 
     /// <summary> 移動しているかどうか（アニメーション用） </summary>
     public static bool IsMove { get; private set; }
+    public static bool IsRotate { get; private set; }
 
     public TutorialManager_T tmane;
 
@@ -138,6 +138,8 @@ public class TutorialPlayer : MonoBehaviour {
         //AIM時の対応
         float rotateSpeed = (Input.GetButton("Shooting")) ? aimRotateSpeed : _rotateSpeed;
 
+        if (Sensitivity.getSensitivitytest() != 0) rotateSpeed *= Sensitivity.getSensitivitytest() / 5;
+
         //LT押していない間
         if (!TutorialMainCamera.IsMove)
         {
@@ -165,6 +167,8 @@ public class TutorialPlayer : MonoBehaviour {
         Hor = Input.GetAxis("Hor");
         Ver = Input.GetAxis("Ver");
         angle = new Vector3(Input.GetAxis("CameraHorizontal"), Input.GetAxis("CameraVertical"));
+
+        IsRotate = (angle != Vector3.zero);
     }
 
     /// <summary> リスポーン </summary>

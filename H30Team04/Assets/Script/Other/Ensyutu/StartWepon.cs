@@ -88,9 +88,9 @@ public class StartWepon : MonoBehaviour {
                 hit.collider.CompareTag("Player") ||
                 hit.collider.CompareTag("Sniper") /*|| hit.collider.CompareTag("GoalPoin")*/) return;
             
-            rippel.SetActive(true);
-            rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
-            rippel.transform.position = hit.point + hit.normal * effectPos;
+            //rippel.SetActive(true);
+            //rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
+            //rippel.transform.position = hit.point + hit.normal * effectPos;
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -99,7 +99,7 @@ public class StartWepon : MonoBehaviour {
         else
         {
             isLaserHit = false;
-            rippel.SetActive(false);
+            //rippel.SetActive(false);
         }
     }
 
@@ -138,8 +138,8 @@ public class StartWepon : MonoBehaviour {
         laser.SetActive(true);
         line.SetPosition(0, p1);
         line.SetPosition(1, p1 + p2);
-        line.startColor = c1;
-        line.endColor = c1;
+        //line.startColor = c1;
+        //line.endColor = c1;
         line.startWidth = width;
         line.endWidth = width;
     }
@@ -148,5 +148,6 @@ public class StartWepon : MonoBehaviour {
     public void ChengeLaser()
     {
         laserSet = !laserSet;
+        rippel.SetActive(laserSet);
     }
 }

@@ -3,15 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class StartHelicopter : MonoBehaviour {
-
-    //[SerializeField] private Vector3 rotatePoint = new Vector3(-40, 0, -20);
-    //[SerializeField] private Transform rotatePoint;
+    
     [SerializeField] private Transform enemyT;
     [SerializeField] private float rotateSpeed = 60.0f;
     [SerializeField] private float byebyeSpeed = 5.0f;
     [SerializeField] private float byebyeRotateY;
     [SerializeField] private float byebyeRotateZ;
-    //[SerializeField] private int scenarioCount = 3;
     [SerializeField] private ViewOutChange m_view;
     [SerializeField] private GameObject titleUI;
 
@@ -26,12 +23,13 @@ public class StartHelicopter : MonoBehaviour {
 
     public AudioClip kettei;
     private AudioSource audioSourse;
+    private AudioSource firstAudioSourse;
 
     // Use this for initialization
     void Start () {
-
+        firstAudioSourse = gameObject.GetComponent<AudioSource>();
         audioSourse = gameObject.AddComponent<AudioSource>();
-        //enemyT = GameObject.FindGameObjectWithTag("BigEnemy").transform;
+        audioSourse.outputAudioMixerGroup = firstAudioSourse.outputAudioMixerGroup;
     }
 	
 	// Update is called once per frame
@@ -42,8 +40,6 @@ public class StartHelicopter : MonoBehaviour {
             if(lerpTime < 1.0f)
             {
                 lerpTime += Time.deltaTime / endrotateSpeed;
-                //transform.eulerAngles = Vector3.Lerp(startAngle, direction.eulerAngles, lerpTime);
-                //transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, byebyeRotateY, byebyeRotateZ), lerpTime);
                 transform.rotation = Quaternion.Slerp(startAngle2, direction.rotation, lerpTime);
             }
             

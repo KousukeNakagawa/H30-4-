@@ -29,6 +29,9 @@ public class TutorialWepon : MonoBehaviour {
 
     public TutorialManager_T tmane;
 
+    public Material blinemate;
+    public Material rlinemate;
+
     private GameObject shotbeacon;
 
     /// <summary> 装備中の武器（true = beacon / false = snipe） </summary>
@@ -58,7 +61,11 @@ public class TutorialWepon : MonoBehaviour {
     public static Quaternion BeaconBuildAngle { get; private set; }
 
     /// <summary> ビーコンの着弾点 </summary>
-    public static Vector3 HitPos { get; private set; }
+    public static Vector3 BeaconHitPos { get; private set; }
+
+    /// <summary> 波紋エフェクトとの距離 </summary>
+    public static float RippelDis { get; private set; }
+
 
     void Start()
     {
@@ -67,7 +74,7 @@ public class TutorialWepon : MonoBehaviour {
         IsSetup = false;
         line = laser.GetComponent<LineRenderer>();
 
-        audioSourse = gameObject.AddComponent<AudioSource>();
+        audioSourse = gameObject.GetComponent<AudioSource>();
         //audioSourse.volume = 0.2f;
         //SEの読込
         for (int i = 0; i < SE.Length; i++)
@@ -131,10 +138,10 @@ public class TutorialWepon : MonoBehaviour {
             BeaconBullet.GetRangeDistance() : SniperBullet.GetRangeDistance();
 
         //武器によって色が変わる
-        var rayColor = (WeaponBeacon) ? Color.blue : Color.red;
+        var rayColor = (WeaponBeacon) ? blinemate : rlinemate;
 
         //クールタイム
-        var isFire = (WeaponBeacon) ? true : isSnipeFire;
+        var isFire = isSnipeFire;
 
         //クールタイム処置
         if (!isSnipeFire)
@@ -169,22 +176,23 @@ public class TutorialWepon : MonoBehaviour {
             LaserPointer(ray.origin, ray.direction * laserLength, rayColor, laserWide);
         else
             LaserPointer(ray.origin, Vector3.zero, rayColor, laserWide);
-
-        //レイが何かに衝突したら
-        if (Physics.Raycast(ray, out hit, rayLength))
+        
+        // Rayがビルや地面・敵・射影機に衝突したら
+        if (Physics.Raycast(ray, out hit, rayLength, LayerMask.GetMask("Building", "Enemy", "Xray")))
         {
-            //弾・ビーコン・プレイヤー・スナイパーらとの衝突は無視
-            if (hit.collider.CompareTag("BeaconBullet") || hit.collider.CompareTag("SnipeBullet") ||
-                hit.collider.CompareTag("Player") || hit.collider.CompareTag("Beacon") ||
-                hit.collider.CompareTag("Sniper") /*|| hit.collider.CompareTag("GoalPoin")*/) return;
-
+            // 着弾点エフェクトの表示
             rippel.SetActive(true);
-            rippel.transform.rotation = Quaternion.LookRotation(hit.normal);
-            rippel.transform.position = hit.point + hit.normal * effectPos;
+            // 着弾点エフェクトの角度と位置の指定
+            TutorialAim.AimMotion(hit.normal, hit.point);
+            // 着弾点エフェクトが近いと着弾点エフェクトを小さくする処理
+            RippelDis = Vector3.Distance(transform.position, rippel.transform.position);
 
+            // ビーコンの着弾時の角度の指定
             BeaconFieldAngle = Quaternion.LookRotation(hit.normal + new Vector3(90, 0));
             BeaconBuildAngle = Quaternion.LookRotation(hit.normal + new Vector3(0, -90, 0));
-            HitPos = hit.point;
+
+            // 発射した瞬間の位置の取得
+            if (Input.GetAxis("newFire") < 0) BeaconHitPos = hit.point;
 
             isLaserHit = true;
             if (isLaserHit) laserLength = Vector3.Distance(hit.point, ray.origin);
@@ -222,6 +230,7 @@ public class TutorialWepon : MonoBehaviour {
             //GameTextController.TextStart(1);
             weapon.GetComponent<TutorialBeacon>().Fire(ray.direction);
             audioSourse.PlayOneShot(playerSE[SEs.fireBeacon], 0.5f);
+            isSnipeFire = false;
         }
         else
         {
@@ -241,12 +250,11 @@ public class TutorialWepon : MonoBehaviour {
     }
 
     /// <summary> 予測線の描画 </summary>
-    void LaserPointer(Vector3 p1, Vector3 p2, Color c1, float width)
+    void LaserPointer(Vector3 p1, Vector3 p2, Material mat, float width)
     {
         line.SetPosition(0, p1);
         line.SetPosition(1, p1 + p2);
-        line.startColor = c1;
-        line.endColor = c1;
+        line.material = mat;
         line.startWidth = width;
         line.endWidth = width;
     }

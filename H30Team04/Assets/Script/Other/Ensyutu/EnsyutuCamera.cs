@@ -47,27 +47,6 @@ public class EnsyutuCamera : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        //if(nowtargetPos < changePos.Length&& !isChange && enemyPos.position.x > changePos[nowtargetPos].position.x)
-        //      {
-        //          startPos = transform.position;
-        //          startRotate = transform.rotation;
-        //          startTime = Time.time;
-        //          isChange = true;
-        //          kyori = Vector3.Distance(startPos, targetPos[nowtargetPos].position);
-
-        //          switch (nowtargetPos)
-        //          {
-        //              case 1:
-        //                  startRippel.StartEffect();
-        //                  startWepon.ChengeLaser();
-        //                  break;
-        //              case 2:
-        //                  startRippel.EndEffect();
-        //                  startWepon.ChengeLaser();
-        //                  m_audio.PlayOneShot(shotSound);
-        //                  break;
-        //          }
-        //      }
 
         if (Fade.IsFadeEnd() && Fade.IsFadeOutOrIn())
         {
@@ -93,11 +72,11 @@ public class EnsyutuCamera : MonoBehaviour {
                 switch (nowtargetPos)
                 {
                     case 1:
-                        startRippel.StartEffect();
+                        //startRippel.StartEffect();
                         startWepon.ChengeLaser();
                         break;
                     case 2:
-                        startRippel.EndEffect();
+                        //startRippel.EndEffect();
                         startWepon.ChengeLaser();
                         m_audio.PlayOneShot(shotSound);
                         break;
@@ -117,13 +96,8 @@ public class EnsyutuCamera : MonoBehaviour {
         if (isChange) //カメラ移動中
         {
             float nowTime = (Time.time - startTime) * lerpSpeed;
-            //float step = Time.deltaTime * lerpTime;
             float nowPos = nowTime / kyori;
             transform.position = Vector3.Lerp(startPos, targetPos[nowtargetPos].position, nowPos);
-            //transform.eulerAngles = Vector3.Lerp(startRotate, targetPos[nowInt].eulerAngles, nowPos);
-            //transform.rotation = Quaternion.RotateTowards(transform.rotation, targetPos[nowInt].rotation, nowPos);
-            //float angle = Mathf.LerpAngle(minAngle, maxAngle, Time.time);
-            //transform.eulerAngles = new Vector3(0, angle, 0);
             transform.rotation = Quaternion.Lerp(startRotate, targetPos[nowtargetPos].rotation, nowPos);
 
 

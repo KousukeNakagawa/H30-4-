@@ -111,8 +111,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13e3e4c5e6942ee4dadc45a3ad6c767f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  snipeBullet: {fileID: 1946888988388408}
-  speed: 300
+  speed_: 300
 --- !u!135 &135358211180256872
 SphereCollider:
   m_ObjectHideFlags: 1

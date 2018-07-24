@@ -71,7 +71,7 @@ public class TutorialBeacon : MonoBehaviour {
     void Cling(Collision other, bool isField = true)
     {
         // 位置固定
-        transform.position = TutorialWepon.HitPos;
+        transform.position = TutorialWepon.BeaconHitPos;
         // 角度を変更
         transform.rotation = TutorialWepon.BeaconAngle(isField);
         // 動きを止める
