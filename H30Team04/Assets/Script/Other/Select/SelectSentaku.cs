@@ -51,7 +51,7 @@ public class SelectSentaku : MonoBehaviour
                 break;
             case SelectMove.Center:
                 transform.position = new Vector2(m_Center_xPos, _Ypos);
-                transform.localScale = new Vector3(1f, 1, 1);
+                transform.localScale = new Vector3(0.9f, 1, 1);
                 m_controltext.fontStyle = FontStyle.Bold;
                 break;
             case SelectMove.Right:
