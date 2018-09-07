@@ -52,8 +52,12 @@ public class WindowDisplay : MonoBehaviour  {
         if (Input.GetButtonDown("Cancel")&& m_miniMapCamera.Pose)
         {
             propertyWindow.SetActive(false);
-            m_miniMapCamera._pose = !m_miniMapCamera._pose;
         }
+        if (!propertyWindow.activeSelf)
+        {
+            m_miniMapCamera._pose = false;
+        }
+
         if (!Map.activeSelf)
         {
             mapwindow.SetActive(true);
